@@ -4,7 +4,7 @@ TextRenderer = function(canvas){
     this.canvas = canvas;
     this.textArea = null;
     this.init = function(){
-        //Set up the canvas
+        //Set up the canvas, in this case just a textarea
         this.textArea = document.createElement("textarea");
         this.textArea.style.width="100%";
         this.textArea.style.height="100%";

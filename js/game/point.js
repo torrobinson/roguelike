@@ -14,17 +14,3 @@ Point.sortPointsByDistanceFromOrigin=function(originPoint, points){
       }
     );
 };
-
-// create a collection of points
-var myPoint = new Point(79,2);
-
-var otherPoints = [];
-otherPoints.push(new Point(100,0));
-otherPoints.push(new Point(80,0));
-otherPoints.push(new Point(2,1));
-otherPoints.push(new Point(1000,0));
-
-// And find the closest otherPoint to myPoint;
-var closestPoint = Point.sortPointsByDistanceFromOrigin(myPoint,otherPoints).first();
-
-console.log(closestPoint.x + ',' + closestPoint.y);

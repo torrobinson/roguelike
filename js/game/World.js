@@ -2,6 +2,7 @@ World = function(width, height){
     this.width = width;
     this.height = height;
 
+    // By default set the world to be all earth/stone/solid before carving it out
     this.tiles = [];
     for(var y=0;y<height;y++){
         var newRow = [];
@@ -12,4 +13,5 @@ World = function(width, height){
         }
         this.tiles.push(newRow);
     }
+    
 };

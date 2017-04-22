@@ -1,14 +1,12 @@
-Random = function(seed,min,max){
+Random = function(seed){
     this.seed = seed;
-    this.min = min;
-    this.max = max;
 
-    this.generate = function(){
+    this.go = function(){
         var x = Math.sin(this.seed++) * 10000;
         return x - Math.floor(x);
     };
 
-    this.next = function(){
-        return Math.floor(this.generate() * this.max) + this.min;
+    this.next = function(min, max){
+        return Math.floor(this.go() * max) + min;
     };
 };
