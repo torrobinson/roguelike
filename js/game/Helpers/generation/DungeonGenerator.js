@@ -32,6 +32,8 @@ DungeonGenerator.Generate = function(
 
     var failedAttempts = 0;
 
+    var preferSquareRooms = 1;
+
     // While we still have rooms to place
     while(rooms.length < randomRoomsToPlace && failedAttempts < retryAttempts){
         // Create a new place to put it
@@ -40,8 +42,17 @@ DungeonGenerator.Generate = function(
             random.next(0, totalHeight)
         );
         // Create a random size
-        var randomWidth = random.nextWeighted(minRoomWidth, maxRoomWidth);
-        var randomHeight = random.nextWeighted(minRoomHeight, maxRoomHeight);
+        var randomWidth;
+        var randomHeight;
+        if(preferSquareRooms){
+            randomWidth = random.nextWeighted(minRoomWidth, maxRoomWidth);
+            randomHeight = random.nextWeighted(minRoomHeight, maxRoomHeight);
+        }
+        else{
+            randomWidth = random.next(minRoomWidth, maxRoomWidth);
+            randomHeight = random.next(minRoomHeight, maxRoomHeight);
+        }
+
 
         // Instantiate the room
         var newRoom = new Room(
@@ -58,6 +69,11 @@ DungeonGenerator.Generate = function(
         }
         else{
             failedAttempts++;
+            if(preferSquareRooms && failedAttempts >= retryAttempts/2){
+                // If we're halfway through looking for spaces, stop preferring the bigger rooms
+                //  and give smaller rooms a shot
+                preferSquareRooms = 0;
+            }
         }
     }
 
