@@ -63,6 +63,7 @@ DungeonGenerator.Generate = function(
 
     // The rooms are now built. Start carving out the hallways
     var roomsExplored = [];
+    // TODO - go in rder of distance from last room
     for(var i=1; i<rooms.length;i++){
         var room = rooms[i];
         var previousRoom = rooms[i-1];
@@ -81,7 +82,7 @@ DungeonGenerator.Generate = function(
         else{
             //vertical first
             carveVerticalHallway(prevCenter.y,newCenter.y,prevCenter.x, hallThickness, tiles);
-            carveVerticalHallway(prevCenter.x,newCenter.x,newCenter.y, hallThickness, tiles);
+            carveHorizontalHallway(prevCenter.x,newCenter.x,newCenter.y, hallThickness, tiles);
         }
 
         roomsExplored.push(room);
