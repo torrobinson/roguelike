@@ -1,14 +1,3 @@
-// given a map size (the bounds)
-// given a seed
-// given a max room size
-// given a min room size
-// given the mininum number of rooms to place
-// given the maximum number of rooms to place
-// ...
-// start dropping in randomly sized rooms at random locations, skipping if there's overlap, until criteria is met.
-// If it's not met (no more room for rooms or failed for X iterations, then start over)
-
-// randomly pick a starting room?
 // given a starting room, add the next cloest room to the path. then the next cloest, etc, until all rooms for a chain
 // in the order of the chain, draw paths to eachother
 // dig the rooms and hallways out of a solid chunk of "nothing" in the map.
@@ -27,6 +16,7 @@ DungeonGenerator.Generate = function(
     maxRoomHeight,
     minNumRooms,
     maxNumRooms,
+    hallThickness,
     retryAttempts // The number of times to try find another spot for a room, should a new room placement fail. The larger this is, the slower this function but the more packed the dungeon will be with room
 ){
     // The world to return
@@ -69,8 +59,32 @@ DungeonGenerator.Generate = function(
         else{
             failedAttempts++;
         }
+    }
 
-        // TODO: corridors
+    // The rooms are now built. Start carving out the hallways
+    var roomsExplored = [];
+    for(var i=1; i<rooms.length;i++){
+        var room = rooms[i];
+        var previousRoom = rooms[i-1];
+
+        var newCenter = room.getCenter();
+        var prevCenter = previousRoom.getCenter();
+
+
+        // Draw a corridor between me and the last room
+        var horizontalFirst = random.next(0,2);
+
+        if(horizontalFirst){
+           carveHorizontalHallway(prevCenter.x, newCenter.x, prevCenter.y, hallThickness, tiles);
+           carveVerticalHallway(prevCenter.y, newCenter.y,newCenter.x, hallThickness, tiles);
+        }
+        else{
+            //vertical first
+            carveVerticalHallway(prevCenter.y,newCenter.y,prevCenter.x, hallThickness, tiles);
+            carveVerticalHallway(prevCenter.x,newCenter.x,newCenter.y, hallThickness, tiles);
+        }
+
+        roomsExplored.push(room);
     }
 
     world.tiles = tiles;
@@ -100,6 +114,27 @@ function carveRoom(room,tiles){
     for(var y = room.top(); y<room.bottom(); y++){
         for(var x = room.left(); x<room.right(); x++){
             tiles[y][x] = new Floor();
+        }
+    }
+}
+
+function carveHorizontalHallway(x1, x2, y, thickness, tiles){
+    for (var x = Math.min(x1, x2); x < Math.max(x1, x2) + 1; x++) {
+        if(thickness==1){
+            tiles[y][x] = new Floor();
+        }
+        else{
+            //TODO thickness
+        }
+    }
+}
+function carveVerticalHallway(y1, y2, x, thickness, tiles){
+    for (var y = Math.min(y1, y2); y < Math.max(y1, y2) + 1; y++) {
+        if(thickness==1){
+            tiles[y][x] = new Floor();
+        }
+        else{
+            //TODO thickness
         }
     }
 }
