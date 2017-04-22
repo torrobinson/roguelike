@@ -1,0 +1,26 @@
+<html>
+    <head>
+        <script src="renderers/textRenderer.js"></script>
+        <script src="game.js"></script>
+        <script type="text/javascript">
+            document.addEventListener("DOMContentLoaded", function(event) {
+
+                // Our area to render to
+                var canvas = document.getElementById('canvas');
+
+                // The renderer to use (imlements the same functions). Renders to the canvas
+                var renderer = new TextRenderer(canvas);
+
+                // Start the game
+                var game = new Game(renderer);
+                game.start();
+
+            });
+        </script>
+    </head>
+    <body>
+        <div id="canvas" style="height:300px;width:400px;">
+
+        </div>
+    </body>
+</html>
