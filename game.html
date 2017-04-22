@@ -3,6 +3,8 @@
         <script src="js/game/Actors/Earth.js"></script>
         <script src="js/game/Actors/Wall.js"></script>
         <script src="js/game/World.js"></script>
+        <script src="js/game/helpers/Random.js"></script>
+        <script src="js/game/helpers/generation/DungeonGenerator.js"></script>
         <script src="js/game/renderers/textRenderer.js"></script>
         <script src="js/game/Game.js"></script>
         <script type="text/javascript">
@@ -11,18 +13,17 @@
                 // Our area to render to
                 var canvas = document.getElementById('canvas');
 
-                // The renderer to use (imlements the same functions). Renders to the canvas
+                // The renderer to use (implements the same functions). Renders to the canvas
                 var renderer = new TextRenderer(canvas);
 
                 // Start the game
                 var game = new Game(renderer);
                 game.start();
-
             });
         </script>
     </head>
     <body>
-        <div id="canvas" style="height:300px;width:400px;">
+        <div id="canvas" style="height:600px;width:800px;">
 
         </div>
     </body>

@@ -2,7 +2,7 @@ Game = function(renderer){
     this.renderer = renderer;
     this.frameClock = null;
     this.framesPerSecond = 1; //20 might be reasonable
-    this.world = new World(40,20);
+    this.world = new World(50,25);
 
     this.renderer.init();
 

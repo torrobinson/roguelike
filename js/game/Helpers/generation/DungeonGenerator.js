@@ -12,3 +12,18 @@
 // given a starting room, add the next cloest room to the path. then the next cloest, etc, until all rooms for a chain
 // in the order of the chain, draw paths to eachother
 // dig the rooms and hallways out of a solid chunk of "nothing" in the map.
+DungeonGenerator = function(){
+
+};
+
+DungeonGenerator.Generate = function(
+    seed,
+    totalWidth,
+    totalHeight,
+    minRoomSize,
+    maxRoomSize,
+    minNumRooms,
+    maxNumRooms
+){
+    
+};
