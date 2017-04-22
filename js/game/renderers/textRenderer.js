@@ -9,6 +9,7 @@ TextRenderer = function(canvas){
         this.textArea.style.width="100%";
         this.textArea.style.height="100%";
         this.textArea.style.fontFamily = "monospace";
+        this.textArea.style.lineHeight = 0.6;
         this.canvas.appendChild(this.textArea);
     };
 

@@ -7,14 +7,14 @@ Game = function(renderer){
 
     this.world = DungeonGenerator.Generate(
         seed,//seed,
-        75,//totalWidth,
-        50,//totalHeight,
+        60,//totalWidth,
+        60,//totalHeight,
         6,//minRoomWidth,
         15,//maxRoomWidth,
         6,//minRoomHeight,
         10,//maxRoomHeight,
-        4,//minNumRooms,
-        15//maxNumRooms
+        6,//minNumRooms,
+        20//maxNumRooms
     );
 
     this.renderer.init();
