@@ -40,7 +40,7 @@ DungeonGenerator.Generate = function(
     var randomRoomsToPlace = random.next(minNumRooms, maxNumRooms);
 
     // To prevent an endless loop, if we fail to plae a new random room 100 times, then call it done.
-    var maxFailedAttempts = 100;
+    var maxFailedAttempts = 50;
     var failedAttempts = 0;
 
     // While we still have rooms to place
@@ -62,7 +62,7 @@ DungeonGenerator.Generate = function(
         );
 
         // If we can place it, then place it
-        if(canPlace(newRoom, rooms)){
+        if(canPlace(newRoom, rooms, totalWidth, totalHeight)){
             // We can place this room, so draw it out
             carveRoom(newRoom, tiles);
             rooms.push(newRoom);
@@ -80,9 +80,15 @@ DungeonGenerator.Generate = function(
 
 
 // One-off Helpers
-function canPlace(room, rooms){
+function canPlace(room, rooms, totalWidth, totalHeight){
+    // Check if it goes out of bounds
+    if(room.left() < 0 || room.right() > totalWidth || room.top() < 0 || room.bottom() > totalHeight){
+        return false;
+    }
+
     // Check for intersections with any other room
-    for(var otherRoom in rooms){
+    for(var i=0; i<rooms.length;i++){
+        otherRoom = rooms[i];
         if(Room.Intersects(room, otherRoom)){
             return false;
         }

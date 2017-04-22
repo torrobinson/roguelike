@@ -48,8 +48,8 @@ Room = function(width, height, position){
 
 // Static methods
 Room.Intersects = function(a,b){
-    return (a.left <= b.right &&
-      b.left <= a.right &&
-      a.top <= b.bottom &&
-      b.top <= a.bottom);
+    return (a.left() <= b.right() &&
+      b.left() <= a.right() &&
+      a.top() <= b.bottom() &&
+      b.top() <= a.bottom());
 };

@@ -8,6 +8,7 @@ TextRenderer = function(canvas){
         this.textArea = document.createElement("textarea");
         this.textArea.style.width="100%";
         this.textArea.style.height="100%";
+        this.textArea.style.fontFamily = "monospace";
         this.canvas.appendChild(this.textArea);
     };
 
