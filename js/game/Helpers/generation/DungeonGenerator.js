@@ -117,7 +117,7 @@ DungeonGenerator.Generate = function(
 // One-off Helpers
 function canPlace(room, rooms, totalWidth, totalHeight){
     // Check if it goes out of bounds
-    if(room.left() < 0 || room.right() > totalWidth || room.top() < 0 || room.bottom() > totalHeight){
+    if(room.left() < 1 || room.right() > totalWidth -1 || room.top() < 1 || room.bottom() > totalHeight - 1){
         return false;
     }
 
