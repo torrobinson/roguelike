@@ -24,4 +24,5 @@ TextRenderer = function(canvas){
         }
         this.textArea.value = text;
     };
+    
 };

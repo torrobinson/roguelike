@@ -9,12 +9,13 @@ Game = function(renderer){
         seed,//seed,
         60,//totalWidth,
         60,//totalHeight,
-        6,//minRoomWidth,
-        15,//maxRoomWidth,
-        6,//minRoomHeight,
-        10,//maxRoomHeight,
-        6,//minNumRooms,
-        20//maxNumRooms
+        2,//minRoomWidth,
+        20,//maxRoomWidth,
+        2,//minRoomHeight,
+        20,//maxRoomHeight,
+        10,//minNumRooms,
+        30,//maxNumRooms,
+        500//retryAttempts
     );
 
     this.renderer.init();

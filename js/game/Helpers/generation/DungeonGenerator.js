@@ -26,7 +26,8 @@ DungeonGenerator.Generate = function(
     minRoomHeight,
     maxRoomHeight,
     minNumRooms,
-    maxNumRooms
+    maxNumRooms,
+    retryAttempts // The number of times to try find another spot for a room, should a new room placement fail. The larger this is, the slower this function but the more packed the dungeon will be with room
 ){
     // The world to return
     var world = new World(totalWidth, totalHeight);
@@ -39,20 +40,18 @@ DungeonGenerator.Generate = function(
     // The number of rooms to place
     var randomRoomsToPlace = random.next(minNumRooms, maxNumRooms);
 
-    // To prevent an endless loop, if we fail to plae a new random room 100 times, then call it done.
-    var maxFailedAttempts = 50;
     var failedAttempts = 0;
 
     // While we still have rooms to place
-    while(rooms.length < randomRoomsToPlace && failedAttempts < maxFailedAttempts){
+    while(rooms.length < randomRoomsToPlace && failedAttempts < retryAttempts){
         // Create a new place to put it
         var randomPosition = new Point(
             random.next(0, totalWidth),
             random.next(0, totalHeight)
         );
         // Create a random size
-        var randomWidth = random.next(minRoomWidth, maxRoomWidth);
-        var randomHeight = random.next(minRoomHeight, maxRoomHeight);
+        var randomWidth = random.nextWeighted(minRoomWidth, maxRoomWidth);
+        var randomHeight = random.nextWeighted(minRoomHeight, maxRoomHeight);
 
         // Instantiate the room
         var newRoom = new Room(
