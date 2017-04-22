@@ -14,9 +14,9 @@ TextRenderer = function(canvas){
     // world is a 2d array to render
     this.drawFrame = function(world){
         var text = '';
-        for(var y=0;y<world.length;y++){
-            for(var x=0;x<world[y].length;x++){
-                text+=world[y][x];
+        for(var y=0;y<world.tiles.length;y++){
+            for(var x=0;x<world.tiles[y].length;x++){
+                text+=(world.tiles[y][x]).character;
             }
             text+='\r\n';
         }

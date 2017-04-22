@@ -1,0 +1,3 @@
+Earth = function(){
+    this.character = '#';
+};
