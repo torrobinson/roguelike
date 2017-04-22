@@ -16,7 +16,8 @@ DungeonGenerator.Generate = function(
     maxRoomHeight,
     minNumRooms,
     maxNumRooms,
-    hallThickness,
+    minHallThickness,
+    maxHallThickness,
     retryAttempts // The number of times to try find another spot for a room, should a new room placement fail. The larger this is, the slower this function but the more packed the dungeon will be with room
 ){
     // The world to return
@@ -79,7 +80,7 @@ DungeonGenerator.Generate = function(
 
     // The rooms are now built. Start carving out the hallways
     var roomsExplored = [];
-    // TODO - go in rder of distance from last room
+    // TODO - go in order of distance from last room
     for(var i=1; i<rooms.length;i++){
         var room = rooms[i];
         var previousRoom = rooms[i-1];
@@ -87,6 +88,10 @@ DungeonGenerator.Generate = function(
         var newCenter = room.getCenter();
         var prevCenter = previousRoom.getCenter();
 
+        // We want to get a random number between
+        var hallThickness = Numbers.roundToOdd(
+            random.next(minHallThickness, maxHallThickness)
+        );
 
         // Draw a corridor between me and the last room
         var horizontalFirst = random.next(0,2);
@@ -136,22 +141,30 @@ function carveRoom(room,tiles){
 }
 
 function carveHorizontalHallway(x1, x2, y, thickness, tiles){
-    for (var x = Math.min(x1, x2); x < Math.max(x1, x2) + 1; x++) {
+    // bulk to add on either side of hallway if thickness > 1
+    var bulk = thickness==1?0:(thickness-1)/2;
+    for (var x = Math.min(x1, x2); x < Math.max(x1, x2) + 1 + bulk; x++) {
         if(thickness==1){
             tiles[y][x] = new Floor();
         }
         else{
-            //TODO thickness
+            for(var o=bulk; o>-bulk; o--){
+                tiles[y+o][x] = new Floor();
+            }
         }
     }
 }
 function carveVerticalHallway(y1, y2, x, thickness, tiles){
-    for (var y = Math.min(y1, y2); y < Math.max(y1, y2) + 1; y++) {
+    // bulk to add on either side of hallway if thickness > 1
+    var bulk = thickness==1?0:(thickness-1)/2;
+    for (var y = Math.min(y1, y2); y < Math.max(y1, y2) + 1 + bulk; y++) {
         if(thickness==1){
             tiles[y][x] = new Floor();
         }
         else{
-            //TODO thickness
+            for(var o=bulk; o>-bulk; o--){
+                tiles[y][x+o] = new Floor();
+            }
         }
     }
 }

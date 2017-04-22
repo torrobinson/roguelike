@@ -3,19 +3,19 @@ Game = function(renderer){
     this.frameClock = null;
     this.framesPerSecond = 1; //20 might be reasonable
     var seed = (new Date).getTime(); // OR A HARDCODED SEED
-    console.log('GENERATED WITH SEED ' + seed);
 
     this.world = DungeonGenerator.Generate(
         seed,//seed,
         60,//totalWidth,
         60,//totalHeight,
-        2,//minRoomWidth,
-        20,//maxRoomWidth,
-        2,//minRoomHeight,
-        20,//maxRoomHeight,
-        10,//minNumRooms,
+        4,//minRoomWidth,
+        15,//maxRoomWidth,
+        4,//minRoomHeight,
+        15,//maxRoomHeight,
+        4,//minNumRooms,
         20,//maxNumRooms,
-        1,//hallThickness
+        1,//minHallThickness
+        3,//maxHallThickness
         1000//retryAttempts
     );
 

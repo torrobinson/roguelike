@@ -27,5 +27,13 @@ Array.prototype.shuffle = function(){
 };
 
 Array.prototype.contains=function(needle){
-        return this.indexOf(needle) >-1;
+    return this.indexOf(needle) >-1;
+};
+
+Array.prototype.onlyOdd=function(){
+    this.filter(Numbers.isOdd);
+};
+
+Array.prototype.onlyEven=function(){
+    this.filter(Numbers.isEven);
 };
