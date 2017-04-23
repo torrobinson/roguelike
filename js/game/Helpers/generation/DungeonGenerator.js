@@ -83,7 +83,7 @@ DungeonGenerator.Generate = function(
     // First lets order the rooms in somewhat in order of distance and before they're chained together
     var roomsOrdered = [];
     var roomBag = rooms.slice();
-    var firstRoom = rooms.shuffle().first();
+    var firstRoom = rooms.pickRandom();
 
     // Start with the first room at random
     var currentRoom = firstRoom;
@@ -93,42 +93,26 @@ DungeonGenerator.Generate = function(
     }
     // And then find the next closest one
     while(roomBag.length > 0){
-        // While we have rooms to add,
-
-        //Search through the bag for the closest room to prevRoom
+        // While we have rooms to add, search through the bag for the closest room to prevRoom
         currentRoom = roomBag.sort(distanceFromCurrentRoom).first();
         roomBag.remove(currentRoom);
         roomsOrdered.push(currentRoom);
     }
     rooms = roomsOrdered.slice();
 
-
+    // Then carve each hallway out
     for(var i=1; i<rooms.length;i++){
         var room = rooms[i];
         var previousRoom = rooms[i-1];
 
-        var newCenter = room.getCenter();
-        var prevCenter = previousRoom.getCenter();
-
-
-        // We want to get a random number between
-        var hallThickness = Numbers.roundToOdd(
-            random.next(minHallThickness, maxHallThickness)
-        );
-
-        // Draw a corridor between me and the last room
-        var horizontalFirst = random.next(0,2);
-
-        if(horizontalFirst){
-           carveHorizontalHallway(prevCenter.x, newCenter.x, prevCenter.y, hallThickness, tiles);
-           carveVerticalHallway(prevCenter.y, newCenter.y,newCenter.x, hallThickness, tiles);
-        }
-        else{
-            //vertical first
-            carveVerticalHallway(prevCenter.y,newCenter.y,prevCenter.x, hallThickness, tiles);
-            carveHorizontalHallway(prevCenter.x,newCenter.x,newCenter.y, hallThickness, tiles);
-        }
+        carveHallway(previousRoom, room, tiles, minHallThickness, maxHallThickness, random);
     }
+
+    // Then to keep it from being too linear, connect the first and last rooms, and a 2 random ones
+    carveHallway(rooms.first(), rooms.last(), tiles, minHallThickness, maxHallThickness, random);
+    var randomhallways = rooms.shuffle();
+    carveHallway(randomhallways.first(), randomhallways.second(), tiles, minHallThickness, maxHallThickness, random);
+
 
     world.tiles = tiles;
     return world;
@@ -159,6 +143,29 @@ function carveRoom(room,tiles){
         for(var x = room.left(); x<room.right(); x++){
             tiles[y][x] = new Floor();
         }
+    }
+}
+
+function carveHallway(room1, room2, tiles, minHallThickness, maxHallThickness, rng){
+    var prevCenter = room1.getCenter();
+    var newCenter = room2.getCenter();
+
+    // We want to get a random number between
+    var hallThickness = Numbers.roundToOdd(
+        rng.next(minHallThickness, maxHallThickness)
+    );
+
+    // Draw a corridor between me and the last room
+    var horizontalFirst = rng.next(0,2);
+
+    if(horizontalFirst){
+       carveHorizontalHallway(prevCenter.x, newCenter.x, prevCenter.y, hallThickness, tiles);
+       carveVerticalHallway(prevCenter.y, newCenter.y,newCenter.x, hallThickness, tiles);
+    }
+    else{
+        //vertical first
+        carveVerticalHallway(prevCenter.y,newCenter.y,prevCenter.x, hallThickness, tiles);
+        carveHorizontalHallway(prevCenter.x,newCenter.x,newCenter.y, hallThickness, tiles);
     }
 }
 

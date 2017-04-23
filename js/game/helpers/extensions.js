@@ -7,6 +7,23 @@ Array.prototype.first = function() {
         return null;
     }
 };
+Array.prototype.second = function() {
+    if(this.length>1){
+        return this[1];
+    }
+    else{
+        return null;
+    }
+};
+
+Array.prototype.last = function() {
+    if(this.length){
+        return this[this.length-1];
+    }
+    else{
+        return null;
+    }
+};
 
 Array.prototype.remove = function(obj){
     var index = this.indexOf(obj);
@@ -34,6 +51,10 @@ Array.prototype.shuffle = function(){
         [a[i - 1], a[j]] = [a[j], a[i - 1]];
     }
     return a;
+};
+
+Array.prototype.pickRandom = function(){
+    return this.shuffle().first();
 };
 
 Array.prototype.contains=function(needle){
