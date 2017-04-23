@@ -9,13 +9,13 @@ TextRenderer = function(canvas){
         this.textArea.style.width="100%";
         this.textArea.style.height="100%";
         this.textArea.style.fontFamily = "monospace";
-        this.textArea.style.lineHeight = 0.6;
+        this.textArea.style.lineHeight = 0.65;
         this.canvas.appendChild(this.textArea);
     };
 
     // world is a 2d array to render
     this.drawFrame = function(world){
-        
+
         var text = '';
         for(var y=0;y<world.tiles.length;y++){
             for(var x=0;x<world.tiles[y].length;x++){
