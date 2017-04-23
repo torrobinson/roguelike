@@ -1,3 +1,3 @@
 Earth = function(){
-    this.character = '#';
+    this.character = '█';
 };
