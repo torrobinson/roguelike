@@ -25,6 +25,15 @@ Array.prototype.last = function() {
     }
 };
 
+Array.prototype.secondLast = function() {
+    if(this.length>1){
+        return this[this.length-2];
+    }
+    else{
+        return null;
+    }
+};
+
 Array.prototype.remove = function(obj){
     var index = this.indexOf(obj);
     if(index>-1){

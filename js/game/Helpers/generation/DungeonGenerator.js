@@ -108,11 +108,8 @@ DungeonGenerator.Generate = function(
         carveHallway(previousRoom, room, tiles, minHallThickness, maxHallThickness, random);
     }
 
-    // Then to keep it from being too linear, connect the first and last rooms, and a 2 random ones
-    carveHallway(rooms.first(), rooms.last(), tiles, minHallThickness, maxHallThickness, random);
-    var randomhallways = rooms.shuffle();
-    carveHallway(randomhallways.first(), randomhallways.second(), tiles, minHallThickness, maxHallThickness, random);
-
+    // Then to keep it from being too linear, conect the second and second last rooms
+    carveHallway(rooms.second(), rooms.secondLast(), tiles, minHallThickness, maxHallThickness, random);
 
     world.tiles = tiles;
     return world;

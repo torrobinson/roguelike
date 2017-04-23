@@ -12,8 +12,8 @@ Game = function(renderer){
         12,//maxRoomWidth,
         3,//minRoomHeight,
         12,//maxRoomHeight,
-        5,//minNumRooms,
-        10,//maxNumRooms,
+        4,//minNumRooms,
+        8,//,
         1,//minHallThickness
         3,//maxHallThickness
         1000//retryAttempts
