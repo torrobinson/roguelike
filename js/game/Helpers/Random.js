@@ -9,7 +9,7 @@ Random = function(seed){
 
     this.next = function(min, max){
         // Fetches the next random number in the sequence, with a minimum and maximum
-        return Math.floor(this.go() * max) + min;
+        return Math.floor(this.go() * (max-min)) + min;
     };
 
     this.nextWeighted = function(min, max){
