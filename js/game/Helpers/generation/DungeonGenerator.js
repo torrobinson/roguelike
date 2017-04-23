@@ -79,14 +79,37 @@ DungeonGenerator.Generate = function(
     }
 
     // The rooms are now built. Start carving out the hallways
-    var roomsExplored = [];
-    // TODO - go in order of distance from last room
+
+    // First lets order the rooms in somewhat in order of distance and before they're chained together
+    var roomsOrdered = [];
+    var roomBag = rooms.slice();
+    var firstRoom = rooms.shuffle().first();
+
+    // Start with the first room at random
+    var currentRoom = firstRoom;
+    function distanceFromCurrentRoom(x, y)
+    {
+        return Point.getDistanceBetweenPoints(x.getCenter(), currentRoom.getCenter()) - Point.getDistanceBetweenPoints(y.getCenter(), currentRoom.getCenter());
+    }
+    // And then find the next closest one
+    while(roomBag.length > 0){
+        // While we have rooms to add,
+
+        //Search through the bag for the closest room to prevRoom
+        currentRoom = roomBag.sort(distanceFromCurrentRoom).first();
+        roomBag.remove(currentRoom);
+        roomsOrdered.push(currentRoom);
+    }
+    rooms = roomsOrdered.slice();
+
+
     for(var i=1; i<rooms.length;i++){
         var room = rooms[i];
         var previousRoom = rooms[i-1];
 
         var newCenter = room.getCenter();
         var prevCenter = previousRoom.getCenter();
+
 
         // We want to get a random number between
         var hallThickness = Numbers.roundToOdd(
@@ -105,8 +128,6 @@ DungeonGenerator.Generate = function(
             carveVerticalHallway(prevCenter.y,newCenter.y,prevCenter.x, hallThickness, tiles);
             carveHorizontalHallway(prevCenter.x,newCenter.x,newCenter.y, hallThickness, tiles);
         }
-
-        roomsExplored.push(room);
     }
 
     world.tiles = tiles;
@@ -117,6 +138,7 @@ DungeonGenerator.Generate = function(
 // One-off Helpers
 function canPlace(room, rooms, totalWidth, totalHeight){
     // Check if it goes out of bounds
+    // the 1 and -1s are to ensure that they dont also touch the exact edge, but stay 1 away
     if(room.left() < 1 || room.right() > totalWidth -1 || room.top() < 1 || room.bottom() > totalHeight - 1){
         return false;
     }

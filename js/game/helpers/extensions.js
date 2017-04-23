@@ -8,6 +8,16 @@ Array.prototype.first = function() {
     }
 };
 
+Array.prototype.remove = function(obj){
+    var index = this.indexOf(obj);
+    if(index>-1){
+        return this.splice(index,1);
+    }
+    else{
+        return this;
+    }
+};
+
 Array.prototype.firstOrDefault = function(def) {
     if(this.length){
         return this[0];

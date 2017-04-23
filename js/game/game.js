@@ -8,12 +8,12 @@ Game = function(renderer){
         seed,//seed,
         60,//totalWidth,
         60,//totalHeight,
-        4,//minRoomWidth,
-        15,//maxRoomWidth,
-        4,//minRoomHeight,
-        15,//maxRoomHeight,
-        4,//minNumRooms,
-        20,//maxNumRooms,
+        3,//minRoomWidth,
+        12,//maxRoomWidth,
+        3,//minRoomHeight,
+        12,//maxRoomHeight,
+        5,//minNumRooms,
+        10,//maxNumRooms,
         1,//minHallThickness
         3,//maxHallThickness
         1000//retryAttempts

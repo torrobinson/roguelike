@@ -15,6 +15,7 @@ TextRenderer = function(canvas){
 
     // world is a 2d array to render
     this.drawFrame = function(world){
+        
         var text = '';
         for(var y=0;y<world.tiles.length;y++){
             for(var x=0;x<world.tiles[y].length;x++){
@@ -24,5 +25,5 @@ TextRenderer = function(canvas){
         }
         this.textArea.value = text;
     };
-    
+
 };
