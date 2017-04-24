@@ -1,8 +1,8 @@
-Layer = function(width, height, zIndex){
+Layer = function(width, height, zIndex, name){
     this.width = width;
     this.height = height;
     this.zIndex = zIndex;
-
+    this.name = name;
     this.tiles = [];
 
     this.setTile = function(x,y,actor){
@@ -19,4 +19,11 @@ Layer = function(width, height, zIndex){
             this.tiles.push(newRow);
         }
     };
+
+    this.clear = function(){
+      this.fillWith(null);
+    };
+
+    // Clear it initially (initialize with all nulls)
+    this.clear();
 };

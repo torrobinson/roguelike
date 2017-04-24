@@ -18,24 +18,27 @@ TextRenderer = function(canvas){
 
         // Draw each layer from smallest to highest index
         var text = '';
-
-        var layers = world.layers.sort(
-            function(a,b){
-                return a.zIndex - b.zIndex;
+        for(var y=0;y<world.height;y++){
+            for(var x=0;x<world.width;x++){
+                text+=getTopCharacterAtPoint(world,x,y);
             }
-        );
-        for(var l=0;l<layers.length;l++){
-            var layer = layers[l];
-
-            for(var y=0;y<layer.tiles.length;y++){
-                for(var x=0;x<layer.tiles[y].length;x++){
-                    text+=(layer.tiles[y][x]).character;
-                }
-                text+='\r\n';
-            }
+            text+='\r\n';
         }
-
         this.textArea.value = text;
     };
 
 };
+
+function getTopCharacterAtPoint(world,x,y){
+  var layerToSourceTileFrom =  world.layers.sort(sortByZIndex).filter(function(l){return l.tiles[y][x] !== null;}).first();
+  if(layerToSourceTileFrom !== null){
+    return layerToSourceTileFrom.tiles[y][x].character;
+  }
+  else {
+    return ' ';
+  }
+}
+
+function sortByZIndex(a,b){
+  return a.zIndex - b.zIndex;
+}

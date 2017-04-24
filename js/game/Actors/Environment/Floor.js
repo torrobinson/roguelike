@@ -1,3 +1,3 @@
 Floor = function(){
-    this.character = '░';
+    this.character = '·';
 };

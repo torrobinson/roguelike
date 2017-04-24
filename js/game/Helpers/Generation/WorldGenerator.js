@@ -23,8 +23,12 @@ WorldGenerator.GenerateCarvedWorld = function(
     var world = new World(settings.totalWidth, settings.totalHeight);
 
     // Set up the main collision layer as ALL walls
-    var wallLayer = new Layer(settings.totalHeight, settings.totalWidth, 0);
+    var wallLayer = new Layer(settings.totalHeight, settings.totalWidth, 0, 'Walls');
     wallLayer.fillWith(new Wall());
+
+    // Create a new empty floor layer.
+    // As we carve away the walls to create rooms and hallways, we'll add floor tiles here
+    var floorLayer = new Layer(settings.totalHeight, settings.totalWidth, -1, 'Floors');
 
     // The rooms we're creating
     var rooms = [];
@@ -66,7 +70,7 @@ WorldGenerator.GenerateCarvedWorld = function(
         // If we can place it, then place it
         if(canPlace(newRoom, rooms, settings.totalWidth, settings.totalHeight)){
             // We can place this room, so draw it out
-            carveRoom(newRoom, wallLayer, settings.floorActor);
+            carveRoom(newRoom, wallLayer, floorLayer, settings.floorActor);
             rooms.push(newRoom);
         }
         else{
@@ -84,7 +88,7 @@ WorldGenerator.GenerateCarvedWorld = function(
     // First lets order the rooms in somewhat in order of distance and before they're chained together
     var roomsOrdered = [];
     var roomBag = rooms.slice();
-    var firstRoom = rooms.pickRandom();
+    var firstRoom = rooms.pickRandom(random);
 
     // Start with the first room at random
     var currentRoom = firstRoom;
@@ -106,14 +110,15 @@ WorldGenerator.GenerateCarvedWorld = function(
         var room = rooms[i];
         var previousRoom = rooms[i-1];
 
-        carveHallway(previousRoom, room, wallLayer, settings.floorActor, settings.minHallThickness, settings.maxHallThickness, random);
+        carveHallway(previousRoom, room, wallLayer, floorLayer, settings.floorActor, settings.minHallThickness, settings.maxHallThickness, random);
     }
 
     // Then to keep it from being too linear, conect the second and second last rooms
-    carveHallway(rooms.second(), rooms.secondLast(), wallLayer, settings.floorActor, settings.minHallThickness, settings.maxHallThickness, random);
+    carveHallway(rooms.second(), rooms.secondLast(), wallLayer, floorLayer, settings.floorActor, settings.minHallThickness, settings.maxHallThickness, random);
 
     // Set and return the World so far
     world.addLayer(wallLayer);
+    world.addLayer(floorLayer);
     world.rooms = rooms;
 
     return world;
@@ -139,65 +144,85 @@ function canPlace(room, rooms, totalWidth, totalHeight){
 }
 
 // Carve the Room out of Actor on a Layer
-function carveRoom(room, layer, actor){
+function carveRoom(room, wallLayer, floorLayer, floorActor){
     for(var y = room.top(); y<room.bottom(); y++){
         for(var x = room.left(); x<room.right(); x++){
-            layer.setTile(x,y, actor);
+            // Carve out the walls
+            wallLayer.setTile(x,y, null);
+
+            // Place a floor
+            floorLayer.setTile(x,y, floorActor);
         }
     }
 }
 
 // Given 2 Rooms, create a hallway made of Actor at given thicknesses on a Layer
-function carveHallway(room1, room2, layer, actor, minHallThickness, maxHallThickness, rng){
+function carveHallway(room1, room2, wallLayer, floorLayer, floorActor, minHallThickness, maxHallThickness, random){
     var prevCenter = room1.getCenter();
     var newCenter = room2.getCenter();
 
     // We want to get a random number between
     var hallThickness = Numbers.roundToOdd(
-        rng.next(minHallThickness, maxHallThickness)
+        random.next(minHallThickness, maxHallThickness)
     );
 
     // Draw a corridor between me and the last room
-    var horizontalFirst = rng.next(0,2);
+    var horizontalFirst = random.next(0,2);
 
     if(horizontalFirst){
-       carveHorizontalHallway(prevCenter.x, newCenter.x, prevCenter.y, hallThickness, layer, actor);
-       carveVerticalHallway(prevCenter.y, newCenter.y,newCenter.x, hallThickness, layer, actor);
+       carveHorizontalHallway(prevCenter.x, newCenter.x, prevCenter.y, hallThickness, wallLayer, floorLayer, floorActor);
+       carveVerticalHallway(prevCenter.y, newCenter.y,newCenter.x, hallThickness, wallLayer, floorLayer, floorActor);
     }
     else{
         //vertical first
-        carveVerticalHallway(prevCenter.y,newCenter.y,prevCenter.x, hallThickness, layer, actor);
-        carveHorizontalHallway(prevCenter.x,newCenter.x,newCenter.y, hallThickness, layer, actor);
+        carveVerticalHallway(prevCenter.y,newCenter.y,prevCenter.x, hallThickness, wallLayer, floorLayer, floorActor);
+        carveHorizontalHallway(prevCenter.x,newCenter.x,newCenter.y, hallThickness, wallLayer, floorLayer, floorActor);
     }
 }
 
 // Carve a horizontal hallway at a given Y, from a given X to X2, on a Layer, and fill with an Actor
-function carveHorizontalHallway(x1, x2, y, thickness, layer, actor){
+function carveHorizontalHallway(x1, x2, y, thickness, wallLayer, floorLayer,  floorActor){
     // bulk to add on either side of hallway if thickness > 1
     var bulk = thickness==1?0:(thickness-1)/2;
     for (var x = Math.min(x1, x2); x < Math.max(x1, x2) + 1 + bulk; x++) {
         if(thickness==1){
-            layer.setTile(x,y,actor);
+            // Carve to null from the walls
+            wallLayer.setTile(x,y,null);
+
+            // Add the floor tile
+            floorLayer.setTile(x,y,floorActor);
         }
         else{
             for(var o=bulk; o>-bulk; o--){
-                layer.setTile(x,y+o,actor);
+                // Carve to null from the walls
+                wallLayer.setTile(x,y+o,null);
+
+                // Add the floor tile
+                floorLayer.setTile(x,y+o,floorActor);
             }
         }
     }
 }
 
 // Carve a horizontal hallway at a given X, from a given Y to Y2, on a Layer, and fill with an Actor
-function carveVerticalHallway(y1, y2, x, thickness, layer, floorActor){
+function carveVerticalHallway(y1, y2, x, thickness, wallLayer, floorLayer, floorActor){
     // bulk to add on either side of hallway if thickness > 1
     var bulk = thickness==1?0:(thickness-1)/2;
     for (var y = Math.min(y1, y2); y < Math.max(y1, y2) + 1 + bulk; y++) {
         if(thickness==1){
-            layer.setTile(x,y,floorActor);
+            // Carve to null from the walls
+            wallLayer.setTile(x,y,null);
+
+            // Add the floor tile
+            floorLayer.setTile(x,y,floorActor);
         }
         else{
             for(var o=bulk; o>-bulk; o--){
-                layer.setTile(x+o,y,floorActor);
+                // Carve to null from the walls
+                wallLayer.setTile(x+o,y,null);
+
+                // Add the floor tile
+                floorLayer.setTile(x+o,y,floorActor);
             }
         }
     }

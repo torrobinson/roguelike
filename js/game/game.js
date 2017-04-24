@@ -31,6 +31,7 @@ Game = function(renderer,seed){
 
     // Functions
     this.start = function(){
+        this.renderer.drawFrame(this.world);
         this.frameClock= setInterval(this.frameTick, (1/this.framesPerSecond)*1000);
     };
     this.stop = function(){
