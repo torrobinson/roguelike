@@ -1,11 +1,13 @@
-Game = function(renderer){
+Game = function(renderer,seed){
+    // Set up the game
     this.renderer = renderer;
+    this.seed= seed;
     this.frameClock = null;
     this.framesPerSecond = 1; //20 might be reasonable
-    var seed = (new Date).getTime(); // OR A HARDCODED SEED
 
+    // Generate the dungeon
     this.world = DungeonGenerator.Generate(
-        seed,//seed,
+        this.seed,//seed,
         100,//totalWidth,
         100,//totalHeight,
         3,//minRoomWidth,
@@ -19,8 +21,10 @@ Game = function(renderer){
         1000//retryAttempts
     );
 
+    // Initialize the renderer
     this.renderer.init();
 
+    // Functions
     this.start = function(){
         this.frameClock= setInterval(this.frameTick, (1/this.framesPerSecond)*1000);
     };

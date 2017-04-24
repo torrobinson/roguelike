@@ -1,3 +1,0 @@
-Earth = function(){
-    this.character = '█';
-};

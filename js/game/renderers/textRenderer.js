@@ -16,13 +16,25 @@ TextRenderer = function(canvas){
     // world is a 2d array to render
     this.drawFrame = function(world){
 
+        // Draw each layer from smallest to highest index
         var text = '';
-        for(var y=0;y<world.tiles.length;y++){
-            for(var x=0;x<world.tiles[y].length;x++){
-                text+=(world.tiles[y][x]).character;
+
+        var layers = world.layers.sort(
+            function(a,b){
+                return a.zIndex - b.zIndex;
             }
-            text+='\r\n';
+        );
+        for(var l=0;l<layers.length;l++){
+            var layer = layers[l];
+
+            for(var y=0;y<layer.tiles.length;y++){
+                for(var x=0;x<layer.tiles[y].length;x++){
+                    text+=(layer.tiles[y][x]).character;
+                }
+                text+='\r\n';
+            }
         }
+
         this.textArea.value = text;
     };
 
