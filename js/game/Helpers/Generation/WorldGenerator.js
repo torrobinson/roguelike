@@ -1,26 +1,29 @@
-WorldGenerator = function(){};
+GenerateCarvedWorldSettings = function(){
+  this.totalWidth = 0;
+  this.totalHeight = 0;
+  this.minRoomWidth = 0;
+  this.maxRoomWidth = 0;
+  this.minRoomHeight = 0;
+  this.maxRoomHeight = 0;
+  this.minNumRooms = 0;
+  this.maxNumRooms = 0;
+  this.minHallThickness = 0;
+  this.maxHallThickness = 0;
+  this.retryAttempts = 0;
+  this.floorActor = null;
+};
 
+WorldGenerator = function(){};
 // Generate a World object
 WorldGenerator.GenerateCarvedWorld = function(
     seed,
-    totalWidth,
-    totalHeight,
-    minRoomWidth,
-    maxRoomWidth,
-    minRoomHeight,
-    maxRoomHeight,
-    minNumRooms,
-    maxNumRooms,
-    minHallThickness,
-    maxHallThickness,
-    retryAttempts, // The number of times to try find another spot for a room, should a new room placement fail. The larger this is, the slower this function but the more packed the dungeon will be with room
-    floorActor
+    settings
 ){
     // The world to return
-    var world = new World(totalWidth, totalHeight);
+    var world = new World(settings.totalWidth, settings.totalHeight);
 
-    // Set up the main collission layer as ALL walls
-    var wallLayer = new Layer(totalHeight, totalWidth, 0);
+    // Set up the main collision layer as ALL walls
+    var wallLayer = new Layer(settings.totalHeight, settings.totalWidth, 0);
     wallLayer.fillWith(new Wall());
 
     // The rooms we're creating
@@ -28,28 +31,28 @@ WorldGenerator.GenerateCarvedWorld = function(
     // Our RNG
     var random = new Random(seed);
     // The number of rooms to place
-    var randomRoomsToPlace = random.next(minNumRooms, maxNumRooms);
+    var randomRoomsToPlace = random.next(settings.minNumRooms, settings.maxNumRooms);
 
     var failedAttempts = 0;
     var preferSquareRooms = 1;
 
     // While we still have rooms to carve
-    while(rooms.length < randomRoomsToPlace && failedAttempts < retryAttempts){
+    while(rooms.length < randomRoomsToPlace && failedAttempts < settings.retryAttempts){
         // Create a new place to put it
         var randomPosition = new Point(
-            random.next(0, totalWidth),
-            random.next(0, totalHeight)
+            random.next(0, settings.totalWidth),
+            random.next(0, settings.totalHeight)
         );
         // Create a random size
         var randomWidth;
         var randomHeight;
         if(preferSquareRooms){
-            randomWidth = random.nextWeighted(minRoomWidth, maxRoomWidth);
-            randomHeight = random.nextWeighted(minRoomHeight, maxRoomHeight);
+            randomWidth = random.nextWeighted(settings.minRoomWidth, settings.maxRoomWidth);
+            randomHeight = random.nextWeighted(settings.minRoomHeight, settings.maxRoomHeight);
         }
         else{
-            randomWidth = random.next(minRoomWidth, maxRoomWidth);
-            randomHeight = random.next(minRoomHeight, maxRoomHeight);
+            randomWidth = random.next(settings.minRoomWidth, settings.maxRoomWidth);
+            randomHeight = random.next(settings.minRoomHeight, settings.maxRoomHeight);
         }
 
 
@@ -61,14 +64,14 @@ WorldGenerator.GenerateCarvedWorld = function(
         );
 
         // If we can place it, then place it
-        if(canPlace(newRoom, rooms, totalWidth, totalHeight)){
+        if(canPlace(newRoom, rooms, settings.totalWidth, settings.totalHeight)){
             // We can place this room, so draw it out
-            carveRoom(newRoom, wallLayer, floorActor);
+            carveRoom(newRoom, wallLayer, settings.floorActor);
             rooms.push(newRoom);
         }
         else{
             failedAttempts++;
-            if(preferSquareRooms && failedAttempts >= retryAttempts/2){
+            if(preferSquareRooms && failedAttempts >= settings.retryAttempts/2){
                 // If we're halfway through looking for spaces, stop preferring the bigger rooms
                 //  and give smaller rooms a shot
                 preferSquareRooms = 0;
@@ -103,11 +106,11 @@ WorldGenerator.GenerateCarvedWorld = function(
         var room = rooms[i];
         var previousRoom = rooms[i-1];
 
-        carveHallway(previousRoom, room, wallLayer, floorActor, minHallThickness, maxHallThickness, random);
+        carveHallway(previousRoom, room, wallLayer, settings.floorActor, settings.minHallThickness, settings.maxHallThickness, random);
     }
 
     // Then to keep it from being too linear, conect the second and second last rooms
-    carveHallway(rooms.second(), rooms.secondLast(), wallLayer, floorActor, minHallThickness, maxHallThickness, random);
+    carveHallway(rooms.second(), rooms.secondLast(), wallLayer, settings.floorActor, settings.minHallThickness, settings.maxHallThickness, random);
 
     // Set and return the World so far
     world.addLayer(wallLayer);
