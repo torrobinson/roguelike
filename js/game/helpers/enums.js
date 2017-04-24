@@ -1,5 +1,5 @@
 Enums = function(){
-    this.directions = {
+    this.Directions = {
         Up          : 'Up',
         Down        : 'Down',
         Left        : 'Left',
