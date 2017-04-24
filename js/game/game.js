@@ -24,6 +24,14 @@ Game = function(renderer,seed){
         settings   // settings
     );
 
+    // Add a Player to the first room
+    var player = new Player();
+    var mainLayer = this.world.layers.filter(function(layer){
+      return layer.type == Enums.LayerType.Main;
+    }).first();
+    var starterRoomCenter = this.world.rooms.first().getCenter();
+    mainLayer.setTile(starterRoomCenter.x, starterRoomCenter.y, player);
+
     // TODO: call WorldGenerator functions to add decoration layers and add all actors needed
 
     // Initialize the renderer
@@ -34,8 +42,8 @@ Game = function(renderer,seed){
         this.renderer.drawFrame(this.world);
         this.frameClock= setInterval(this.frameTick, (1/this.framesPerSecond)*1000);
     };
-    this.stop = function(){
-        this.frameClock = null;
+    this.pause = function(){
+        clearInterval(this.frameClock);
     };
     this.frameTick = function(){
         this.renderer.drawFrame(this.world);

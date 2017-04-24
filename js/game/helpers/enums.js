@@ -17,3 +17,9 @@ Enums.SizeCategory = {
     Large   : 'Large',
     Huge    : 'Huge'
 };
+
+Enums.LayerType = {
+    Effects  : 'Effects',
+    Main  : 'Main',
+    Floor  : 'Floor'
+};

@@ -1,0 +1,3 @@
+Player = function(){
+  this.character = '@';
+};

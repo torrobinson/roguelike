@@ -1,8 +1,9 @@
-Layer = function(width, height, zIndex, name){
+Layer = function(width, height, zIndex, name, type){
     this.width = width;
     this.height = height;
     this.zIndex = zIndex;
     this.name = name;
+    this.type = type;
     this.tiles = [];
 
     this.setTile = function(x,y,actor){

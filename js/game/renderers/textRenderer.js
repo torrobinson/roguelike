@@ -2,43 +2,51 @@
 //  every frame, it will render the world out as a grid of text to it
 TextRenderer = function(canvas){
     this.canvas = canvas;
-    this.textArea = null;
     this.init = function(){
-        //Set up the canvas, in this case just a textarea
-        this.textArea = document.createElement("textarea");
-        this.textArea.style.width="100%";
-        this.textArea.style.height="100%";
-        this.textArea.style.fontFamily = "monospace";
-        this.textArea.style.lineHeight = 0.65;
-        this.canvas.appendChild(this.textArea);
     };
 
     // world is a 2d array to render
     this.drawFrame = function(world){
+      this.canvas.innerHtml = '';
 
-        // Draw each layer from smallest to highest index
-        var text = '';
-        for(var y=0;y<world.height;y++){
-            for(var x=0;x<world.width;x++){
-                text+=getTopCharacterAtPoint(world,x,y);
-            }
-            text+='\r\n';
-        }
-        this.textArea.value = text;
+      for(var l=0;l <world.layers.length;l++){
+          var layer = world.layers[l];
+          var textArea = document.createElement("textarea");
+          textArea.style.width="100%";
+          textArea.style.height="100%";
+          textArea.style.fontFamily = "monospace";
+          textArea.style.lineHeight = 0.65;
+          textArea.style.background = 'transparent';
+          textArea.style.position = 'absolute';
+          textArea.style.left = 0;
+          textArea.style.top = 0;
+          textArea.style.zIndex = layer.zIndex;
+          textArea.style.overflowY = 'hidden';
+
+          // Draw each layer from smallest to highest index
+          var text = '';
+          for(var y=0;y<world.height;y++){
+              for(var x=0;x<world.width;x++){
+                if(layer.tiles[y][x] !== undefined && layer.tiles[y][x] !== null){
+                  text+=layer.tiles[y][x].character;
+                }
+                else{
+                  text+=' ';
+                }
+
+              }
+              text+='\r\n';
+          }
+          textArea.value = text;
+
+          if(layer.type == Enums.LayerType.Main){
+              textArea.style.color = 'black';
+          }
+          if(layer.type == Enums.LayerType.Floor){
+            textArea.style.color = 'red';
+          }
+
+          this.canvas.appendChild(textArea);
+      }
     };
-
 };
-
-function getTopCharacterAtPoint(world,x,y){
-  var layerToSourceTileFrom =  world.layers.sort(sortByZIndex).filter(function(l){return l.tiles[y][x] !== null;}).first();
-  if(layerToSourceTileFrom !== null){
-    return layerToSourceTileFrom.tiles[y][x].character;
-  }
-  else {
-    return ' ';
-  }
-}
-
-function sortByZIndex(a,b){
-  return a.zIndex - b.zIndex;
-}

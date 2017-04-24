@@ -4,6 +4,7 @@
         <!-- Classes and helpers -->
         <script src="js/game/Actors/Environment/Wall.js"></script>
         <script src="js/game/Actors/Environment/Floor.js"></script>
+        <script src="js/game/Actors/Character/Player.js"></script>
         <script src="js/game/Layer.js"></script>
         <script src="js/game/World.js"></script>
         <script src="js/game/Room.js"></script>
@@ -32,6 +33,7 @@
                 // Start the game
                 var game = new Game(renderer, seed);
                 game.start();
+                game.pause();
             });
         </script>
     </head>
