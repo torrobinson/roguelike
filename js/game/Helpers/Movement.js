@@ -2,16 +2,16 @@ Movement = function(){};
 
 Movement.ControlArrowToDirection = function(control){
   if(control == Enums.Controls.UpArrow){
-    return Enum.Directions.Up;
+    return Enums.Directions.Up;
   }
   if(control == Enums.Controls.DownArrow){
-    return Enum.Directions.Down;
+    return Enums.Directions.Down;
   }
   if(control == Enums.Controls.LeftArrow){
-    return Enum.Directions.Left;
+    return Enums.Directions.Left;
   }
   if(control == Enums.Controls.RightArrow){
-    return Enum.Directions.Right;
+    return Enums.Directions.Right;
   }
 };
 
@@ -40,4 +40,16 @@ Movement.DirectionToOffset = function(direction){
   if(direction == Enums.Directions.DownRight){
     return new Point(1,1);
   }
+};
+
+Movement.AddPoints = function(point1,point2){
+  return new Point(point1.x+point2.x, point1.y+point2.y);
+};
+
+Movement.CanMove = function(actor, layer, desiredLocation){
+    if(layer.tiles.getTile(desiredLocation.x,desiredLocation.y)===null){
+        return true;
+    }
+
+    return false;
 };

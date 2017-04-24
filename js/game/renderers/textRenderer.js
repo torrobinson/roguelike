@@ -7,7 +7,9 @@ TextRenderer = function(canvas){
 
     // world is a 2d array to render
     this.drawFrame = function(world){
-      this.canvas.innerHtml = '';
+        while (this.canvas.firstChild) {
+              this.canvas.removeChild(this.canvas.firstChild);
+          }
 
       for(var l=0;l <world.layers.length;l++){
           var layer = world.layers[l];

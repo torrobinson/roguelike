@@ -13,6 +13,7 @@
         <script src="js/game/Helpers/Enums.js"></script>
         <script src="js/game/Helpers/Random.js"></script>
         <script src="js/game/Helpers/Numbers.js"></script>
+        <script src="js/game/Helpers/Movement.js"></script>
 
         <!-- Main -->
         <script src="js/game/Renderers/TextRenderer.js"></script>
@@ -40,18 +41,24 @@
 
                 function checkKey(e) {
                     e = e || window.event;
+
+                    // Arrow Keys
                     if (e.keyCode == '38') {
-                        game.controlPressed(Enum.Controls.UpArrow);
+                        game.controlPressed(Enums.Controls.UpArrow);
                     }
                     else if (e.keyCode == '40') {
-                        game.controlPressed(Enum.Controls.DownArrow);
+                        game.controlPressed(Enums.Controls.DownArrow);
                     }
                     else if (e.keyCode == '37') {
-                        game.controlPressed(Enum.Controls.LeftArrow);
+                        game.controlPressed(Enums.Controls.LeftArrow);
                     }
                     else if (e.keyCode == '39') {
-                        game.controlPressed(Enum.Controls.RightArrow);
+                        game.controlPressed(Enums.Controls.RightArrow);
                     }
+
+                    game.start();
+                    game.pause();
+
                   }
             });
         </script>

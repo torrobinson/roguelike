@@ -3,7 +3,7 @@ Game = function(renderer,seed){
     this.renderer = renderer;
     this.seed= seed;
     this.frameClock = null;
-    this.framesPerSecond = 1; //20 might be reasonable
+    this.framesPerSecond = 20; //20 might be reasonable
 
     // Generate the dungeon
     settings = new GenerateCarvedWorldSettings();
@@ -13,8 +13,8 @@ Game = function(renderer,seed){
     settings.maxRoomWidth = 20;
     settings.minRoomHeight = 3;
     settings.maxRoomHeight = 20;
-    settings.minNumRooms = 30;
-    settings.maxNumRooms = 100;
+    settings.minNumRooms = 80;
+    settings.maxNumRooms = 120;
     settings.minHallThickness = 1;
     settings.maxHallThickness = 3;
     settings.retryAttempts = 1000;
@@ -26,6 +26,8 @@ Game = function(renderer,seed){
 
     // Add a Player to the first room
     var player = new Player();
+    // Pass a reference to the world so the player can navigate it
+    player.world = this.world;
     var mainLayer = this.world.layers.filter(function(layer){
       return layer.type == Enums.LayerType.Main;
     }).first();
@@ -53,7 +55,7 @@ Game = function(renderer,seed){
     this.controlPressed = function(control){
         // Arrows
         if([Enums.Controls.UpArrow,Enums.Controls.DownArrow,Enums.Controls.LeftArrow,Enums.Controls.RightArrow].contains(control)){
-            // Check if paused, check if blah, blah blah, for no, just move the player.
+            // Check if paused, check if blah, blah blah, for now, just move the player.
             var directionToMove = Movement.ControlArrowToDirection(control);
             player.move(directionToMove);
         }

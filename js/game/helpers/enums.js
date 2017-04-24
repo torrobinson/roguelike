@@ -24,9 +24,10 @@ Enums.LayerType = {
     Floor     : 'Floor'
 };
 
-Enum.Controls = {
+Enums.Controls = {
     UpArrow     : 'UpArrow',
     DownArrow   : 'DownArrow',
     LeftArrow   : 'LeftArrow',
-    RightArrow  : 'RightArrow'
+    RightArrow  : 'RightArrow',
+    Attack      : 'Attack'
 };
