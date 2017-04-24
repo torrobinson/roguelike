@@ -12,6 +12,20 @@ Room = function(width, height, position){
             Math.floor((this.top() + this.bottom()) / 2));
     };
 
+    this.getSizeCategory = function(){
+        var area = this.getArea();
+        if(area < 36)
+            return Enums.SizeCategory.Tiny;
+        else if(area < 81)
+            return Enums.SizeCategory.Small;
+        else if(area < 100)
+            return Enums.SizeCategory.Medium;
+        else if(area < 200)
+            return Enums.SizeCategory.Large;
+        else
+            return Enums.SizeCategory.Huge;
+    };
+
     this.left = function(){
         return this.position.x;
     };
