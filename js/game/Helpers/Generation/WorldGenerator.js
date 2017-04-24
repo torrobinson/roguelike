@@ -1,7 +1,7 @@
-DungeonGenerator = function(){};
+WorldGenerator = function(){};
 
 // Generate a World object
-DungeonGenerator.Generate = function(
+WorldGenerator.GenerateCarvedWorld = function(
     seed,
     totalWidth,
     totalHeight,

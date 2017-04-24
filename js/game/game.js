@@ -6,7 +6,7 @@ Game = function(renderer,seed){
     this.framesPerSecond = 1; //20 might be reasonable
 
     // Generate the dungeon
-    this.world = DungeonGenerator.Generate(
+    this.world = WorldGenerator.GenerateCarvedWorld(
         this.seed,//seed,
         100,//totalWidth,
         100,//totalHeight,
@@ -20,6 +20,8 @@ Game = function(renderer,seed){
         3,//maxHallThickness
         1000//retryAttempts
     );
+
+    // TODO: call WorldGenerator functions to add decoration layers and add all actors needed
 
     // Initialize the renderer
     this.renderer.init();
