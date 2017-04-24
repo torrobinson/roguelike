@@ -1,5 +1,5 @@
 Player = function(){
-  this.character = '@';
+  this.character = 'O';
   this.location = null;
   this.world = null;
 
