@@ -31,6 +31,7 @@ Game = function(renderer,seed){
     }).first();
     var starterRoomCenter = this.world.rooms.first().getCenter();
     mainLayer.setTile(starterRoomCenter.x, starterRoomCenter.y, player);
+    player.location = new Point(starterRoomCenter.x, starterRoomCenter.y);
 
     // TODO: call WorldGenerator functions to add decoration layers and add all actors needed
 
@@ -48,4 +49,13 @@ Game = function(renderer,seed){
     this.frameTick = function(){
         this.renderer.drawFrame(this.world);
     }.bind(this);
+
+    this.controlPressed = function(control){
+        // Arrows
+        if([Enums.Controls.UpArrow,Enums.Controls.DownArrow,Enums.Controls.LeftArrow,Enums.Controls.RightArrow].contains(control)){
+            // Check if paused, check if blah, blah blah, for no, just move the player.
+            var directionToMove = Movement.ControlArrowToDirection(control);
+            player.move(directionToMove);
+        }
+    };
 };

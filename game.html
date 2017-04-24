@@ -34,6 +34,25 @@
                 var game = new Game(renderer, seed);
                 game.start();
                 game.pause();
+
+                // Bind keys
+                document.onkeydown = checkKey;
+
+                function checkKey(e) {
+                    e = e || window.event;
+                    if (e.keyCode == '38') {
+                        game.controlPressed(Enum.Controls.UpArrow);
+                    }
+                    else if (e.keyCode == '40') {
+                        game.controlPressed(Enum.Controls.DownArrow);
+                    }
+                    else if (e.keyCode == '37') {
+                        game.controlPressed(Enum.Controls.LeftArrow);
+                    }
+                    else if (e.keyCode == '39') {
+                        game.controlPressed(Enum.Controls.RightArrow);
+                    }
+                  }
             });
         </script>
     </head>

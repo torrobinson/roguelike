@@ -19,7 +19,14 @@ Enums.SizeCategory = {
 };
 
 Enums.LayerType = {
-    Effects  : 'Effects',
-    Main  : 'Main',
-    Floor  : 'Floor'
+    Effects   : 'Effects',
+    Main      : 'Main',
+    Floor     : 'Floor'
+};
+
+Enum.Controls = {
+    UpArrow     : 'UpArrow',
+    DownArrow   : 'DownArrow',
+    LeftArrow   : 'LeftArrow',
+    RightArrow  : 'RightArrow'
 };
