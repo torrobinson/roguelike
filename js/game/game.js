@@ -18,7 +18,8 @@ Game = function(renderer,seed){
         100,//,
         1,//minHallThickness
         3,//maxHallThickness
-        1000//retryAttempts
+        1000,//retryAttempts
+        new Floor()
     );
 
     // TODO: call WorldGenerator functions to add decoration layers and add all actors needed
