@@ -2,24 +2,19 @@ Player = function(game){
   this.character = 'O';
   this.location = null;
   this.game = game;
+  this.layer = null;
 
   this.move = function(direction){
     var offsetToMove = Movement.DirectionToOffset(direction);
-    if(this.game.world != null){
-      // Assume we're on the main layer
-      var mainLayer = this.game.world.layers.filter(function(layer){
-          return layer.type == Enums.LayerType.Main;
-        }).first();
-
+    if(this.layer != null){
       var moveTo = Movement.AddPoints(this.location, offsetToMove);
-      var result = Movement.TryMove(this,mainLayer,moveTo);
-
+      var result = Movement.TryMove(this,this.layer,moveTo);
       if(result){
         // Moved
       }
       else{
         // Collided
-        var collidedWith = mainLayer.getTile(moveTo.x,moveTo.y);
+        var collidedWith = this.layer.getTile(moveTo.x,moveTo.y);
         if(collidedWith instanceof StairsDown){
           this.game.startRandomDungeon();
         }
