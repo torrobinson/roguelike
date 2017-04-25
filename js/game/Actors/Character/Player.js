@@ -1,14 +1,13 @@
 Player = function(game){
   this.character = 'O';
   this.location = null;
-  this.world = null;
   this.game = game;
 
   this.move = function(direction){
     var offsetToMove = Movement.DirectionToOffset(direction);
-    if(this.world != null){
+    if(this.game.world != null){
       // Assume we're on the main layer
-      var mainLayer = this.world.layers.filter(function(layer){
+      var mainLayer = this.game.world.layers.filter(function(layer){
           return layer.type == Enums.LayerType.Main;
         }).first();
 

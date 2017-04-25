@@ -33,6 +33,7 @@ Game = function(renderer,seed){
     };
 
     this.startRandomDungeon = function(){
+        
         this.seed++;
 
         // Generate the dungeon
