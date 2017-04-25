@@ -1,0 +1,3 @@
+Wall = function(){
+    this.character = '#';
+};

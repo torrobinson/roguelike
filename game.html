@@ -1,0 +1,72 @@
+<html>
+    <head>
+        <meta charset="utf-8"/>
+        <!-- Classes and helpers -->
+        <script src="js/game/Actors/Environment/Wall.js"></script>
+        <script src="js/game/Actors/Environment/Floor.js"></script>
+        <script src="js/game/Actors/Environment/Special/StairsDown.js"></script>
+        <script src="js/game/Actors/Character/Player.js"></script>
+        <script src="js/game/Layer.js"></script>
+        <script src="js/game/World.js"></script>
+        <script src="js/game/Room.js"></script>
+        <script src="js/game/Point.js"></script>
+        <script src="js/game/Helpers/Extensions.js"></script>
+        <script src="js/game/Helpers/Enums.js"></script>
+        <script src="js/game/Helpers/Random.js"></script>
+        <script src="js/game/Helpers/Numbers.js"></script>
+        <script src="js/game/Helpers/Movement.js"></script>
+
+        <!-- Main -->
+        <script src="js/game/Renderers/TextRenderer.js"></script>
+        <script src="js/game/Helpers/Generation/WorldGenerator.js"></script>
+        <script src="js/game/Game.js"></script>
+
+        <script type="text/javascript">
+            document.addEventListener("DOMContentLoaded", function(event) {
+
+                var seed = (new Date).getTime(); // or specify a seed to be used by the entire game
+
+                // Our area to render to
+                var canvas = document.getElementById('canvas');
+
+                // The renderer to use (implements the same functions). Renders to the canvas
+                var renderer = new TextRenderer(canvas);
+
+                // Start the game
+                var game = new Game(renderer, seed);
+                game.start();
+                game.pause();
+
+                // Bind keys
+                document.onkeydown = checkKey;
+
+                function checkKey(e) {
+                    e = e || window.event;
+
+                    // Arrow Keys
+                    if (e.keyCode == '38') {
+                        game.controlPressed(Enums.Controls.UpArrow);
+                    }
+                    else if (e.keyCode == '40') {
+                        game.controlPressed(Enums.Controls.DownArrow);
+                    }
+                    else if (e.keyCode == '37') {
+                        game.controlPressed(Enums.Controls.LeftArrow);
+                    }
+                    else if (e.keyCode == '39') {
+                        game.controlPressed(Enums.Controls.RightArrow);
+                    }
+
+                    game.start();
+                    game.pause();
+
+                  }
+            });
+        </script>
+    </head>
+    <body>
+        <div id="canvas" style="height:100%;width:100%">
+
+        </div>
+    </body>
+</html>
