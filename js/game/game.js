@@ -13,11 +13,11 @@ Game = function(renderer,seed){
     settings.maxRoomWidth = 20;
     settings.minRoomHeight = 3;
     settings.maxRoomHeight = 20;
-    settings.minNumRooms = 80;
+    settings.minNumRooms = 60;
     settings.maxNumRooms = 120;
     settings.minHallThickness = 1;
     settings.maxHallThickness = 3;
-    settings.retryAttempts = 1000;
+    settings.retryAttempts = 3000;
     settings.floorActor = new Floor();
     this.world = WorldGenerator.GenerateCarvedWorld(
         this.seed, // seed,

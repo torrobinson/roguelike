@@ -29,8 +29,8 @@ TextRenderer = function(canvas){
           var text = '';
           for(var y=0;y<world.height;y++){
               for(var x=0;x<world.width;x++){
-                if(layer.tiles[y][x] !== undefined && layer.tiles[y][x] !== null){
-                  text+=layer.tiles[y][x].character;
+                if(layer.getTile(x,y) !== undefined && layer.getTile(x,y) !== null){
+                  text+=layer.getTile(x,y).character;
                 }
                 else{
                   text+=' ';

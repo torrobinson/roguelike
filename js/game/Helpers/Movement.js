@@ -47,7 +47,7 @@ Movement.AddPoints = function(point1,point2){
 };
 
 Movement.CanMove = function(actor, layer, desiredLocation){
-    if(layer.tiles.getTile(desiredLocation.x,desiredLocation.y)===null){
+    if(layer.getTile(desiredLocation.x,desiredLocation.y)===null){
         return true;
     }
 

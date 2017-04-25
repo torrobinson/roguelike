@@ -10,6 +10,10 @@ Layer = function(width, height, zIndex, name, type){
         this.tiles[y][x] = actor;
     };
 
+    this.getTile=function(x,y){
+        return this.tiles[y][x];
+    };
+
     this.fillWith = function(actor){
         this.tiles = [];
         for(var y=0;y<height;y++){

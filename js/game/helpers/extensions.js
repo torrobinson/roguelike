@@ -78,7 +78,3 @@ Array.prototype.onlyOdd=function(){
 Array.prototype.onlyEven=function(){
     this.filter(Numbers.isEven);
 };
-
-Array.prototype.getTile=function(x,y){
-    return this[y][x];
-};
