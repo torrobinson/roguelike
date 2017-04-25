@@ -1,0 +1,3 @@
+StairsDown = function(){
+    this.character = '▓';
+};

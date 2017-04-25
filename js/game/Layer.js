@@ -25,6 +25,11 @@ Layer = function(width, height, zIndex, name, type){
         }
     };
 
+    this.placeActor = function(actor, location){
+        this.setTile(location.x, location.y, actor);
+        actor.location = new Point(location.x, location.y);
+    };
+
     this.clear = function(){
       this.fillWith(null);
     };

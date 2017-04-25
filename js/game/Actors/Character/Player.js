@@ -1,7 +1,8 @@
-Player = function(){
+Player = function(game){
   this.character = 'O';
   this.location = null;
   this.world = null;
+  this.game = game;
 
   this.move = function(direction){
     var offsetToMove = Movement.DirectionToOffset(direction);
@@ -12,15 +13,17 @@ Player = function(){
         }).first();
 
       var moveTo = Movement.AddPoints(this.location, offsetToMove);
-      // So we know we're at this.location in mainLayer.tiles
+      var result = Movement.TryMove(this,mainLayer,moveTo);
 
-      if(Movement.CanMove(this,mainLayer,moveTo)){
-        // Where we just were couldn't have been occupied, so clear it
-        mainLayer.setTile(this.location.x, this.location.y, null);
-
-        // Now move up by the offset
-        this.location = moveTo;
-        mainLayer.setTile(this.location.x, this.location.y, this);
+      if(result){
+        // Moved
+      }
+      else{
+        // Collided
+        var collidedWith = mainLayer.getTile(moveTo.x,moveTo.y);
+        if(collidedWith instanceof StairsDown){
+          this.game.startRandomDungeon();
+        }
       }
     }
   };

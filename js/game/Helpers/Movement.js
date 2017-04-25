@@ -46,10 +46,24 @@ Movement.AddPoints = function(point1,point2){
   return new Point(point1.x+point2.x, point1.y+point2.y);
 };
 
-Movement.CanMove = function(actor, layer, desiredLocation){
+Movement.TryMove = function(actor, layer, desiredLocation){
+    // If nothing is there, then move
     if(layer.getTile(desiredLocation.x,desiredLocation.y)===null){
-        return true;
-    }
 
-    return false;
+      // Remove it from the current location
+      layer.setTile(actor.location.x, actor.location.y, null);
+
+      // Drop it in the new location
+      layer.setTile(desiredLocation.x, desiredLocation.y, actor);
+
+      // Update the actor's location
+      actor.location = desiredLocation;
+
+      // We moved
+      return true;
+    }
+    // Else, collide
+    else{
+      return false;
+    }
 };
