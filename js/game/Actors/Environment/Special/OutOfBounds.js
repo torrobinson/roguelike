@@ -1,0 +1,3 @@
+OutOfBounds = function(){
+  this.character = '?';
+};

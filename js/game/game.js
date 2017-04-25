@@ -1,6 +1,8 @@
 Game = function(renderer,seed){
     // Set up the game
     this.renderer = renderer;
+    this.renderer.game = this; // set up a two-way reference
+
     this.seed= seed;
     this.frameClock = null;
     this.framesPerSecond = 20; //20 might be reasonable
@@ -13,14 +15,18 @@ Game = function(renderer,seed){
 
     // Functions
     this.start = function(){
-        this.renderer.drawFrame(this.world);
         this.frameClock= setInterval(this.frameTick, (1/this.framesPerSecond)*1000);
     };
     this.pause = function(){
         clearInterval(this.frameClock);
     };
     this.frameTick = function(){
-        this.renderer.drawFrame(this.world);
+        // Get player location and pass to the renderer to center on
+        var centerPoint = player.location;
+        if(centerPoint === null){
+          centerPoint = new Point(Math.floor(this.world.width/2), Math.floor(this.world.height/2));
+        }
+        this.renderer.drawFrame(this.world, centerPoint);
     }.bind(this);
 
     this.controlPressed = function(control){
@@ -33,7 +39,7 @@ Game = function(renderer,seed){
     };
 
     this.startRandomDungeon = function(){
-        
+
         this.seed++;
 
         // Generate the dungeon
