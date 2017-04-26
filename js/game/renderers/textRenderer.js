@@ -1,18 +1,32 @@
-// A TextRenderer will just take the canvas, init it by adding a textarea, and ten on
-//  every frame, it will render the world out as a grid of text to it
-TextRenderer = function(canvas){
+TextRenderer = function(canvas, width, height){
     this.canvas = canvas;
+    this.width = width;
+    this.height = height;
+    this.game = null;
+
     this.init = function(){
     };
 
-    // world is a 2d array to render
-    this.drawFrame = function(world){
-        while (this.canvas.firstChild) {
-              this.canvas.removeChild(this.canvas.firstChild);
-          }
+    // World is a 2d array to render
+    this.drawFrame = function(world,centerPoint){
 
-      for(var l=0;l <world.layers.length;l++){
-          var layer = world.layers[l];
+      // Clear away any drawn layers
+      while (this.canvas.firstChild) {
+            this.canvas.removeChild(this.canvas.firstChild);
+      }
+
+      // Render the new layers
+
+      // First trim the layer stack to the viewport
+      var layersToRender = Rendering.SliceLayersToSize(
+        world.layers,     // layer stack to render
+        centerPoint,      // Center of viewport. Usually the player.
+        this.width,       // Width of viewport
+        this.height       // Height of viewport
+      );
+
+      for(var l=0; l<layersToRender.length; l++){
+          var layer = layersToRender[l];
           var textArea = document.createElement("textarea");
           textArea.style.width="100%";
           textArea.style.height="100%";
@@ -27,8 +41,8 @@ TextRenderer = function(canvas){
 
           // Draw each layer from smallest to highest index
           var text = '';
-          for(var y=0;y<world.height;y++){
-              for(var x=0;x<world.width;x++){
+          for(var y=0;y<this.height;y++){
+              for(var x=0;x<this.width;x++){
                 if(layer.getTile(x,y) !== undefined && layer.getTile(x,y) !== null){
                   text+=layer.getTile(x,y).character;
                 }

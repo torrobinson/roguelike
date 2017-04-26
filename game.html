@@ -5,11 +5,13 @@
         <script src="js/game/Actors/Environment/Wall.js"></script>
         <script src="js/game/Actors/Environment/Floor.js"></script>
         <script src="js/game/Actors/Environment/Special/StairsDown.js"></script>
+        <script src="js/game/Actors/Environment/Special/OutOfBounds.js"></script>
         <script src="js/game/Actors/Character/Player.js"></script>
         <script src="js/game/Layer.js"></script>
         <script src="js/game/World.js"></script>
         <script src="js/game/Room.js"></script>
         <script src="js/game/Point.js"></script>
+        <script src="js/game/Helpers/Rendering.js"></script>
         <script src="js/game/Helpers/Extensions.js"></script>
         <script src="js/game/Helpers/Enums.js"></script>
         <script src="js/game/Helpers/Random.js"></script>
@@ -30,12 +32,15 @@
                 var canvas = document.getElementById('canvas');
 
                 // The renderer to use (implements the same functions). Renders to the canvas
-                var renderer = new TextRenderer(canvas);
+                var renderer = new TextRenderer(
+                  canvas,
+                  75, // view width
+                  25  // view height
+                );
 
                 // Start the game
                 var game = new Game(renderer, seed);
                 game.start();
-                game.pause();
 
                 // Bind keys
                 document.onkeydown = checkKey;
@@ -58,8 +63,6 @@
                     }
 
                     game.start();
-                    game.pause();
-
                   }
             });
         </script>

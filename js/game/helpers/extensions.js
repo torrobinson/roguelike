@@ -78,3 +78,7 @@ Array.prototype.onlyOdd=function(){
 Array.prototype.onlyEven=function(){
     this.filter(Numbers.isEven);
 };
+
+Object.prototype.clone=function(){
+  return JSON.parse(JSON.stringify(this));
+};
