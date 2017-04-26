@@ -1,15 +1,17 @@
-TextRenderer = function(canvas, width, height){
+class TextRenderer extends Renderer{
+  constructor(canvas, width, height){
+    super(canvas, width, height);
     this.canvas = canvas;
     this.width = width;
     this.height = height;
-    this.game = null;
+  }
 
-    this.init = function(){
-    };
+    init(){
+      // Nothing yet
+    }
 
     // World is a 2d array to render
-    this.drawFrame = function(world,centerPoint){
-
+    drawFrame(world,centerPoint){
       // Clear away any drawn layers
       while (this.canvas.firstChild) {
             this.canvas.removeChild(this.canvas.firstChild);
@@ -19,6 +21,7 @@ TextRenderer = function(canvas, width, height){
 
       // First trim the layer stack to the viewport
       var layersToRender = Rendering.SliceLayersToSize(
+        this.game,        // game reference
         world.layers,     // layer stack to render
         centerPoint,      // Center of viewport. Usually the player.
         this.width,       // Width of viewport
@@ -64,5 +67,5 @@ TextRenderer = function(canvas, width, height){
 
           this.canvas.appendChild(textArea);
       }
-    };
-};
+    }
+}

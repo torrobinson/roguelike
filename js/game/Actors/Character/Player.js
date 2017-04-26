@@ -1,24 +1,17 @@
-Player = function(game){
-  this.character = 'O';
-  this.location = null;
-  this.game = game;
-  this.layer = null;
+class Player extends Actor{
 
-  this.move = function(direction){
-    var offsetToMove = Movement.DirectionToOffset(direction);
-    if(this.layer != null){
-      var moveTo = Movement.AddPoints(this.location, offsetToMove);
-      var result = Movement.TryMove(this,this.layer,moveTo);
-      if(result){
-        // Moved
-      }
-      else{
-        // Collided
-        var collidedWith = this.layer.getTile(moveTo.x,moveTo.y);
-        if(collidedWith instanceof StairsDown){
-          this.game.startRandomDungeon();
-        }
-      }
+  constructor(game){
+    super(game);
+    this.character = 'O';
+  }
+
+  collidedWith(actor){
+    // Call base Actor collision
+    super.collidedWith(actor);
+    // When the player touches the stairs, generate the next dungeon
+    if(actor instanceof StairsDown){
+      this.game.setRandomDungeon();
     }
-  };
-};
+  }
+
+}

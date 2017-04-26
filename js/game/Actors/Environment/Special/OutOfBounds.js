@@ -1,3 +1,6 @@
-OutOfBounds = function(){
-  this.character = '?';
-};
+class OutOfBounds extends Actor{
+  constructor(game){
+      super(game);
+      this.character = '?';
+  }
+}

@@ -2,6 +2,9 @@
     <head>
         <meta charset="utf-8"/>
         <!-- Classes and helpers -->
+        <script src="js/game/Actors/Base/Actor.js"></script>
+        <script src="js/game/Renderers/Renderer.js"></script>
+
         <script src="js/game/Actors/Environment/Wall.js"></script>
         <script src="js/game/Actors/Environment/Floor.js"></script>
         <script src="js/game/Actors/Environment/Special/StairsDown.js"></script>
@@ -17,10 +20,12 @@
         <script src="js/game/Helpers/Random.js"></script>
         <script src="js/game/Helpers/Numbers.js"></script>
         <script src="js/game/Helpers/Movement.js"></script>
+        <script src="js/game/Helpers/Generation/GenerationHelpers.js"></script>
 
         <!-- Main -->
         <script src="js/game/Renderers/TextRenderer.js"></script>
         <script src="js/game/Helpers/Generation/WorldGenerator.js"></script>
+
         <script src="js/game/Game.js"></script>
 
         <script type="text/javascript">
@@ -40,6 +45,7 @@
 
                 // Start the game
                 var game = new Game(renderer, seed);
+                game.setRandomDungeon();
                 game.start();
 
                 // Bind keys
@@ -61,8 +67,6 @@
                     else if (e.keyCode == '39') {
                         game.controlPressed(Enums.Controls.RightArrow);
                     }
-
-                    game.start();
                   }
             });
         </script>

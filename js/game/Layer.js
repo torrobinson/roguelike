@@ -1,4 +1,5 @@
-Layer = function(width, height, zIndex, name, type){
+class Layer{
+  constructor(width, height, zIndex, name, type){
     this.width = width;
     this.height = height;
     this.zIndex = zIndex;
@@ -6,35 +7,41 @@ Layer = function(width, height, zIndex, name, type){
     this.type = type;
     this.tiles = [];
 
-    this.setTile = function(x,y,actor){
+    // Clear it initially (initialize with all nulls)
+    this.clear();
+  }
+
+    // Don't use this externally, as any time we place an actor down, we want to
+    //  make the actor aware of it's layer and location. Use placeActor instead.
+    setTile(x,y,actor){
         this.tiles[y][x] = actor;
-    };
+    }
 
-    this.getTile=function(x,y){
+    getTile(x,y){
         return this.tiles[y][x];
-    };
+    }
 
-    this.fillWith = function(actor){
+    // Will fill with unaware actors (no layer or world or game contexts)
+    fillWith(actor){
         this.tiles = [];
-        for(var y=0;y<height;y++){
+        for(var y=0;y<this.height;y++){
             var newRow = [];
-            for(var x=0;x<width;x++){
+            for(var x=0;x<this.width;x++){
                 newRow.push(actor);
             }
             this.tiles.push(newRow);
         }
-    };
+    }
 
-    this.placeActor = function(actor, location){
+    placeActor(actor, location){
         this.setTile(location.x, location.y, actor);
-        actor.location = new Point(location.x, location.y);
-        actor.layer = this;
-    };
+        if(actor!==null){
+          actor.location = location;
+          actor.layer = this;
+        }
+    }
 
-    this.clear = function(){
+    clear(){
       this.fillWith(null);
-    };
-
-    // Clear it initially (initialize with all nulls)
-    this.clear();
-};
+    }
+}

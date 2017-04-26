@@ -1,18 +1,20 @@
-Room = function(width, height, position){
+class Room{
+  constructor(width, height, position){
     this.width = width;
     this.height = height;
     this.position = position; // position is the position of the top-left corner
+  }
 
-    this.getArea = function(){
+    getArea(){
         return this.width*this.height;
-    };
+    }
 
-    this.getCenter = function(){
+    getCenter(){
         return new Point(Math.floor((this.left() + this.right()) / 2),
             Math.floor((this.top() + this.bottom()) / 2));
-    };
+    }
 
-    this.getSizeCategory = function(){
+    getSizeCategory(){
         var area = this.getArea();
         if(area < 36)
             return Enums.SizeCategory.Tiny;
@@ -24,46 +26,45 @@ Room = function(width, height, position){
             return Enums.SizeCategory.Large;
         else
             return Enums.SizeCategory.Huge;
-    };
+    }
 
-    this.left = function(){
+    left(){
         return this.position.x;
-    };
+    }
 
-    this.right = function(){
+    right(){
         return this.position.x + this.width;
-    };
+    }
 
-    this.top = function(){
+    top(){
         return this.position.y;
-    };
+    }
 
-    this.bottom = function(){
+    bottom(){
         return this.position.y + this.height;
-    };
+    }
 
-    this.topLeft = function(){
+    topLeft(){
         return new Point(this.position.x, this.position.y);
-    };
+    }
 
-    this.topRight = function(){
+    topRight(){
         return new Point(this.position.x + this.width, this.position.y);
-    };
+    }
 
-    this.bottomLeft = function(){
+    bottomLeft(){
         return new Point(this.position.x, this.position.y + this.height);
-    };
+    }
 
-    this.bottomRight = function(){
+    bottomRight(){
         return new Point(this.position.x + this.width, this.position.y + this.height);
-    };
+    }
 
-};
+    static Intersects(a,b){
+        return (a.left() <= b.right() &&
+          b.left() <= a.right() &&
+          a.top() <= b.bottom() &&
+          b.top() <= a.bottom());
+    }
 
-// Static methods
-Room.Intersects = function(a,b){
-    return (a.left() <= b.right() &&
-      b.left() <= a.right() &&
-      a.top() <= b.bottom() &&
-      b.top() <= a.bottom());
-};
+}
