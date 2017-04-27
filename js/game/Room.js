@@ -17,15 +17,15 @@ class Room{
     getSizeCategory(){
         var area = this.getArea();
         if(area < 36)
-            return Enums.SizeCategory.Tiny;
+            return SizeCategory.Tiny;
         else if(area < 81)
-            return Enums.SizeCategory.Small;
+            return SizeCategory.Small;
         else if(area < 100)
-            return Enums.SizeCategory.Medium;
+            return SizeCategory.Medium;
         else if(area < 200)
-            return Enums.SizeCategory.Large;
+            return SizeCategory.Large;
         else
-            return Enums.SizeCategory.Huge;
+            return SizeCategory.Huge;
     }
 
     left(){

@@ -44,7 +44,7 @@ class Game{
 
     controlPressed(control){
         // Arrows
-        if([Enums.Controls.UpArrow,Enums.Controls.DownArrow,Enums.Controls.LeftArrow,Enums.Controls.RightArrow].contains(control)){
+        if([Controls.UpArrow,Controls.DownArrow,Controls.LeftArrow,Controls.RightArrow].contains(control)){
             // Check if paused, check if blah, blah blah, for now, just move the player.
             var directionToMove = Movement.ControlArrowToDirection(control);
             this.player.move(directionToMove);
@@ -79,7 +79,7 @@ class Game{
         this.player.world = this.world;
 
         var mainLayer = this.world.layers.filter(function(layer){
-          return layer.type == Enums.LayerType.Main;
+          return layer.type == LayerType.Main;
         }).first();
         var starterRoomCenter = this.world.rooms.first().getCenter();
         var lastRoomCenter = this.world.rooms.last().getCenter();

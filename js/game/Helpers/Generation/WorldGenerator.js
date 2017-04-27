@@ -25,12 +25,12 @@ class WorldGenerator{
       var world = new World(settings.totalWidth, settings.totalHeight);
 
       // Set up the main collision layer as ALL walls
-      var wallLayer = new Layer(settings.totalHeight, settings.totalWidth, 0, 'Main', Enums.LayerType.Main);
+      var wallLayer = new Layer(settings.totalHeight, settings.totalWidth, 0, 'Main', LayerType.Main);
       wallLayer.fillWith(new Wall(game));
 
       // Create a new empty floor layer.
       // As we carve away the walls to create rooms and hallways, we'll add floor tiles here
-      var floorLayer = new Layer(settings.totalHeight, settings.totalWidth, -1, 'Floors', Enums.LayerType.Floor);
+      var floorLayer = new Layer(settings.totalHeight, settings.totalWidth, -1, 'Floors', LayerType.Floor);
 
       // The rooms we're creating
       var rooms = [];

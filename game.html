@@ -1,32 +1,34 @@
 <html>
     <head>
         <meta charset="utf-8"/>
-        <!-- Classes and helpers -->
-        <script src="js/game/Actors/Base/Actor.js"></script>
-        <script src="js/game/Renderers/Renderer.js"></script>
 
-        <script src="js/game/Actors/Environment/Wall.js"></script>
-        <script src="js/game/Actors/Environment/Floor.js"></script>
-        <script src="js/game/Actors/Environment/Special/StairsDown.js"></script>
-        <script src="js/game/Actors/Environment/Special/OutOfBounds.js"></script>
-        <script src="js/game/Actors/Character/Player.js"></script>
-        <script src="js/game/Layer.js"></script>
-        <script src="js/game/World.js"></script>
-        <script src="js/game/Room.js"></script>
-        <script src="js/game/Point.js"></script>
-        <script src="js/game/Helpers/Rendering.js"></script>
-        <script src="js/game/Helpers/Extensions.js"></script>
-        <script src="js/game/Helpers/Enums.js"></script>
-        <script src="js/game/Helpers/Random.js"></script>
-        <script src="js/game/Helpers/Numbers.js"></script>
-        <script src="js/game/Helpers/Movement.js"></script>
-        <script src="js/game/Helpers/Generation/GenerationHelpers.js"></script>
 
-        <!-- Main -->
-        <script src="js/game/Renderers/TextRenderer.js"></script>
-        <script src="js/game/Helpers/Generation/WorldGenerator.js"></script>
-
-        <script src="js/game/Game.js"></script>
+        <!--Debugging -->
+        <!--
+        <script src="../js/game/Actors/Base/Actor.js"></script>
+        <script src="../js/game/Renderers/Renderer.js"></script>
+        <script src="../js/game/Actors/Environment/Wall.js"></script>
+        <script src="../js/game/Actors/Environment/Floor.js"></script>
+        <script src="../js/game/Actors/Environment/Special/StairsDown.js"></script>
+        <script src="../js/game/Actors/Environment/Special/OutOfBounds.js"></script>
+        <script src="../js/game/Actors/Character/Player.js"></script>
+        <script src="../js/game/Layer.js"></script>
+        <script src="../js/game/World.js"></script>
+        <script src="../js/game/Room.js"></script>
+        <script src="../js/game/Point.js"></script>
+        <script src="../js/game/Helpers/Rendering.js"></script>
+        <script src="../js/game/Helpers/Extensions.js"></script>
+        <script src="../js/game/Helpers/Enums.js"></script>
+        <script src="../js/game/Helpers/Random.js"></script>
+        <script src="../js/game/Helpers/Numbers.js"></script>
+        <script src="../js/game/Helpers/Movement.js"></script>
+        <script src="../js/game/Helpers/Generation/GenerationHelpers.js"></script>
+        <script src="../js/game/Renderers/TextRenderer.js"></script>
+        <script src="../js/game/Helpers/Generation/WorldGenerator.js"></script>
+        <script src="../js/game/Game.js"></script>
+        -->
+        <!-- Built -->
+        <script src="js/game.min.js"></script>
 
         <script type="text/javascript">
             document.addEventListener("DOMContentLoaded", function(event) {
@@ -40,7 +42,7 @@
                 var renderer = new TextRenderer(
                   canvas,
                   75, // view width
-                  25  // view height
+                  45  // view height
                 );
 
                 // Start the game
@@ -56,22 +58,22 @@
 
                     // Arrow Keys
                     if (e.keyCode == '38') {
-                        game.controlPressed(Enums.Controls.UpArrow);
+                        game.controlPressed(Controls.UpArrow);
                     }
                     else if (e.keyCode == '40') {
-                        game.controlPressed(Enums.Controls.DownArrow);
+                        game.controlPressed(Controls.DownArrow);
                     }
                     else if (e.keyCode == '37') {
-                        game.controlPressed(Enums.Controls.LeftArrow);
+                        game.controlPressed(Controls.LeftArrow);
                     }
                     else if (e.keyCode == '39') {
-                        game.controlPressed(Enums.Controls.RightArrow);
+                        game.controlPressed(Controls.RightArrow);
                     }
                   }
             });
         </script>
     </head>
-    <body>
+    <body style="background-color:black;">
         <div id="canvas" style="height:100%;width:100%">
 
         </div>

@@ -1,5 +1,4 @@
-Enums = function(){};
-Enums.Directions = {
+const Directions = {
     Up          : 'Up',
     Down        : 'Down',
     Left        : 'Left',
@@ -10,7 +9,7 @@ Enums.Directions = {
     DownRight   : 'DownRight'
 };
 
-Enums.SizeCategory = {
+const SizeCategory = {
     Tiny    : 'Tiny',
     Small   : 'Small',
     Medium  : 'Medium',
@@ -18,13 +17,13 @@ Enums.SizeCategory = {
     Huge    : 'Huge'
 };
 
-Enums.LayerType = {
+const LayerType = {
     Effects   : 'Effects',
     Main      : 'Main',
     Floor     : 'Floor'
 };
 
-Enums.Controls = {
+const Controls = {
     UpArrow     : 'UpArrow',
     DownArrow   : 'DownArrow',
     LeftArrow   : 'LeftArrow',

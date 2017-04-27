@@ -1,42 +1,42 @@
 class Movement{
   static ControlArrowToDirection(control){
-    if(control == Enums.Controls.UpArrow){
-      return Enums.Directions.Up;
+    if(control == Controls.UpArrow){
+      return Directions.Up;
     }
-    if(control == Enums.Controls.DownArrow){
-      return Enums.Directions.Down;
+    if(control == Controls.DownArrow){
+      return Directions.Down;
     }
-    if(control == Enums.Controls.LeftArrow){
-      return Enums.Directions.Left;
+    if(control == Controls.LeftArrow){
+      return Directions.Left;
     }
-    if(control == Enums.Controls.RightArrow){
-      return Enums.Directions.Right;
+    if(control == Controls.RightArrow){
+      return Directions.Right;
     }
   }
 
   static DirectionToOffset(direction){
-    if(direction == Enums.Directions.Up){
+    if(direction == Directions.Up){
       return new Point(0,-1);
     }
-    if(direction == Enums.Directions.Down){
+    if(direction == Directions.Down){
       return new Point(0,1);
     }
-    if(direction == Enums.Directions.Left){
+    if(direction == Directions.Left){
       return new Point(-1,0);
     }
-    if(direction == Enums.Directions.Right){
+    if(direction == Directions.Right){
       return new Point(1,0);
     }
-    if(direction == Enums.Directions.UpLeft){
+    if(direction == Directions.UpLeft){
       return new Point(-1,-1);
     }
-    if(direction == Enums.Directions.UpRight){
+    if(direction == Directions.UpRight){
       return new Point(1,-1);
     }
-    if(direction == Enums.Directions.DownLeft){
+    if(direction == Directions.DownLeft){
       return new Point(-1,1);
     }
-    if(direction == Enums.Directions.DownRight){
+    if(direction == Directions.DownRight){
       return new Point(1,1);
     }
   }
