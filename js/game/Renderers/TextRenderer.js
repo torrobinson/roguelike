@@ -59,10 +59,10 @@ class TextRenderer extends Renderer{
           textArea.value = text;
 
           if(layer.type == Enums.LayerType.Main){
-              textArea.style.color = 'black';
+              textArea.style.color = '#494A4A';
           }
           if(layer.type == Enums.LayerType.Floor){
-            textArea.style.color = 'red';
+            textArea.style.color = '#1C1C1C';
           }
 
           this.canvas.appendChild(textArea);
