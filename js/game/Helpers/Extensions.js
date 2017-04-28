@@ -79,6 +79,10 @@ Array.prototype.onlyEven=function(){
     this.filter(Numbers.isEven);
 };
 
+Array.prototype.insert=function(obj, index){
+  return this.splice(index, 0, obj);
+};
+
 Object.prototype.clone=function(){
   return JSON.parse(JSON.stringify(this));
 };
