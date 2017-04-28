@@ -50,7 +50,7 @@ class Movement{
       if(layer.getTile(desiredLocation.x,desiredLocation.y)===null){
 
         // Remove it from the current location
-        layer.placeActor(null, new Point(actor.location.x, actor.location.y));
+        layer.destroyTile(actor.location.x, actor.location.y);
 
         // Drop it in the new location
         layer.placeActor(actor, new Point(desiredLocation.x, desiredLocation.y));

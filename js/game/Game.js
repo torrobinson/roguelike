@@ -6,6 +6,8 @@ class Game{
     this.seed= seed;
     this.frameClock = null;
     this.framesPerSecond = 30; //20 might be reasonable
+    this.tickClock = null;
+    this.ticksPerSecond = 30;
 
     // Add a Player to the first room with a reference back to this game
     this.player = new Player(this);
@@ -17,16 +19,24 @@ class Game{
 
 
     // Helpers
-    this.startTimer = function (game){
+    this.startFrameTimer = function (game){
         game.frameClock= setInterval(function() {
           game.frameTick(game);
         },
         (1/game.framesPerSecond)*1000);
     };
+
+    this.startTickTimer = function (game){
+        game.tickClock= setInterval(function() {
+          game.gameTick(game);
+        },
+        (1/game.ticksPerSecond)*1000);
+    };
   }
 
     start(){
-      this.startTimer(this);
+      this.startFrameTimer(this);
+      this.startTickTimer(this);
     }
 
     pause(){
@@ -40,6 +50,22 @@ class Game{
            centerPoint = new Point(Math.floor(game.world.width/2), Math.floor(game.world.height/2));
          }
          game.renderer.drawFrame(game.world, centerPoint);
+     }
+
+     gameTick(game){
+       if(this.world!==null){
+         var actor = null;
+         for(var l=0;l<this.world.layers.length;l++){
+           for(var y=0;y<this.world.layers[l].tiles.length;y++){
+             for(var x=0;x<this.world.layers[l].tiles[y].length;x++){
+               actor = this.world.layers[l].getTile(x,y);
+               if(actor instanceof Actor){
+                 actor.tick();
+               }
+             }
+           }
+         }
+       }
      }
 
     controlPressed(control){
