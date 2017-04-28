@@ -10,7 +10,7 @@ class Actor{
 
   move(direction){
     var offsetToMove = Movement.DirectionToOffset(direction);
-    if(this.layer != null){
+    if(this.layer !== null){
       var moveTo = Movement.AddPoints(this.location, offsetToMove);
       var result = Movement.TryMove(this,this.layer,moveTo);
       if(result){
@@ -20,13 +20,30 @@ class Actor{
       else{
         // Collided
         var actorHit = this.layer.getTile(moveTo.x,moveTo.y);
-        this.collidedWith(actorHit);
-        actorHit.collidedWith(this);
+        this.collidedInto(actorHit);
+        actorHit.collidedBy(this);
       }
     }
   }
 
-  collidedWith(actor){
+  collided(){
+
   }
 
+  collidedInto(actor){
+    this.collided();
+
+  }
+
+  collidedBy(actor){
+    this.collided();
+
+  }
+
+  tick(){
+  }
+
+  destroy(){
+    // any teardowns to perform when being destroyed
+  }
 }

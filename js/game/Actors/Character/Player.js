@@ -5,13 +5,18 @@ class Player extends Actor{
     this.character = 'O';
   }
 
-  collidedWith(actor){
+  collidedInto(actor){
     // Call base Actor collision
-    super.collidedWith(actor);
+    super.collidedInto(actor);
     // When the player touches the stairs, generate the next dungeon
     if(actor instanceof StairsDown){
       this.game.setRandomDungeon();
     }
+  }
+
+  tick(){
+    super.tick();
+
   }
 
 }

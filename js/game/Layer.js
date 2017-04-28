@@ -17,6 +17,14 @@ class Layer{
         this.tiles[y][x] = actor;
     }
 
+    destroyTile(x,y){
+        var actor = this.getTile(x,y);
+        if(actor!=null && actor instanceof Actor){
+            actor.destroy();
+        }
+        this.setTile(x,y,null);
+    }
+
     getTile(x,y){
         return this.tiles[y][x];
     }
