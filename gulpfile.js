@@ -75,11 +75,11 @@ function scriptWatch(jsData) {
 	gulp.src(jsData.watch)
 	.pipe(watch(jsData.watch, function() {
 		gulp.src(jsData.watch)
+		.pipe(concat(jsData.name))
+		.pipe(gulp.dest(jsData.output))
     .pipe(babel({
            presets: ['es2015']
        }))
-		.pipe(concat(jsData.name))
-		.pipe(gulp.dest(jsData.output))
 		.pipe(uglify({outSourceMap: false}))
 		.pipe(rename(jsData.nameMin))
 		.pipe(gulp.dest(jsData.output));
