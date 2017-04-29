@@ -35,3 +35,8 @@ const ExecutionType = {
     WaitAndThenExecute  : 'WaitAndThenExecute',
     ExecuteAndThenWait  : 'ExecuteAndThenWait'
 };
+
+const PathfinderTile = {
+    Walkable    : 0,
+    Unwalkable  : 1
+};

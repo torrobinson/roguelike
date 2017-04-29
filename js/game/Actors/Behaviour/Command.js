@@ -5,6 +5,9 @@ class Command{
       this.currentAction = null;
       this.lastAction = null;
       this.actor = actor;
+
+      // Primarily for knowing if an ExecuteAndThenWait type action has executed already
+      this.ignoreExecutionUntilNextFire = false;
   }
 
   addAction(action){

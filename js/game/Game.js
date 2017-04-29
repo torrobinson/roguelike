@@ -7,7 +7,7 @@ class Game{
     this.frameClock = null;
     this.framesPerSecond = 30; //20 might be reasonable
     this.tickClock = null;
-    this.ticksPerSecond = 30;
+    this.ticksPerSecond = 20;
 
     // Add a Player to the first room with a reference back to this game
     this.player = new Player(this);
@@ -81,6 +81,14 @@ class Game{
                 );
             }
         }
+        if(control == Controls.Attack){
+          this.player.addCommand(
+            new MoveTo(
+              this.player,
+              this.exitLocation
+            )
+          );
+        }
     }
 
     setRandomDungeon(){
@@ -122,7 +130,11 @@ class Game{
         mainLayer.placeActor(this.player, spawnLocation);
 
         var exit = new StairsDown(this);
+
         mainLayer.placeActor(exit, exitLocation);
+
+        // DEBUGGING AND DEV only
+        this.exitLocation = exitLocation;
     }
 
 }

@@ -52,4 +52,23 @@ class Layer{
     clear(){
       this.fillWith(null);
     }
+
+    // Generate a collision grid of 0s and 1s for pathfinding through
+    getCollisionGrid(ignorePointA, ignorePointB){
+        var grid = [];
+        for(var y=0; y<this.tiles.length;y++){
+            var row = [];
+            for(var x=0; x<this.tiles[y].length; x++){
+                var actor = this.getTile(x,y);
+                if(actor === null || (x==ignorePointA.x && y==ignorePointA.y) || (x==ignorePointB.x && y==ignorePointB.y)){
+                    row.push(PathfinderTile.Walkable);
+                }
+                else{
+                    row.push(PathfinderTile.Unwalkable);
+                }
+            }
+            grid.push(row);
+        }
+        return grid;
+    }
 }

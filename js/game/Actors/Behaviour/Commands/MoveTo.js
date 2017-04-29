@@ -8,7 +8,44 @@ class MoveTo extends Command{
         );
     }
     else{
-        //TODO build chain of actions
+        // Perform a Pathfind if we're more than 1 away
+        var pathfinder = new AStar();
+        pathfinder.setGrid(
+          this.actor.layer.getCollisionGrid(
+            this.actor.location, // consider the start and destination to be points that are walkable for the pathfinder to run
+            point // consider the start and destination to be points that are walkable for the pathfinder to run
+          )
+        );
+        pathfinder.setAcceptableTiles(
+          [PathfinderTile.Walkable]
+        );
+        var command = this;
+        pathfinder.findPath(
+          this.actor.location,
+          point,
+           function(path){
+          	if (path !== null){
+              for(var p=1; p<path.length; p++){
+                var lastStep = path[p-1];
+                var step = path[p];
+                command.addAction(
+                    new Move(
+                      command,
+                      Movement.AdjacentPointsToDirection(
+                        lastStep,
+                        step
+                        )
+                    )
+                );
+              }
+          		return true;
+          	}
+            else{
+              // No path found
+          		return false;
+            }
+        });
+        pathfinder.calculate();
     }
   }
 }

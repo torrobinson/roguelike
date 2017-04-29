@@ -14,5 +14,6 @@ class Action{
     return this.command.actor;
   }
 
-  execute(){}
+  execute(){
+  }
 }

@@ -92,8 +92,9 @@ class Actor{
         // If we have a command that we're about to wait on, execute it now if preferred
         // If the current action needs to fire immediately and then wait, do so
         if(this.currentCommand !== null && this.currentCommand.currentAction !== null){
-          if(this.currentCommand.currentAction.executionType === ExecutionType.ExecuteAndThenWait){
+          if(this.currentCommand.ignoreExecutionUntilNextFire === false && this.currentCommand.currentAction.executionType === ExecutionType.ExecuteAndThenWait){
             this.currentCommand.execute();
+            this.currentCommand.ignoreExecutionUntilNextFire = true;
           }
         }
 
@@ -106,9 +107,7 @@ class Actor{
               if(this.currentCommand.currentAction.executionType === ExecutionType.WaitAndThenExecute){
                   this.currentCommand.execute();
               }
-
-
-
+              this.currentCommand.ignoreExecutionUntilNextFire = false;
             }
 
             // We're no longer waiting on anything
@@ -132,7 +131,9 @@ class Actor{
         if(this.currentCommand === null){
           if(this.commands.length > 0){
             this.currentCommand =this.popCommand();
-            this.ticksUntilNextAction =   this.currentCommand.currentAction.tickDuration;
+            if(this.currentCommand !== null && this.currentCommand.currentAction !== null){
+                this.ticksUntilNextAction =   this.currentCommand.currentAction.tickDuration;
+            }
           }
         }
 

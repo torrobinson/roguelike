@@ -3,7 +3,7 @@ class Player extends Actor{
   constructor(game){
     super(game);
     this.character = 'O';
-    this.moveTickDuration=1;
+    this.moveTickDuration=3;
   }
 
   collidedInto(actor){

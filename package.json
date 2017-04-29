@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "dependencies": {
     "pixi.js": "4.0.0",
-
+    "easystarjs": "0.4.1",
     "gulp": "*",
     "gulp-ruby-sass": "*",
     "gulp-util": "*",
