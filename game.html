@@ -2,9 +2,11 @@
     <head>
         <meta charset="utf-8"/>
 
+        <!-- Third-party-->
+        <script src="node_modules/pixi.js/bin/pixi.min.js"></script>
+
 
         <!--Debugging -->
-
         <script src="js/game/Actors/Behaviour/Command.js"></script>
         <script src="js/game/Actors/Behaviour/Action.js"></script>
         <script src="js/game/Actors/Behaviour/Commands/MoveTo.js"></script>
@@ -28,6 +30,7 @@
         <script src="js/game/Helpers/Movement.js"></script>
         <script src="js/game/Helpers/Generation/GenerationHelpers.js"></script>
         <script src="js/game/Renderers/TextRenderer.js"></script>
+        <script src="js/game/Renderers/PixiRenderer.js"></script>
         <script src="js/game/Helpers/Generation/WorldGenerator.js"></script>
         <script src="js/game/Game.js"></script>
 
@@ -45,9 +48,14 @@
                 // The renderer to use (implements the same functions). Renders to the canvas
                 var renderer = new TextRenderer(
                   canvas,
-                  75, // view width
-                  45  // view height
+                  30, // view width
+                  20  // view height
                 );
+                // var renderer = new PixiRenderer(
+                //   canvas,
+                //   800, // view width
+                //   600  // view height
+                // );
 
                 // Start the game
                 var game = new Game(renderer, seed);
