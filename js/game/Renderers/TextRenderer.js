@@ -41,6 +41,7 @@ class TextRenderer extends Renderer{
           textArea.style.top = 0;
           textArea.style.zIndex = layer.zIndex;
           textArea.style.overflowY = 'hidden';
+          textArea.style.fontSize = '20px';
 
           // Draw each layer from smallest to highest index
           var text = '';
