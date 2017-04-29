@@ -30,3 +30,8 @@ const Controls = {
     RightArrow  : 'RightArrow',
     Attack      : 'Attack'
 };
+
+const ExecutionType = {
+    WaitAndThenExecute  : 'WaitAndThenExecute',
+    ExecuteAndThenWait  : 'ExecuteAndThenWait'
+};

@@ -41,6 +41,35 @@ class Movement{
     }
   }
 
+  static AdjacentPointsToDirection(point1, point2){
+      var x = point2.x - point1.x;
+      var y = point2.y - point1.y;
+      if(x==0 && y == 1){
+          return Directions.Down;
+      }
+      if(x==0 && y == -1){
+          return Directions.Up;
+      }
+      if(x==1 && y ==0){
+          return Directions.Right;
+      }
+      if(x==-1 && y ==0){
+          return Directions.Left;
+      }
+      if(x==1 && y ==1){
+          return Directions.DownRight;
+      }
+      if(x==-1 && y ==1){
+          return Directions.DownLeft;
+      }
+      if(x==1 && y ==-1){
+          return Directions.UpRight;
+      }
+      if(x==-1 && y ==-1){
+          return Directions.UpLeft;
+      }
+  };
+
   static AddPoints(point1,point2){
     return new Point(point1.x+point2.x, point1.y+point2.y);
   }
