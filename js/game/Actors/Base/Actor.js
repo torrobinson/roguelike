@@ -51,6 +51,14 @@ class Actor{
 
   }
 
+  addCommand(command){
+    this.commands.push(command);
+    if(this.currentCommand===null){
+        //set as next action immediately
+        this.currentCommand = this.popCommand();
+    }
+  }
+
   popCommand(){
     if(this.commands.length > 0){
       var nextCommand = this.commands[0];
@@ -66,7 +74,7 @@ class Actor{
   tick(){
     // If we're not on a command, get on one
     if(this.currentCommand === null){
-      if(commands.length > 0){
+      if(this.commands.length > 0){
         this.currentCommand =this.popCommand();
 
         // If the current action needs to fire immediately and then wait, do so
@@ -109,7 +117,9 @@ class Actor{
     }
     else{
       this.currentCommand = this.popCommand();
-      this.ticksUntilNextAction = this.currentCommand.currentAction.tickDuration;
+      if(this.currentCommand!==null){
+          this.ticksUntilNextAction = this.currentCommand.currentAction.tickDuration;
+      }
     }
   }
 

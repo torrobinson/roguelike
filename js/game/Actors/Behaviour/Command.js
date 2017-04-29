@@ -8,6 +8,14 @@ class Command{
 
   addAction(action){
     this.actions.push(action);
+    if(this.currentAction===null){
+      this.setNextAction();
+    }
+  }
+
+  setNextAction(){
+    this.currentAction = this.popAction();
+    this.actor.ticksUntilNextAction = this.currentAction.tickDuration;
   }
 
   removeAction(action){
@@ -16,6 +24,9 @@ class Command{
 
   insertAction(action,index){
     this.actions.insert(action,index);
+    if(this.currentAction===null){
+      this.setNextAction();
+    }
   }
 
   popAction(){
@@ -32,6 +43,7 @@ class Command{
   execute(){
     if(this.currentAction !== null){
         this.currentAction.execute();
+        this.currentAction = null;
     }
   }
 
