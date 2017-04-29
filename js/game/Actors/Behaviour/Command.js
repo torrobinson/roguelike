@@ -3,6 +3,7 @@ class Command{
   constructor(actor){
       this.actions = [];
       this.currentAction = null;
+      this.lastAction = null;
       this.actor = actor;
   }
 
@@ -30,6 +31,7 @@ class Command{
   }
 
   popAction(){
+    if(this.currentAction !== null) this.lastAction = this.currentAction;
     if(this.actions.length > 0){
       var nextAction = this.actions[0];
       this.actions.shift(); // pop off the next action from the stack
@@ -43,7 +45,7 @@ class Command{
   execute(){
     if(this.currentAction !== null){
         this.currentAction.execute();
-        this.currentAction = null;
+        this.currentAction = this.popAction();
     }
   }
 

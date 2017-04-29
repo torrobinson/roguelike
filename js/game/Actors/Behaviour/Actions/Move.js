@@ -3,6 +3,7 @@ class Move extends Action{
     super(command);
     this.direction = direction;
     this.tickDuration=this.command.actor.moveTickDuration;
+    this.executionType = ExecutionType.ExecuteAndThenWait;
   }
   execute(){
     super.execute();

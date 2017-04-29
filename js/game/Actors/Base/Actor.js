@@ -16,7 +16,15 @@ class Actor{
   }
 
   isMoving(){
-      return this.currentCommand !== null && this.currentCommand.currentAction !== null && this.currentCommand.currentAction instanceof Move;
+      // Either we're waiting to move
+      if(this.currentCommand !== null && this.currentCommand.currentAction !== null && this.currentCommand.currentAction instanceof Move)
+        return true;
+
+      // Or we last moved
+      if(this.currentCommand !== null && this.currentCommand.currentAction === null && this.currentCommand.lastAction instanceof Move)
+        return true;
+
+      return false;
   }
 
   move(direction){
@@ -76,54 +84,58 @@ class Actor{
 
   // On game timer tick
   tick(){
-    // If we're not on a command, get on one
-    if(this.currentCommand === null){
-      if(this.commands.length > 0){
-        this.currentCommand =this.popCommand();
+        // Immediately decrease the ticks remaining for the next action
+        if(this.ticksUntilNextAction !== null){
+          this.ticksUntilNextAction--;
+        }
 
+        // If we have a command that we're about to wait on, execute it now if preferred
         // If the current action needs to fire immediately and then wait, do so
-        if(this.currentCommand.currentAction !== null){
+        if(this.currentCommand !== null && this.currentCommand.currentAction !== null){
           if(this.currentCommand.currentAction.executionType === ExecutionType.ExecuteAndThenWait){
             this.currentCommand.execute();
           }
         }
 
-      }
-      else{
-        this.currentCommand = null;
-      }
-    }
+        // If we can fire the next action that we've been waiting for, do so
+        if(this.ticksUntilNextAction !==null && this.ticksUntilNextAction <= 0){
+          if(this.currentCommand !== null){
+            if(this.currentCommand.currentAction !== null){
 
-    // If we're on a command, try execute it
-    if(this.currentCommand !== null && this.currentCommand.hasActionsRemaining()){
+              // If this is a late-fire action, then fire it now
+              if(this.currentCommand.currentAction.executionType === ExecutionType.WaitAndThenExecute){
+                  this.currentCommand.execute();
+              }
 
-      // If the timer reached 0
-      if(this.ticksUntilNextAction === 0){
-        // Only execute if we execute after timer reaches 0
-        if(this.currentCommand.currentAction.executionType === ExecutionType.WaitAndThenExecute){
-            this.currentCommand.execute();
+
+
+            }
+
+            // We're no longer waiting on anything
+            this.ticksUntilNextAction = null;
+
+            // Now that the action is done, check if we need to set the next one up
+            var nextAction = this.currentCommand.currentAction;
+            if(nextAction !== null){
+                this.ticksUntilNextAction = nextAction.tickDuration;
+            }
+            else{
+              // Otherwise, clear away our current command to accept the future one
+              this.currentCommand = null;
+            }
+          }
+
         }
 
-        var nextAction = this.currentCommand.peekNextAction();
-        if(nextAction !== null){
-            this.ticksUntilNextAction = this.peekNextAction.currentAction.tickDuration;
+
+        // If we're not waiting on anything now, set up the next command
+        if(this.currentCommand === null){
+          if(this.commands.length > 0){
+            this.currentCommand =this.popCommand();
+            this.ticksUntilNextAction =   this.currentCommand.currentAction.tickDuration;
+          }
         }
-        else{
-          this.ticksUntilNextAction = null;
-        }
-      }
-      else{
-        if(this.ticksUntilNextAction !== null){
-            this.ticksUntilNextAction--;
-        }
-      }
-    }
-    else{
-      this.currentCommand = this.popCommand();
-      if(this.currentCommand!==null){
-          this.ticksUntilNextAction = this.currentCommand.currentAction.tickDuration;
-      }
-    }
+
   }
 
   destroy(){
