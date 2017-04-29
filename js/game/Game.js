@@ -71,13 +71,15 @@ class Game{
     controlPressed(control){
         // Arrows
         if([Controls.UpArrow,Controls.DownArrow,Controls.LeftArrow,Controls.RightArrow].contains(control)){
-            // Check if paused, check if blah, blah blah, for now, just move the player.
-            var directionToMove = Movement.ControlArrowToDirection(control);
-            var offset = Movement.DirectionToOffset(directionToMove);
-            var resultLocation = Movement.AddPoints(this.player.location, offset);
-            this.player.addCommand(
-              new MoveTo(this.player,resultLocation)
-            );
+            if(this.player.isMoving() === false){
+                // Check if paused, check if blah, blah blah, for now, just move the player.
+                var directionToMove = Movement.ControlArrowToDirection(control);
+                var offset = Movement.DirectionToOffset(directionToMove);
+                var resultLocation = Movement.AddPoints(this.player.location, offset);
+                this.player.addCommand(
+                  new MoveTo(this.player,resultLocation)
+                );
+            }
         }
     }
 

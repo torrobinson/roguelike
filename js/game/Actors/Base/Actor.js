@@ -15,6 +15,10 @@ class Actor{
     this.ticksUntilNextAction = null;
   }
 
+  isMoving(){
+      return this.currentCommand !== null && this.currentCommand.currentAction !== null && this.currentCommand.currentAction instanceof Move;
+  }
+
   move(direction){
     this.facing = direction;
     var offsetToMove = Movement.DirectionToOffset(direction);
@@ -95,7 +99,6 @@ class Actor{
 
       // If the timer reached 0
       if(this.ticksUntilNextAction === 0){
-
         // Only execute if we execute after timer reaches 0
         if(this.currentCommand.currentAction.executionType === ExecutionType.WaitAndThenExecute){
             this.currentCommand.execute();
