@@ -4,6 +4,7 @@ class Player extends Actor{
     super(game);
     this.character = 'O';
     this.moveTickDuration=3;
+    this.ticks=true;
   }
 
   collidedInto(actor){

@@ -13,6 +13,7 @@ class Actor{
     this.commands = [];
     this.currentCommand = null;
     this.ticksUntilNextAction = null;
+    this.ticks = false;
   }
 
   isMoving(){

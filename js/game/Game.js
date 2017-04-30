@@ -53,19 +53,28 @@ class Game{
      }
 
      gameTick(game){
+       var actorsToTick = this.getTickableActors();
+       for(var a=0;a<actorsToTick.length;a++){
+         actorsToTick[a].tick();
+       }
+     }
+
+     getTickableActors(){
+       var tickableActors = [];
        if(this.world!==null){
          var actor = null;
          for(var l=0;l<this.world.layers.length;l++){
            for(var y=0;y<this.world.layers[l].tiles.length;y++){
              for(var x=0;x<this.world.layers[l].tiles[y].length;x++){
                actor = this.world.layers[l].getTile(x,y);
-               if(actor instanceof Actor){
-                 actor.tick();
+               if(actor instanceof Actor && actor.ticks){
+                 tickableActors.push(actor);
                }
              }
            }
          }
        }
+       return tickableActors;
      }
 
     controlPressed(control){
