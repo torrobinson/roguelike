@@ -58,6 +58,14 @@ class TextRenderer extends Renderer{
                             text+='←';
                         if(actor.facing == Directions.Right)
                             text+='→';
+                        if(actor.facing == Directions.UpRight)
+                            text+='↗';
+                        if(actor.facing == Directions.DownRight)
+                            text+='↘';
+                        if(actor.facing == Directions.UpLeft)
+                            text+='↖';
+                        if(actor.facing == Directions.DownLeft)
+                            text+='↙';
                     }
                     else{
                         text+=actor.character;
