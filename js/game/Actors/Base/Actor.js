@@ -5,7 +5,6 @@ class Actor{
 
     // Relating to the game world
     this.facing = Directions.Down;
-    this.character = ' ';
     this.location = null;
     this.layer = null;
 
@@ -14,6 +13,28 @@ class Actor{
     this.currentCommand = null;
     this.ticksUntilNextAction = null;
     this.ticks = false;
+
+    // Resources
+    this.sprites = null;
+  }
+
+  getSprite(){
+    if(this.sprites !== null){
+      var status = null;
+      if(this.isMoving()){
+        status = ActorStatus.Moving;
+      }
+      else{
+        status = ActorStatus.Idle;
+      }
+      return this.sprites.filter(function(sprite){
+        return sprite.status === status &&
+          sprite.direction === this.facing
+      }, this).first();
+    }
+    else{
+      return null;
+    }
   }
 
   isMoving(){

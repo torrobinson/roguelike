@@ -49,27 +49,7 @@ class TextRenderer extends Renderer{
               for(var x=0;x<this.width;x++){
                 if(layer.getTile(x,y) !== undefined && layer.getTile(x,y) !== null){
                     var actor = layer.getTile(x,y);
-                    if(actor instanceof Player){
-                        if(actor.facing == Directions.Up)
-                            text+='↑';
-                        if(actor.facing == Directions.Down)
-                            text+='↓';
-                        if(actor.facing == Directions.Left)
-                            text+='←';
-                        if(actor.facing == Directions.Right)
-                            text+='→';
-                        if(actor.facing == Directions.UpRight)
-                            text+='↗';
-                        if(actor.facing == Directions.DownRight)
-                            text+='↘';
-                        if(actor.facing == Directions.UpLeft)
-                            text+='↖';
-                        if(actor.facing == Directions.DownLeft)
-                            text+='↙';
-                    }
-                    else{
-                        text+=actor.character;
-                    }
+                    text += actor.getSprite().character;
                 }
                 else{
                   text+=' ';

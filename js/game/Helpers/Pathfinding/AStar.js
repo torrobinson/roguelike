@@ -2,7 +2,7 @@ class AStar extends Pathfinder{
     constructor(){
         super();
         this.engine = new EasyStar.js();
-        this.engine.enableDiagonals();
+        //this.engine.enableDiagonals();
     }
 
     setGrid(grid){

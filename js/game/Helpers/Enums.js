@@ -40,3 +40,9 @@ const PathfinderTile = {
     Walkable    : 0,
     Unwalkable  : 1
 };
+
+const ActorStatus = {
+    Idle        :  'Idle',
+    Moving      :  'Moving',
+    Attacking   :  'Attacking'
+};
