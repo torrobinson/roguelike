@@ -17,7 +17,6 @@ class Game{
     // Initialize the renderer
     this.renderer.init();
 
-
     // Helpers
     this.startFrameTimer = function (game){
         game.frameClock= setInterval(function() {
@@ -26,17 +25,17 @@ class Game{
         (1/game.framesPerSecond)*1000);
     };
 
-    this.startTickTimer = function (game){
-        game.tickClock= setInterval(function() {
-          game.gameTick(game);
-        },
-        (1/game.ticksPerSecond)*1000);
-    };
+    // this.startTickTimer = function (game){
+    //     game.tickClock= setInterval(function() {
+    //       game.gameTick(game);
+    //     },
+    //     (1/game.ticksPerSecond)*1000);
+    // };
   }
 
     start(){
       this.startFrameTimer(this);
-      this.startTickTimer(this);
+      //this.startTickTimer(this);
     }
 
     pause(){
@@ -78,6 +77,7 @@ class Game{
      }
 
     controlPressed(control){
+
         // Arrows
         if([Controls.UpArrow,Controls.DownArrow,Controls.LeftArrow,Controls.RightArrow].contains(control)){
             if(this.player.isMoving() === false){
@@ -98,9 +98,13 @@ class Game{
             )
           );
         }
+
+        this.gameTick(this);
     }
 
     setRandomDungeon(){
+
+        this.player.clearCommands();
 
         this.seed++;
 
@@ -139,8 +143,16 @@ class Game{
         mainLayer.placeActor(this.player, spawnLocation);
 
         var exit = new StairsDown(this);
-
         mainLayer.placeActor(exit, exitLocation);
+
+        var chaser = new Chaser(this);
+        mainLayer.placeActor(chaser, exitLocation.offsetBy(1,1));
+        chaser.addCommand(
+          new MoveTo(
+            chaser,
+            this.player.location
+          )
+        );
 
         // DEBUGGING AND DEV only
         this.exitLocation = exitLocation;

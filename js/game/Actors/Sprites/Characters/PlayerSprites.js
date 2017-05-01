@@ -1,49 +1,62 @@
 const PlayerSprites = [
 
+    new Sprite(
+      ActorStatus.Idle,
+      Directions.Up,
+      'playerIdleUp',
+      '↑'
+    ),
 
-    {
-        status      :   ActorStatus.Idle,
-        direction   :   Directions.Up,
-        character   :   '↑'
-    },
-    {
-        status      :   ActorStatus.Idle,
-        direction   :   Directions.Down,
-        character   :   '↓'
-    },
-    {
-        status      :   ActorStatus.Idle,
-        direction   :   Directions.Left,
-        character   :   '←'
-    },
-    {
-        status      :   ActorStatus.Idle,
-        direction   :   Directions.Right,
-        character   :   '→'
-    },
+    new Sprite(
+      ActorStatus.Idle,
+      Directions.Down,
+      'playerIdleDown',
+      '↓'
+    ),
+
+    new Sprite(
+      ActorStatus.Idle,
+      Directions.Left,
+      'playerIdleLeft',
+      '←'
+    ),
+
+    new Sprite(
+      ActorStatus.Idle,
+      Directions.Right,
+      'playerIdleRight',
+      '→'
+    ),
 
 
 
-    {
-        status      :   ActorStatus.Moving,
-        direction   :   Directions.Up,
-        character   :   '⇧'
-    },
-    {
-        status      :   ActorStatus.Moving,
-        direction   :   Directions.Down,
-        character   :   '⇩'
-    },
-    {
-        status      :   ActorStatus.Moving,
-        direction   :   Directions.Left,
-        character   :   '⇦'
-    },
-    {
-        status      :   ActorStatus.Moving,
-        direction   :   Directions.Right,
-        character   :   '⇨'
-    }
 
+    new Sprite(
+      ActorStatus.Moving,
+      Directions.Up,
+      'playerMovingUp',
+      '⇧'
+    ),
+
+    new Sprite(
+      ActorStatus.Moving,
+      Directions.Down,
+      'playerMovingDown',
+      '⇩'
+    ),
+
+    new Sprite(
+      ActorStatus.Moving,
+      Directions.Left,
+      'playerMovingLeft',
+      '⇦'
+    ),
+
+    new Sprite(
+      ActorStatus.Moving,
+      Directions.Right,
+      'playerMovingRight',
+      '⇨'
+    )
 
 ];

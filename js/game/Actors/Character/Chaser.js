@@ -1,10 +1,9 @@
-class Player extends Actor{
+class Chaser extends Actor{
 
   constructor(game){
     super(game);
-    this.moveTickDuration = 1;
+    this.moveTickDuration = 4;
     this.doesSubscribeToTicks = true;
-
     this.sprites = PlayerSprites;
   }
 
@@ -12,17 +11,21 @@ class Player extends Actor{
     // Call base Actor collision
     super.collidedInto(actor);
     // When the player touches the stairs, generate the next dungeon
-    if(actor instanceof StairsDown){
-      this.game.setRandomDungeon();
-    }
+    alert('You were caught!');
+    this.game.setRandomDungeon();
   }
 
   tick(){
     super.tick();
-  }
 
-  tickWorld(){
-    this.game.gameTick(this.game);
+    // Retarget the player
+    this.clearCommands();
+    this.addCommand(
+      new MoveTo(
+        this,
+        this.game.player.location
+      )
+    );
   }
 
 }

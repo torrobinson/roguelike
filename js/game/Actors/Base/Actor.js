@@ -93,6 +93,11 @@ class Actor{
     }
   }
 
+  clearCommands(){
+    this.commands = [];
+    this.currentCommand = null;
+  }
+
   popCommand(){
     if(this.commands.length > 0){
       var nextCommand = this.commands[0];
@@ -116,7 +121,9 @@ class Actor{
         if(this.currentCommand !== null && this.currentCommand.currentAction !== null){
           if(this.currentCommand.ignoreExecutionUntilNextFire === false && this.currentCommand.currentAction.executionType === ExecutionType.ExecuteAndThenWait){
             this.currentCommand.execute();
-            this.currentCommand.ignoreExecutionUntilNextFire = true;
+            if(this.currentCommand !== null){
+                this.currentCommand.ignoreExecutionUntilNextFire = true;
+            }
           }
         }
 
