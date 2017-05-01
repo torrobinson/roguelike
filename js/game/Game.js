@@ -67,7 +67,7 @@ class Game{
            for(var y=0;y<this.world.layers[l].tiles.length;y++){
              for(var x=0;x<this.world.layers[l].tiles[y].length;x++){
                actor = this.world.layers[l].getTile(x,y);
-               if(actor instanceof Actor && actor.ticks){
+               if(actor instanceof Actor && actor.doesSubscribeToTicks){
                  tickableActors.push(actor);
                }
              }

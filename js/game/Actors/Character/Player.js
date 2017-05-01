@@ -2,8 +2,8 @@ class Player extends Actor{
 
   constructor(game){
     super(game);
-    this.moveTickDuration=3;
-    this.ticks=true;
+    this.moveTickDuration = 2;
+    this.doesSubscribeToTicks = true;
 
     this.sprites = PlayerSprites;
   }
