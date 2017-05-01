@@ -27,22 +27,22 @@ const PlayerSprites = [
     {
         status      :   ActorStatus.Moving,
         direction   :   Directions.Up,
-        character   :   '↑'
+        character   :   '⇧'
     },
     {
         status      :   ActorStatus.Moving,
         direction   :   Directions.Down,
-        character   :   '↓'
+        character   :   '⇩'
     },
     {
         status      :   ActorStatus.Moving,
         direction   :   Directions.Left,
-        character   :   '←'
+        character   :   '⇦'
     },
     {
         status      :   ActorStatus.Moving,
         direction   :   Directions.Right,
-        character   :   '→'
+        character   :   '⇨'
     }
 
 
