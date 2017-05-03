@@ -17,15 +17,18 @@ class Chaser extends Actor{
 
   tick(){
     super.tick();
-
-    // Retarget the player
-    this.clearCommands();
-    this.addCommand(
-      new MoveTo(
-        this,
-        this.game.player.location
-      )
+    var self = this;
+    var command = new MoveTo(
+      this,
+      this.game.player.location
     );
+    if(self.currentCommand != null){
+      // Retarget the player
+      self.interruptWithCommand(command);
+    }
+    else{
+      self.addCommand(command);
+    }
   }
 
 }

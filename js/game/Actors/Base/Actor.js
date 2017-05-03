@@ -96,6 +96,26 @@ class Actor{
   clearCommands(){
     this.commands = [];
     this.currentCommand = null;
+    this.ticksUntilNextAction = null;
+  }
+
+  // When we interrupt with a new command, we shouldn't clear away the currentCommand
+  //
+  interruptWithCommand(command){
+    // Backup the current action we're ticking down to
+    var currentAction = this.currentCommand.currentAction;
+    var ticksUntilNextAction = this.ticksUntilNextAction;
+    var ignoreExecutionUntilNextFire = this.currentCommand.ignoreExecutionUntilNextFire;
+
+    // Wipe the current commands
+    this.clearCommands();
+
+    // Set up the next command as the one we'll interrupt with
+    this.currentCommand = command;
+    this.currentCommand.ignoreExecutionUntilNextFire = ignoreExecutionUntilNextFire;
+    // And restore the action we were ticking down to
+    this.currentCommand.currentAction = currentAction;
+    this.ticksUntilNextAction = ticksUntilNextAction;
   }
 
   popCommand(){

@@ -19,7 +19,12 @@ class Command{
 
   setNextAction(){
     this.currentAction = this.popAction();
-    this.actor.ticksUntilNextAction = this.currentAction.tickDuration;
+    if(this.currentAction !== null){
+      this.actor.ticksUntilNextAction = this.currentAction.tickDuration;
+    }
+    else{
+      this.actor.ticksUntilNextAction = null;
+    }
   }
 
   removeAction(action){
