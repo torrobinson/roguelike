@@ -73,6 +73,19 @@ class Game{
            }
          }
        }
+
+       // Place player first
+       var player = null;
+       for(var actor of tickableActors){
+         if(actor instanceof Player){
+           player = actor;
+           tickableActors.remove(player);
+         }
+       }
+       if(player !== null){
+         tickableActors.unshift(player);
+       }
+
        return tickableActors;
      }
 

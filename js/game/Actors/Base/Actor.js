@@ -90,6 +90,8 @@ class Actor{
     if(this.currentCommand===null){
         //set as next action immediately
         this.currentCommand = this.popCommand();
+        // When we add a command normally, set it up to execute immediately
+        this.currentCommand.setNextActionIfEmpty();
     }
   }
 
@@ -102,19 +104,16 @@ class Actor{
   // When we interrupt with a new command, we shouldn't clear away the currentCommand
   //
   interruptWithCommand(command){
-    // Backup the current action we're ticking down to
-    var currentAction = this.currentCommand.currentAction;
+    // Backup the current ticks until next action
     var ticksUntilNextAction = this.ticksUntilNextAction;
     var ignoreExecutionUntilNextFire = this.currentCommand.ignoreExecutionUntilNextFire;
 
     // Wipe the current commands
     this.clearCommands();
+    this.addCommand(command);
 
-    // Set up the next command as the one we'll interrupt with
-    this.currentCommand = command;
+    // And restore
     this.currentCommand.ignoreExecutionUntilNextFire = ignoreExecutionUntilNextFire;
-    // And restore the action we were ticking down to
-    this.currentCommand.currentAction = currentAction;
     this.ticksUntilNextAction = ticksUntilNextAction;
   }
 

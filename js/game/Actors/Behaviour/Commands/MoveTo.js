@@ -1,16 +1,23 @@
 class MoveTo extends Command{
-  constructor(actor, point){
+  constructor(actor, endPoint, overrideStartPoint){
     super(actor);
-    if(Point.getDistanceBetweenPoints(actor.location,point) === 1){
+    var startPoint = actor.location;
+
+    // overrideStartPoint is an optional override to where to calculate the move's starting location
+    if(overrideStartPoint !== undefined){
+      startPoint = overrideStartPoint;
+    }
+
+    if(Point.getDistanceBetweenPoints(startPoint,endPoint) === 1){
         // If we're only 1 away, just add a single simple move actions
         this.addAction(
-            new Move(this, Movement.AdjacentPointsToDirection(actor.location, point))
+            new Move(this, Movement.AdjacentPointsToDirection(startPoint, endPoint))
         );
     }
     else{
         var collisionGrid = this.actor.layer.getCollisionGrid(
-          this.actor.location, // consider the start and destination to be points that are walkable for the pathfinder to run
-          point // consider the start and destination to be points that are walkable for the pathfinder to run
+          startPoint, // consider the start and destination to be points that are walkable for the pathfinder to run
+          endPoint // consider the start and destination to be points that are walkable for the pathfinder to run
         );
 
         //collisionGrid = transpose(collisionGrid);
@@ -18,7 +25,7 @@ class MoveTo extends Command{
         // Perform a Pathfind if we're more than 1 away
         var grid = new PF.Grid(collisionGrid.length,collisionGrid[0].length,collisionGrid);
         var finder = new PF.AStarFinder();
-        var path = finder.findPath(this.actor.location.x, this.actor.location.y, point.x, point.y, grid);
+        var path = finder.findPath(startPoint.x, startPoint.y, endPoint.x, endPoint.y, grid);
         if(path.length > 0)
         {
           for(var p=1; p<path.length; p++){
