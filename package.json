@@ -3,17 +3,19 @@
   "version": "1.0.0",
   "dependencies": {
     "pixi.js": "4.0.0",
-    "easystarjs": "0.4.1",
-    "gulp": "*",
-    "gulp-ruby-sass": "*",
-    "gulp-util": "*",
-    "gulp-rename": "*",
-    "map-stream": "*",
-    "gulp-livereload": "*",
-    "gulp-concat": "*",
-    "gulp-uglify": "*",
-    "gulp-watch": "*",
-    "gulp-babel": "*",
-    "babel-preset-es2015": "*"
+    "pathfinding": "0.4.18"
+},
+  "devDependencies": {
+      "gulp": "*",
+      "gulp-ruby-sass": "*",
+      "gulp-util": "*",
+      "gulp-rename": "*",
+      "map-stream": "*",
+      "gulp-livereload": "*",
+      "gulp-concat": "*",
+      "gulp-uglify": "*",
+      "gulp-watch": "*",
+      "gulp-babel": "*",
+      "babel-preset-es2015": "*"
   }
 }

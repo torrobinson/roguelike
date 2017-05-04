@@ -1,7 +1,8 @@
 const WallSprites = [
-    {
-        status      :   ActorStatus.Idle,
-        direction   :   Directions.Down,
-        character   :   '#'
-    }
+  new Sprite(
+    ActorStatus.Idle,
+    Directions.Down,
+    'Wall',
+    '#'
+  ),
 ];

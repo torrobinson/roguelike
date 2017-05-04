@@ -2,7 +2,7 @@ class Player extends Actor{
 
   constructor(game){
     super(game);
-    this.moveTickDuration = 2;
+    this.moveTickDuration = 1;
     this.doesSubscribeToTicks = true;
 
     this.sprites = PlayerSprites;
@@ -19,6 +19,10 @@ class Player extends Actor{
 
   tick(){
     super.tick();
+  }
+
+  tickWorld(){
+    this.game.gameTick(this.game);
   }
 
 }

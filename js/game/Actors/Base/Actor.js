@@ -90,7 +90,31 @@ class Actor{
     if(this.currentCommand===null){
         //set as next action immediately
         this.currentCommand = this.popCommand();
+        // When we add a command normally, set it up to execute immediately
+        this.currentCommand.setNextActionIfEmpty();
     }
+  }
+
+  clearCommands(){
+    this.commands = [];
+    this.currentCommand = null;
+    this.ticksUntilNextAction = null;
+  }
+
+  // When we interrupt with a new command, we shouldn't clear away the currentCommand
+  //
+  interruptWithCommand(command){
+    // Backup the current ticks until next action
+    var ticksUntilNextAction = this.ticksUntilNextAction;
+    var ignoreExecutionUntilNextFire = this.currentCommand.ignoreExecutionUntilNextFire;
+
+    // Wipe the current commands
+    this.clearCommands();
+    this.addCommand(command);
+
+    // And restore
+    this.currentCommand.ignoreExecutionUntilNextFire = ignoreExecutionUntilNextFire;
+    this.ticksUntilNextAction = ticksUntilNextAction;
   }
 
   popCommand(){
@@ -116,7 +140,9 @@ class Actor{
         if(this.currentCommand !== null && this.currentCommand.currentAction !== null){
           if(this.currentCommand.ignoreExecutionUntilNextFire === false && this.currentCommand.currentAction.executionType === ExecutionType.ExecuteAndThenWait){
             this.currentCommand.execute();
-            this.currentCommand.ignoreExecutionUntilNextFire = true;
+            if(this.currentCommand !== null){
+                this.currentCommand.ignoreExecutionUntilNextFire = true;
+            }
           }
         }
 

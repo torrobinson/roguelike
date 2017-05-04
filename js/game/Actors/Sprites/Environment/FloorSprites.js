@@ -1,7 +1,8 @@
 const FloorSprites = [
-    {
-        status      :   ActorStatus.Idle,
-        direction   :   Directions.Down,
-        character   :   '.'
-    }
+  new Sprite(
+    ActorStatus.Idle,
+    Directions.Down,
+    'Floor',
+    '.'
+  ),
 ];

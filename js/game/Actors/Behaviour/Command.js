@@ -12,14 +12,19 @@ class Command{
 
   addAction(action){
     this.actions.push(action);
-    if(this.currentAction===null){
-      this.setNextAction();
-    }
   }
 
-  setNextAction(){
-    this.currentAction = this.popAction();
-    this.actor.ticksUntilNextAction = this.currentAction.tickDuration;
+
+  setNextActionIfEmpty(){
+    if(this.currentAction===null){
+      this.currentAction = this.popAction();
+      if(this.currentAction !== null){
+        this.actor.ticksUntilNextAction = this.currentAction.tickDuration;
+      }
+      else{
+        this.actor.ticksUntilNextAction = null;
+      }
+    }
   }
 
   removeAction(action){
@@ -28,9 +33,7 @@ class Command{
 
   insertAction(action,index){
     this.actions.insert(action,index);
-    if(this.currentAction===null){
-      this.setNextAction();
-    }
+    this.setNextActionIfEmpty();
   }
 
   popAction(){
