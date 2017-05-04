@@ -11,4 +11,10 @@ class Point{
   offsetBy(x, y){
     return new Point(this.x+x, this.y+y);
   }
+
+  reverse(){
+      var y = this.y;
+      this.y = this.x;
+      this.x = y;
+  }
 }

@@ -8,44 +8,33 @@ class MoveTo extends Command{
         );
     }
     else{
+        var collisionGrid = this.actor.layer.getCollisionGrid(
+          this.actor.location, // consider the start and destination to be points that are walkable for the pathfinder to run
+          point // consider the start and destination to be points that are walkable for the pathfinder to run
+        );
+
+        //collisionGrid = transpose(collisionGrid);
+
         // Perform a Pathfind if we're more than 1 away
-        var pathfinder = new AStar();
-        pathfinder.setGrid(
-          this.actor.layer.getCollisionGrid(
-            this.actor.location, // consider the start and destination to be points that are walkable for the pathfinder to run
-            point // consider the start and destination to be points that are walkable for the pathfinder to run
-          )
-        );
-        pathfinder.setAcceptableTiles(
-          [PathfinderTile.Walkable]
-        );
-        var command = this;
-        pathfinder.findPath(
-          this.actor.location,
-          point,
-           function(path){
-          	if (path !== null){
-              for(var p=1; p<path.length; p++){
-                var lastStep = path[p-1];
-                var step = path[p];
-                command.addAction(
-                    new Move(
-                      command,
-                      Movement.AdjacentPointsToDirection(
-                        lastStep,
-                        step
-                        )
-                    )
-                );
-              }
-          		return true;
-          	}
-            else{
-              // No path found
-          		return false;
-            }
-        });
-        pathfinder.calculate();
+        var grid = new PF.Grid(collisionGrid.length,collisionGrid[0].length,collisionGrid);
+        var finder = new PF.AStarFinder();
+        var path = finder.findPath(this.actor.location.x, this.actor.location.y, point.x, point.y, grid);
+        if(path.length > 0)
+        {
+          for(var p=1; p<path.length; p++){
+              var lastStep = new Point(path[p-1][0], path[p-1][1]);
+              var step = new Point(path[p][0], path[p][1]);
+              this.addAction(
+                  new Move(
+                    this,
+                    Movement.AdjacentPointsToDirection(
+                      lastStep,
+                      step
+                      )
+                  )
+              );
+          }
+        }
     }
   }
 }
