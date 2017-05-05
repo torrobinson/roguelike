@@ -1,6 +1,7 @@
 class MoveTo extends Command{
   constructor(actor, endPoint, overrideStartPoint){
     super(actor);
+
     var startPoint = actor.location;
 
     // overrideStartPoint is an optional override to where to calculate the move's starting location

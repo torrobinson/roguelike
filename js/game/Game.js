@@ -35,7 +35,8 @@ class Game{
 
     start(){
       this.startFrameTimer(this);
-      //this.startTickTimer(this);
+      //Tick once
+      this.gameTick(this);
     }
 
     pause(){
@@ -123,13 +124,13 @@ class Game{
 
         // Generate the dungeon
         var settings = new GenerateCarvedWorldSettings();
-        settings.totalWidth = 100;
-        settings.totalHeight = 100;
-        settings.minRoomWidth = 7;
-        settings.maxRoomWidth = 20;
-        settings.minRoomHeight = 7;
-        settings.maxRoomHeight = 20;
-        settings.minNumRooms = 60;
+        settings.totalWidth = 30;
+        settings.totalHeight = 30;
+        settings.minRoomWidth = 3;
+        settings.maxRoomWidth = 10;
+        settings.minRoomHeight = 3;
+        settings.maxRoomHeight = 10;
+        settings.minNumRooms = 5;
         settings.maxNumRooms = 120;
         settings.minHallThickness = 1;
         settings.maxHallThickness = 3;
@@ -160,12 +161,6 @@ class Game{
 
         var chaser = new Chaser(this);
         mainLayer.placeActor(chaser, exitLocation.offsetBy(1,1));
-        chaser.addCommand(
-          new MoveTo(
-            chaser,
-            this.player.location
-          )
-        );
 
         // DEBUGGING AND DEV only
         this.exitLocation = exitLocation;

@@ -16,6 +16,9 @@ class Actor{
 
     // Resources
     this.sprites = null;
+
+    // Attributes. Override if needed on children.
+    this.viewRadius = 10;
   }
 
   getSprite(){
@@ -83,6 +86,10 @@ class Actor{
   collidedBy(actor){
     this.collided();
 
+  }
+
+  cancelCurrentCommand(){
+      this.currentCommand = null;
   }
 
   addCommand(command){
@@ -171,9 +178,7 @@ class Actor{
               this.currentCommand = null;
             }
           }
-
         }
-
 
         // If we're not waiting on anything now, set up the next command
         if(this.currentCommand === null){
@@ -185,6 +190,18 @@ class Actor{
           }
         }
 
+  }
+
+  canSee(actor){
+      // If they're within the view distance and aren't hidden behind anything
+      return Geometry.IsPointInCircle(this.location, this.viewRadius, actor.location) &&
+             Geometry.PointCanSeePoint(this.location, actor.location, this.layer);
+  }
+
+  canBeSeenBy(actor){
+      // Inverse of canSee from the other perspective
+      return Geometry.IsPointInCircle(actor.location, actor.viewRadius, this.location) &&
+             Geometry.PointCanSeePoint(actor.location, this.location, this.layer);
   }
 
   destroy(){

@@ -10,4 +10,10 @@ class World{
     this.layers.push(layer);
   }
 
+  getLayersOfType(lasyerType){
+      return this.layers.filter(function(layer){
+          return layer.type === lasyerType
+      });
+  }
+
 }

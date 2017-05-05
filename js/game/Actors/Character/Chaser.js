@@ -19,18 +19,33 @@ class Chaser extends Actor{
 
   tick(){
     super.tick();
+
+    var player = this.game.player;
     var self = this;
-    var command = new MoveTo(
-      this,
-      this.game.player.location
-    );
-    if(self.currentCommand != null){
-      // Retarget the player
-      self.interruptWithCommand(command);
+
+
+    // If we can see the player, then target them
+    if(self.canSee(player)){
+        var command = new MoveTo(
+            self,
+            player.location
+        );
+        if(self.currentCommand !== null){
+            // Retarget the player
+            self.interruptWithCommand(command);
+        }
+        else{
+            self.addCommand(command);
+        }
     }
     else{
-      self.addCommand(command);
+        // Can't see the player
+        if(this.currentCommand instanceof MoveTo){
+          this.cancelCurrentCommand();
+        }
     }
+
+
   }
 
 }
