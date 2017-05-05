@@ -18,7 +18,7 @@ class Actor{
     this.sprites = null;
 
     // Attributes. Override if needed on children.
-    this.viewRadius = 10;
+    this.viewRadius = 5;
   }
 
   getSprite(){

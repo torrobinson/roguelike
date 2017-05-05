@@ -3,6 +3,7 @@ class Chaser extends Actor{
   constructor(game){
     super(game);
     this.moveTickDuration = 2;
+    this.viewRadius = 20;
     this.doesSubscribeToTicks = true;
     this.sprites = PlayerSprites;
   }
@@ -24,27 +25,27 @@ class Chaser extends Actor{
     var self = this;
 
     // If we can see the player, then target them
-    if(self.canSee(player)){
-        var command = new MoveTo(
-            self,
-            player.location
-        );
-        if(self.currentCommand !== null){
-            // Retarget the player
-            self.interruptWithCommand(command);
-        }
-        else{
-            self.addCommand(command);
-        }
+    if(Geometry.IsAdjacent(self.location, player.location)){
+      // Attack player
     }
     else{
-        // Can't see the player
-        if(this.currentCommand instanceof MoveTo){
-          this.cancelCurrentCommand();
-        }
+      if(self.canSee(player)){
+          var command = new MoveTo(
+              self,
+              player.location
+          );
+          if(self.currentCommand !== null){
+              // Retarget the player
+              self.interruptWithCommand(command);
+          }
+          else{
+              self.addCommand(command);
+          }
+      }
+      else{
+          // Can't see the player.
+          // They'll finish their current move to where the last saw yiy
+      }
     }
-
-
   }
-
 }

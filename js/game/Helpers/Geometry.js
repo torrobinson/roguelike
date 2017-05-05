@@ -5,6 +5,10 @@ class Geometry{
         return Math.pow((point.x - circleLocation.x),2) + Math.pow((point.y - circleLocation.y),2) <= Math.pow(circleRadius,2);
     }
 
+	static IsAdjacent(point1, point2){
+		return Math.abs(point2.x-point1.x) === 1 && Math.abs(point2.y-point1.y) === 1;
+	}
+
     // Use Bresenham's Algorithm to check if a point can project onto another point
     //  in a straight line
     // This essentially keeps plotting along from point1 to point2 and if it encounters an
