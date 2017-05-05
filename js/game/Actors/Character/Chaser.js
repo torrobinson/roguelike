@@ -3,7 +3,8 @@ class Chaser extends Actor{
   constructor(game){
     super(game);
     this.moveTickDuration = 2;
-    this.viewRadius = 20;
+    this.viewRadius = 15;
+    this.blocksSight = false; // it's short and we can see over it
     this.doesSubscribeToTicks = true;
     this.sprites = ChaserSprites;
   }

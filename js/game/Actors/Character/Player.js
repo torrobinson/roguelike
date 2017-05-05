@@ -51,17 +51,17 @@ class Player extends Actor{
             if(this.canSeePoint(point, this.viewRadius)){
 
               // Unfog wall/collision pieces
-              var floor = floorLayer.getTile(point.x,point.y);
-              if(floor !== null && floor.fogged){
-                floor.fogged = false;
-              }
-
-              // Unfog floor pieces
               var actor = wallLayer.getTile(point.x,point.y);
               if(actor !== null){
                 if(actor.fogged && this.canSeeActor(actor)){
                   actor.fogged = false;
                 }
+              }
+
+              // Unfog floor pieces
+              var floor = floorLayer.getTile(point.x,point.y);
+              if(floor !== null && floor.fogged){
+                floor.fogged = false;
               }
 
             }

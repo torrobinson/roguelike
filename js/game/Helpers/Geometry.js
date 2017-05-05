@@ -30,7 +30,8 @@ class Geometry{
 		while(true){
 			// Only check for occulusion if we're not on the first point
 			if((point1.x === initialStart.x && point1.y === initialStart.y) === false && (point1.x === initialEnd.x && point1.y === initialEnd.y) === false){
-				 if(layer.tiles[point1.y][point1.x] !== null){ // we hit something not empty on the layer
+                 var objectHit = layer.tiles[point1.y][point1.x];
+                 if(objectHit !== null && objectHit instanceof Actor && objectHit.blocksSight){ // we hit something not empty on the layer
 					return false;
 				 }
 			}

@@ -23,6 +23,7 @@ class Actor{
     // World effects
     this.fogged = true;
     this.fogStyle = FogStyle.Hide;
+    this.blocksSight = true; // blocks line-of-sight when clearing fog-of-war
   }
 
   getSprite(){
