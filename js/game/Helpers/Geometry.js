@@ -38,6 +38,17 @@ class Geometry{
 		return true; // the line was fully drawn
 	}
 
+	// Dummy helper for now to visualize visibility
+	// on tick:
+	// self.game.world.layers.remove(
+	// 	self.game.world.getLayersOfType(LayerType.Effects).first()
+	// );
+	// self.game.world.addLayer(
+	// 	Geometry.GetVisibleTiles(self.location, self.layer)
+	// );
+	// will add an effects layer showing visibility.
+	// rafactor this to take in a layer and modify its tile's illumination attribute to later deal with lighting
+	//		or visibility
 	static GetVisibleTiles(point,layer){
 		var outputLayer = new Layer(layer.height, layer.width, 999, 'ChaserSees', LayerType.Effects);
 		outputLayer.fillWith(null);

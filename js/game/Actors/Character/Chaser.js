@@ -23,7 +23,6 @@ class Chaser extends Actor{
     var player = this.game.player;
     var self = this;
 
-
     // If we can see the player, then target them
     if(self.canSee(player)){
         var command = new MoveTo(

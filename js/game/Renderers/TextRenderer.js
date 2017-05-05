@@ -66,6 +66,10 @@ class TextRenderer extends Renderer{
           if(layer.type == LayerType.Floor){
             textArea.style.color = '#1C1C1C';
           }
+          if(layer.type == LayerType.Effects){
+            textArea.style.color = 'Red';
+            textArea.style.opacity = 0.2;
+          }
 
           this.canvas.appendChild(textArea);
       }
