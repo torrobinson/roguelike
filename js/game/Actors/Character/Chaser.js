@@ -5,7 +5,7 @@ class Chaser extends Actor{
     this.moveTickDuration = 2;
     this.viewRadius = 20;
     this.doesSubscribeToTicks = true;
-    this.sprites = PlayerSprites;
+    this.sprites = ChaserSprites;
   }
 
   collidedInto(actor){

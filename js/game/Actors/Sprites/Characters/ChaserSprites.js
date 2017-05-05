@@ -1,30 +1,30 @@
-const PlayerSprites = [
+const ChaserSprites = [
 
     new Sprite(
       ActorStatus.Idle,
       Directions.Up,
-      'PlayerUp',
+      'BlobUp',
       '↑'
     ),
 
     new Sprite(
       ActorStatus.Idle,
       Directions.Down,
-      'PlayerDown',
+      'BlobDown',
       '↓'
     ),
 
     new Sprite(
       ActorStatus.Idle,
       Directions.Left,
-      'PlayerLeft',
+      'BlobLeft',
       '←'
     ),
 
     new Sprite(
       ActorStatus.Idle,
       Directions.Right,
-      'PlayerRight',
+      'BlobRight',
       '→'
     ),
 
@@ -34,28 +34,28 @@ const PlayerSprites = [
     new Sprite(
       ActorStatus.Moving,
       Directions.Up,
-      'PlayerUp',
+      'BlobUp',
       '⇧'
     ),
 
     new Sprite(
       ActorStatus.Moving,
       Directions.Down,
-      'PlayerDown',
+      'BlobDown',
       '⇩'
     ),
 
     new Sprite(
       ActorStatus.Moving,
       Directions.Left,
-      'PlayerLeft',
+      'BlobLeft',
       '⇦'
     ),
 
     new Sprite(
       ActorStatus.Moving,
       Directions.Right,
-      'PlayerRight',
+      'BlobRight',
       '⇨'
     )
 

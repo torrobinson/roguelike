@@ -12,6 +12,7 @@
         <script src="js/game/Helpers/Geometry.js"></script>
         <script src="js/game/Actors/Sprites/Sprite.js"></script>
         <script src="js/game/Actors/Sprites/Characters/PlayerSprites.js"></script>
+        <script src="js/game/Actors/Sprites/Characters/ChaserSprites.js"></script>
         <script src="js/game/Actors/Sprites/Environment/FloorSprites.js"></script>
         <script src="js/game/Actors/Sprites/Environment/WallSprites.js"></script>
         <script src="js/game/Actors/Sprites/Environment/Special/OutOfBoundsSprites.js"></script>
@@ -47,54 +48,66 @@
         <!--<script src="js/game.min.js"></script>-->
 
         <script type="text/javascript">
+            // on DOM load
             document.addEventListener("DOMContentLoaded", function(event) {
+                // Load resources
+                PIXI.loader
+                           .add('terrainAtlas','art/rogueliketiles.json')
+                           .add('characterAtlas','art/characters_1.json')
+                           .load(setupGame);
 
-                var seed = (new Date).getTime(); // or specify a seed to be used by the entire game
+                // On resources load
+                function setupGame(){
+                    // Setup resources
 
-                // Our area to render to
-                var canvas = document.getElementById('canvas');
+                    // Setup game
+                    var seed = (new Date).getTime(); // or specify a seed to be used by the entire game
 
-                // The renderer to use (implements the same functions). Renders to the canvas
-                var renderer = new TextRenderer(
-                  canvas,
-                  30, // view width
-                  20  // view height
-                );
-                // var renderer = new PixiRenderer(
-                //   canvas,
-                //   800, // view width
-                //   600  // view height
-                // );
+                    // Our area to render to
+                    var canvas = document.getElementById('canvas');
 
-                // Start the game
-                var game = new Game(renderer, seed);
-                game.setRandomDungeon();
-                game.start();
+                    // The renderer to use (implements the same functions). Renders to the canvas
+                    // var renderer = new TextRenderer(
+                    //   canvas,
+                    //   30, // view width
+                    //   20  // view height
+                    // );
+                    var renderer = new PixiRenderer(
+                      canvas,
+                      30, // view width
+                      20  // view height
+                    );
 
-                // Bind keys
-                document.onkeydown = checkKey;
+                    // Start the game
+                    var game = new Game(renderer, seed);
+                    game.setRandomDungeon();
+                    game.start();
 
-                function checkKey(e) {
-                    e = e || window.event;
+                    // Bind keys
+                    document.onkeydown = checkKey;
 
-                    // Arrow Keys
-                    if (e.keyCode == '38') {
-                        game.controlPressed(Controls.UpArrow);
-                    }
-                    else if (e.keyCode == '40') {
-                        game.controlPressed(Controls.DownArrow);
-                    }
-                    else if (e.keyCode == '37') {
-                        game.controlPressed(Controls.LeftArrow);
-                    }
-                    else if (e.keyCode == '39') {
-                        game.controlPressed(Controls.RightArrow);
-                    }
+                    function checkKey(e) {
+                        e = e || window.event;
 
-                    else if(e.keyCode == '80'){ // letter 'p'
-                        game.controlPressed(Controls.Attack);
-                    }
-                  }
+                        // Arrow Keys
+                        if (e.keyCode == '38') {
+                            game.controlPressed(Controls.UpArrow);
+                        }
+                        else if (e.keyCode == '40') {
+                            game.controlPressed(Controls.DownArrow);
+                        }
+                        else if (e.keyCode == '37') {
+                            game.controlPressed(Controls.LeftArrow);
+                        }
+                        else if (e.keyCode == '39') {
+                            game.controlPressed(Controls.RightArrow);
+                        }
+
+                        else if(e.keyCode == '80'){ // letter 'p'
+                            game.controlPressed(Controls.Attack);
+                        }
+                      }
+                }
             });
         </script>
     </head>

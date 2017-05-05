@@ -124,13 +124,13 @@ class Game{
 
         // Generate the dungeon
         var settings = new GenerateCarvedWorldSettings();
-        settings.totalWidth = 30;
-        settings.totalHeight = 30;
+        settings.totalWidth = 50;
+        settings.totalHeight = 50;
         settings.minRoomWidth = 3;
-        settings.maxRoomWidth = 10;
+        settings.maxRoomWidth = 12;
         settings.minRoomHeight = 3;
-        settings.maxRoomHeight = 10;
-        settings.minNumRooms = 5;
+        settings.maxRoomHeight = 12;
+        settings.minNumRooms = 6;
         settings.maxNumRooms = 120;
         settings.minHallThickness = 1;
         settings.maxHallThickness = 3;
@@ -159,8 +159,23 @@ class Game{
         var exit = new StairsDown(this);
         mainLayer.placeActor(exit, exitLocation);
 
+        // Throw in some demo enemies protecting the exit
         var chaser = new Chaser(this);
         mainLayer.placeActor(chaser, exitLocation.offsetBy(1,1));
+        var chaser2 = new Chaser(this);
+        mainLayer.placeActor(chaser2, exitLocation.offsetBy(0,1));
+        var chaser3 = new Chaser(this);
+        mainLayer.placeActor(chaser3, exitLocation.offsetBy(1,0));
+        var chaser4 = new Chaser(this);
+        mainLayer.placeActor(chaser4, exitLocation.offsetBy(-1,-1));
+        var chaser5 = new Chaser(this);
+        mainLayer.placeActor(chaser5, exitLocation.offsetBy(-1,0));
+        var chaser6 = new Chaser(this);
+        mainLayer.placeActor(chaser6, exitLocation.offsetBy(0,-1));
+        var chaser7 = new Chaser(this);
+        mainLayer.placeActor(chaser7, exitLocation.offsetBy(1,-1));
+        var chaser8 = new Chaser(this);
+        mainLayer.placeActor(chaser8, exitLocation.offsetBy(-1,1));
 
         // DEBUGGING AND DEV only
         this.exitLocation = exitLocation;
