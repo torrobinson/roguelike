@@ -98,12 +98,7 @@ class Game{
             }
         }
         if(control == Controls.Attack){
-          this.player.addCommand(
-            new MoveTo(
-              this.player,
-              this.exitLocation
-            )
-          );
+          // TODO: attack command
         }
 
         this.gameTick(this);

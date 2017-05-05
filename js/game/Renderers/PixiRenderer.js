@@ -7,6 +7,64 @@ class PixiRenderer extends Renderer{
         this.pixiStage = new PIXI.Container();
         this.terrainAtlas = PIXI.loader.resources['terrainAtlas'].textures;
         this.characterAtlas = PIXI.loader.resources['characterAtlas'].textures;
+
+        this.pixiStage.interactive = true;
+
+        this.renderedLayers = null;
+
+        var self = this;
+        this.pixiStage.on('click', function(e){
+            // Screen pixels
+            var x = e.data.global.x;
+            var y = e.data.global.y;
+
+            // Screen tile pixels
+            x = Math.floor(x/self.tileSize);
+            y = Math.floor(y/self.tileSize);
+
+            if(self.renderedLayers !== null){
+                // Get the topmost non-null actor at this location
+                var actorClicked = self.renderedLayers.filter(function(layer){
+                    return layer.getTile(x,y) !== null;
+                }).sort(function(layer1, layer2){
+                    return layer2.zIndex - layer1.zIndex;
+                }).first().getTile(x,y);
+
+                if(actorClicked != null){
+                    var game = self.game;
+                    var player = self.game.player;
+                    // Clicked an actor
+                    if(actorClicked instanceof Floor){
+                        var command = new MoveTo(
+                              player,
+                              actorClicked.location
+                          );
+                          if(player.currentCommand !== null){
+                              // Retarget the player
+                              player.interruptWithCommand(command);
+                          }
+                          else{
+                              player.addCommand(command);
+                          }
+
+                          var totalTicks = player.currentCommand.actions.length+1;
+                          var ticks = 0;
+                          var timer = setInterval(function(){
+                                      game.gameTick(game);
+                                      ticks++;
+
+                                      if(ticks === totalTicks){
+                                          clearInterval(timer);
+                                      }
+                                },110);
+
+                    }
+
+                }
+
+            }
+
+        });
     }
 
     fogSprite(sprite, fogged, fogStyle){
@@ -14,7 +72,7 @@ class PixiRenderer extends Renderer{
             sprite.visible = !fogged;
         }
         if(fogStyle === FogStyle.Darken){
-            sprite.tint = fogged ? 0x3B3B3B : 0xFFFFFF;
+            sprite.tint = fogged ? 0x2B2B2B : 0xFFFFFF;
         }
     }
 
@@ -33,7 +91,7 @@ class PixiRenderer extends Renderer{
 
         // Order it by z-index ascending
          layersToRender =layersToRender.sort(function(layer1, layer2){return layer1.zIndex - layer2.zIndex});
-
+         this.renderedLayers = layersToRender;
 
         for(var l=0; l<layersToRender.length; l++){
               var layer = layersToRender[l];
