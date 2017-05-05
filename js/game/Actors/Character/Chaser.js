@@ -16,6 +16,7 @@ class Chaser extends Actor{
     if(actor instanceof Player){
         alert('You were caught!');
         this.game.setRandomDungeon();
+        this.game.gameTick(this.game);
     }
   }
 
