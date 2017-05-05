@@ -11,7 +11,7 @@ class GenerateCarvedWorldSettings{
     this.minHallThickness = 0;
     this.maxHallThickness = 0;
     this.retryAttempts = 0;
-    this.floorActor = null;
+    this.floorActorType = null;
   }
 }
 
@@ -25,8 +25,8 @@ class WorldGenerator{
       var world = new World(settings.totalWidth, settings.totalHeight);
 
       // Set up the main collision layer as ALL walls
-      var wallLayer = new Layer(settings.totalHeight, settings.totalWidth, 0, 'Main', LayerType.Main);
-      wallLayer.fillWith(new Wall(game));
+      var wallLayer = new Layer(settings.totalHeight, settings.totalWidth, 0, 'Main', LayerType.Wall);
+      wallLayer.fillWith(Wall, game);
 
       // Create a new empty floor layer.
       // As we carve away the walls to create rooms and hallways, we'll add floor tiles here
@@ -72,7 +72,7 @@ class WorldGenerator{
           // If we can place it, then place it
           if(GenerationHelpers.canPlace(newRoom, rooms, settings.totalWidth, settings.totalHeight)){
               // We can place this room, so draw it out
-              GenerationHelpers.carveRoom(newRoom, wallLayer, floorLayer, settings.floorActor);
+              GenerationHelpers.carveRoom(newRoom, wallLayer, floorLayer, settings.floorActorType, game);
               rooms.push(newRoom);
           }
           else{
@@ -112,11 +112,11 @@ class WorldGenerator{
           var room = rooms[i];
           var previousRoom = rooms[i-1];
 
-          GenerationHelpers.carveHallway(previousRoom, room, wallLayer, floorLayer, settings.floorActor, settings.minHallThickness, settings.maxHallThickness, random);
+          GenerationHelpers.carveHallway(previousRoom, room, wallLayer, floorLayer, settings.floorActorType, settings.minHallThickness, settings.maxHallThickness, random, game);
       }
 
       // Then to keep it from being too linear, conect the second and second last rooms
-      GenerationHelpers.carveHallway(rooms.second(), rooms.secondLast(), wallLayer, floorLayer, settings.floorActor, settings.minHallThickness, settings.maxHallThickness, random);
+      GenerationHelpers.carveHallway(rooms.second(), rooms.secondLast(), wallLayer, floorLayer, settings.floorActorType, settings.minHallThickness, settings.maxHallThickness, random, game);
 
       // Set and return the World so far
       world.addLayer(wallLayer);

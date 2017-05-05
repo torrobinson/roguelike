@@ -19,6 +19,10 @@ class Actor{
 
     // Attributes. Override if needed on children.
     this.viewRadius = 5;
+
+    // World effects
+    this.fogged = true;
+    this.fogStyle = FogStyle.Hide;
   }
 
   getSprite(){
@@ -192,16 +196,24 @@ class Actor{
 
   }
 
-  canSee(actor){
+  canSeePoint(point, range){
       // If they're within the view distance and aren't hidden behind anything
-      return Geometry.IsPointInCircle(this.location, this.viewRadius, actor.location) &&
-             Geometry.PointCanSeePoint(this.location, actor.location, this.layer);
+      return Geometry.IsPointInCircle(this.location, range, point) &&
+             Geometry.PointCanSeePoint(this.location, point, this.layer);
   }
 
-  canBeSeenBy(actor){
+  canBeSeenByPoint(point, range){
       // Inverse of canSee from the other perspective
-      return Geometry.IsPointInCircle(actor.location, actor.viewRadius, this.location) &&
-             Geometry.PointCanSeePoint(actor.location, this.location, this.layer);
+      return Geometry.IsPointInCircle(point, range, this.location) &&
+             Geometry.PointCanSeePoint(point, this.location, this.layer);
+  }
+
+  canSeeActor(actor){
+      return this.canSeePoint(actor.location, this.viewRadius);
+  }
+
+  canBeSeenByActor(actor){
+     return this.canBeSeenByPoint(actor.location,  actor.viewRadius);
   }
 
   destroy(){

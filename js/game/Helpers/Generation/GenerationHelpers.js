@@ -18,20 +18,21 @@ class GenerationHelpers{
   }
 
   // Carve the Room out of Actor on a Layer
-  static carveRoom(room, wallLayer, floorLayer, floorActor){
+  static carveRoom(room, wallLayer, floorLayer, floorActorType, gameReference){
       for(var y = room.top(); y<room.bottom(); y++){
           for(var x = room.left(); x<room.right(); x++){
               // Carve out the walls
               wallLayer.placeActor(null, new Point(x,y));
 
               // Place a floor
-              floorLayer.placeActor(floorActor, new Point(x,y));
+              var actor = new floorActorType(gameReference);
+              floorLayer.placeActor(actor, new Point(x,y));
           }
       }
   }
 
   // Given 2 Rooms, create a hallway made of Actor at given thicknesses on a Layer
-  static carveHallway(room1, room2, wallLayer, floorLayer, floorActor, minHallThickness, maxHallThickness, random){
+  static carveHallway(room1, room2, wallLayer, floorLayer, floorActorType, minHallThickness, maxHallThickness, random, gameReference){
       var prevCenter = room1.getCenter();
       var newCenter = room2.getCenter();
 
@@ -44,18 +45,18 @@ class GenerationHelpers{
       var horizontalFirst = random.next(0,2);
 
       if(horizontalFirst){
-         GenerationHelpers.carveHorizontalHallway(prevCenter.x, newCenter.x, prevCenter.y, hallThickness, wallLayer, floorLayer, floorActor);
-         GenerationHelpers.carveVerticalHallway(prevCenter.y, newCenter.y,newCenter.x, hallThickness, wallLayer, floorLayer, floorActor);
+         GenerationHelpers.carveHorizontalHallway(prevCenter.x, newCenter.x, prevCenter.y, hallThickness, wallLayer, floorLayer, floorActorType, gameReference);
+         GenerationHelpers.carveVerticalHallway(prevCenter.y, newCenter.y,newCenter.x, hallThickness, wallLayer, floorLayer, floorActorType, gameReference);
       }
       else{
           //vertical first
-          GenerationHelpers.carveVerticalHallway(prevCenter.y,newCenter.y,prevCenter.x, hallThickness, wallLayer, floorLayer, floorActor);
-          GenerationHelpers.carveHorizontalHallway(prevCenter.x,newCenter.x,newCenter.y, hallThickness, wallLayer, floorLayer, floorActor);
+          GenerationHelpers.carveVerticalHallway(prevCenter.y,newCenter.y,prevCenter.x, hallThickness, wallLayer, floorLayer, floorActorType, gameReference);
+          GenerationHelpers.carveHorizontalHallway(prevCenter.x,newCenter.x,newCenter.y, hallThickness, wallLayer, floorLayer, floorActorType, gameReference);
       }
   }
 
   // Carve a horizontal hallway at a given Y, from a given X to X2, on a Layer, and fill with an Actor
-  static carveHorizontalHallway(x1, x2, y, thickness, wallLayer, floorLayer,  floorActor){
+  static carveHorizontalHallway(x1, x2, y, thickness, wallLayer, floorLayer,  floorActorType, gameReference){
       // bulk to add on either side of hallway if thickness > 1
       var bulk = thickness==1?0:(thickness-1)/2;
       for (var x = Math.min(x1, x2); x < Math.max(x1, x2) + 1 + bulk; x++) {
@@ -64,7 +65,8 @@ class GenerationHelpers{
               wallLayer.placeActor(null, new Point(x,y));
 
               // Add the floor tile
-              floorLayer.placeActor(floorActor, new Point(x,y));
+              var actor = new floorActorType(gameReference);
+              floorLayer.placeActor(actor, new Point(x,y));
           }
           else{
               for(var o=bulk; o>-bulk; o--){
@@ -72,14 +74,15 @@ class GenerationHelpers{
                   wallLayer.placeActor(null, new Point(x,y+o));
 
                   // Add the floor tile
-                  floorLayer.placeActor(floorActor, new Point(x,y+o));
+                  var actor = new floorActorType(gameReference);
+                  floorLayer.placeActor(actor, new Point(x,y+o));
               }
           }
       }
   }
 
   // Carve a horizontal hallway at a given X, from a given Y to Y2, on a Layer, and fill with an Actor
-  static carveVerticalHallway(y1, y2, x, thickness, wallLayer, floorLayer, floorActor){
+  static carveVerticalHallway(y1, y2, x, thickness, wallLayer, floorLayer, floorActorType, gameReference){
       // bulk to add on either side of hallway if thickness > 1
       var bulk = thickness==1?0:(thickness-1)/2;
       for (var y = Math.min(y1, y2); y < Math.max(y1, y2) + 1 + bulk; y++) {
@@ -88,7 +91,8 @@ class GenerationHelpers{
               wallLayer.placeActor(null, new Point(x,y));
 
               // Add the floor tile
-              floorLayer.placeActor(floorActor, new Point(x,y));
+              var actor = new floorActorType(gameReference);
+              floorLayer.placeActor(actor, new Point(x,y));
           }
           else{
               for(var o=bulk; o>-bulk; o--){
@@ -96,7 +100,8 @@ class GenerationHelpers{
                   wallLayer.placeActor(null, new Point(x+o,y));
 
                   // Add the floor tile
-                  floorLayer.placeActor(floorActor, new Point(x+o,y));
+                  var actor = new floorActorType(gameReference);
+                  floorLayer.placeActor(actor, new Point(x+o,y));
               }
           }
       }

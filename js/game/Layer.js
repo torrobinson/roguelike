@@ -30,12 +30,19 @@ class Layer{
     }
 
     // Will fill with unaware actors (no layer or world or game contexts)
-    fillWith(actor){
+    fillWith(actorType, gameReference){
         this.tiles = [];
         for(var y=0;y<this.height;y++){
             var newRow = [];
             for(var x=0;x<this.width;x++){
-                newRow.push(actor);
+                if(actorType !== null){
+                  var actor = new actorType(gameReference);
+                  actor.location = new Point(x,y);
+                  newRow.push(actor);
+                }
+                else{
+                  newRow.push(null);
+                }
             }
             this.tiles.push(newRow);
         }

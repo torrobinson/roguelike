@@ -60,7 +60,7 @@ class TextRenderer extends Renderer{
           }
           textArea.value = text;
 
-          if(layer.type == LayerType.Main){
+          if(layer.type == LayerType.Wall){
               textArea.style.color = '#494A4A';
           }
           if(layer.type == LayerType.Floor){

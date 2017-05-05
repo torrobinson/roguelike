@@ -24,13 +24,6 @@ class Game{
         },
         (1/game.framesPerSecond)*1000);
     };
-
-    // this.startTickTimer = function (game){
-    //     game.tickClock= setInterval(function() {
-    //       game.gameTick(game);
-    //     },
-    //     (1/game.ticksPerSecond)*1000);
-    // };
   }
 
     start(){
@@ -135,7 +128,7 @@ class Game{
         settings.minHallThickness = 1;
         settings.maxHallThickness = 3;
         settings.retryAttempts = 1000;
-        settings.floorActor = new Floor(this);
+        settings.floorActorType = Floor;
 
         this.world = WorldGenerator.GenerateCarvedWorld(
             this.seed,  // seed,
@@ -146,7 +139,7 @@ class Game{
         this.player.world = this.world;
 
         var mainLayer = this.world.layers.filter(function(layer){
-          return layer.type == LayerType.Main;
+          return layer.type == LayerType.Wall;
         }).first();
         var starterRoomCenter = this.world.rooms.first().getCenter();
         var lastRoomCenter = this.world.rooms.last().getCenter();

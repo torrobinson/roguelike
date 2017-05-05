@@ -8,6 +8,16 @@ class PixiRenderer extends Renderer{
         this.terrainAtlas = PIXI.loader.resources['terrainAtlas'].textures;
         this.characterAtlas = PIXI.loader.resources['characterAtlas'].textures;
     }
+
+    fogSprite(sprite, fogged, fogStyle){
+        if(fogStyle === FogStyle.Hide){
+            sprite.visible = !fogged;
+        }
+        if(fogStyle === FogStyle.Darken){
+            sprite.tint = fogged ? 0x3B3B3B : 0xFFFFFF;
+        }
+    }
+
     drawFrame(world,centerPoint){
         // Clear frame
         for (var i = this.pixiStage.children.length - 1; i >= 0; i--) {	this.pixiStage.removeChild(this.pixiStage.children[i]);};
@@ -46,6 +56,9 @@ class PixiRenderer extends Renderer{
                             var sprite = new PIXI.Sprite(atlas[actorSprite.spriteName]);
                             sprite.x = 0 + (x * this.tileSize);
                             sprite.y = 0 + (y * this.tileSize);
+
+                            this.fogSprite(sprite, actor.fogged, actor.fogStyle);
+
                             layerContainer.addChild(sprite);
                         }
                     }

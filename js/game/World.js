@@ -10,9 +10,15 @@ class World{
     this.layers.push(layer);
   }
 
-  getLayersOfType(lasyerType){
+  getLayersOfType(layerType){
       return this.layers.filter(function(layer){
-          return layer.type === lasyerType
+          return layer.type === layerType
+      });
+  }
+
+  getLayersNotOfType(layerType){
+      return this.layers.filter(function(layer){
+          return layer.type !== layerType
       });
   }
 

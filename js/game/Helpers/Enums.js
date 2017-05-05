@@ -18,8 +18,7 @@ const SizeCategory = {
 };
 
 const LayerType = {
-    Effects   : 'Effects',
-    Main      : 'Main',
+    Wall      : 'Wall',
     Floor     : 'Floor'
 };
 
@@ -45,4 +44,9 @@ const ActorStatus = {
     Idle        :  'Idle',
     Moving      :  'Moving',
     Attacking   :  'Attacking'
+};
+
+const FogStyle = {
+    Hide    :   'Hide',
+    Darken  :   'Darken'
 };

@@ -29,7 +29,7 @@ class Chaser extends Actor{
       // Attack player
     }
     else{
-      if(self.canSee(player)){
+      if(self.canSeeActor(player)){
           var command = new MoveTo(
               self,
               player.location
