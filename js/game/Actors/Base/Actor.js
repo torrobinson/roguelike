@@ -18,9 +18,9 @@ class Actor{
     this.sprites = null;
 
     // Attributes. Override if needed on children.
+    this.name = '';
     this.viewRadius = 5;
     this.defaultAttackPower = 1;
-    this.health = 1;
     this.inventory = [];
     this.equippedWeapon = null;
 
@@ -28,6 +28,12 @@ class Actor{
     this.fogged = true;
     this.fogStyle = FogStyle.Hide;
     this.blocksSight = true; // blocks line-of-sight when clearing fog-of-war
+  }
+
+  init(){
+    if(this.startingHealth !== undefined){
+        this.health = this.startingHealth;
+    }
   }
 
   getStatus(){
@@ -66,8 +72,20 @@ class Actor{
       return false;
   }
 
-  attack(direction){
+  attack(otherActor, damage){
+    otherActor.attackedBy(this, damage);
+  }
 
+  attackedBy(attacker, damage){
+    this.health-=damage;
+    if(this.health<=0){
+      this.die();
+    }
+  }
+
+  die(){
+    this.layer.setTile(this.location.x, this.location.y, null);
+    this.destroy();
   }
 
   move(direction){
@@ -243,10 +261,11 @@ class Actor{
   obtainInventoryItem(inventoryItem){
     inventoryItem.holder = this;
     this.inventory.push(inventoryItem);
-    alert('You obtained: ' + inventoryItem.name);
+    this.game.log(this.name + ' obtained ' + inventoryItem.name);
   }
 
   destroy(){
     // any teardowns to perform when being destroyed
+    delete this;
   }
 }

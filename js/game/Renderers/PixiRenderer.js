@@ -2,7 +2,11 @@ class PixiRenderer extends Renderer{
     init(){
         this.tileSize = 16;
         // Set up Pixi and attach to the canvas
-        this.pixiRenderer = PIXI.autoDetectRenderer(this.width * this.tileSize, this.height * this.tileSize, {backgroundColor : 0x1c1c1c});
+        this.infoBar = {
+            width: this.width * this.tileSize,
+            height: 40,
+        };
+        this.pixiRenderer = PIXI.autoDetectRenderer(this.width * this.tileSize, (this.height * this.tileSize) + this.infoBar.height, {backgroundColor : 0x1c1c1c});
         this.canvas.appendChild(this.pixiRenderer.view);
         this.pixiStage = new PIXI.Container();
         this.terrainAtlas = PIXI.loader.resources['terrainAtlas'].textures;
@@ -76,6 +80,29 @@ class PixiRenderer extends Renderer{
         }
     }
 
+    drawInfoBar(){
+        var writeLocation = new Point(0, this.height * this.tileSize);
+
+
+        var text = 'Health: ' + this.game.player.health + '\r\n'
+                    + this.game.getLastLog() + '\r\n'
+                    + 'Inventory:' + this.game.player.inventory.map(function(inv){return inv.name}).join(', ');
+
+
+        var style = new PIXI.TextStyle({
+            fontFamily: 'monospace',
+            fontSize: 10,
+            fill:  0xFFFFFF,
+            wordWrap: true,
+            wordWrapWidth: 440
+        });
+
+        var pixiText = new PIXI.Text(text, style);
+        pixiText.x = writeLocation.x;
+        pixiText.y = writeLocation.y;
+        this.pixiStage.addChild(pixiText);
+    }
+
     drawFrame(world,centerPoint){
         // Clear frame
         for (var i = this.pixiStage.children.length - 1; i >= 0; i--) {	this.pixiStage.removeChild(this.pixiStage.children[i]);};
@@ -125,6 +152,8 @@ class PixiRenderer extends Renderer{
             }
             this.pixiStage.addChild(layerContainer);
         }
+
+        this.drawInfoBar();
 
         // Render the frame
         this.pixiRenderer.render(this.pixiStage);

@@ -2,11 +2,17 @@ class Chaser extends Actor{
 
   constructor(game){
     super(game);
+    this.doesSubscribeToTicks = true;
+
     this.moveTickDuration = 2;
+    this.startingHealth = 1
     this.viewRadius = 15;
     this.blocksSight = false; // it's short and we can see over it
-    this.doesSubscribeToTicks = true;
+    this.name = 'Blob';
+
     this.sprites = ChaserSprites;
+
+    this.init();
   }
 
   collidedInto(actor){
@@ -14,9 +20,7 @@ class Chaser extends Actor{
     super.collidedInto(actor);
 
     if(actor instanceof Player){
-        alert('You were caught!');
-        this.game.setRandomDungeon();
-        this.game.gameTick(this.game);
+        this.attack(actor, this.defaultAttackPower);
     }
   }
 

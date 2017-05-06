@@ -8,9 +8,19 @@ class Player extends Actor{
     this.fogged = false;
 
     this.defaultAttackPower = 2;
-    this.health = 20;
+    this.startingHealth = 5;
+    this.name = 'You';
 
     this.sprites = PlayerSprites;
+
+    this.init();
+  }
+
+  reset(){
+    this.health = this.startingHealth;
+    this.clearCommands();
+    this.equippedWeapon = null;
+    this.inventory = [];
   }
 
   collidedInto(actor){
@@ -29,6 +39,18 @@ class Player extends Actor{
 
   tickWorld(){
     this.game.gameTick(this.game);
+  }
+
+  attackedBy(attacker, damage){
+    super.attackedBy(attacker, damage);
+    this.game.log('You were damaged by ' + attacker.name + ' for ' + damage + 'HP');
+  }
+
+  die(){
+      super.die();
+      this.game.setRandomDungeon();
+      this.player.reset();
+      this.game.gameTick(this.game);
   }
 
   // Unfog the world as it's explored

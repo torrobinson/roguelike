@@ -17,6 +17,8 @@ class Game{
     // Initialize the renderer
     this.renderer.init();
 
+    this.gameLog = ['You enter the dungeon'];
+
     // Helpers
     this.startFrameTimer = function (game){
         game.frameClock= setInterval(function() {
@@ -34,6 +36,14 @@ class Game{
 
     pause(){
         clearInterval(this.frameClock);
+    }
+
+    log(text){
+      this.gameLog.push(text);
+    }
+
+    getLastLog(){
+      return this.gameLog.last();
     }
 
     frameTick(game) {
@@ -105,8 +115,6 @@ class Game{
     }
 
     setRandomDungeon(){
-
-        this.player.clearCommands();
 
         this.seed++;
 
