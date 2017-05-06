@@ -1,4 +1,4 @@
-class Chest extends Item{
+class Chest extends WorldItem{
     constructor(game, contents){
         super(game);
         this.sprites = ChestSprites;

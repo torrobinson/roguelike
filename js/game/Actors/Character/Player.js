@@ -49,7 +49,7 @@ class Player extends Actor{
   die(){
       super.die();
       this.game.setRandomDungeon();
-      this.player.reset();
+      this.reset();
       this.game.gameTick(this.game);
   }
 

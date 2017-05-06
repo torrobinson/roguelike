@@ -1,4 +1,4 @@
-class Item extends Actor{
+class WorldItem extends Actor{
     constructor(game){
         super(game);
         this.blocksSight = false;
