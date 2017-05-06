@@ -102,7 +102,7 @@ class Movement{
           }
 
           // If we move into any generic Item on the world, pick up the item and allow the movement
-          if(movingInto instanceof Item){
+          if(movingInto instanceof WorldItem){
               movingInto.pickedUpBy(actor);
               return this.doMove(actor, layer, desiredLocation);
           }

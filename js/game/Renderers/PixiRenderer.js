@@ -38,7 +38,7 @@ class PixiRenderer extends Renderer{
                     var game = self.game;
                     var player = self.game.player;
                     // Clicked an actor
-                    if(actorClicked instanceof Floor){
+                    //if(actorClicked instanceof Floor){
                         var command = new MoveTo(
                               player,
                               actorClicked.location
@@ -62,7 +62,7 @@ class PixiRenderer extends Renderer{
                                       }
                                 },110);
 
-                    }
+                    //}
 
                 }
 
