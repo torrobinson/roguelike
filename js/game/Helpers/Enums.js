@@ -43,7 +43,10 @@ const PathfinderTile = {
 const ActorStatus = {
     Idle        :  'Idle',
     Moving      :  'Moving',
-    Attacking   :  'Attacking'
+    Attacking   :  'Attacking',
+
+    Open        :   'Open',
+    Closed      :   'Closed'
 };
 
 const FogStyle = {

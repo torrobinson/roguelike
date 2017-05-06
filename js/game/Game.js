@@ -165,7 +165,10 @@ class Game{
         var chaser8 = new Chaser(this);
         mainLayer.placeActor(chaser8, exitLocation.offsetBy(-1,1));
 
-        // DEBUGGING AND DEV only
+        var demoChest = new Chest(this, [new Potion()]);
+        mainLayer.placeActor(demoChest, this.world.rooms.second().getCenter());
+
+        // DEBUGGING AND DEV only, remove later
         this.exitLocation = exitLocation;
     }
 

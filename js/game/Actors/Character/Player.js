@@ -7,6 +7,9 @@ class Player extends Actor{
     this.viewRadius = 15;
     this.fogged = false;
 
+    this.defaultAttackPower = 2;
+    this.health = 20;
+
     this.sprites = PlayerSprites;
   }
 

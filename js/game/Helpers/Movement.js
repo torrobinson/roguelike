@@ -74,22 +74,39 @@ class Movement{
     return new Point(point1.x+point2.x, point1.y+point2.y);
   }
 
+  static doMove(actor, layer, desiredLocation){
+      // Remove it from the current location
+      layer.destroyTile(actor.location.x, actor.location.y);
+
+      // Drop it in the new location
+      layer.placeActor(actor, new Point(desiredLocation.x, desiredLocation.y));
+
+      return true;
+  }
+
   static TryMove(actor, layer, desiredLocation){
+
+      var movingInto = layer.getTile(desiredLocation.x,desiredLocation.y);
+
       // If nothing is there, then move
-      if(layer.getTile(desiredLocation.x,desiredLocation.y)===null){
-
-        // Remove it from the current location
-        layer.destroyTile(actor.location.x, actor.location.y);
-
-        // Drop it in the new location
-        layer.placeActor(actor, new Point(desiredLocation.x, desiredLocation.y));
-
-        // We moved
-        return true;
+      if(movingInto===null){
+        return this.doMove(actor, layer, desiredLocation);
       }
       // Else, collide
       else{
-        return false;
+
+          // If we move into an Chest on the world, pick up the items inside (open it) and dont do the movement
+          if(movingInto instanceof Chest){
+              movingInto.pickedUpBy(actor);
+              return false;
+          }
+
+          // If we move into any generic Item on the world, pick up the item and allow the movement
+          if(movingInto instanceof Item){
+              movingInto.pickedUpBy(actor);
+              return this.doMove(actor, layer, desiredLocation);
+          }
+          return false;
       }
   }
 }

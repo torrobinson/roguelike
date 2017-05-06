@@ -19,6 +19,10 @@ class Actor{
 
     // Attributes. Override if needed on children.
     this.viewRadius = 5;
+    this.defaultAttackPower = 1;
+    this.health = 1;
+    this.inventory = [];
+    this.equippedWeapon = null;
 
     // World effects
     this.fogged = true;
@@ -26,15 +30,20 @@ class Actor{
     this.blocksSight = true; // blocks line-of-sight when clearing fog-of-war
   }
 
+  getStatus(){
+    var status = null;
+    if(this.isMoving()){
+      status = ActorStatus.Moving;
+    }
+    else{
+      status = ActorStatus.Idle;
+    }
+    return status;
+  }
+
   getSprite(){
     if(this.sprites !== null){
-      var status = null;
-      if(this.isMoving()){
-        status = ActorStatus.Moving;
-      }
-      else{
-        status = ActorStatus.Idle;
-      }
+      var status = this.getStatus();
       return this.sprites.filter(function(sprite){
         return sprite.status === status &&
           sprite.direction === this.facing
@@ -55,6 +64,10 @@ class Actor{
         return true;
 
       return false;
+  }
+
+  attack(direction){
+
   }
 
   move(direction){
@@ -84,6 +97,7 @@ class Actor{
   // When tried to move into another object
   collidedInto(actor){
     this.collided();
+
 
   }
 
@@ -215,6 +229,21 @@ class Actor{
 
   canBeSeenByActor(actor){
      return this.canBeSeenByPoint(actor.location,  actor.viewRadius);
+  }
+
+  useInventory(inventoryItem){
+    // TODO: verify if in inventory?
+    inventoryItem.use();
+    if(inventoryItem.usesRemaining === 0){
+      inventoryItem = null;
+      // TODO: remove from inventory
+    }
+  }
+
+  obtainInventoryItem(inventoryItem){
+    inventoryItem.holder = this;
+    this.inventory.push(inventoryItem);
+    alert('You obtained: ' + inventoryItem.name);
   }
 
   destroy(){
