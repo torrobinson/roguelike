@@ -47,6 +47,8 @@
         <script src="js/game/Renderers/TextRenderer.js"></script>
         <script src="js/game/Renderers/PixiRenderer.js"></script>
         <script src="js/game/Helpers/Generation/WorldGenerator.js"></script>
+        <script src="js/game/Menu/Menu.js"></script>
+        <script src="js/game/Menu/Menus/MainMenu.js"></script>
         <script src="js/game/Game.js"></script>
 
         <!-- Built -->
@@ -92,25 +94,41 @@
                     document.onkeydown = checkKey;
 
                     function checkKey(e) {
-                        e = e || window.event;
+                          e = e || window.event;
 
-                        // Arrow Keys
-                        if (e.keyCode == '38') {
-                            game.controlPressed(Controls.UpArrow);
-                        }
-                        else if (e.keyCode == '40') {
-                            game.controlPressed(Controls.DownArrow);
-                        }
-                        else if (e.keyCode == '37') {
-                            game.controlPressed(Controls.LeftArrow);
-                        }
-                        else if (e.keyCode == '39') {
-                            game.controlPressed(Controls.RightArrow);
-                        }
+                          // Arrow Keys
+                          if (e.keyCode == '38') {
+                              game.controlPressed(Controls.UpArrow);
+                          }
+                          else if (e.keyCode == '40') {
+                              game.controlPressed(Controls.DownArrow);
+                          }
+                          else if (e.keyCode == '37') {
+                              game.controlPressed(Controls.LeftArrow);
+                          }
+                          else if (e.keyCode == '39') {
+                              game.controlPressed(Controls.RightArrow);
+                          }
 
-                        else if(e.keyCode == '80'){ // letter 'p'
-                            game.controlPressed(Controls.Attack);
-                        }
+                          else if(e.keyCode == '80'){ // letter 'p'
+                              game.controlPressed(Controls.Attack);
+                          }
+
+                          else if(e.keyCode == '32'){
+                  					  game.controlPressed(Controls.Space);
+                  				}
+
+                          else if(e.keyCode == '13'){
+                  					  game.controlPressed(Controls.Enter);
+                  				}
+
+                          else if(e.keyCode == '8'){
+                  					  game.controlPressed(Controls.Backspace);
+                  				}
+
+                          else if(e.keyCode == '27'){
+                  					  game.controlPressed(Controls.Escape);
+                  				}
                       }
                 }
             });

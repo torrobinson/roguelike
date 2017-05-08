@@ -14,6 +14,8 @@ class Game{
 
     this.world = null;
 
+    this.state = GameState.NotStarted;
+
     // Initialize the renderer
     this.renderer.init();
 
@@ -26,16 +28,26 @@ class Game{
         },
         (1/game.framesPerSecond)*1000);
     };
+
+    // Menus
+    this.menu = MainMenu;
+    this.menu.linkToGame(this);
+    
   }
 
     start(){
+      this.state = GameState.Playing;
       this.startFrameTimer(this);
       //Tick once
       this.gameTick(this);
     }
 
     pause(){
-        clearInterval(this.frameClock);
+        this.state = GameState.Paused;
+    }
+
+    unpause(){
+      this.state = GameState.Playing;
     }
 
     log(text){
@@ -56,9 +68,11 @@ class Game{
      }
 
      gameTick(game){
-       var actorsToTick = this.getTickableActors();
-       for(var a=0;a<actorsToTick.length;a++){
-         actorsToTick[a].tick();
+       if(this.state !== GameState.Paused){
+         var actorsToTick = this.getTickableActors();
+         for(var a=0;a<actorsToTick.length;a++){
+           actorsToTick[a].tick();
+         }
        }
      }
 
@@ -94,24 +108,53 @@ class Game{
      }
 
     controlPressed(control){
+        // PAUSED
+        if(this.state === GameState.Paused){
+            if(control === Controls.UpArrow){
+              this.menu.navUp();
+            }
 
-        // Arrows
-        if([Controls.UpArrow,Controls.DownArrow,Controls.LeftArrow,Controls.RightArrow].contains(control)){
-            if(this.player.isMoving() === false){
-                // Check if paused, check if blah, blah blah, for now, just move the player.
+            if(control === Controls.DownArrow){
+              this.menu.navDown();
+            }
+
+            if(control === Controls.Enter || control === Controls.Space){
+              this.menu.executeCurrentOption();
+            }
+
+            if(control === Controls.Backspace){
+              this.menu.goBackAPage();
+            }
+
+            if(control === Controls.Escape){
+              this.unpause();
+              this.menu.resetNavStack();
+            }
+            return;
+        }
+
+        // PLAYING
+        if(this.state === GameState.Playing){
+            // Arrows
+            if([Controls.UpArrow,Controls.DownArrow,Controls.LeftArrow,Controls.RightArrow].contains(control)){
                 var directionToMove = Movement.ControlArrowToDirection(control);
                 var offset = Movement.DirectionToOffset(directionToMove);
                 var resultLocation = Movement.AddPoints(this.player.location, offset);
                 this.player.addCommand(
                   new MoveTo(this.player,resultLocation)
                 );
+                this.gameTick(this);
             }
-        }
-        if(control == Controls.Attack){
-          // TODO: attack command
-        }
+            if(control == Controls.Attack){
+              // TODO: attack command
+            }
 
-        this.gameTick(this);
+            if(control === Controls.Escape){
+              this.pause();
+            }
+
+            return;
+        }
     }
 
     setRandomDungeon(){

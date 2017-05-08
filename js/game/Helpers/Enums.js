@@ -27,7 +27,10 @@ const Controls = {
     DownArrow   : 'DownArrow',
     LeftArrow   : 'LeftArrow',
     RightArrow  : 'RightArrow',
-    Attack      : 'Attack'
+    Space       : 'Space',
+    Enter       : 'Enter',
+    Backspace   : 'Backspace',
+    Escape      : 'Escape'
 };
 
 const ExecutionType = {
@@ -47,6 +50,12 @@ const ActorStatus = {
 
     Open        :   'Open',
     Closed      :   'Closed'
+};
+
+const GameState = {
+  NotStarted    : 'NotStarted',
+  Playing       : 'Playing',
+  Paused        : 'Paused'
 };
 
 const FogStyle = {

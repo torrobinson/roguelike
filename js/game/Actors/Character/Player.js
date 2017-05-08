@@ -16,6 +16,10 @@ class Player extends Actor{
     this.init();
   }
 
+  move(direction){
+    super.move(direction);
+  }
+
   reset(){
     this.health = this.startingHealth;
     this.clearCommands();
@@ -35,10 +39,6 @@ class Player extends Actor{
   tick(){
     super.tick();
     this.revealWorld();
-  }
-
-  tickWorld(){
-    this.game.gameTick(this.game);
   }
 
   attackedBy(attacker, damage){

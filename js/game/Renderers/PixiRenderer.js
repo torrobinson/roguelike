@@ -6,6 +6,8 @@ class PixiRenderer extends Renderer{
             width: this.width * this.tileSize,
             height: 40,
         };
+        this.pixelWidth = this.width * this.tileSize;
+        this.pixelHeight = (this.height * this.tileSize) + this.infoBar.height;
         this.pixiRenderer = PIXI.autoDetectRenderer(this.width * this.tileSize, (this.height * this.tileSize) + this.infoBar.height, {backgroundColor : 0x1c1c1c});
         this.canvas.appendChild(this.pixiRenderer.view);
         this.pixiStage = new PIXI.Container();
@@ -15,60 +17,6 @@ class PixiRenderer extends Renderer{
         this.pixiStage.interactive = true;
 
         this.renderedLayers = null;
-
-        var self = this;
-        this.pixiStage.on('click', function(e){
-            // Screen pixels
-            var x = e.data.global.x;
-            var y = e.data.global.y;
-
-            // Screen tile pixels
-            x = Math.floor(x/self.tileSize);
-            y = Math.floor(y/self.tileSize);
-
-            if(self.renderedLayers !== null){
-                // Get the topmost non-null actor at this location
-                var actorClicked = self.renderedLayers.filter(function(layer){
-                    return layer.getTile(x,y) !== null;
-                }).sort(function(layer1, layer2){
-                    return layer2.zIndex - layer1.zIndex;
-                }).first().getTile(x,y);
-
-                if(actorClicked != null){
-                    var game = self.game;
-                    var player = self.game.player;
-                    // Clicked an actor
-                    //if(actorClicked instanceof Floor){
-                        var command = new MoveTo(
-                              player,
-                              actorClicked.location
-                          );
-                          if(player.currentCommand !== null){
-                              // Retarget the player
-                              player.interruptWithCommand(command);
-                          }
-                          else{
-                              player.addCommand(command);
-                          }
-
-                          var totalTicks = player.currentCommand.actions.length+1;
-                          var ticks = 0;
-                          var timer = setInterval(function(){
-                                      game.gameTick(game);
-                                      ticks++;
-
-                                      if(ticks === totalTicks){
-                                          clearInterval(timer);
-                                      }
-                                },110);
-
-                    //}
-
-                }
-
-            }
-
-        });
     }
 
     fogSprite(sprite, fogged, fogStyle){
@@ -93,6 +41,47 @@ class PixiRenderer extends Renderer{
             }
         }
         return itemCounts.join(', ');
+    }
+
+    drawMenu(menu){
+        var breadcrumb = menu.navStack.map(function(page){return page.name}).reverse().join(' / ');
+        var text = '';
+
+        text += breadcrumb + '\r\n';
+        text += '-'.repeat(breadcrumb.length)  + '\r\n';
+
+        // Render current page
+        var page = menu.currentPage();
+        for(var o=0; o<page.options.length; o++){
+          var option = page.options[o];
+          if(menu.selectedOptionIndex === o){
+            text+='->' + option.label;
+          }
+          else{
+            text+='  ' + option.label;
+          }
+          text+='\r\n';
+        }
+
+        var style = new PIXI.TextStyle({
+            fontFamily: 'monospace',
+            fontSize: 20,
+            fill:  0xFFFFFF,
+            wordWrap: true,
+            wordWrapWidth: 440
+        });
+
+        var menuText = new PIXI.Text(text, style);
+        menuText.x = 0;
+        menuText.y = 0;
+
+        var pauseOverlay = new PIXI.Graphics();
+        pauseOverlay.beginFill(0x000000,0.5);
+        pauseOverlay.drawRect(0, 0, this.pixelWidth, this.pixelHeight);
+        pauseOverlay.endFill();
+
+        this.pixiStage.addChild(pauseOverlay);
+        this.pixiStage.addChild(menuText);
     }
 
     drawInfoBar(){
@@ -166,7 +155,13 @@ class PixiRenderer extends Renderer{
             this.pixiStage.addChild(layerContainer);
         }
 
+        // Draw some live game info
         this.drawInfoBar();
+
+        // Draw a menu if we're paused
+        if(this.game.state === GameState.Paused){
+          this.drawMenu(this.game.menu);
+        }
 
         // Render the frame
         this.pixiRenderer.render(this.pixiStage);

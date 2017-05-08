@@ -37,14 +37,8 @@ class Actor{
   }
 
   getStatus(){
-    var status = null;
-    if(this.isMoving()){
-      status = ActorStatus.Moving;
-    }
-    else{
-      status = ActorStatus.Idle;
-    }
-    return status;
+    // TODO: re-figure statuses out again
+    return ActorStatus.Idle;
   }
 
   getSprite(){
@@ -58,18 +52,6 @@ class Actor{
     else{
       return null;
     }
-  }
-
-  isMoving(){
-      // Either we're waiting to move
-      if(this.currentCommand !== null && this.currentCommand.currentAction !== null && this.currentCommand.currentAction instanceof Move)
-        return true;
-
-      // Or we last moved
-      if(this.currentCommand !== null && this.currentCommand.currentAction === null && this.currentCommand.lastAction instanceof Move)
-        return true;
-
-      return false;
   }
 
   attack(otherActor, damage){
