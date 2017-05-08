@@ -80,13 +80,26 @@ class PixiRenderer extends Renderer{
         }
     }
 
+    getInventoryText(){
+        var text = '';
+        var inv = this.game.player.inventory.map(function(inv){return inv.name});
+
+        var itemCounts = [];
+
+        var counts = inv.reduce(function(countMap, word) {countMap[word] = ++countMap[word] || 1;return countMap}, {});
+        for(var item in counts) {
+            if (counts.hasOwnProperty(item)) {
+                itemCounts.push(item + ' x ' + counts[item]);
+            }
+        }
+        return itemCounts.join(', ');
+    }
+
     drawInfoBar(){
         var writeLocation = new Point(0, this.height * this.tileSize);
-
-
         var text = 'Health: ' + this.game.player.health + '\r\n'
                     + this.game.getLastLog() + '\r\n'
-                    + 'Inventory:' + this.game.player.inventory.map(function(inv){return inv.name}).join(', ');
+                    + 'Inventory:' + this.getInventoryText();
 
 
         var style = new PIXI.TextStyle({
