@@ -62,3 +62,16 @@ const FogStyle = {
     Hide    :   'Hide',
     Darken  :   'Darken'
 };
+
+const AnimationLoopStyle = {
+    Static      :   'Static',
+    Loop        :   'Loop',
+    Once        :   'Once',
+    PingPong    :   'PingPong'
+};
+
+const GameDefaults = {
+    FramesPerSecond   : 30,
+    FrameWaitDuration : 15,
+    TicksPerSecond    : 20
+};

@@ -45,4 +45,11 @@ class MoveTo extends Command{
         }
     }
   }
+
+  execute(){
+    super.execute();
+    
+    // Set status based on actions happening now
+    this.actor.status = ActorStatus.Moving;
+  }
 }

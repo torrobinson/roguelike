@@ -1,14 +1,25 @@
 const ChestSprites = [
-    new Sprite(
+
+    new SpriteSet(
       ActorStatus.Closed,
       Directions.Down,
-      'ChestClosedDown',
-      ' '
+      [
+        new Sprite(
+          'ChestClosedDown',
+          ' '
+        )
+      ]
     ),
-    new Sprite(
+
+    new SpriteSet(
       ActorStatus.Open,
       Directions.Down,
-      'ChestOpenDown',
-      ' '
+      [
+        new Sprite(
+          'ChestOpenDown',
+          ' '
+        )
+      ]
     ),
+
 ];

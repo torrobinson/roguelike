@@ -1,24 +1,20 @@
 class Chest extends WorldItem{
     constructor(game, contents){
         super(game);
-        this.sprites = ChestSprites;
-        this.opened = false;
+        this.spritesets = ChestSprites;
         this.contents = contents; //array of contents
         this.inventoryItem = null; // rather than 1 item, a chest picks up many
-    }
-
-    getStatus(){
-        return this.opened ? ActorStatus.Open : ActorStatus.Closed;
+        this.status = ActorStatus.Closed;
     }
 
     openedBy(actor){
-        if(this.opened === false){
+        if(this.status === ActorStatus.Closed){
             for(var i=0; i<this.contents.length; i++){
                 var item = this.contents[i];
                 actor.obtainInventoryItem(item);
             }
             this.contents = null;
-            this.opened = true;
+            this.status = ActorStatus.Open;
         }
     }
 

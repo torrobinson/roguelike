@@ -129,7 +129,13 @@ class PixiRenderer extends Renderer{
                   for(var x=0;x<this.width;x++){
                     if(layer.getTile(x,y) !== undefined && layer.getTile(x,y) !== null){
                         var actor = layer.getTile(x,y);
+
+                        // Note: call the below only once, as returning the sprite also increments
+                        //    the frame number. Calling it elsewhere on the same frame draw per sprite
+                        //    will cause lost frames
                         var actorSprite = actor.getSprite();
+
+
                         if(actorSprite !== null){
 
                             var atlas = null;
@@ -137,7 +143,6 @@ class PixiRenderer extends Renderer{
                                 atlas = this.characterAtlas;
                             }
                             else{
-
                                 atlas = this.terrainAtlas;
                             }
                             var sprite = new PIXI.Sprite(atlas[actorSprite.spriteName]);

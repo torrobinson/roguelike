@@ -5,9 +5,9 @@ class Game{
 
     this.seed= seed;
     this.frameClock = null;
-    this.framesPerSecond = 30; //20 might be reasonable
+    this.framesPerSecond = GameDefaults.FramesPerSecond; //20 might be reasonable
     this.tickClock = null;
-    this.ticksPerSecond = 20;
+    this.ticksPerSecond = GameDefaults.TicksPerSecond;
 
     // Add a Player to the first room with a reference back to this game
     this.player = new Player(this);
@@ -32,7 +32,7 @@ class Game{
     // Menus
     this.menu = MainMenu;
     this.menu.linkToGame(this);
-    
+
   }
 
     start(){
@@ -137,12 +137,18 @@ class Game{
         if(this.state === GameState.Playing){
             // Arrows
             if([Controls.UpArrow,Controls.DownArrow,Controls.LeftArrow,Controls.RightArrow].contains(control)){
-                var directionToMove = Movement.ControlArrowToDirection(control);
-                var offset = Movement.DirectionToOffset(directionToMove);
-                var resultLocation = Movement.AddPoints(this.player.location, offset);
-                this.player.addCommand(
-                  new MoveTo(this.player,resultLocation)
-                );
+
+                // If we're not moving, issue a new move
+                if(!this.player.isMoving()){
+                  var directionToMove = Movement.ControlArrowToDirection(control);
+                  var offset = Movement.DirectionToOffset(directionToMove);
+                  var resultLocation = Movement.AddPoints(this.player.location, offset);
+                  this.player.addCommand(
+                    new MoveTo(this.player,resultLocation)
+                  );
+                }
+
+                // Regardless, tick once
                 this.gameTick(this);
             }
             if(control == Controls.Attack){

@@ -1,62 +1,185 @@
 const PlayerSprites = [
 
-    new Sprite(
+    // Idle
+    new SpriteSet(
       ActorStatus.Idle,
       Directions.Up,
-      'PlayerUp',
-      '↑'
+      [
+        new Sprite(
+          'PlayerUp_1',
+          '↑'
+        ),
+        new Sprite(
+          'PlayerUp_2',
+          '↑'
+        ),
+        new Sprite(
+          'PlayerUp_3',
+          '↑'
+        ),
+        new Sprite(
+          'PlayerUp_2',
+          '↑'
+        ),
+      ],
+      AnimationLoopStyle.Loop
     ),
 
-    new Sprite(
+    new SpriteSet(
       ActorStatus.Idle,
       Directions.Down,
-      'PlayerDown',
-      '↓'
+      [
+        new Sprite(
+          'PlayerDown_1',
+          '↑'
+        ),
+        new Sprite(
+          'PlayerDown_2',
+          '↑'
+        ),
+        new Sprite(
+          'PlayerDown_3',
+          '↑'
+        ),
+        new Sprite(
+          'PlayerDown_2',
+          '↑'
+        )
+      ],
+      AnimationLoopStyle.Loop
     ),
 
-    new Sprite(
+    new SpriteSet(
       ActorStatus.Idle,
       Directions.Left,
-      'PlayerLeft',
-      '←'
+      [
+        new Sprite(
+          'PlayerLeft_1',
+          '↑'
+        ),
+        new Sprite(
+          'PlayerLeft_2',
+          '↑'
+        ),
+        new Sprite(
+          'PlayerLeft_3',
+          '↑'
+        ),
+        new Sprite(
+          'PlayerLeft_2',
+          '↑'
+        )
+      ],
+      AnimationLoopStyle.Loop
     ),
 
-    new Sprite(
+    new SpriteSet(
       ActorStatus.Idle,
       Directions.Right,
-      'PlayerRight',
-      '→'
+      [
+        new Sprite(
+          'PlayerRight_1',
+          '↑'
+        ),
+        new Sprite(
+          'PlayerRight_2',
+          '↑'
+        ),
+        new Sprite(
+          'PlayerRight_3',
+          '↑'
+        ),
+        new Sprite(
+          'PlayerRight_2',
+          '↑'
+        )
+      ],
+      AnimationLoopStyle.Loop
     ),
 
 
 
 
-    new Sprite(
+
+    // Moving
+    new SpriteSet(
       ActorStatus.Moving,
       Directions.Up,
-      'PlayerUp',
-      '⇧'
+      [
+        new Sprite(
+          'PlayerUp_1',
+          '↑'
+        ),
+        new Sprite(
+          'PlayerUp_2',
+          '↑'
+        ),
+        new Sprite(
+          'PlayerUp_3',
+          '↑'
+        )
+      ],
+      AnimationLoopStyle.Loop
     ),
 
-    new Sprite(
+    new SpriteSet(
       ActorStatus.Moving,
       Directions.Down,
-      'PlayerDown',
-      '⇩'
+      [
+        new Sprite(
+          'PlayerDown_1',
+          '↓'
+        ),
+        new Sprite(
+          'PlayerDown_2',
+          '↓'
+        ),
+        new Sprite(
+          'PlayerDown_3',
+          '↓'
+        )
+      ],
+      AnimationLoopStyle.Loop
     ),
 
-    new Sprite(
+    new SpriteSet(
       ActorStatus.Moving,
       Directions.Left,
-      'PlayerLeft',
-      '⇦'
+      [
+        new Sprite(
+          'PlayerLeft_1',
+          '←'
+        ),
+        new Sprite(
+          'PlayerLeft_2',
+          '←'
+        ),
+        new Sprite(
+          'PlayerLeft_3',
+          '←'
+        )
+      ],
+      AnimationLoopStyle.Loop
     ),
 
-    new Sprite(
+    new SpriteSet(
       ActorStatus.Moving,
       Directions.Right,
-      'PlayerRight',
-      '⇨'
+      [
+        new Sprite(
+          'PlayerRight_1',
+          '→'
+        ),
+        new Sprite(
+          'PlayerRight_2',
+          '→'
+        ),
+        new Sprite(
+          'PlayerRight_3',
+          '→'
+        )
+      ],
+      AnimationLoopStyle.Loop
     )
 
 ];

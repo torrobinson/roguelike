@@ -1,8 +1,14 @@
-const FloorSprites = [
-  new Sprite(
+const FloorSprites =
+[
+  new SpriteSet(
     ActorStatus.Idle,
     Directions.Down,
-    'Cobblestone4Down',
-    '.'
+    [
+      new Sprite(
+        'Cobblestone4Down',
+        '.'
+      )
+    ]
   ),
+
 ];

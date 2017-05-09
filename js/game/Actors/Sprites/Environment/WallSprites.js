@@ -1,8 +1,14 @@
 const WallSprites = [
-  new Sprite(
+
+  new SpriteSet(
     ActorStatus.Idle,
     Directions.Down,
-    'WallMediumDown',
-    '#'
+    [
+      new Sprite(
+        'WallMediumDown',
+        '#'
+      )
+    ]
   ),
+
 ];

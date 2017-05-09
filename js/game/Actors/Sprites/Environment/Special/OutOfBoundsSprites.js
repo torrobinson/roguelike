@@ -1,8 +1,12 @@
 const OutOfBoundsSprites = [
-    new Sprite(
+    new SpriteSet(
       ActorStatus.Idle,
       Directions.Down,
-      'WallDarkDown',
-      ' '
+      [
+        new Sprite(
+          'WallDarkDown',
+          ' '
+        )
+      ]
     ),
 ];

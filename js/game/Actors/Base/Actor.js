@@ -15,10 +15,11 @@ class Actor{
     this.doesSubscribeToTicks = false;
 
     // Resources
-    this.sprites = null;
+    this.spritesets = null;
 
     // Attributes. Override if needed on children.
     this.name = '';
+    this.status = ActorStatus.Idle;
     this.viewRadius = 5;
     this.defaultAttackPower = 1;
     this.inventory = [];
@@ -28,6 +29,9 @@ class Actor{
     this.fogged = true;
     this.fogStyle = FogStyle.Hide;
     this.blocksSight = true; // blocks line-of-sight when clearing fog-of-war
+
+    // State
+    this.restartSpriteNextFrame = false;
   }
 
   init(){
@@ -36,23 +40,23 @@ class Actor{
     }
   }
 
-  getStatus(){
-    // TODO: re-figure statuses out again
-    return ActorStatus.Idle;
-  }
-
   getSprite(){
-    if(this.sprites !== null){
-      var status = this.getStatus();
-      return this.sprites.filter(function(sprite){
-        return sprite.status === status &&
-          sprite.direction === this.facing
-      }, this).first();
+    if(this.spritesets !== null){
+      var sprite = this.spritesets.filter(
+        function(spriteset){
+          return spriteset.status === this.status && spriteset.direction === this.facing
+        }, this).first().getSprite(this.restartSpriteNextFrame);
+        this.restartSpriteNextFrame = false;
+        return sprite;
     }
     else{
       return null;
     }
   }
+
+  isMoving(){
+     return this.status === ActorStatus.Moving;
+   }
 
   attack(otherActor, damage){
     otherActor.attackedBy(this, damage);
@@ -87,6 +91,7 @@ class Actor{
         actorHit.collidedBy(this);
       }
     }
+    this.restartSpriteNextFrame = true;
   }
 
   // Generic action to perform when any collision happened
@@ -156,6 +161,7 @@ class Actor{
 
   // On game timer tick
   tick(){
+
         // Immediately decrease the ticks remaining for the next action
         if(this.ticksUntilNextAction !== null){
           this.ticksUntilNextAction--;
@@ -207,6 +213,11 @@ class Actor{
                 this.ticksUntilNextAction =   this.currentCommand.currentAction.tickDuration;
             }
           }
+        }
+
+        // If we're all out of things to do, set the status back to idle (if it even changed)
+        if(this.ticksUntilNextAction === null){
+          this.status = ActorStatus.Idle;
         }
 
   }

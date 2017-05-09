@@ -1,7 +1,6 @@
+// Sprite defines a single, static image or text representation of something
 class Sprite{
-  constructor(status, direction, spriteName, character){
-    this.status = status;
-    this.direction = direction;
+  constructor(spriteName, character){
     this.spriteName = spriteName;
     this.character = character;
   }

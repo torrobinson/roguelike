@@ -11,13 +11,15 @@ class Player extends Actor{
     this.startingHealth = 5;
     this.name = 'You';
 
-    this.sprites = PlayerSprites;
+    this.spritesets = PlayerSprites;
 
     this.init();
   }
 
   move(direction){
     super.move(direction);
+    // When we move, we want to start the animation over the next turn
+    this.restartSpriteNextFrame = true;
   }
 
   reset(){
@@ -77,10 +79,8 @@ class Player extends Actor{
 
               // Unfog wall/collision pieces
               var actor = wallLayer.getTile(point.x,point.y);
-              if(actor !== null){
-                if(actor.fogged && this.canSeeActor(actor)){
-                  actor.fogged = false;
-                }
+              if(actor !== null && actor.fogged){
+                actor.fogged = false;
               }
 
               // Unfog floor pieces

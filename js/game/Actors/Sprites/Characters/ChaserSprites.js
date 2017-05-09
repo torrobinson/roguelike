@@ -1,62 +1,135 @@
 const ChaserSprites = [
 
-    new Sprite(
-      ActorStatus.Idle,
-      Directions.Up,
-      'BlobUp',
-      '↑'
-    ),
-
-    new Sprite(
-      ActorStatus.Idle,
-      Directions.Down,
-      'BlobDown',
-      '↓'
-    ),
-
-    new Sprite(
-      ActorStatus.Idle,
-      Directions.Left,
-      'BlobLeft',
-      '←'
-    ),
-
-    new Sprite(
-      ActorStatus.Idle,
-      Directions.Right,
-      'BlobRight',
-      '→'
-    ),
-
-
-
-
-    new Sprite(
+  // Moving
+    new SpriteSet(
       ActorStatus.Moving,
       Directions.Up,
-      'BlobUp',
-      '⇧'
+      [
+        new Sprite(
+          'BlobUp_1',
+          '↑'
+        ),
+        new Sprite(
+          'BlobUp_2',
+          '↑'
+        ),
+        new Sprite(
+          'BlobUp_3',
+          '↑'
+        )
+      ],
+      AnimationLoopStyle.Loop,
+      15
     ),
 
-    new Sprite(
+    new SpriteSet(
       ActorStatus.Moving,
       Directions.Down,
-      'BlobDown',
-      '⇩'
+      [
+        new Sprite(
+          'BlobDown_1',
+          '↓'
+        ),
+        new Sprite(
+          'BlobDown_2',
+          '↓'
+        ),
+        new Sprite(
+          'BlobDown_3',
+          '↓'
+        )
+      ],
+      AnimationLoopStyle.Loop,
+      15
     ),
 
-    new Sprite(
+    new SpriteSet(
       ActorStatus.Moving,
       Directions.Left,
-      'BlobLeft',
-      '⇦'
+      [
+        new Sprite(
+          'BlobLeft_1',
+          '←'
+        ),
+        new Sprite(
+          'BlobLeft_2',
+          '←'
+        ),
+        new Sprite(
+          'BlobLeft_3',
+          '←'
+        )
+      ],
+      AnimationLoopStyle.Loop,
+      15
     ),
 
-    new Sprite(
+    new SpriteSet(
       ActorStatus.Moving,
       Directions.Right,
-      'BlobRight',
-      '⇨'
-    )
+      [
+        new Sprite(
+          'BlobRight_1',
+          '→'
+        ),
+        new Sprite(
+          'BlobRight_2',
+          '→'
+        ),
+        new Sprite(
+          'BlobRight_3',
+          '→'
+        )
+      ],
+      AnimationLoopStyle.Loop,
+      15
+    ),
 
+
+
+
+    // Idle
+    new SpriteSet(
+      ActorStatus.Idle,
+      Directions.Up,
+      [
+        new Sprite(
+          'BlobUp_2',
+          '↑'
+        )
+      ]
+    ),
+
+    new SpriteSet(
+      ActorStatus.Idle,
+      Directions.Down,
+      [
+        new Sprite(
+          'BlobDown_2',
+          '↓'
+        )
+      ]
+    ),
+
+    new SpriteSet(
+      ActorStatus.Idle,
+      Directions.Left,
+      [
+        new Sprite(
+          'BlobLeft_2',
+          '←'
+        )
+      ]
+    ),
+
+    new SpriteSet(
+      ActorStatus.Idle,
+      Directions.Right,
+      [
+        new Sprite(
+          'BlobRight_2',
+          '→'
+        )
+      ]
+    ),
 ];

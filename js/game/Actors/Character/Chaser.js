@@ -10,7 +10,7 @@ class Chaser extends Actor{
     this.blocksSight = false; // it's short and we can see over it
     this.name = 'Blob';
 
-    this.sprites = ChaserSprites;
+    this.spritesets = ChaserSprites;
 
     this.init();
   }
