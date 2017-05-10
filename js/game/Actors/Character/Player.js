@@ -88,8 +88,30 @@ class Player extends Actor{
               if(floor !== null && floor.fogged){
                 floor.fogged = false;
               }
+            }
+            else if(Geometry.IsPointInCircle(this.location, this.viewRadius, point)){
+              // Regardless if we can see it, clear pieces by radious alone,
+              //  ignoring line of sight
+
+
+              // Unfog blocked surrounded wall pieces OR side pieces within view radius
+              var surroundedWall = wallLayer.getTile(point.x,point.y);
+              if(surroundedWall !== null
+                && surroundedWall.fogged
+                && (surroundedWall.facing === Directions.UpDownLeftRight
+                || (
+                  surroundedWall.location.x === 0
+                  || surroundedWall.location.y === 0
+                  || surroundedWall.location.y === this.layer.tiles.length - 1
+                  || surroundedWall.location.x === this.layer.tiles[0].length - 1
+                  )
+                )
+              ){
+                surroundedWall.fogged = false;
+              }
 
             }
+
           }
         }
       }

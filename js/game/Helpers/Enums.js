@@ -1,12 +1,24 @@
+// Bitmasks of
+//     1
+//  8  0  2
+//     4
 const Directions = {
-    Up          : 'Up',
-    Down        : 'Down',
-    Left        : 'Left',
-    Right       : 'Right',
-    UpRight     : 'UpRight',
-    UpLeft      : 'UpLeft',
-    DownLeft    : 'DownLeft',
-    DownRight   : 'DownRight'
+    None            :  0,
+    Up              :  1,
+    Right           :  2,
+    UpRight         :  3,
+    Down            :  4,
+    UpDown          :  5,
+    DownRight       :  6,
+    UpDownRight     :  7,
+    Left            :  8,
+    UpLeft          :  9,
+    LeftRight       :  10,
+    UpLeftRight     :  11,
+    DownLeft        :  12,
+    UpDownLeft      :  13,
+    DownLeftRight   :  14,
+    UpDownLeftRight :  15
 };
 
 const SizeCategory = {

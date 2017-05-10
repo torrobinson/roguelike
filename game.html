@@ -45,6 +45,8 @@
         <script src="js/game/Helpers/Numbers.js"></script>
         <script src="js/game/Helpers/Movement.js"></script>
         <script src="js/game/Helpers/Generation/GenerationHelpers.js"></script>
+        <script src="js/game/Helpers/Generation/WorldDecoratorHelpers.js"></script>
+        <script src="js/game/Helpers/Generation/WorldDecorator.js"></script>
         <script src="js/game/Renderers/TextRenderer.js"></script>
         <script src="js/game/Renderers/PixiRenderer.js"></script>
         <script src="js/game/Helpers/Generation/WorldGenerator.js"></script>
@@ -62,6 +64,7 @@
                 PIXI.loader
                            .add('terrainAtlas','art/rogueliketiles.json')
                            .add('characterAtlas','art/characters_1.json')
+                           .add('wallsAtlas','art/walls.json')
                            .load(setupGame);
 
                 // On resources load

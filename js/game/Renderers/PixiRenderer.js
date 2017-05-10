@@ -11,8 +11,10 @@ class PixiRenderer extends Renderer{
         this.pixiRenderer = PIXI.autoDetectRenderer(this.width * this.tileSize, (this.height * this.tileSize) + this.infoBar.height, {backgroundColor : 0x1c1c1c});
         this.canvas.appendChild(this.pixiRenderer.view);
         this.pixiStage = new PIXI.Container();
+
         this.terrainAtlas = PIXI.loader.resources['terrainAtlas'].textures;
         this.characterAtlas = PIXI.loader.resources['characterAtlas'].textures;
+        this.wallsAtlas = PIXI.loader.resources['wallsAtlas'].textures;
 
         this.pixiStage.interactive = true;
 
@@ -24,7 +26,7 @@ class PixiRenderer extends Renderer{
             sprite.visible = !fogged;
         }
         if(fogStyle === FogStyle.Darken){
-            sprite.tint = fogged ? 0x2B2B2B : 0xFFFFFF;
+            sprite.tint = fogged ? 0x555555 : 0xFFFFFF;
         }
     }
 
@@ -141,6 +143,9 @@ class PixiRenderer extends Renderer{
                             var atlas = null;
                             if(actor instanceof Player || actor instanceof Chaser){
                                 atlas = this.characterAtlas;
+                            }
+                            else if(actor instanceof Wall){
+                                atlas = this.wallsAtlas;
                             }
                             else{
                                 atlas = this.terrainAtlas;

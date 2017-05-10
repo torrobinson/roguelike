@@ -181,12 +181,15 @@ class Game{
         settings.maxHallThickness = 3;
         settings.retryAttempts = 1000;
         settings.floorActorType = Floor;
-
         this.world = WorldGenerator.GenerateCarvedWorld(
             this.seed,  // seed,
             settings,   // settings,
             this        // forward on the reference to this game instance
         );
+
+        // Decorate it
+        WorldDecorator.setAjdacentWallStatuses(this.world);
+
         // Pass a reference to the world so the player can navigate it
         this.player.world = this.world;
 
