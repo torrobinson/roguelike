@@ -1,5 +1,8 @@
 class Chest extends WorldItem{
     constructor(game, contents){
+        if(contents === undefined){
+            var contents = [];
+        }
         super(game);
         this.spritesets = ChestSprites;
         this.contents = contents; //array of contents

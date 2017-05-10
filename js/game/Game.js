@@ -164,7 +164,7 @@ class Game{
     }
 
     setRandomDungeon(){
-
+        console.log('Generating dungeon with seed "'+this.seed+'"');
         this.seed++;
 
         // Generate the dungeon
@@ -188,7 +188,9 @@ class Game{
         );
 
         // Decorate it
-        WorldDecorator.setAjdacentWallStatuses(this.world);
+        var decoratorSettings = new WorldDecoratorSettings();
+        var decorator = new WorldDecorator(decoratorSettings, this.seed);
+        decorator.decorate(this.world);
 
         // Pass a reference to the world so the player can navigate it
         this.player.world = this.world;

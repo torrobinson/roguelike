@@ -53,15 +53,14 @@ Array.prototype.firstOrDefault = function(def) {
     }
 };
 
-// TODO reimplement when it can take in a Random() that's already been seeded
-// Array.prototype.shuffle = function(){
-//     var a = this;
-//     for (let i = a.length; i; i--) {
-//         let j = Math.floor(Math.random() * i);
-//         [a[i - 1], a[j]] = [a[j], a[i - 1]];
-//     }
-//     return a;
-// };
+ Array.prototype.shuffle = function(random){
+     var a = this;
+     for (let i = a.length; i; i--) {
+         let j = Math.floor(random.go() * i);
+         [a[i - 1], a[j]] = [a[j], a[i - 1]];
+     }
+     return a;
+ };
 
 Array.prototype.pickRandom = function(random){
     return this[random.next(0,this.length-1)];

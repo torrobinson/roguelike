@@ -22,7 +22,7 @@ class WorldGenerator{
       game
   ){
       // The world to return
-      var world = new World(settings.totalWidth, settings.totalHeight);
+      var world = new World(settings.totalWidth, settings.totalHeight, game);
 
       // Set up the main collision layer as ALL walls
       var wallLayer = new Layer(settings.totalHeight, settings.totalWidth, 0, 'Main', LayerType.Wall);

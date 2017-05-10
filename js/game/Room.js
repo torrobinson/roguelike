@@ -16,13 +16,13 @@ class Room{
 
     getSizeCategory(){
         var area = this.getArea();
-        if(area < 36)
+        if(area < SizeCategory.Tiny)
             return SizeCategory.Tiny;
-        else if(area < 81)
+        else if(area < SizeCategory.Small)
             return SizeCategory.Small;
-        else if(area < 100)
+        else if(area < SizeCategory.Medium)
             return SizeCategory.Medium;
-        else if(area < 200)
+        else if(area < SizeCategory.Large)
             return SizeCategory.Large;
         else
             return SizeCategory.Huge;

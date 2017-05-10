@@ -21,12 +21,19 @@ const Directions = {
     UpDownLeftRight :  15
 };
 
+// Areas of rooms and their category
 const SizeCategory = {
-    Tiny    : 'Tiny',
-    Small   : 'Small',
-    Medium  : 'Medium',
-    Large   : 'Large',
-    Huge    : 'Huge'
+    Tiny    : 36,
+    Small   : 81,
+    Medium  : 100,
+    Large   : 200,
+    Huge    : 9999
+};
+
+const RoomDecorationTypes = {
+	Nothing		: 'Nothing', // Do not decorate
+	Atrium		: 'Atrium',	 // Room with columns down the left and right sides
+  Library   : 'Library'  // Room with bookshelves down the side walls
 };
 
 const LayerType = {
@@ -86,4 +93,9 @@ const GameDefaults = {
     FramesPerSecond   : 30,
     FrameWaitDuration : 15,
     TicksPerSecond    : 20
+};
+
+const Orientations = {
+    Horizontal  : 'Horizontal',
+    Vertical    : 'Vertical'  
 };

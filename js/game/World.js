@@ -1,9 +1,12 @@
 class World{
-  constructor(width, height){
+  constructor(width, height, game){
     this.width = width;
     this.height = height;
     this.layers = [];
     this.rooms = [];
+
+    // References
+    this.game = game;
   }
 
   addLayer (layer){
