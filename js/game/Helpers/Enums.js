@@ -97,5 +97,17 @@ const GameDefaults = {
 
 const Orientations = {
     Horizontal  : 'Horizontal',
-    Vertical    : 'Vertical'  
+    Vertical    : 'Vertical'
 };
+
+class Enumeration{
+  // Picks a random property from an object or "enum"
+  static GetRandomEnumValue(obj, random) {
+      var result;
+      var count = 0;
+      for (var prop in obj)
+          if (random.go() < 1/++count)
+             result = prop;
+      return result;
+  }
+}

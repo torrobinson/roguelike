@@ -9,32 +9,48 @@ class WorldDecoratorHelpers{
          return up + down + left + right;
       }
 
-      // Picks a random property from an object or "enum"
-      static randomEnumValue(obj, random) {
-          var result;
-          var count = 0;
-          for (var prop in obj)
-              if (random.go() < 1/++count)
-                 result = prop;
-          return result;
-      }
+      static decorateVerticallyDownWalls(layer, room, padding, actorType, orientation){
 
-      static decorateVerticallyDownWalls(layer, room, padding, actorType){
-        var leftX = padding;
-        var rightX = room.width - (padding + 1);
-        for(var y = (padding > 0 ? padding : 1) ; y+(padding > 0 ? padding : 1)<room.height; y+=(padding+1)){
-          var leftLocation = room.position.offsetBy(leftX, y);
-          if(layer.getTile(leftLocation.x, leftLocation.y) === null){
-            if(padding > 0 || (layer.getTile(leftLocation.x-1, leftLocation.y) instanceof Wall)){
-                layer.placeActor(new actorType(this.game), leftLocation);
+        // VERTICAL
+        if(orientation === Orientations.Vertical){
+          var leftX = padding;
+          var rightX = room.width - (padding + 1);
+          for(var y = (padding > 0 ? padding : 1) ; y+(padding > 0 ? padding : 1)<room.height; y+=(padding+1)){
+            var leftLocation = room.position.offsetBy(leftX, y);
+            if(layer.getTile(leftLocation.x, leftLocation.y) === null){
+              if(padding > 0 || (layer.getTile(leftLocation.x-1, leftLocation.y) instanceof Wall)){
+                  layer.placeActor(new actorType(this.game), leftLocation);
+              }
             }
-          }
-          var rightLocation = room.position.offsetBy(rightX, y);
-          if(layer.getTile(rightLocation.x, rightLocation.y) === null){
-            if(padding > 0 || (layer.getTile(rightLocation.x+1, rightLocation.y) instanceof Wall)){
-                layer.placeActor(new actorType(this.game), rightLocation);
+            var rightLocation = room.position.offsetBy(rightX, y);
+            if(layer.getTile(rightLocation.x, rightLocation.y) === null){
+              if(padding > 0 || (layer.getTile(rightLocation.x+1, rightLocation.y) instanceof Wall)){
+                  layer.placeActor(new actorType(this.game), rightLocation);
+              }
             }
           }
         }
+
+
+        // HORIZONTAL
+        else if(orientation === Orientations.Horizontal){
+          var topY = padding;
+          var bottomY = room.height - (padding + 1);
+          for(var x = (padding > 0 ? padding : 1) ; x+(padding > 0 ? padding : 1)<room.width; x+=(padding+1)){
+            var topLocation = room.position.offsetBy(x, topY);
+            if(layer.getTile(topLocation.x, topLocation.y) === null){
+              if(padding > 0 || (layer.getTile(topLocation.x, topLocation.y-1) instanceof Wall)){
+                  layer.placeActor(new actorType(this.game), topLocation);
+              }
+            }
+            var bottomLocation = room.position.offsetBy(x, bottomY);
+            if(layer.getTile(bottomLocation.x, bottomLocation.y) === null){
+              if(padding > 0 || (layer.getTile(bottomLocation.x, bottomLocation.y+1) instanceof Wall)){
+                  layer.placeActor(new actorType(this.game), bottomLocation);
+              }
+            }
+          }
+        }
+
       }
 }

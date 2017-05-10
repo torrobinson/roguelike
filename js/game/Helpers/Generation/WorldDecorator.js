@@ -45,7 +45,7 @@ class WorldDecorator{
 
     decorateRoom(world, room){
       // Pick a random room type
-      var roomType = WorldDecoratorHelpers.randomEnumValue(RoomDecorationTypes,this.random);
+      var roomType = Enumeration.GetRandomEnumValue(RoomDecorationTypes, this.random);
       var wallLayer = world.getLayersOfType(LayerType.Wall).first();
 
       // NOTHING
@@ -55,24 +55,27 @@ class WorldDecorator{
 
       // ATRIUM
       else if(roomType === RoomDecorationTypes.Atrium && room.width >=5){
+        var orientation = Enumeration.GetRandomEnumValue(Orientations, this.random);
         // Build columns down the sides, padded by 1
         WorldDecoratorHelpers.decorateVerticallyDownWalls(
           wallLayer,
           room,
           1,    // ensures what is placed always has 1 space free around it
-          Pillar
+          Pillar,
+          orientation
         );
       }
 
       // LIBRARY
       else if(roomType === RoomDecorationTypes.Library && room.width >=3){
         // Build bookshelves down the sides, against the walls (padded by 0)
-        //  - Avoid blocking exits and entrances
+        var orientation = Enumeration.GetRandomEnumValue(Orientations, this.random);
         WorldDecoratorHelpers.decorateVerticallyDownWalls(
           wallLayer,
           room,
           0,
-        Bookshelf
+          Bookshelf,
+          orientation
         );
       }
 
