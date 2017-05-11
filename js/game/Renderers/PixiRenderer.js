@@ -19,6 +19,8 @@ class PixiRenderer extends Renderer{
         this.pixiStage.interactive = true;
 
         this.renderedLayers = null;
+
+        this.healthGraphics = [];
     }
 
     fogSprite(sprite, fogged, fogStyle){
@@ -56,11 +58,16 @@ class PixiRenderer extends Renderer{
         var page = menu.currentPage();
         for(var o=0; o<page.options.length; o++){
           var option = page.options[o];
+          var label;
+          if(typeof option.label == 'function')
+                label = option.label();
+          else
+                label = option.label;
           if(menu.selectedOptionIndex === o){
-            text+='->' + option.label;
+            text+='->' + label;
           }
           else{
-            text+='  ' + option.label;
+            text+='  ' + label;
           }
           text+='\r\n';
         }
@@ -107,6 +114,37 @@ class PixiRenderer extends Renderer{
         this.pixiStage.addChild(pixiText);
     }
 
+    getHealthGraphic(actor, x, y){
+        var heartPipWidth = 3;
+        var heartPipHeight = 3;
+        var spacingBetweenPips = 3;
+        var pipsToDraw = actor.health;
+
+        var totalHeight = heartPipHeight;
+        var totalWidth = (pipsToDraw * heartPipWidth) + ((pipsToDraw-1) * spacingBetweenPips);
+
+        // Offset the pen
+        x += (this.tileSize/2); // move halfway in to the center
+        x -= totalWidth/2; // then move halfway out to it before drawing so that the whole thing is centered
+        y-=5; // move up above the actor
+
+        var healthGraphic = new PIXI.Graphics();
+        for(var i=0; i<pipsToDraw; i++){
+            healthGraphic.beginFill(0xff0800,1);
+            healthGraphic.drawRect(x, y, heartPipWidth, heartPipHeight);
+            healthGraphic.endFill();
+            x+= heartPipWidth + spacingBetweenPips;
+        }
+        return healthGraphic;
+    }
+
+    drawHealth(){
+        for(var i=0; i<this.healthGraphics.length;i++){
+            this.pixiStage.addChild(this.healthGraphics[i]);
+        }
+        this.healthGraphics = [];
+    }
+
     drawFrame(world,centerPoint){
         // Clear frame
         for (var i = this.pixiStage.children.length - 1; i >= 0; i--) {	this.pixiStage.removeChild(this.pixiStage.children[i]);};
@@ -140,6 +178,7 @@ class PixiRenderer extends Renderer{
 
                         if(actorSprite !== null){
 
+                            // Come up with the sprite to draw
                             var atlas = null;
                             if(actor instanceof Player || actor instanceof Chaser){
                                 atlas = this.characterAtlas;
@@ -154,9 +193,16 @@ class PixiRenderer extends Renderer{
                             sprite.x = 0 + (x * this.tileSize);
                             sprite.y = 0 + (y * this.tileSize);
 
+                            // Fog it if needed
                             this.fogSprite(sprite, actor.fogged, actor.fogStyle);
 
+                            // Draw it
                             layerContainer.addChild(sprite);
+
+                            // Add health graphics to draw later
+                            if(this.game.settings.showHealth && !actor.fogged && actor.health !== undefined){
+                                this.healthGraphics.push(this.getHealthGraphic(actor, x * this.tileSize, y * this.tileSize));
+                            }
                         }
                     }
 
@@ -167,6 +213,9 @@ class PixiRenderer extends Renderer{
 
         // Draw some live game info
         this.drawInfoBar();
+
+        // Draw health
+        this.drawHealth();
 
         // Draw a menu if we're paused
         if(this.game.state === GameState.Paused){

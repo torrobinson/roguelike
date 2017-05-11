@@ -5,7 +5,7 @@ class Chaser extends Actor{
     this.doesSubscribeToTicks = true;
 
     this.moveTickDuration = 2;
-    this.startingHealth = 1
+    this.startingHealth = 1;
     this.viewRadius = 15;
     this.blocksSight = false; // it's short and we can see over it
     this.name = 'Blob';

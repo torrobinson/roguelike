@@ -16,6 +16,10 @@ class Game{
 
     this.state = GameState.NotStarted;
 
+    this.settings = {
+        showHealth : false
+    };
+
     // Initialize the renderer
     this.renderer.init();
 

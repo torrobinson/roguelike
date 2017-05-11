@@ -7,8 +7,8 @@ class Player extends Actor{
     this.viewRadius = 15;
     this.fogged = false;
 
-    this.defaultAttackPower = 2;
-    this.startingHealth = 30;
+    this.defaultAttackPower = 1;
+    this.startingHealth = 10;
     this.name = 'You';
 
     this.spritesets = PlayerSprites;

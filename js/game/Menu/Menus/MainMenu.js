@@ -64,7 +64,15 @@ var MainMenu = new Menu(
 									this.menu.navToPage('graphicOptions');
 								}
 							},
-              {
+							{
+								label: function(){
+									return (this.menu.game.settings.showHealth ? 'Hide' : 'Show') + ' health pips';
+								},
+								execute: function(){
+									this.menu.game.settings.showHealth=!this.menu.game.settings.showHealth;
+								}
+							},
+							{
 								label: '(back)',
 								execute: function(){
 									this.menu.goBackAPage();
