@@ -31,27 +31,24 @@ class Chaser extends Actor{
     var self = this;
 
     // If we can see the player, then target them
-    if(Geometry.IsAdjacent(self.location, player.location)){
-      // Attack player
+    if(self.canSeeActor(player)){
+        var command = new MoveTo(
+            self,
+            player.location
+        );
+        if(self.currentCommand !== null){
+            // Retarget the player
+            self.interruptWithCommand(command);
+        }
+        else{
+            self.addCommand(command);
+        }
     }
     else{
-      if(self.canSeeActor(player)){
-          var command = new MoveTo(
-              self,
-              player.location
-          );
-          if(self.currentCommand !== null){
-              // Retarget the player
-              self.interruptWithCommand(command);
-          }
-          else{
-              self.addCommand(command);
-          }
-      }
-      else{
-          // Can't see the player.
-          // They'll finish their current move to where the last saw yiy
-      }
+        // Can't see the player.
+        // They'll finish their current move to where the last saw yiy
+
     }
+
   }
 }

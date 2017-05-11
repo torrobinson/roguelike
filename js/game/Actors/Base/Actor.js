@@ -64,9 +64,18 @@ class Actor{
 
   attackedBy(attacker, damage){
     this.health-=damage;
+    // Did we die?
     if(this.health<=0){
+      // Notify the attacker
+      attacker.madeKill(this);
+
+      // And then die
       this.die();
     }
+  }
+
+  madeKill(killedActor){
+
   }
 
   die(){

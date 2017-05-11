@@ -88,14 +88,14 @@ class PixiRenderer extends Renderer{
 
     drawInfoBar(){
         var writeLocation = new Point(0, this.height * this.tileSize);
-        var text = 'Health: ' + this.game.player.health + '\r\n'
+        var text = 'Health: ' + this.game.player.health + ' | Kills: ' + this.game.player.runStats.kills + '\r\n'
                     + this.game.getLastLog() + '\r\n'
                     + 'Inventory:' + this.getInventoryText();
 
 
         var style = new PIXI.TextStyle({
             fontFamily: 'monospace',
-            fontSize: 10,
+            fontSize: 12,
             fill:  0xFFFFFF,
             wordWrap: true,
             wordWrapWidth: 440

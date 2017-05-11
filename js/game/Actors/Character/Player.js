@@ -8,18 +8,25 @@ class Player extends Actor{
     this.fogged = false;
 
     this.defaultAttackPower = 2;
-    this.startingHealth = 5;
+    this.startingHealth = 30;
     this.name = 'You';
 
     this.spritesets = PlayerSprites;
 
     this.init();
+    this.initStats();
   }
 
   move(direction){
     super.move(direction);
     // When we move, we want to start the animation over the next turn
     this.restartSpriteNextFrame = true;
+  }
+
+  initStats(){
+    this.runStats = {
+      kills:  0
+    };
   }
 
   reset(){
@@ -36,6 +43,9 @@ class Player extends Actor{
     if(actor instanceof StairsDown){
       this.game.setRandomDungeon();
     }
+    else if(actor instanceof Chaser){
+      this.attack(actor, this.defaultAttackPower);
+    }
   }
 
   tick(){
@@ -48,11 +58,22 @@ class Player extends Actor{
     this.game.log('You were damaged by ' + attacker.name + ' for ' + damage + 'HP');
   }
 
+  attack(otherActor, damage){
+    super.attack(otherActor, damage);
+    this.game.log('You attacked ' + otherActor.name + ' for ' + damage + 'HP');
+  }
+
   die(){
       super.die();
       this.game.setRandomDungeon();
       this.reset();
       this.game.gameTick(this.game);
+  }
+
+  madeKill(killedActor){
+    super.madeKill(killedActor);
+    this.runStats.kills++;
+    this.game.log('You killed ' + killedActor.name);
   }
 
   // Unfog the world as it's explored
