@@ -1,6 +1,7 @@
 class PixiRenderer extends Renderer{
     init(){
         this.tileSize = 16;
+        this.scale = 1;
         // Set up Pixi and attach to the canvas
         this.infoBar = {
             width: this.width * this.tileSize,
@@ -8,7 +9,8 @@ class PixiRenderer extends Renderer{
         };
         this.pixelWidth = this.width * this.tileSize;
         this.pixelHeight = (this.height * this.tileSize) + this.infoBar.height;
-        this.pixiRenderer = PIXI.autoDetectRenderer(this.width * this.tileSize, (this.height * this.tileSize) + this.infoBar.height, {backgroundColor : 0x1c1c1c});
+        PIXI.RESOLUTION = this.scale;
+        this.pixiRenderer = PIXI.autoDetectRenderer(this.width * this.tileSize * this.scale, ((this.height * this.tileSize ) + this.infoBar.height) * this.scale, {backgroundColor : 0x1c1c1c});
         this.canvas.appendChild(this.pixiRenderer.view);
         this.pixiStage = new PIXI.Container();
 
@@ -74,22 +76,28 @@ class PixiRenderer extends Renderer{
 
         var style = new PIXI.TextStyle({
             fontFamily: 'monospace',
-            fontSize: 20,
+            fontSize: 11,
             fill:  0xFFFFFF,
             wordWrap: true,
             wordWrapWidth: 440
         });
 
         var menuText = new PIXI.Text(text, style);
-        menuText.x = 0;
-        menuText.y = 0;
+        // Set the anchor point to be the exact center of the text bounds
+        menuText.anchor.set(0.5, 0.5);
+        // Set the center of the text to be the middle of the canvas
+        menuText.x = this.pixiRenderer.width / 2;
+        menuText.y = this.pixiRenderer.height / 2;
 
         var pauseOverlay = new PIXI.Graphics();
         pauseOverlay.beginFill(0x000000,0.5);
         pauseOverlay.drawRect(0, 0, this.pixelWidth, this.pixelHeight);
         pauseOverlay.endFill();
 
+        // Draw the overlay
         this.pixiStage.addChild(pauseOverlay);
+
+        // Draw the menu on top
         this.pixiStage.addChild(menuText);
     }
 
@@ -102,10 +110,8 @@ class PixiRenderer extends Renderer{
 
         var style = new PIXI.TextStyle({
             fontFamily: 'monospace',
-            fontSize: 12,
+            fontSize: 11,
             fill:  0xFFFFFF,
-            wordWrap: true,
-            wordWrapWidth: 440
         });
 
         var pixiText = new PIXI.Text(text, style);
@@ -223,6 +229,8 @@ class PixiRenderer extends Renderer{
         }
 
         // Render the frame
+        this.pixiStage.scale.x = this.scale;
+        this.pixiStage.scale.y = this.scale;
         this.pixiRenderer.render(this.pixiStage);
     }
 }
