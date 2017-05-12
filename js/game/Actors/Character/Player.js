@@ -41,6 +41,8 @@ class Player extends Actor{
     super.collidedInto(actor);
     // When the player touches the stairs, generate the next dungeon
     if(actor instanceof StairsDown){
+      // push the current state of the world to the stack
+      this.game.worldStack.push(this.game.world);
       this.game.setRandomDungeon();
     }
     else if(actor instanceof Chaser){

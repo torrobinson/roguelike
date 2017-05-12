@@ -13,6 +13,7 @@ class Game{
     this.player = new Player(this);
 
     this.world = null;
+    this.worldStack = [];
 
     this.state = GameState.NotStarted;
 
@@ -212,7 +213,10 @@ class Game{
         var spawnLocation = new Point(starterRoomCenter.x, starterRoomCenter.y);
         var exitLocation = new Point(lastRoomCenter.x, lastRoomCenter.y);
 
-        mainLayer.placeActor(this.player, spawnLocation);
+        // Drop the stairs we just took down into the center of the rooms
+        var stairsUp = new StairsUp();
+        mainLayer.placeActor(stairsUp, spawnLocation);
+        mainLayer.placeActor(this.player, Movement.AddPoints(spawnLocation, new Point(0,1)));
 
         var exit = new StairsDown(this);
         mainLayer.placeActor(exit, exitLocation);
@@ -238,8 +242,6 @@ class Game{
         var demoChest = new Chest(this, [new Potion()]);
         mainLayer.placeActor(demoChest, this.world.rooms.second().getCenter());
 
-        // DEBUGGING AND DEV only, remove later
-        this.exitLocation = exitLocation;
     }
 
 }
