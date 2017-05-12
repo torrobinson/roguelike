@@ -17,7 +17,7 @@
 ### Art provided by ###
 - https://opengameart.org/content/roguelike-monsters
 - Joe Williamson
- - https://opengameart.org/content/roguelike-dungeonworld-tiles
+  - https://opengameart.org/content/roguelike-dungeonworld-tiles
 - https://opengameart.org/content/roguelikerpg-items
 
 ### Tools ###
