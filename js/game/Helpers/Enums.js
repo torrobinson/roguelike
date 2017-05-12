@@ -42,15 +42,15 @@ const LayerType = {
 };
 
 const Controls = {
-    UpArrow     : 'UpArrow',
-    DownArrow   : 'DownArrow',
-    LeftArrow   : 'LeftArrow',
-    RightArrow  : 'RightArrow',
-    Space       : 'Space',
-    Enter       : 'Enter',
-    Backspace   : 'Backspace',
-    Escape      : 'Escape',
-    p           : 'P'
+    UpArrow     : 38,
+    DownArrow   : 40,
+    LeftArrow   : 37,
+    RightArrow  : 39,
+    Space       : 32,
+    Enter       : 13,
+    Backspace   : 8,
+    Escape      : 27,
+    P           : 80
 };
 
 const ExecutionType = {

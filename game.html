@@ -104,8 +104,8 @@
 
                     var renderer = new PixiRenderer(
                       canvas,
-                      50, // view width
-                      35  // view height
+                      40, // view width
+                      30  // view height
                     );
 
                     // Prep seed if it's not numeric
@@ -123,49 +123,36 @@
                     game.start();
 
                     // Bind keys
-                    document.onkeydown = checkKey;
-
-                    function checkKey(e) {
-                          e = e || window.event;
-
-                          // Arrow Keys
-                          if (e.keyCode == '38') {
-                              game.controlPressed(Controls.UpArrow);
+                    document.onkeydown = keyDown;
+                    document.onkeyup = keyUp;
+                    var isKeyRepeating = false;
+                    var keyRepeatTimer = null;
+                    var keyRepeatRate = 25; // In milliseconds
+                    function keyUp(e){
+                          if(keyRepeatTimer!==null){
+                            clearTimeout(keyRepeatTimer);
+                            keyRepeatTimer = null;
                           }
-                          else if (e.keyCode == '40') {
-                              game.controlPressed(Controls.DownArrow);
+                          isKeyRepeating = false;
+                    }
+
+                    function keyDown(e){
+                          e.preventDefault();
+                          if(isKeyRepeating){
+                            if(keyRepeatTimer == null){
+                              keyRepeatTimer = setTimeout( function( ) {
+                                  isKeyRepeating = false;
+                                  clearTimeout(keyRepeatTimer);
+                                  keyRepeatTimer = null;
+                              }, keyRepeatRate);
+                            }
                           }
-                          else if (e.keyCode == '37') {
-                              game.controlPressed(Controls.LeftArrow);
+                          else{
+                            isKeyRepeating = true;
+                            e = e || window.event;
+                            game.controlPressed(e.keyCode);
                           }
-                          else if (e.keyCode == '39') {
-                              game.controlPressed(Controls.RightArrow);
-                          }
-
-                          else if(e.keyCode == '80'){ // letter 'p'
-                              game.controlPressed(Controls.Attack);
-                          }
-
-                          else if(e.keyCode == '32'){
-                  					  game.controlPressed(Controls.Space);
-                  				}
-
-                          else if(e.keyCode == '13'){
-                  					  game.controlPressed(Controls.Enter);
-                  				}
-
-                          else if(e.keyCode == '8'){
-                  					  game.controlPressed(Controls.Backspace);
-                  				}
-
-                          else if(e.keyCode == '27'){
-                  					  game.controlPressed(Controls.Escape);
-                  				}
-
-                        else if(e.keyCode == '80'){
-                                    game.controlPressed(Controls.P);
-                              }
-                      }
+                    }
                 }
             });
         </script>
