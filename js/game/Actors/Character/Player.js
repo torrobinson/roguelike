@@ -4,7 +4,7 @@ class Player extends Actor{
     super(game);
     this.doesSubscribeToTicks = true;
     this.moveTickDuration = 1;
-    this.viewRadius = 15;
+    this.viewRadius = 18;
     this.fogged = false;
 
     this.defaultAttackPower = 1;

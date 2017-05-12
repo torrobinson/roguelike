@@ -100,16 +100,10 @@
                     // Our area to render to
                     var canvas = document.getElementById('canvas');
 
-                    // The renderer to use (implements the same functions). Renders to the canvas
-                    // var renderer = new TextRenderer(
-                    //   canvas,
-                    //   30, // view width
-                    //   20  // view height
-                    // );
                     var renderer = new PixiRenderer(
                       canvas,
-                      30, // view width
-                      20  // view height
+                      50, // view width
+                      35  // view height
                     );
 
                     // Prep seed if it's not numeric
