@@ -41,4 +41,24 @@ class Rendering{
 
     return slicedLayers;
   }
+
+  static fogSprite(sprite, fogged, fogStyle){
+      if(fogStyle === FogStyle.Hide){
+          sprite.visible = !fogged;
+      }
+      if(fogStyle === FogStyle.Darken){
+          sprite.tint = fogged ? 0x555555 : 0xFFFFFF;
+      }
+  }
+
+  static darkenSpriteByDistanceFromLightSource(sprite, spriteActor, lightSourceActor){
+    var darkColor = 0x222222; //0x000000 is black
+    if(spriteActor !== null && lightSourceActor !== null && spriteActor.location !== null && lightSourceActor.location !== null){
+      var currentTint = sprite.tint;
+      var darkenAmount = 1 - Geometry.getBrightnessForPoint(spriteActor.location, lightSourceActor.location, lightSourceActor.viewRadius, 1);
+      var newTint = Color.shadeBlendInt(darkenAmount, currentTint, darkColor); // blend that much blackness into it to darken it
+
+      sprite.tint = newTint;
+    }
+  }
 }

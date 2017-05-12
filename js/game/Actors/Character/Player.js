@@ -110,17 +110,19 @@ class Player extends Actor{
             // The point to trace TO
             var point = new Point(x,y);
 
+            var actor = wallLayer.getTile(point.x,point.y);
+            var floor = floorLayer.getTile(point.x,point.y);
+
             // If we can see this point in the world
             if(this.canSeePoint(point, this.viewRadius)){
 
               // Unfog wall/collision pieces
-              var actor = wallLayer.getTile(point.x,point.y);
+
               if(actor !== null && actor.fogged){
                 actor.fogged = false;
               }
 
               // Unfog floor pieces
-              var floor = floorLayer.getTile(point.x,point.y);
               if(floor !== null && floor.fogged){
                 floor.fogged = false;
               }

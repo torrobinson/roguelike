@@ -10,7 +10,7 @@ class PixiRenderer extends Renderer{
         this.pixelWidth = this.width * this.tileSize;
         this.pixelHeight = (this.height * this.tileSize) + this.infoBar.height;
         PIXI.RESOLUTION = this.scale;
-        this.pixiRenderer = PIXI.autoDetectRenderer(this.width * this.tileSize * this.scale, ((this.height * this.tileSize ) + this.infoBar.height) * this.scale, {backgroundColor : 0x1c1c1c});
+        this.pixiRenderer = PIXI.autoDetectRenderer(this.width * this.tileSize * this.scale, ((this.height * this.tileSize ) + this.infoBar.height) * this.scale, {backgroundColor : 0x000000});
         this.canvas.appendChild(this.pixiRenderer.view);
         this.pixiStage = new PIXI.Container();
 
@@ -23,15 +23,6 @@ class PixiRenderer extends Renderer{
         this.renderedLayers = null;
 
         this.healthGraphics = [];
-    }
-
-    fogSprite(sprite, fogged, fogStyle){
-        if(fogStyle === FogStyle.Hide){
-            sprite.visible = !fogged;
-        }
-        if(fogStyle === FogStyle.Darken){
-            sprite.tint = fogged ? 0x555555 : 0xFFFFFF;
-        }
     }
 
     getInventoryText(){
@@ -200,7 +191,10 @@ class PixiRenderer extends Renderer{
                             sprite.y = 0 + (y * this.tileSize);
 
                             // Fog it if needed
-                            this.fogSprite(sprite, actor.fogged, actor.fogStyle);
+                            Rendering.fogSprite(sprite, actor.fogged, actor.fogStyle);
+
+                            // Darken it as it leaves the player view radius
+                            Rendering.darkenSpriteByDistanceFromLightSource(sprite, actor, world.game.player);
 
                             // Draw it
                             layerContainer.addChild(sprite);
