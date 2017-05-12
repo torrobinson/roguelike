@@ -171,6 +171,8 @@ class Actor{
   // On game timer tick
   tick(){
 
+        if(!this.doesSubscribeToTicks) return;
+
         // Immediately decrease the ticks remaining for the next action
         if(this.ticksUntilNextAction !== null){
           this.ticksUntilNextAction--;
@@ -267,7 +269,8 @@ class Actor{
   }
 
   destroy(){
-    // any teardowns to perform when being destroyed
+    // Stop acting on game ticks after this goes away
+    this.doesSubscribeToTicks = false;
     delete this;
   }
 }

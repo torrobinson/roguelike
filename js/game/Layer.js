@@ -18,10 +18,6 @@ class Layer{
     }
 
     destroyTile(x,y){
-        var actor = this.getTile(x,y);
-        if(actor!=null && actor instanceof Actor){
-            actor.destroy();
-        }
         this.setTile(x,y,null);
     }
 
