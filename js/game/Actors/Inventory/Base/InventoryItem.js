@@ -1,8 +1,14 @@
 class InventoryItem{
-    constructor(){
-        this.holder = null;
+    constructor(holder){
+        this.holder = holder;
         this.usesRemaining = 1;
     }
 
-    use(){}
+    use(){
+        this.usesRemaining--;
+        if(this.usesRemaining <= 0){
+            this.holder.inventory.remove(this);
+            delete this;
+        }
+    }
 }

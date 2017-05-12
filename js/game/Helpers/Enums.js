@@ -49,7 +49,8 @@ const Controls = {
     Space       : 'Space',
     Enter       : 'Enter',
     Backspace   : 'Backspace',
-    Escape      : 'Escape'
+    Escape      : 'Escape',
+    p           : 'P'
 };
 
 const ExecutionType = {

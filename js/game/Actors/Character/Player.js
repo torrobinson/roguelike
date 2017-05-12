@@ -53,6 +53,19 @@ class Player extends Actor{
     this.revealWorld();
   }
 
+  tryUseInventory(inventoryItemType){
+    for(var i=0; i<this.inventory.length; i++){
+      var item = this.inventory[i];
+      if(item instanceof inventoryItemType){
+        this.useItem(item);
+      }
+    }
+  }
+
+  useItem(item){
+    item.use();
+  }
+
   attackedBy(attacker, damage){
     super.attackedBy(attacker, damage);
     this.game.log('You were damaged by ' + attacker.name + ' for ' + damage + 'HP');

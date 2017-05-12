@@ -253,15 +253,6 @@ class Actor{
      return this.canBeSeenByPoint(actor.location,  actor.viewRadius);
   }
 
-  useInventory(inventoryItem){
-    // TODO: verify if in inventory?
-    inventoryItem.use();
-    if(inventoryItem.usesRemaining === 0){
-      inventoryItem = null;
-      // TODO: remove from inventory
-    }
-  }
-
   obtainInventoryItem(inventoryItem){
     inventoryItem.holder = this;
     this.inventory.push(inventoryItem);

@@ -163,6 +163,10 @@ class Game{
               this.pause();
             }
 
+            if(control === Controls.P){
+              this.player.tryUseInventory(Potion);
+            }
+
             return;
         }
     }

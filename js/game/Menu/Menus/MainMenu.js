@@ -67,7 +67,7 @@ var MainMenu = new Menu([
                 label: function() {
                     return (
                         (this.menu.game.settings.showHealth ? "Hide" : "Show") +
-                        "health pips"
+                        " health pips"
                     );
                 },
                 execute: function() {
