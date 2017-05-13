@@ -17,6 +17,7 @@ class PixiRenderer extends Renderer{
         this.terrainAtlas = PIXI.loader.resources['terrainAtlas'].textures;
         this.characterAtlas = PIXI.loader.resources['characterAtlas'].textures;
         this.wallsAtlas = PIXI.loader.resources['wallsAtlas'].textures;
+        this.carpetAtlas = PIXI.loader.resources['carpetAtlas'].textures;
 
         this.pixiStage.interactive = true;
 
@@ -182,6 +183,9 @@ class PixiRenderer extends Renderer{
                             }
                             else if(actor instanceof Wall){
                                 atlas = this.wallsAtlas;
+                            }
+                            else if(actor instanceof Carpet){
+                                atlas = this.carpetAtlas;
                             }
                             else{
                                 atlas = this.terrainAtlas;

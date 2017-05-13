@@ -53,4 +53,18 @@ class WorldDecoratorHelpers{
         }
 
       }
+
+
+    // Given a layer, a room, and the padding to ignore around the room's border, draw a rectangle of
+    //  actorytpe in the center of the room
+    static decorateWithCenteredRectangle(layer, room, padding, actorType){
+        for(var y=padding; y<room.height-padding; y++){
+            for(var x=padding; x<room.width-padding; x++){
+                var location = Movement.AddPoints(room.position, new Point(x, y));
+                if(layer.getTile(location.x,location.y) === null){
+                    layer.placeActor(new actorType(this.game), location);
+                }
+            }
+        }
+    }
 }

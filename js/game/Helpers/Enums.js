@@ -37,8 +37,9 @@ const RoomDecorationTypes = {
 };
 
 const LayerType = {
-    Wall      : 'Wall',
-    Floor     : 'Floor'
+    Wall           : 'Wall',
+    FloorDecor     : 'FloorDecor',
+    Floor          : 'Floor'
 };
 
 const Controls = {

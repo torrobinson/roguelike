@@ -101,6 +101,7 @@ class Player extends Actor{
 
       var wallLayer = this.world.getLayersOfType(LayerType.Wall).first();
       var floorLayer = this.world.getLayersOfType(LayerType.Floor).first();
+      var floorDecorLayer = this.world.getLayersOfType(LayerType.FloorDecor).first();
 
       // Based on the radius around the player and line-of-sight with walls and other
       //  wall-layered objects, see if they can see other tiles
@@ -112,6 +113,7 @@ class Player extends Actor{
 
             var actor = wallLayer.getTile(point.x,point.y);
             var floor = floorLayer.getTile(point.x,point.y);
+            var floorDecor = floorDecorLayer.getTile(point.x,point.y);
 
             // If we can see this point in the world
             if(this.canSeePoint(point, this.viewRadius)){
@@ -125,6 +127,11 @@ class Player extends Actor{
               // Unfog floor pieces
               if(floor !== null && floor.fogged){
                 floor.fogged = false;
+              }
+
+              // Unfor floor decor the same way as the floor
+              if(floorDecor !== null && floorDecor.fogged){
+                  floorDecor.fogged = false;
               }
             }
             else if(Geometry.IsPointInCircle(this.location, this.viewRadius, point)){

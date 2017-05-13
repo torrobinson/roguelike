@@ -19,6 +19,8 @@
 - Joe Williamson
   - https://opengameart.org/content/roguelike-dungeonworld-tiles
 - https://opengameart.org/content/roguelikerpg-items
+- DiegoJP
+  - https://opengameart.org/content/castledungeon-tileset
 
 ### Tools ###
 - [Pixi.js](http://pixijs.com)

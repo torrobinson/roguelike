@@ -30,7 +30,11 @@ class WorldGenerator{
 
       // Create a new empty floor layer.
       // As we carve away the walls to create rooms and hallways, we'll add floor tiles here
-      var floorLayer = new Layer(settings.totalHeight, settings.totalWidth, -1, 'Floors', LayerType.Floor);
+      var floorLayer = new Layer(settings.totalHeight, settings.totalWidth, -2, 'Floors', LayerType.Floor);
+
+      // Add a layer for things that can be stepped on, or floor decorations,
+      //    in-between the floor and the wall layer
+      var floorDecorLayer = new Layer(settings.totalHeight, settings.totalWidth, -1, 'FloorDecorations', LayerType.FloorDecor);
 
       // The rooms we're creating
       var rooms = [];
@@ -120,6 +124,7 @@ class WorldGenerator{
 
       // Set and return the World so far
       world.addLayer(wallLayer);
+      world.addLayer(floorDecorLayer);
       world.addLayer(floorLayer);
       world.rooms = rooms;
 
