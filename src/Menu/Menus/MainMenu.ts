@@ -1,7 +1,5 @@
-import { Menu } from 'src/Menu/Menu'
-import { Enums } from 'src/Helpers/Enums'
-
-export var MainMenu = new Menu([
+// <reference path="./Base/Menu.ts" />
+var MainMenu = new Menu([
     {
         id: "mainmenu",
         name: "Main Menu",
@@ -9,7 +7,7 @@ export var MainMenu = new Menu([
             {
                 label: "Resume",
                 execute: function() {
-                    this.menu.game.state = Enums.GameState.Playing;
+                    this.menu.game.state = GameState.Playing;
                 }
             },
             {

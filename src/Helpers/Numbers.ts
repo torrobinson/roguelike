@@ -1,4 +1,4 @@
-export class Numbers{
+class Numbers{
   static roundToOdd(i: number){
       return 2* Math.floor(i/2) + 1;
   }

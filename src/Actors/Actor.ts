@@ -1,18 +1,6 @@
-import { Geometry } from 'src/Helpers/Geometry'
-import { Game } from 'src/Game'
-import { Enums } from 'src/Helpers/Enums'
-import { Point } from 'src/Point'
-import { Layer } from 'src/Layer'
-import { InventoryItem } from 'src/Actors/Inventory/Base/InventoryItem'
-import { Command } from 'src/Actors/Behaviour/Command'
-import { Sprite } from 'src/Actors/Sprites/Sprite'
-import { SpriteSet } from 'src/Actors/Sprites/SpriteSet'
-import { World } from 'src/World'
-import { Movement } from 'src/Helpers/Movement'
-
-export class Actor {
+class Actor {
     game: Game;
-    facing: Enums.Direction = Enums.Direction.Down;
+    facing: Direction = Direction.Down;
     location: Point = null;
     layer: Layer = null;
     commands: Command[] = [];
@@ -22,13 +10,13 @@ export class Actor {
     moveTickDuration: number = 1;
     spritesets: SpriteSet[] = null;
     name: string = '';
-    status: Enums.ActorStatus = Enums.ActorStatus.Idle;
+    status: ActorStatus = ActorStatus.Idle;
     viewRadius: number = 5;
     defaultAttackPower: number = 1;
     inventory: InventoryItem[] = [];
     equippedWeapon: InventoryItem = null;
     fogged: boolean = true;
-    fogStyle: Enums.FogStyle = Enums.FogStyle.Hide;
+    fogStyle: FogStyle = FogStyle.Hide;
     blocksSight: boolean = true;
     restartSpriteNextFrame: boolean = false;
     startingHealth: number = 10;
@@ -55,7 +43,7 @@ export class Actor {
     }
 
     isMoving() {
-        return this.status === Enums.ActorStatus.Moving;
+        return this.status === ActorStatus.Moving;
     }
 
     attack(otherActor: Actor, damage: number) {
@@ -83,7 +71,7 @@ export class Actor {
         this.destroy();
     }
 
-    move(direction: Enums.Direction) {
+    move(direction: Direction) {
         this.facing = direction;
         var offsetToMove = Movement.DirectionToOffset(direction);
         if (this.layer !== null) {
@@ -181,7 +169,7 @@ export class Actor {
         // If we have a command that we're about to wait on, execute it now if preferred
         // If the current action needs to fire immediately and then wait, do so
         if (this.currentCommand !== null && this.currentCommand.currentAction !== null) {
-            if (this.currentCommand.ignoreExecutionUntilNextFire === false && this.currentCommand.currentAction.executionType === Enums.ExecutionType.ExecuteAndThenWait) {
+            if (this.currentCommand.ignoreExecutionUntilNextFire === false && this.currentCommand.currentAction.executionType === ExecutionType.ExecuteAndThenWait) {
                 this.currentCommand.execute();
                 if (this.currentCommand !== null) {
                     this.currentCommand.ignoreExecutionUntilNextFire = true;
@@ -195,7 +183,7 @@ export class Actor {
                 if (this.currentCommand.currentAction !== null) {
 
                     // If this is a late-fire action, then fire it now
-                    if (this.currentCommand.currentAction.executionType === Enums.ExecutionType.WaitAndThenExecute) {
+                    if (this.currentCommand.currentAction.executionType === ExecutionType.WaitAndThenExecute) {
                         this.currentCommand.execute();
                     }
                     this.currentCommand.ignoreExecutionUntilNextFire = false;
@@ -228,7 +216,7 @@ export class Actor {
 
         // If we're all out of things to do, set the status back to idle (if it even changed)
         if (this.ticksUntilNextAction === null) {
-            this.status = Enums.ActorStatus.Idle;
+            this.status = ActorStatus.Idle;
         }
 
     }

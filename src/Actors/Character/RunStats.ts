@@ -1,3 +1,3 @@
-export class RunStats {
+class RunStats {
     kills: number = 0;
 }

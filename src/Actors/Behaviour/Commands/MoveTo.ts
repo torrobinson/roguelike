@@ -1,14 +1,6 @@
-import { Action } from 'src/Actors/Behaviour/Action'
-import { Actor } from 'src/Actors/Actor'
-import { Point } from 'src/Point'
-import { Move } from 'src/Actors/Behaviour/Actions/Move'
-import { Command } from 'src/Actors/Behaviour/Command'
-import { Enums } from 'src/Helpers/Enums'
-import { Movement } from 'src/Helpers/Movement'
-
 declare var PF: any;
 
-export class MoveTo extends Command {
+class MoveTo extends Command {
     constructor(actor: Actor, endPoint: Point, overrideStartPoint?: Point) {
         super(actor);
 
@@ -58,6 +50,6 @@ export class MoveTo extends Command {
         super.execute();
 
         // Set status based on actions happening now
-        this.actor.status = Enums.ActorStatus.Moving;
+        this.actor.status = ActorStatus.Moving;
     }
 }

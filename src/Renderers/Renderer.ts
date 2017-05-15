@@ -1,8 +1,4 @@
-import { Game } from 'src/Game'
-import { World } from 'src/World'
-import { Point } from 'src/Point'
-
-export interface Renderer {
+interface Renderer {
     canvas: any;
     width: number;
     height: number;

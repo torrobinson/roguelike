@@ -1,8 +1,4 @@
-import { Action } from 'src/Actors/Behaviour/Action'
-import { Actor } from 'src/Actors/Actor'
-
-// Command represends a command given to the actor to perform
-export class Command {
+class Command {
     actions: Action[];
     currentAction: Action;
     lastAction: Action;

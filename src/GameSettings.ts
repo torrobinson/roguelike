@@ -1,3 +1,3 @@
-export class GameSettings{
+class GameSettings{
     showHealth: boolean = false;
 }

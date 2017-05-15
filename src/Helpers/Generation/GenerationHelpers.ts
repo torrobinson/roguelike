@@ -1,11 +1,4 @@
-import { Room } from 'src/Room'
-import { Point } from 'src/Point'
-import { Game } from 'src/Game'
-import { Random } from 'src/Helpers/Random'
-import { Layer } from 'src/Layer'
-import { Numbers } from 'src/Helpers/Numbers'
-
-export class GenerationHelpers {
+class GenerationHelpers {
     // One-off Helpers Functions
     static canPlace(room: Room, rooms: Room[], totalWidth: number, totalHeight: number) {
         // Check if it goes out of bounds

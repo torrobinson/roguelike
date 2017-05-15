@@ -1,10 +1,4 @@
-import { World } from 'src/World'
-import { Game } from 'src/Game'
-import { Renderer } from 'src/Renderers/Renderer'
-import { Rendering } from 'src/Helpers/Rendering'
-import { Enums } from 'src/Helpers/Enums'
-
-export class TextRenderer implements Renderer {
+class TextRenderer implements Renderer {
     canvas: any;
     width: number;
     height: number;
@@ -70,10 +64,10 @@ export class TextRenderer implements Renderer {
             }
             textArea.value = text;
 
-            if (layer.type == Enums.LayerType.Wall) {
+            if (layer.type == LayerType.Wall) {
                 textArea.style.color = '#494A4A';
             }
-            if (layer.type == Enums.LayerType.Floor) {
+            if (layer.type == LayerType.Floor) {
                 textArea.style.color = '#1C1C1C';
             }
 

@@ -1,7 +1,4 @@
-import { Point } from 'src/Point'
-import { Enums } from 'src/Helpers/Enums'
-
-export class Room {
+class Room {
     width: number;
     height: number;
     position: Point; // position is the position of the top-left corner
@@ -23,16 +20,16 @@ export class Room {
 
     getSizeCategory() {
         var area = this.getArea();
-        if (area < Enums.SizeCategory.Tiny)
-            return Enums.SizeCategory.Tiny;
-        else if (area < Enums.SizeCategory.Small)
-            return Enums.SizeCategory.Small;
-        else if (area < Enums.SizeCategory.Medium)
-            return Enums.SizeCategory.Medium;
-        else if (area < Enums.SizeCategory.Large)
-            return Enums.SizeCategory.Large;
+        if (area < SizeCategory.Tiny)
+            return SizeCategory.Tiny;
+        else if (area < SizeCategory.Small)
+            return SizeCategory.Small;
+        else if (area < SizeCategory.Medium)
+            return SizeCategory.Medium;
+        else if (area < SizeCategory.Large)
+            return SizeCategory.Large;
         else
-            return Enums.SizeCategory.Huge;
+            return SizeCategory.Huge;
     }
 
     left() {

@@ -1,11 +1,7 @@
-import { Actor } from 'src/Actors/Actor'
-import { Game } from 'src/Game'
-import { Enums } from 'src/Helpers/Enums'
-import { ChestSprites } from 'src/Actors/Sprites/WorldItems/ChestSprites'
-import { InventoryItem } from 'src/Actors/Inventory/Base/InventoryItem'
-import { WorldItem } from 'src/Actors/WorldItems/Base/WorldItem'
+/// <reference path="./Base/WorldItem.ts" />
+/// <reference path="../../Sprites/Sprites.ts" />
 
-export class Chest extends WorldItem {
+class Chest extends WorldItem {
     contents: InventoryItem[];
 
     constructor(game: Game, contents?: InventoryItem[]) {
@@ -14,20 +10,20 @@ export class Chest extends WorldItem {
         }
         super(game);
 
-        this.spritesets = ChestSprites;
+        this.spritesets = Sprites.ChestSprites();
         this.contents = contents; //array of contents
         this.inventoryItem = null; // rather than 1 item, a chest picks up many
-        this.status = Enums.ActorStatus.Closed;
+        this.status = ActorStatus.Closed;
     }
 
     openedBy(actor: Actor) {
-        if (this.status === Enums.ActorStatus.Closed) {
+        if (this.status === ActorStatus.Closed) {
             for (var i = 0; i < this.contents.length; i++) {
                 var item = this.contents[i];
                 actor.obtainInventoryItem(item);
             }
             this.contents = null;
-            this.status = Enums.ActorStatus.Open;
+            this.status = ActorStatus.Open;
         }
     }
 

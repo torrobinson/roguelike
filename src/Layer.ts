@@ -1,17 +1,12 @@
-import { Enums } from 'src/Helpers/Enums'
-import { Actor } from 'src/Actors/Actor'
-import { Game } from 'src/Game'
-import { Point } from 'src/Point'
-
-export class Layer{
+class Layer{
   width: number;
   height: number;
   zIndex: number;
   name: string;
-  type: Enums.LayerType;
+  type: LayerType;
   tiles:any[];
 
-  constructor(width: number, height: number, zIndex: number, name: string, type: Enums.LayerType){
+  constructor(width: number, height: number, zIndex: number, name: string, type: LayerType){
     this.width = width;
     this.height = height;
     this.zIndex = zIndex;
@@ -76,10 +71,10 @@ export class Layer{
             for(var x=0; x<this.tiles[y].length; x++){
                 var actor = this.getTile(x,y);
                 if(actor === null || (x==ignorePointA.x && y==ignorePointA.y) || (x==ignorePointB.x && y==ignorePointB.y)){
-                    row.push(Enums.PathfinderTile.Walkable);
+                    row.push(PathfinderTile.Walkable);
                 }
                 else{
-                    row.push(Enums.PathfinderTile.Unwalkable);
+                    row.push(PathfinderTile.Unwalkable);
                 }
             }
             grid.push(row);

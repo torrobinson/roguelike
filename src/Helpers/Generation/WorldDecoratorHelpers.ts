@@ -1,14 +1,4 @@
-import { Point } from 'src/Point'
-import { Layer } from 'src/Layer'
-import { Game } from 'src/Game'
-import { World } from 'src/World'
-import { Room } from 'src/Room'
-import { Wall } from 'src/Actors/Environment/Wall'
-import { Enums } from 'src/Helpers/Enums'
-import { Movement } from 'src/Helpers/Movement'
-
-
-export class WorldDecoratorHelpers {
+class WorldDecoratorHelpers {
     // Given a layer and the tile's location, return the bitmask representing the adjacent tiles
     // Numbers will align to the ActorStatus enumeration for wall status directions
     static getTileAdjacencyBitmask(layer: Layer, tileLocation: Point, adjacentType: any) {
@@ -19,10 +9,10 @@ export class WorldDecoratorHelpers {
         return up + down + left + right;
     }
 
-    static decorateDownWalls(game: Game, layer: Layer, room: Room, padding: number, actorType: any, orientation: Enums.Orientation) {
+    static decorateDownWalls(game: Game, layer: Layer, room: Room, padding: number, actorType: any, orientation: Orientation) {
 
         // VERTICAL
-        if (orientation === Enums.Orientation.Vertical) {
+        if (orientation === Orientation.Vertical) {
             var leftX = padding;
             var rightX = room.width - (padding + 1);
             for (var y = (padding > 0 ? padding : 1); y + (padding > 0 ? padding : 1) < room.height; y += (padding + 1)) {
@@ -43,7 +33,7 @@ export class WorldDecoratorHelpers {
 
 
         // HORIZONTAL
-        else if (orientation === Enums.Orientation.Horizontal) {
+        else if (orientation === Orientation.Horizontal) {
             var topY = padding;
             var bottomY = room.height - (padding + 1);
             for (var x = (padding > 0 ? padding : 1); x + (padding > 0 ? padding : 1) < room.width; x += (padding + 1)) {

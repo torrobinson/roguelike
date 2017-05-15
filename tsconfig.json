@@ -1,6 +1,5 @@
 {
     "compilerOptions": {
-        "module": "system",
         "noImplicitAny": false,
         "removeComments": true,
         "preserveConstEnums": true,
@@ -9,10 +8,9 @@
         "target": "es6"
     },
     "include": [
-        "src/**/*"
+        "src/**/*.ts"
     ],
     "exclude": [
-        "node_modules",
-        "**/*.spec.ts"
+        "node_modules"
     ]
 }

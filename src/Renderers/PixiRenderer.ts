@@ -1,19 +1,6 @@
-import { Renderer } from 'src/Renderers/Renderer'
-import { Game } from 'src/Game'
-import { Point } from 'src/Point'
-import { Layer } from 'src/Layer'
-import { Enums } from 'src/Helpers/Enums'
-import { Actor } from 'src/Actors/Actor'
-import { Player } from 'src/Actors/Character/Player'
-import { Chaser } from 'src/Actors/Character/Chaser'
-import { Wall } from 'src/Actors/Environment/Wall'
-import { Carpet } from 'src/Actors/Environment/Carpet'
-import { Menu } from 'src/Menu/Menu'
-import { World } from 'src/World'
-import { Rendering } from 'src/Helpers/Rendering'
 declare var PIXI: any;
 
-export class PixiRenderer implements Renderer {
+class PixiRenderer implements Renderer {
 
     canvas: any;
     width: number;
@@ -27,8 +14,6 @@ export class PixiRenderer implements Renderer {
 
     pixiRenderer: any;
     pixiStage: any;
-
-    textures: any;
 
     infoBar: any;
     healthGraphics: any[];
@@ -55,11 +40,6 @@ export class PixiRenderer implements Renderer {
         this.pixiRenderer = PIXI.autoDetectRenderer(this.width * this.tileSize * this.scale, ((this.height * this.tileSize) + this.infoBar.height) * this.scale, { backgroundColor: 0x000000 });
         this.canvas.appendChild(this.pixiRenderer.view);
         this.pixiStage = new PIXI.Container();
-
-        this.textures.terrainAtlas = PIXI.loader.resources['terrainAtlas'].textures;
-        this.textures.characterAtlas = PIXI.loader.resources['characterAtlas'].textures;
-        this.textures.wallsAtlas = PIXI.loader.resources['wallsAtlas'].textures;
-        this.textures.carpetAtlas = PIXI.loader.resources['carpetAtlas'].textures;
 
         this.pixiStage.interactive = true;
 
@@ -214,20 +194,19 @@ export class PixiRenderer implements Renderer {
 
 
                         if (actorSprite !== null) {
-
                             // Come up with the sprite to draw
                             var atlas = null;
                             if (actor instanceof Player || actor instanceof Chaser) {
-                                atlas = this.textures.characterAtlas;
+                                atlas = PIXI.loader.resources.characterAtlas.textures;
                             }
                             else if (actor instanceof Wall) {
-                                atlas = this.textures.wallsAtlas;
+                                atlas = PIXI.loader.resources.wallsAtlas.textures;
                             }
                             else if (actor instanceof Carpet) {
-                                atlas = this.textures.carpetAtlas;
+                                atlas = PIXI.loader.resources.carpetAtlas.textures;
                             }
                             else {
-                                atlas = this.textures.terrainAtlas;
+                                atlas = PIXI.loader.resources.terrainAtlas.textures;
                             }
                             var sprite = new PIXI.Sprite(atlas[actorSprite.spriteName]);
                             sprite.x = 0 + (x * this.tileSize);
@@ -261,7 +240,7 @@ export class PixiRenderer implements Renderer {
         this.drawHealth();
 
         // Draw a menu if we're paused
-        if (this.game.state === Enums.GameState.Paused) {
+        if (this.game.state === GameState.Paused) {
             this.drawMenu(this.game.menu);
         }
 

@@ -1,29 +1,26 @@
-import { Enums } from 'src/Helpers/Enums'
-import { Sprite } from 'src/Actors/Sprites/Sprite'
-
 // A Sprite Set represents a set of sprites (or frames) representing an actor in a given status and facing a given direction.
 // Its animationLoopStyle defines how, if at all, it animates
-export class SpriteSet {
-    status: Enums.ActorStatus;
-    direction: Enums.Direction;
+class SpriteSet {
+    status: ActorStatus;
+    direction: Direction;
     sprites: Sprite[];
-    animationLoopStyle: Enums.AnimationLoopStyle;
+    animationLoopStyle: AnimationLoopStyle;
     frameWaitDuration: number;
     currentFrame: number = 0;
     waitFramesUntilNextFrame: number = 0;
-    playDirection: Enums.Direction = Enums.Direction.Right;
+    playDirection: Direction = Direction.Right;
     restart: boolean = false;
 
     constructor(
-        status: Enums.ActorStatus,
-        direction: Enums.Direction,
+        status: ActorStatus,
+        direction: Direction,
         sprites: Sprite[],
-        animationLoopStyle: Enums.AnimationLoopStyle,
+        animationLoopStyle: AnimationLoopStyle,
         frameWaitDuration?: number) {
 
         // Default the frame wait duration of not provided
         if (!frameWaitDuration) {
-            frameWaitDuration = Enums.GameDefault.FrameWaitDuration;
+            frameWaitDuration = GameDefault.FrameWaitDuration;
         }
 
         // Given an actor's status and direction
@@ -46,12 +43,12 @@ export class SpriteSet {
         this.restart = restart !== undefined && restart === true;
 
         // Static sprites are always just the first sprite/frame
-        if (this.animationLoopStyle === Enums.AnimationLoopStyle.Static) {
+        if (this.animationLoopStyle === AnimationLoopStyle.Static) {
             return this.sprites.first();
         }
 
         // One-time animations reach their last frame and then stop
-        if (this.animationLoopStyle === Enums.AnimationLoopStyle.Once) {
+        if (this.animationLoopStyle === AnimationLoopStyle.Once) {
             this.waitFramesUntilNextFrame--;
             // Advance if there's still frames to play
             if (this.waitFramesUntilNextFrame <= 0) {
@@ -66,7 +63,7 @@ export class SpriteSet {
         }
 
         // Looping animations advance back to frame 1 when finished
-        if (this.animationLoopStyle === Enums.AnimationLoopStyle.Loop) {
+        if (this.animationLoopStyle === AnimationLoopStyle.Loop) {
             this.waitFramesUntilNextFrame--;
             if (this.waitFramesUntilNextFrame <= 0) {
                 // Advance
@@ -82,30 +79,30 @@ export class SpriteSet {
         }
 
         // Ping-pong animation play forwards, backwards, and then repeat
-        if (this.animationLoopStyle === Enums.AnimationLoopStyle.PingPong) {
+        if (this.animationLoopStyle === AnimationLoopStyle.PingPong) {
 
             this.waitFramesUntilNextFrame--;
 
             if (this.waitFramesUntilNextFrame <= 0) {
-                if (this.playDirection === Enums.Direction.Right) {
+                if (this.playDirection === Direction.Right) {
                     this.currentFrame++;
                     this.waitFramesUntilNextFrame = this.frameWaitDuration;
                     if (this.currentFrame = this.sprites.length) {
                         this.currentFrame--;
-                        this.playDirection = Enums.Direction.Left;
+                        this.playDirection = Direction.Left;
                     }
                 }
-                else if (this.playDirection === Enums.Direction.Left) {
+                else if (this.playDirection === Direction.Left) {
                     this.currentFrame--;
                     this.waitFramesUntilNextFrame = this.frameWaitDuration;
                     if (this.currentFrame < 0) {
                         this.currentFrame++;
-                        this.playDirection = Enums.Direction.Right;
+                        this.playDirection = Direction.Right;
                     }
                 }
             }
-            if (this.restart && this.playDirection === Enums.Direction.Right) this.reset();
-            if (this.restart && this.playDirection === Enums.Direction.Left) this.currentFrame = this.sprites.length - 1;
+            if (this.restart && this.playDirection === Direction.Right) this.reset();
+            if (this.restart && this.playDirection === Direction.Left) this.currentFrame = this.sprites.length - 1;
             return this.sprites[this.currentFrame];
         }
     }

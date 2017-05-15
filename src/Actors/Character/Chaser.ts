@@ -1,10 +1,4 @@
-import { ChaserSprites } from 'src/Actors/Sprites/Characters/ChaserSprites'
-import { Actor } from 'src/Actors/Actor'
-import { Player } from 'src/Actors/Character/Player'
-import { MoveTo } from 'src/Actors/Behaviour/Commands/MoveTo'
-import { Game } from 'src/Game'
-
-export class Chaser extends Actor {
+class Chaser extends Actor {
 
     constructor(game: Game) {
         super(game);
@@ -16,7 +10,7 @@ export class Chaser extends Actor {
         this.blocksSight = false; // it's short and we can see over it
         this.name = 'Blob';
 
-        this.spritesets = ChaserSprites;
+        this.spritesets = Sprites.ChaserSprites();
     }
 
     collidedInto(actor: Actor) {

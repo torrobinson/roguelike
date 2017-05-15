@@ -1,8 +1,4 @@
-import { Actor } from 'src/Actors/Actor'
-import { Game } from 'src/Game'
-import { InventoryItem } from 'src/Actors/Inventory/Base/InventoryItem'
-
-export class WorldItem extends Actor {
+class WorldItem extends Actor {
     inventoryItem: InventoryItem;
 
 

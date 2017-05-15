@@ -1,27 +1,4 @@
-import { Enums } from 'src/Helpers/Enums'
-import { Renderer } from 'src/Renderers/Renderer'
-import { Player } from 'src/Actors/Character/Player'
-import { Chaser } from 'src/Actors/Character/Chaser'
-import { Actor } from 'src/Actors/Actor'
-import { Chest } from 'src/Actors/WorldItems/Chest'
-import { Floor } from 'src/Actors/Environment/Floor'
-import { StairsDown } from 'src/Actors/Environment/Special/StairsDown'
-import { StairsUp } from 'src/Actors/Environment/Special/StairsUp'
-import { World } from 'src/World'
-import { Point } from 'src/Point'
-import { Potion } from 'src/Actors/Inventory/Potion'
-import { GameSettings } from 'src/GameSettings'
-import { Menu } from 'src/Menu/Menu'
-import { MainMenu } from 'src/Menu/Menus/MainMenu'
-import { MoveTo } from 'src/Actors/Behaviour/Commands/MoveTo'
-import { Movement } from 'src/Helpers/Movement'
-
-import { WorldGenerator } from 'src/Helpers/Generation/WorldGenerator'
-import { WorldGeneratorSettings } from 'src/Helpers/Generation/WorldGenerator'
-import { WorldDecorator } from 'src/Helpers/Generation/WorldDecorator'
-import { WorldDecoratorSettings } from 'src/Helpers/Generation/WorldDecorator'
-
-export class Game {
+class Game {
 
     frameClock: any;
     startFrameTimer: any;
@@ -32,7 +9,7 @@ export class Game {
     player: Player;
     world: World;
     worldStack: World[];
-    state: Enums.GameState;
+    state: GameState;
     settings: GameSettings;
     gameLog: string[];
     menu: Menu;
@@ -44,8 +21,8 @@ export class Game {
 
         this.frameClock = null;
 
-        this.framesPerSecond = Enums.GameDefault.FramesPerSecond;
-        this.ticksPerSecond = Enums.GameDefault.TicksPerSecond;
+        this.framesPerSecond = GameDefault.FramesPerSecond;
+        this.ticksPerSecond = GameDefault.TicksPerSecond;
 
 
 
@@ -55,7 +32,7 @@ export class Game {
         this.world = null;
         this.worldStack = [];
 
-        this.state = Enums.GameState.NotStarted;
+        this.state = GameState.NotStarted;
 
         this.settings = new GameSettings();
 
@@ -79,18 +56,18 @@ export class Game {
     }
 
     start() {
-        this.state = Enums.GameState.Playing;
+        this.state = GameState.Playing;
         this.startFrameTimer(this);
         //Tick once
         this.gameTick(this);
     }
 
     pause() {
-        this.state = Enums.GameState.Paused;
+        this.state = GameState.Paused;
     }
 
     unpause() {
-        this.state = Enums.GameState.Playing;
+        this.state = GameState.Playing;
     }
 
     log(text: string) {
@@ -111,7 +88,7 @@ export class Game {
     }
 
     gameTick(game: Game) {
-        if (this.state !== Enums.GameState.Paused) {
+        if (this.state !== GameState.Paused) {
             var actorsToTick = this.getTickableActors();
             for (var a = 0; a < actorsToTick.length; a++) {
                 actorsToTick[a].tick();
@@ -150,26 +127,26 @@ export class Game {
         return tickableActors;
     }
 
-    controlPressed(control: Enums.Control) {
+    controlPressed(control: Control) {
         // PAUSED
-        if (this.state === Enums.GameState.Paused) {
-            if (control === Enums.Control.UpArrow) {
+        if (this.state === GameState.Paused) {
+            if (control === Control.UpArrow) {
                 this.menu.navUp();
             }
 
-            if (control === Enums.Control.DownArrow) {
+            if (control === Control.DownArrow) {
                 this.menu.navDown();
             }
 
-            if (control === Enums.Control.Enter || control === Enums.Control.Space) {
+            if (control === Control.Enter || control === Control.Space) {
                 this.menu.executeCurrentOption();
             }
 
-            if (control === Enums.Control.Backspace) {
+            if (control === Control.Backspace) {
                 this.menu.goBackAPage();
             }
 
-            if (control === Enums.Control.Escape) {
+            if (control === Control.Escape) {
                 this.unpause();
                 this.menu.resetNavStack();
             }
@@ -177,9 +154,9 @@ export class Game {
         }
 
         // PLAYING
-        if (this.state === Enums.GameState.Playing) {
+        if (this.state === GameState.Playing) {
             // Arrows
-            if ([Enums.Control.UpArrow, Enums.Control.DownArrow, Enums.Control.LeftArrow, Enums.Control.RightArrow].contains(control)) {
+            if ([Control.UpArrow, Control.DownArrow, Control.LeftArrow, Control.RightArrow].contains(control)) {
 
                 // If we're not moving, issue a new move
                 if (!this.player.isMoving()) {
@@ -195,11 +172,11 @@ export class Game {
                 this.gameTick(this);
             }
 
-            if (control === Enums.Control.Escape) {
+            if (control === Control.Escape) {
                 this.pause();
             }
 
-            if (control === Enums.Control.P) {
+            if (control === Control.P) {
                 this.player.tryUseInventory(Potion);
             }
 
@@ -240,7 +217,7 @@ export class Game {
         this.player.world = this.world;
 
         var mainLayer = this.world.layers.filter(function(layer) {
-            return layer.type == Enums.LayerType.Wall;
+            return layer.type == LayerType.Wall;
         }).first();
         var starterRoomCenter = this.world.rooms.first().getCenter();
         var lastRoomCenter = this.world.rooms.last().getCenter();

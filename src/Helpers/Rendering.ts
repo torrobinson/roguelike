@@ -1,14 +1,4 @@
-import { Game } from 'src/Game'
-import { Layer } from 'src/Layer'
-import { Point } from 'src/Point'
-import { Enums } from 'src/Helpers/Enums'
-import { Actor } from 'src/Actors/Actor'
-import { Sprite } from 'src/Actors/Sprites/Sprite'
-import { Environment } from 'src/Actors/Environment/Special/OutOfBounds'
-import { Geometry } from 'src/Helpers/Geometry'
-import { Color } from 'src/Helpers/Color'
-
-export class Rendering {
+class Rendering {
     static SliceLayersToSize(game: Game, layers: Layer[], centerPoint: Point, width: number, height: number) {
         var slicedLayers = [];
 
@@ -34,7 +24,7 @@ export class Rendering {
                         slicedLayer.setTile(trimmedXToWrite, trimmedYToWrite, layer.getTile(x, y));
                     }
                     else {
-                        slicedLayer.setTile(trimmedXToWrite, trimmedYToWrite, new Environment.Special.OutOfBounds(game));
+                        slicedLayer.setTile(trimmedXToWrite, trimmedYToWrite, new OutOfBounds(game));
                     }
                     trimmedXToWrite++;
                 }
@@ -49,11 +39,11 @@ export class Rendering {
         return slicedLayers;
     }
 
-    static fogSprite(sprite: Sprite, fogged: boolean, fogStyle: Enums.FogStyle) {
-        if (fogStyle === Enums.FogStyle.Hide) {
+    static fogSprite(sprite: Sprite, fogged: boolean, fogStyle: FogStyle) {
+        if (fogStyle === FogStyle.Hide) {
             sprite.visible = !fogged;
         }
-        if (fogStyle === Enums.FogStyle.Darken) {
+        if (fogStyle === FogStyle.Darken) {
             sprite.tint = fogged ? 0x555555 : 0xFFFFFF;
         }
     }

@@ -1,9 +1,4 @@
-import { Point } from 'src/Point'
-import { Layer } from 'src/Layer'
-import { Actor } from 'src/Actors/Actor'
-
-
-export class Geometry {
+class Geometry {
 
     // Use Pythagoras to check if a point is a certain distance away
     static IsPointInCircle(circleLocation: Point, circleRadius: number, point: Point) {

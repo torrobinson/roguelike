@@ -1,5 +1,5 @@
 // Sprite defines a single, static image or text representation of something
-export class Sprite {
+class Sprite {
     spriteName: string;
     character: string;
     tint: number;

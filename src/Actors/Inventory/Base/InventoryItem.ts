@@ -1,6 +1,4 @@
-import { Actor } from 'src/Actors/Actor'
-
-export class InventoryItem {
+class InventoryItem {
     holder: Actor = null;
     usesRemaining: number = 1;
     name: string = '';

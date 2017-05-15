@@ -1,22 +1,11 @@
-import { WorldDecoratorHelpers } from 'src/Helpers/Generation/WorldDecoratorHelpers'
-import { World } from 'src/World'
-import { Enums } from 'src/Helpers/Enums'
-import { Random } from 'src/Helpers/Random'
-import { Room } from 'src/Room'
-
-import { Wall } from 'src/Actors/Environment/Wall'
-import { Carpet } from 'src/Actors/Environment/Carpet'
-import { Bookshelf } from 'src/Actors/Environment/Bookshelf'
-import { Pillar } from 'src/Actors/Environment/Pillar'
-
-export class WorldDecoratorSettings {
+class WorldDecoratorSettings {
     minNumberOfChests: number = 0;
     maxNumberOfChests: number = 2;
     minNumberOfChestContents: number = 1;
     maxNumberOfChestContents: number = 3;
 }
 
-export class WorldDecorator {
+class WorldDecorator {
     settings: WorldDecoratorSettings;
     random: Random;
     constructor(settings: WorldDecoratorSettings, seed: number) {
@@ -26,13 +15,13 @@ export class WorldDecorator {
 
     decorate(world: World) {
         // Connect walls
-        this.setAjdacentActorStatuses(world, Enums.LayerType.Wall, Wall);
+        this.setAjdacentActorStatuses(world, LayerType.Wall, Wall);
 
         // Decorate with objects
         this.decorateAllRooms(world);
 
         // Connect carpets
-        this.setAjdacentActorStatuses(world, Enums.LayerType.FloorDecor, Carpet);
+        this.setAjdacentActorStatuses(world, LayerType.FloorDecor, Carpet);
     }
 
     setAjdacentActorStatuses(world: World, layerType: any, actorType: any) {
@@ -62,18 +51,18 @@ export class WorldDecorator {
 
     decorateRoom(world: World, room: Room) {
         // Pick a random room type
-        var roomType = Enums.Enumeration.GetRandomEnumValue(Enums.RoomDecorationType, this.random);
-        var wallLayer = world.getLayersOfType(Enums.LayerType.Wall).first();
-        var floorDecorLayer = world.getLayersOfType(Enums.LayerType.FloorDecor).first();
+        var roomType = Enumeration.GetRandomEnumValue(RoomDecorationType, this.random);
+        var wallLayer = world.getLayersOfType(LayerType.Wall).first();
+        var floorDecorLayer = world.getLayersOfType(LayerType.FloorDecor).first();
 
         // NOTHING
-        if (roomType === Enums.RoomDecorationType.Nothing) {
+        if (roomType === RoomDecorationType.Nothing) {
             // Do nothing
         }
 
         // ATRIUM
-        else if (roomType === Enums.RoomDecorationType.Atrium) {
-            var orientation = Enums.Enumeration.GetRandomEnumValue(Enums.Orientation, this.random);
+        else if (roomType === RoomDecorationType.Atrium) {
+            var orientation = Enumeration.GetRandomEnumValue(Orientation, this.random);
             // Build columns down the sides, padded by 1
             WorldDecoratorHelpers.decorateDownWalls(
                 world.game,
@@ -86,7 +75,7 @@ export class WorldDecorator {
         }
 
         // LIBRARY
-        else if (roomType === Enums.RoomDecorationType.Library) {
+        else if (roomType === RoomDecorationType.Library) {
 
             // Put a carpet down the middle
             var carpetPadding = this.random.next(1, (Math.min(room.height, room.width) / 2) - 1);
@@ -99,7 +88,7 @@ export class WorldDecorator {
             );
 
             // Build bookshelves down the sides, against the walls (padded by 0)
-            var orientation = Enums.Enumeration.GetRandomEnumValue(Enums.Orientation, this.random);
+            var orientation = Enumeration.GetRandomEnumValue(Orientation, this.random);
             WorldDecoratorHelpers.decorateDownWalls(
                 world.game,
                 wallLayer,

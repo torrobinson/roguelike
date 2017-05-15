@@ -1,47 +1,42 @@
-import { Point } from 'src/Point'
-import { Enums } from 'src/Helpers/Enums'
-import { WorldItem } from 'src/Actors/WorldItems/Base/WorldItem'
-import { Chest } from 'src/Actors/WorldItems/Chest'
-
-export class Movement {
+class Movement {
     static ControlArrowToDirection(control) {
-        if (control == Enums.Control.UpArrow) {
-            return Enums.Direction.Up;
+        if (control == Control.UpArrow) {
+            return Direction.Up;
         }
-        if (control == Enums.Control.DownArrow) {
-            return Enums.Direction.Down;
+        if (control == Control.DownArrow) {
+            return Direction.Down;
         }
-        if (control == Enums.Control.LeftArrow) {
-            return Enums.Direction.Left;
+        if (control == Control.LeftArrow) {
+            return Direction.Left;
         }
-        if (control == Enums.Control.RightArrow) {
-            return Enums.Direction.Right;
+        if (control == Control.RightArrow) {
+            return Direction.Right;
         }
     }
 
     static DirectionToOffset(direction) {
-        if (direction == Enums.Direction.Up) {
+        if (direction == Direction.Up) {
             return new Point(0, -1);
         }
-        if (direction == Enums.Direction.Down) {
+        if (direction == Direction.Down) {
             return new Point(0, 1);
         }
-        if (direction == Enums.Direction.Left) {
+        if (direction == Direction.Left) {
             return new Point(-1, 0);
         }
-        if (direction == Enums.Direction.Right) {
+        if (direction == Direction.Right) {
             return new Point(1, 0);
         }
-        if (direction == Enums.Direction.UpLeft) {
+        if (direction == Direction.UpLeft) {
             return new Point(-1, -1);
         }
-        if (direction == Enums.Direction.UpRight) {
+        if (direction == Direction.UpRight) {
             return new Point(1, -1);
         }
-        if (direction == Enums.Direction.DownLeft) {
+        if (direction == Direction.DownLeft) {
             return new Point(-1, 1);
         }
-        if (direction == Enums.Direction.DownRight) {
+        if (direction == Direction.DownRight) {
             return new Point(1, 1);
         }
     }
@@ -50,28 +45,28 @@ export class Movement {
         var x = point2.x - point1.x;
         var y = point2.y - point1.y;
         if (x == 0 && y == 1) {
-            return Enums.Direction.Down;
+            return Direction.Down;
         }
         if (x == 0 && y == -1) {
-            return Enums.Direction.Up;
+            return Direction.Up;
         }
         if (x == 1 && y == 0) {
-            return Enums.Direction.Right;
+            return Direction.Right;
         }
         if (x == -1 && y == 0) {
-            return Enums.Direction.Left;
+            return Direction.Left;
         }
         if (x == 1 && y == 1) {
-            return Enums.Direction.DownRight;
+            return Direction.DownRight;
         }
         if (x == -1 && y == 1) {
-            return Enums.Direction.DownLeft;
+            return Direction.DownLeft;
         }
         if (x == 1 && y == -1) {
-            return Enums.Direction.UpRight;
+            return Direction.UpRight;
         }
         if (x == -1 && y == -1) {
-            return Enums.Direction.UpLeft;
+            return Direction.UpLeft;
         }
     };
 

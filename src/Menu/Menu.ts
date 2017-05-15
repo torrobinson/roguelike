@@ -1,6 +1,4 @@
-import { Game } from 'src/Game'
-
-export class Menu {
+class Menu {
     pages: any[];
     game: Game;
     navStack: any[] = [];

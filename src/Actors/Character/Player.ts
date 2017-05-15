@@ -1,16 +1,4 @@
-import { Actor } from 'src/Actors/Actor'
-import { Game } from 'src/Game'
-import { Enums } from 'src/Helpers/Enums'
-import { Point } from 'src/Point'
-import { InventoryItem } from 'src/Actors/Inventory/Base/InventoryItem'
-import { PlayerSprites } from 'src/Actors/Sprites/Characters/PlayerSprites'
-import { RunStats } from 'src/Actors/Character/RunStats'
-import { Geometry } from 'src/Helpers/Geometry'
-
-import { StairsDown } from 'src/Actors/Environment/Special/StairsDown'
-import { Chaser } from 'src/Actors/Character/Chaser'
-
-export class Player extends Actor {
+class Player extends Actor {
     runStats: RunStats;
 
     constructor(game: Game) {
@@ -24,12 +12,12 @@ export class Player extends Actor {
         this.startingHealth = 10;
         this.name = 'You';
 
-        this.spritesets = PlayerSprites;
+        this.spritesets = Sprites.PlayerSprites();
 
         this.initStats();
     }
 
-    move(direction: Enums.Direction) {
+    move(direction: Direction) {
         super.move(direction);
         // When we move, we want to start the animation over the next turn
         this.restartSpriteNextFrame = true;
@@ -109,9 +97,9 @@ export class Player extends Actor {
             // Visibility is based on line-of-site and radius around the player that's not obscured
             //  on the main collision/wall layer.
 
-            var wallLayer = this.world.getLayersOfType(Enums.LayerType.Wall).first();
-            var floorLayer = this.world.getLayersOfType(Enums.LayerType.Floor).first();
-            var floorDecorLayer = this.world.getLayersOfType(Enums.LayerType.FloorDecor).first();
+            var wallLayer = this.world.getLayersOfType(LayerType.Wall).first();
+            var floorLayer = this.world.getLayersOfType(LayerType.Floor).first();
+            var floorDecorLayer = this.world.getLayersOfType(LayerType.FloorDecor).first();
 
             // Based on the radius around the player and line-of-sight with walls and other
             //  wall-layered objects, see if they can see other tiles
@@ -153,7 +141,7 @@ export class Player extends Actor {
                             var surroundedWall = wallLayer.getTile(point.x, point.y);
                             if (surroundedWall !== null
                                 && surroundedWall.fogged
-                                && (surroundedWall.facing === Enums.Direction.UpDownLeftRight
+                                && (surroundedWall.facing === Direction.UpDownLeftRight
                                     || (
                                         surroundedWall.location.x === 0
                                         || surroundedWall.location.y === 0

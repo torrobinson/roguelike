@@ -1,4 +1,4 @@
-export class Color {
+class Color {
 
     // 0xFFFFFF -> 'FFFFFF'
     static intToHexString(hex) {

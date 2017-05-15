@@ -1,18 +1,14 @@
-import { Action } from 'src/Actors/Behaviour/Action'
-import { Command } from 'src/Actors/Behaviour/Command'
-import { Enums } from 'src/Helpers/Enums'
+class Move extends Action {
 
-export class Move extends Action {
-
-    direction: Enums.Direction;
+    direction: Direction;
     tickDuration: number;
-    executionType: Enums.ExecutionType;
+    executionType: ExecutionType;
 
-    constructor(command: Command, direction: Enums.Direction) {
+    constructor(command: Command, direction: Direction) {
         super(command);
         this.direction = direction;
         this.tickDuration = this.command.actor.moveTickDuration;
-        this.executionType = Enums.ExecutionType.ExecuteAndThenWait;
+        this.executionType = ExecutionType.ExecuteAndThenWait;
     }
     execute() {
         super.execute();

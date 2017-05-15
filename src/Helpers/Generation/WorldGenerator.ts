@@ -1,16 +1,4 @@
-import { Actor } from 'src/Actors/Actor'
-import { Game } from 'src/Game'
-import { Random } from 'src/Helpers/Random'
-import { World } from 'src/World'
-import { Layer } from 'src/Layer'
-import { Room } from 'src/Room'
-import { Point } from 'src/Point'
-import { GenerationHelpers } from 'src/Helpers/Generation/GenerationHelpers'
-import { Enums } from 'src/Helpers/Enums'
-import { Wall } from 'src/Actors/Environment/Wall'
-import { Floor } from 'src/Actors/Environment/Floor'
-
-export class WorldGeneratorSettings {
+class WorldGeneratorSettings {
     totalWidth: number = 0;
     totalHeight: number = 0;
     minRoomWidth: number = 0;
@@ -25,7 +13,7 @@ export class WorldGeneratorSettings {
     floorActorType: any = null;
 }
 
-export class WorldGenerator {
+class WorldGenerator {
     static GenerateCarvedWorld(
         seed: number,
         settings: WorldGeneratorSettings,
@@ -35,16 +23,16 @@ export class WorldGenerator {
         var world = new World(settings.totalWidth, settings.totalHeight, game);
 
         // Set up the main collision layer as ALL walls
-        var wallLayer = new Layer(settings.totalHeight, settings.totalWidth, 0, 'Main', Enums.LayerType.Wall);
+        var wallLayer = new Layer(settings.totalHeight, settings.totalWidth, 0, 'Main', LayerType.Wall);
         wallLayer.fillWith(Wall, game);
 
         // Create a new empty floor layer.
         // As we carve away the walls to create rooms and hallways, we'll add floor tiles here
-        var floorLayer = new Layer(settings.totalHeight, settings.totalWidth, -2, 'Floors', Enums.LayerType.Floor);
+        var floorLayer = new Layer(settings.totalHeight, settings.totalWidth, -2, 'Floors', LayerType.Floor);
 
         // Add a layer for things that can be stepped on, or floor decorations,
         //    in-between the floor and the wall layer
-        var floorDecorLayer = new Layer(settings.totalHeight, settings.totalWidth, -1, 'FloorDecorations', Enums.LayerType.FloorDecor);
+        var floorDecorLayer = new Layer(settings.totalHeight, settings.totalWidth, -1, 'FloorDecorations', LayerType.FloorDecor);
 
         // The rooms we're creating
         var rooms = [];

@@ -1,26 +1,21 @@
-import { Random } from 'src/Helpers/Random'
-import { Numbers } from 'src/Helpers/Numbers'
-
-declare global {
-    interface Array<T> {
-        first(): T;
-        second(): T;
-        last(): T;
-        secondLast(): T;
-        remove(obj: T): void;
-        shuffle(random: Random): Array<T>;
-        pickRandom(random: Random): T;
-        contains(needle: T): boolean;
-        onlyOdd(): Array<T>;
-        onlyEven(): Array<T>;
-        insert(obj: Object, index: number): Array<T>;
-    }
-    interface Object {
-        clone(): any;
-    }
-    interface String {
-        repeat(times: number): string;
-    }
+interface Array<T> {
+    first(): T;
+    second(): T;
+    last(): T;
+    secondLast(): T;
+    remove(obj: T): void;
+    shuffle(random: Random): Array<T>;
+    pickRandom(random: Random): T;
+    contains(needle: T): boolean;
+    onlyOdd(): Array<T>;
+    onlyEven(): Array<T>;
+    insert(obj: Object, index: number): Array<T>;
+}
+interface Object {
+    clone(): any;
+}
+interface String {
+    repeat(times: number): string;
 }
 
 // Array extensions

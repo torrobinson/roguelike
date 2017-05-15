@@ -1,7 +1,5 @@
-import { Actor } from 'src/Actors/Actor'
-import { InventoryItem } from 'src/Actors/Inventory/Base/InventoryItem'
-
-export class Potion extends InventoryItem {
+/// <reference path="./Base/InventoryItem.ts" />
+class Potion extends InventoryItem {
     healAmount: number;
 
     constructor(holder?: Actor) {

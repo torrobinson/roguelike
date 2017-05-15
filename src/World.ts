@@ -1,9 +1,4 @@
-import { Game } from 'src/Game'
-import { Room } from 'src/Room'
-import { Layer } from 'src/Layer'
-import { Enums } from 'src/Helpers/Enums'
-
-export class World{
+class World{
     width: number;
     height: number;
     layers: Layer[];
@@ -24,13 +19,13 @@ export class World{
     this.layers.push(layer);
   }
 
-  getLayersOfType(layerType: Enums.LayerType){
+  getLayersOfType(layerType: LayerType){
       return this.layers.filter(function(layer){
           return layer.type === layerType
       });
   }
 
-  getLayersNotOfType(layerType: Enums.LayerType){
+  getLayersNotOfType(layerType: LayerType){
       return this.layers.filter(function(layer){
           return layer.type !== layerType
       });
