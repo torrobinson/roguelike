@@ -100,10 +100,14 @@ class Enumeration {
     static GetRandomEnumValue(obj, random) {
         var result;
         var count = 0;
-        for (var prop in obj)
-            if (random.go() < 1 / ++count)
-                result = prop;
-        return result;
+        for (var prop in obj) {
+            if (obj.hasOwnProperty(prop) && parseInt(prop) != NaN) {
+                if (random.go() < 1 / ++count) {
+                    result = prop;
+                }
+            }
+        }
+        return parseInt(result);
     }
 }
 class Game {

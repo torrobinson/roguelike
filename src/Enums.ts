@@ -107,9 +107,13 @@ class Enumeration {
   static GetRandomEnumValue(obj: any, random: Random) {
       var result;
       var count = 0;
-      for (var prop in obj)
-          if (random.go() < 1 / ++count)
-              result = prop;
-      return result;
+      for (var prop in obj){
+          if(obj.hasOwnProperty(prop) && parseInt(prop) != NaN){ //ensure it's not inherited
+            if (random.go() < 1 / ++count){
+                result = prop;
+            }
+          }
+      }
+      return parseInt(result);
   }
 }
