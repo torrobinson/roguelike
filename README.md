@@ -4,13 +4,8 @@
 - Install Node.js
   - This should include NPM
 - In your project directory root, run `npm install` to install required packages
-- Open master\game.html
-
-### For Later (Building) ###
-- Install Gulp and set it up to run in your project directory
-  - Install globally with `npm install gulp -g`
-  - Navigate to your project directory and run `npm install gulp`
-  - Running `gulp` in the project directory will begin monitoring for file changes
+- Set up Typescript to run in watch mode with `tsc --watch`
+- Run `./build/game.html`
 
 ## Attribution ##
 
