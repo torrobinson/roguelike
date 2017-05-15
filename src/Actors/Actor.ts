@@ -19,7 +19,7 @@ class Actor {
     fogStyle: FogStyle = FogStyle.Hide;
     blocksSight: boolean = true;
     restartSpriteNextFrame: boolean = false;
-    startingHealth: number = 10;
+    startingHealth: number = undefined;
     health: number = this.startingHealth;
     world: World = null;
 

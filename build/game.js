@@ -465,7 +465,7 @@ class Actor {
         this.fogStyle = FogStyle.Hide;
         this.blocksSight = true;
         this.restartSpriteNextFrame = false;
-        this.startingHealth = 10;
+        this.startingHealth = undefined;
         this.health = this.startingHealth;
         this.world = null;
         this.game = game;
@@ -740,12 +740,13 @@ class MoveTo extends Command {
 class Chaser extends Actor {
     constructor(game) {
         super(game);
-        this.doesSubscribeToTicks = true;
-        this.moveTickDuration = 2;
         this.startingHealth = 1;
-        this.viewRadius = 15;
-        this.blocksSight = false;
+        this.health = this.startingHealth;
         this.name = 'Blob';
+        this.moveTickDuration = 2;
+        this.viewRadius = 15;
+        this.doesSubscribeToTicks = true;
+        this.blocksSight = false;
         this.spritesets = Sprites.ChaserSprites();
     }
     collidedInto(actor) {
@@ -774,13 +775,14 @@ class Chaser extends Actor {
 class Player extends Actor {
     constructor(game) {
         super(game);
-        this.doesSubscribeToTicks = true;
-        this.moveTickDuration = 1;
-        this.viewRadius = 18;
-        this.fogged = false;
-        this.defaultAttackPower = 1;
         this.startingHealth = 10;
+        this.health = this.startingHealth;
+        this.moveTickDuration = 1;
+        this.defaultAttackPower = 1;
         this.name = 'You';
+        this.viewRadius = 18;
+        this.doesSubscribeToTicks = true;
+        this.fogged = false;
         this.spritesets = Sprites.PlayerSprites();
         this.initStats();
     }
@@ -2151,23 +2153,26 @@ class PixiRenderer {
         this.pixiStage.addChild(pixiText);
     }
     getHealthGraphic(actor, x, y) {
-        var heartPipWidth = 3;
-        var heartPipHeight = 3;
-        var spacingBetweenPips = 3;
-        var pipsToDraw = actor.health;
-        var totalHeight = heartPipHeight;
-        var totalWidth = (pipsToDraw * heartPipWidth) + ((pipsToDraw - 1) * spacingBetweenPips);
-        x += (this.tileSize / 2);
-        x -= totalWidth / 2;
-        y -= 5;
-        var healthGraphic = new PIXI.Graphics();
-        for (var i = 0; i < pipsToDraw; i++) {
-            healthGraphic.beginFill(0xff0800, 1);
-            healthGraphic.drawRect(x, y, heartPipWidth, heartPipHeight);
-            healthGraphic.endFill();
-            x += heartPipWidth + spacingBetweenPips;
+        if (actor.health !== undefined) {
+            var heartPipWidth = 3;
+            var heartPipHeight = 3;
+            var spacingBetweenPips = 3;
+            var pipsToDraw = actor.health;
+            var totalHeight = heartPipHeight;
+            var totalWidth = (pipsToDraw * heartPipWidth) + ((pipsToDraw - 1) * spacingBetweenPips);
+            x += (this.tileSize / 2);
+            x -= totalWidth / 2;
+            y -= 5;
+            var healthGraphic = new PIXI.Graphics();
+            for (var i = 0; i < pipsToDraw; i++) {
+                healthGraphic.beginFill(0xff0800, 1);
+                healthGraphic.drawRect(x, y, heartPipWidth, heartPipHeight);
+                healthGraphic.endFill();
+                x += heartPipWidth + spacingBetweenPips;
+            }
+            return healthGraphic;
         }
-        return healthGraphic;
+        return null;
     }
     drawHealth() {
         for (var i = 0; i < this.healthGraphics.length; i++) {

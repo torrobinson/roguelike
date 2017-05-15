@@ -1,19 +1,16 @@
 class Player extends Actor {
     runStats: RunStats;
-
+    startingHealth: number = 10;
+    health: number = this.startingHealth;
+    moveTickDuration: number = 1;
+    defaultAttackPower: number = 1;
+    name: string = 'You';
+    viewRadius: number = 18;
     constructor(game: Game) {
         super(game);
         this.doesSubscribeToTicks = true;
-        this.moveTickDuration = 1;
-        this.viewRadius = 18;
         this.fogged = false;
-
-        this.defaultAttackPower = 1;
-        this.startingHealth = 10;
-        this.name = 'You';
-
         this.spritesets = Sprites.PlayerSprites();
-
         this.initStats();
     }
 

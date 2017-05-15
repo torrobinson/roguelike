@@ -133,6 +133,7 @@ class PixiRenderer implements Renderer {
     }
 
     getHealthGraphic(actor: Actor, x: number, y: number) {
+      if(actor.health !== undefined){
         var heartPipWidth = 3;
         var heartPipHeight = 3;
         var spacingBetweenPips = 3;
@@ -154,6 +155,8 @@ class PixiRenderer implements Renderer {
             x += heartPipWidth + spacingBetweenPips;
         }
         return healthGraphic;
+      }
+      return null;
     }
 
     drawHealth() {

@@ -1,15 +1,13 @@
 class Chaser extends Actor {
-
+      startingHealth: number = 1;
+      health: number = this.startingHealth;
+        name: string = 'Blob';
+        moveTickDuration: number = 2;
+        viewRadius: number = 15;
     constructor(game: Game) {
         super(game);
         this.doesSubscribeToTicks = true;
-
-        this.moveTickDuration = 2;
-        this.startingHealth = 1;
-        this.viewRadius = 15;
         this.blocksSight = false; // it's short and we can see over it
-        this.name = 'Blob';
-
         this.spritesets = Sprites.ChaserSprites();
     }
 
