@@ -1,4 +1,5 @@
 # roguelike #
+This is an experiment to familiarize myself with game mechanics, TypeScript, and Pixi.js
 
 ### To Play: ###
 - Install Node.js
