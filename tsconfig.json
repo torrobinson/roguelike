@@ -3,7 +3,7 @@
         "noImplicitAny": false,
         "removeComments": true,
         "preserveConstEnums": true,
-        "outFile": "build/game.js",
+        "outFile": "build/js/game.js",
         "sourceMap": true,
         "target": "es6"
     },

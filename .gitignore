@@ -4,5 +4,5 @@
 node_modules
 *.app
 *.exe
-build/game.js
-build/game.js.map
+build
+build/*
