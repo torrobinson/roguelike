@@ -5,8 +5,8 @@ This is an experiment to familiarize myself with game mechanics, TypeScript, and
 - Install Node.js
   - This should include NPM
 - In your project directory root, run `npm install` to install required packages
-- Set up Typescript to run in watch mode with `tsc --watch`
-- Run `./build/game.html`
+- Run `gulp` to build
+- Run the built`./build/game.html`
 
 ## Attribution ##
 
