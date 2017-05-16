@@ -87,7 +87,7 @@ class PixiRenderer implements Renderer {
         }
 
         var style = new PIXI.TextStyle({
-            fontFamily: 'monospace',
+            fontFamily: 'Courier',
             fontSize: 11,
             fill: 0xFFFFFF,
             wordWrap: true,
@@ -133,30 +133,30 @@ class PixiRenderer implements Renderer {
     }
 
     getHealthGraphic(actor: Actor, x: number, y: number) {
-      if(actor.health !== undefined){
-        var heartPipWidth = 3;
-        var heartPipHeight = 3;
-        var spacingBetweenPips = 3;
-        var pipsToDraw = actor.health;
+        if (actor.health !== undefined) {
+            var heartPipWidth = 3;
+            var heartPipHeight = 3;
+            var spacingBetweenPips = 3;
+            var pipsToDraw = actor.health;
 
-        var totalHeight = heartPipHeight;
-        var totalWidth = (pipsToDraw * heartPipWidth) + ((pipsToDraw - 1) * spacingBetweenPips);
+            var totalHeight = heartPipHeight;
+            var totalWidth = (pipsToDraw * heartPipWidth) + ((pipsToDraw - 1) * spacingBetweenPips);
 
-        // Offset the pen
-        x += (this.tileSize / 2); // move halfway in to the center
-        x -= totalWidth / 2; // then move halfway out to it before drawing so that the whole thing is centered
-        y -= 5; // move up above the actor
+            // Offset the pen
+            x += (this.tileSize / 2); // move halfway in to the center
+            x -= totalWidth / 2; // then move halfway out to it before drawing so that the whole thing is centered
+            y -= 5; // move up above the actor
 
-        var healthGraphic = new PIXI.Graphics();
-        for (var i = 0; i < pipsToDraw; i++) {
-            healthGraphic.beginFill(0xff0800, 1);
-            healthGraphic.drawRect(x, y, heartPipWidth, heartPipHeight);
-            healthGraphic.endFill();
-            x += heartPipWidth + spacingBetweenPips;
+            var healthGraphic = new PIXI.Graphics();
+            for (var i = 0; i < pipsToDraw; i++) {
+                healthGraphic.beginFill(0xff0800, 1);
+                healthGraphic.drawRect(x, y, heartPipWidth, heartPipHeight);
+                healthGraphic.endFill();
+                x += heartPipWidth + spacingBetweenPips;
+            }
+            return healthGraphic;
         }
-        return healthGraphic;
-      }
-      return null;
+        return null;
     }
 
     drawHealth() {

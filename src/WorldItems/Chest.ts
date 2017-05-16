@@ -1,5 +1,5 @@
 /// <reference path="./Base/WorldItem.ts" />
-/// <reference path="../../Sprites/Sprites.ts" />
+/// <reference path="../Sprites/Sprites.ts" />
 
 class Chest extends WorldItem {
     contents: InventoryItem[];

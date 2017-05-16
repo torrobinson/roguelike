@@ -190,8 +190,8 @@ class Game {
 
         // Generate the dungeon
         var settings = new WorldGeneratorSettings();
-        settings.totalWidth = 100;
-        settings.totalHeight = 100;
+        settings.totalWidth = 50;
+        settings.totalHeight = 50;
         settings.minRoomWidth = 3;
         settings.maxRoomWidth = 20;
         settings.minRoomHeight = 3;
