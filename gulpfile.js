@@ -11,6 +11,7 @@ var uglify = require('gulp-uglify');
 var include = require("gulp-include");
 var typescript = require('gulp-typescript');
 var run = require('gulp-run');
+var open = require('gulp-open');
 
 global.errorMessage = '';
 
@@ -36,5 +37,8 @@ gulp.task('default', function () {
      .pipe(gulp.dest(buildFolder + '/art'));
 
      // Compile typescript
-     return run('tsc').exec();
+     return run('tsc').exec(function(){
+          gulp.src([buildFolder + '/game.html'])
+          .pipe(open());
+     });
 });
