@@ -63,8 +63,11 @@
                     }
                 }
 
+                // Fetch the game settings
+                var gameSettings = GameSettingsProvider.getSettings();
+
                 // Start the game
-                var game = new Game(renderer, parseInt(seed));
+                var game = new Game(renderer, parseInt(seed), gameSettings);
                 game.setRandomDungeon();
                 game.start();
 

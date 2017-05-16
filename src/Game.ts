@@ -14,10 +14,11 @@ class Game {
     gameLog: string[];
     menu: Menu;
 
-    constructor(renderer: Renderer, seed: number) {
+    constructor(renderer: Renderer, seed: number, settings: GameSettings) {
         this.renderer = renderer;
         this.renderer.game = this; // set up a reference
         this.seed = seed;
+        this.settings = settings;
 
         this.frameClock = null;
 
@@ -33,8 +34,6 @@ class Game {
         this.worldStack = [];
 
         this.state = GameState.NotStarted;
-
-        this.settings = new GameSettings();
 
         // Initialize the renderer
         this.renderer.init();
@@ -53,6 +52,10 @@ class Game {
         this.menu = MainMenu;
         this.menu.linkToGame(this);
 
+    }
+
+    saveSettings() {
+        GameSettingsProvider.saveSettings(this.settings);
     }
 
     start() {
