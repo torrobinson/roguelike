@@ -9,7 +9,6 @@ var concat = require("gulp-concat");
 var babel = require('gulp-babel');
 var uglify = require('gulp-uglify');
 var include = require("gulp-include");
-var typescript = require('gulp-typescript');
 var run = require('gulp-run');
 var open = require('gulp-open');
 
