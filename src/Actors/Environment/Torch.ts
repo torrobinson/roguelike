@@ -1,7 +1,7 @@
 class Torch extends Actor implements EmitsLight {
     emitRadius: number = 10;
     emitColor: number = 0x000000; //orange
-    emitIntensity: number = 0.25; // 1.0 is max
+    emitIntensity: number = 1; // 1.0 is max
 
 
     constructor(game: Game, color?: number) {

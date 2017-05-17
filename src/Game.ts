@@ -234,10 +234,12 @@ class Game {
         mainLayer.placeActor(this.player, Movement.AddPoints(spawnLocation, new Point(0, 1)));
 
         // Sample Torch
-        var torch = new Torch(this);//, 0xFFA200);
-        mainLayer.placeActor(torch, Movement.AddPoints(spawnLocation, new Point(0, -1)));
-        var torch2 = new Torch(this;//, 0x005EFF);
-        mainLayer.placeActor(torch2, Movement.AddPoints(spawnLocation, new Point(0, -5)));
+        var torch = new Torch(this, 0xf44242);
+        mainLayer.placeActor(torch, Movement.AddPoints(spawnLocation, new Point(2, 2)));
+        var torch2 = new Torch(this, 0x0059ff);
+        mainLayer.placeActor(torch2, Movement.AddPoints(spawnLocation, new Point(-2, -2)));
+        var torch3 = new Torch(this, 0x00ff2a);
+        mainLayer.placeActor(torch3, Movement.AddPoints(spawnLocation, new Point(-2, 2)));
 
         var exit = new StairsDown(this);
         mainLayer.placeActor(exit, exitLocation);

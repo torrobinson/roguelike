@@ -44,12 +44,12 @@ class Rendering {
             sprite.visible = !fogged;
         }
         if (fogStyle === FogStyle.Darken) {
-            sprite.tint = fogged ? 0x555555 : 0xFFFFFF;
+            sprite.tint = fogged ? 0x555555 : 0xfff1d6; // 0xfff1d6 is a slightly red-shifted white, as this is more pleasing tot he eye and realistic that straight up white
         }
     }
 
     static darkenSpriteByDistanceFromLightSource(sprite: Sprite, spriteActor: Actor, lightSourceActor: Actor) {
-        var darkColor = 0x222222; //0x000000 is black
+        var darkColor = 0x131823; // 0x131823 is nearly black, but blue-shifted because blue shadows are more pleasing to the eye
         if (spriteActor !== null && lightSourceActor !== null && spriteActor.location !== null && lightSourceActor.location !== null) {
             var currentTint = sprite.tint;
             var darkenAmount = 1 - Geometry.getBrightnessForPoint(spriteActor.location, lightSourceActor.location, lightSourceActor.viewRadius, 1);
