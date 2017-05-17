@@ -167,10 +167,11 @@ class PixiRenderer implements Renderer {
         var red = 0xFF0000;
         var green = 0x00FF00;
 
-        var mapAlpha = 0.25;
+        var mapAlpha = this.game.settings.minimap.opacity;
 
         // Draw the floor as white
-        var pixelSize = 2;
+        var pixelSize = this.game.settings.minimap.size;
+
         var graphics = new PIXI.Graphics();
         var floorLayer = world.getLayersOfType(LayerType.Floor).first();
         for (var y = 0; y < floorLayer.tiles.length; y++) {
@@ -178,7 +179,7 @@ class PixiRenderer implements Renderer {
                 var tile = floorLayer.tiles[y][x];
                 if (tile !== null && tile.fogged === false) {
                     graphics.beginFill(white, mapAlpha);
-                    graphics.drawRect(x * pixelSize + offsetX, y * pixelSize + offsetY, pixelSize, pixelSize);
+                    graphics.drawRect(x * pixelSize, y * pixelSize, pixelSize, pixelSize);
                 }
             }
         }
@@ -192,7 +193,7 @@ class PixiRenderer implements Renderer {
 
                     if (tile instanceof StairsDown) {
                         graphics.beginFill(green, 1);
-                        graphics.drawRect(x * pixelSize + offsetX, y * pixelSize + offsetY, pixelSize, pixelSize);
+                        graphics.drawRect(x * pixelSize, y * pixelSize, pixelSize, pixelSize);
                     }
 
                 }
@@ -201,12 +202,12 @@ class PixiRenderer implements Renderer {
 
         // Draw player location
         graphics.beginFill(red, 1);
-        graphics.drawRect(this.game.player.location.x * pixelSize + offsetX, this.game.player.location.y * pixelSize + offsetY, pixelSize, pixelSize);
+        graphics.drawRect(this.game.player.location.x * pixelSize, this.game.player.location.y * pixelSize, pixelSize, pixelSize);
 
         // Draw a border to show map bounds
         graphics.beginFill(white, 0);
         graphics.lineStyle(1, white, mapAlpha);
-        graphics.drawRect(offsetX, offsetY, world.width * pixelSize + offsetX, world.height * pixelSize + offsetY);
+        graphics.drawRect(0, 0, world.width * pixelSize, world.height * pixelSize);
 
         graphics.endFill();
         return graphics;
@@ -296,7 +297,37 @@ class PixiRenderer implements Renderer {
         this.drawHealth();
 
         // Draw miniMap
-        this.pixiStage.addChild(this.getMiniMapGraphics(world));
+        if (this.game.settings.minimap.visible) {
+            var padding = 20;
+            var graphics = this.getMiniMapGraphics(world);
+            var mapHolder = new PIXI.Container();
+            mapHolder.addChild(graphics);
+
+            switch (this.game.settings.minimap.position) {
+                case Corner.TopLeft:
+                    mapHolder.position.x = padding
+                    mapHolder.position.y = padding;
+                    break;
+                case Corner.TopRight:
+                    mapHolder.position.x = this.pixiRenderer.width - mapHolder.width - padding;
+                    mapHolder.position.y = padding;
+                    break;
+                case Corner.BottomLeft:
+                    mapHolder.position.x = padding
+                    mapHolder.position.y = this.pixiRenderer.height - mapHolder.height - padding - this.infoBar.height;
+                    break;
+                case Corner.BottomRight:
+                    mapHolder.position.x = this.pixiRenderer.width - mapHolder.width - padding;
+                    mapHolder.position.y = this.pixiRenderer.height - mapHolder.height - padding - this.infoBar.height;
+                    break;
+            }
+
+            //mapHolder.position.x = this.pixiRenderer.width;
+            //mapHolder.position.y = this.pixiRenderer.height;
+
+            this.pixiStage.addChild(mapHolder);
+
+        }
 
         // Draw a menu if we're paused
         if (this.game.state === GameState.Paused) {

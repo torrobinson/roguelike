@@ -6,7 +6,7 @@ class GameSettings {
 
 class MinimapSettings {
     visible: boolean = true;
-    position: string = 'tl';
+    position: Corner = Corner.TopLeft;
     size: number = 1.0;
     opacity: number = 1.0;
 }

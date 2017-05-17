@@ -53,15 +53,9 @@ var MainMenu = new Menu([
         name: "Options",
         options: [
             {
-                label: "Control...",
+                label: "Minimap...",
                 execute: function() {
-                    this.menu.navToPage("controlOptions");
-                }
-            },
-            {
-                label: "Graphics...",
-                execute: function() {
-                    this.menu.navToPage("graphicOptions");
+                    this.menu.navToPage("minimapOptions");
                 }
             },
             {
@@ -72,16 +66,99 @@ var MainMenu = new Menu([
                     );
                 },
                 execute: function() {
-                    this.menu.game.settings.showHealth = !this.menu.game
-                        .settings.showHealth;
+                    this.menu.game.settings.showHealth = !this.menu.game.settings.showHealth;
+                    this.menu.game.saveSettings();
                 }
             },
+
             {
                 label: "(back)",
                 execute: function() {
                     this.menu.goBackAPage();
                 }
-            }
+            },
+
+        ]
+    },
+
+    {
+        id: "minimapOptions",
+        name: "Minimap",
+        options: [
+            {
+                label: function() {
+                    return (
+                        (this.menu.game.settings.minimap.visible ? "Hide" : "Show") +
+                        " minimap"
+                    );
+                },
+                execute: function() {
+                    this.menu.game.settings.minimap.visible = !this.menu.game.settings.minimap.visible;
+                    this.menu.game.saveSettings();
+                }
+            },
+
+            {
+                label: function() {
+                    return (
+                        "Minimap size: " + this.menu.game.settings.minimap.size
+                    );
+                },
+                execute: function() {
+                    this.menu.game.settings.minimap.size += 0.5;
+                    if (this.menu.game.settings.minimap.size > 3) this.menu.game.settings.minimap.size = 0.5;
+                    this.menu.game.saveSettings();
+                }
+            },
+
+            {
+                label: function() {
+                    return (
+                        "Minimap opacity: " + this.menu.game.settings.minimap.opacity
+                    );
+                },
+                execute: function() {
+                    this.menu.game.settings.minimap.opacity += 0.1;
+                    this.menu.game.settings.minimap.opacity = Math.round(this.menu.game.settings.minimap.opacity * 10) / 10 // nearest 1 decimal place
+                    if (this.menu.game.settings.minimap.opacity > 1) this.menu.game.settings.minimap.opacity = 0.1;
+                    this.menu.game.saveSettings();
+                }
+            },
+
+            {
+                label: function() {
+                    var cornerEnglish;
+                    switch (this.menu.game.settings.minimap.position) {
+                        case Corner.TopLeft:
+                            cornerEnglish = 'top-left';
+                            break;
+                        case Corner.TopRight:
+                            cornerEnglish = 'top-right';
+                            break;
+                        case Corner.BottomLeft:
+                            cornerEnglish = 'bottom-left';
+                            break;
+                        case Corner.BottomRight:
+                            cornerEnglish = 'bottom-right';
+                            break;
+                    }
+                    return (
+                        "Minimap position: " + cornerEnglish
+                    );
+                },
+                execute: function() {
+                    this.menu.game.settings.minimap.position++;
+                    if (this.menu.game.settings.minimap.position > 3) this.menu.game.settings.minimap.position = 0;
+                    this.menu.game.saveSettings();
+                }
+            },
+
+            {
+                label: "(back)",
+                execute: function() {
+                    this.menu.goBackAPage();
+                }
+            },
         ]
     },
 
