@@ -1,11 +1,16 @@
 class Torch extends Actor implements EmitsLight {
     emitRadius: number = 10;
-    emitColor: number = 0xFFA200; //orange
-    emitIntensity: number = 1.0; // 1.0 is max
+    emitColor: number = 0x000000; //orange
+    emitIntensity: number = 0.25; // 1.0 is max
 
 
-    constructor(game: Game) {
+    constructor(game: Game, color?: number) {
         super(game);
+
+        if (color) {
+            this.emitColor = color;
+        }
+
         this.spritesets = Sprites.TorchSprites();
         this.fogStyle = FogStyle.Darken;
         this.blocksSight = false;

@@ -224,6 +224,18 @@ class PixiRenderer implements Renderer {
         // Clear frame
         for (var i = this.pixiStage.children.length - 1; i >= 0; i--) { this.pixiStage.removeChild(this.pixiStage.children[i]); };
 
+        // Get things that emit light
+        var lightLayer = world.getLayersOfType(LayerType.Wall).first();
+        var lights: Torch[] = new Array<Torch>();
+        for (var y = 0; y < lightLayer.height; y++) {
+            for (var x = 0; x < lightLayer.width; x++) {
+                var actor = lightLayer.tiles[y][x];
+                if (actor !== null && actor instanceof Torch) {
+                    lights.push(actor);
+                }
+            }
+        }
+
         // Center the camera
         var layersToRender = Rendering.SliceLayersToSize(
             this.game,        // game reference
@@ -274,6 +286,12 @@ class PixiRenderer implements Renderer {
 
                             // Darken it as it leaves the player view radius
                             Rendering.darkenSpriteByDistanceFromLightSource(sprite, actor, world.game.player);
+
+                            // Hit it with light
+                            for (let e = 0; e < lights.length; e++) {
+                                var light: Torch = lights[e];
+                                Rendering.lightSpriteByDistanceFromLightSource(sprite, actor, light, light.emitColor, light.emitIntensity);
+                            }
 
                             // Fullbright it if needed
                             if (actor.fullBright) {

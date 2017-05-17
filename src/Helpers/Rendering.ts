@@ -58,4 +58,18 @@ class Rendering {
             sprite.tint = newTint;
         }
     }
+
+    static lightSpriteByDistanceFromLightSource(sprite: Sprite, spriteActor: Actor, lightSourceActor: Actor, color: number, intensity?: number) {
+        if (spriteActor !== null && lightSourceActor !== null && spriteActor.location !== null && lightSourceActor.location !== null) {
+            if (!intensity) {
+                intensity = 1.0;
+            }
+            var currentTint = sprite.tint;
+            var darkenAmount = Geometry.getBrightnessForPoint(spriteActor.location, lightSourceActor.location, lightSourceActor.viewRadius, 1) * intensity;
+            if (darkenAmount > 0.0) {
+                var newTint = Color.shadeBlendInt(darkenAmount, currentTint, color); // blend that much blackness into it to darken it
+                sprite.tint = newTint;
+            }
+        }
+    }
 }
