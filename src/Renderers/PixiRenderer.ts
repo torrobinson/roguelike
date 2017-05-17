@@ -281,25 +281,47 @@ class PixiRenderer implements Renderer {
                             sprite.x = 0 + (x * this.tileSize);
                             sprite.y = 0 + (y * this.tileSize);
 
-                            // Fog it if needed
-                            Rendering.fogSprite(sprite, actor.fogged, actor.fogStyle);
+                            // As long as it's in the game world, deal with it
+                            if(actor instanceof OutOfBounds === false){
 
-                            // Darken it as it leaves the player view radius
-                            Rendering.darkenSpriteByDistanceFromLightSource(sprite, actor, world.game.player);
+    							                // START LIGHTING
 
-                            // Hit it with light
-                            for (let e = 0; e < lights.length; e++) {
-                                var light: Torch = lights[e];
-                                Rendering.lightSpriteByDistanceFromLightSource(sprite, actor, light, light.emitColor, light.emitIntensity);
+                                  // Fog it if needed
+                                  Rendering.fogSprite(sprite, actor.fogged, actor.fogStyle);
+
+                                  // Darken it as it leaves the player view radius
+                                  Rendering.darkenSpriteByDistanceFromLightSource(sprite, actor, world.game.player);
+
+                                  // Hit it with player light
+                                  var lightCount: number = 0;
+                                  if(Geometry.IsPointInCircle(world.game.player.location, world.game.player.viewRadius, actor.location)){
+                                    lightCount+=2;
+                                  }
+                                  // Count the number of other lights being mixed in
+                                  for (let e = 0; e < lights.length; e++) {
+                                      var light: Torch = lights[e];
+                                      if(Geometry.IsPointInCircle(light.location, light.emitRadius, actor.location)){
+                                        lightCount++;
+                                      }
+                                  }
+                                  // Hit it with the lights, with decreasing intensity the more other lights are in play
+                                  for (let e = 0; e < lights.length; e++) {
+                                      var light: Torch = lights[e];
+                                      if(Geometry.IsPointInCircle(light.location, light.emitRadius, actor.location)){
+                                          Rendering.lightSpriteByDistanceFromLightSource(sprite, actor, light, light.emitColor, light.emitIntensity/lightCount);
+                                      }
+                                  }
+
+                                  // Fullbright it if needed
+                                  if (actor.fullBright) {
+                                      sprite.tint = 0xFFFFFF; // full white
+                                  }
+
+    							                // END LIGHTING
+
+                                  // Draw it
+                                  layerContainer.addChild(sprite);
                             }
-
-                            // Fullbright it if needed
-                            if (actor.fullBright) {
-                                sprite.tint = 0xFFFFFF; // full white
-                            }
-
-                            // Draw it
-                            layerContainer.addChild(sprite);
 
                             // Add health graphics to draw later
                             if (this.game.settings.showHealth && !actor.fogged && actor.health !== undefined) {
