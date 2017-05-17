@@ -1,7 +1,13 @@
 // Default game settings
 class GameSettings {
-    showHealth: boolean = true;
+    graphic: GraphicSettings = new GraphicSettings();
     minimap: MinimapSettings = new MinimapSettings();
+}
+
+class GraphicSettings {
+    showHealth: boolean = true;
+    showLighting : boolean = true;
+    showColoredLighting : boolean = true;
 }
 
 class MinimapSettings {

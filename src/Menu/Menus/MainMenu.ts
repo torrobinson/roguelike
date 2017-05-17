@@ -58,18 +58,74 @@ var MainMenu = new Menu([
                     this.menu.navToPage("minimapOptions");
                 }
             },
+
             {
-                label: function() {
-                    return (
-                        (this.menu.game.settings.showHealth ? "Hide" : "Show") +
-                        " health pips"
-                    );
-                },
+                label: "Graphics...",
                 execute: function() {
-                    this.menu.game.settings.showHealth = !this.menu.game.settings.showHealth;
-                    this.menu.game.saveSettings();
+                    this.menu.navToPage("graphicOptions");
                 }
             },
+
+
+            {
+                label: "(back)",
+                execute: function() {
+                    this.menu.goBackAPage();
+                }
+            },
+
+        ]
+    },
+
+    {
+        id: "graphicOptions",
+        name: "Graphics",
+        options: [
+
+          {
+              label: function() {
+                  return (
+                      (this.menu.game.settings.graphic.showHealth ? "Hide" : "Show") +
+                      " health pips"
+                  );
+              },
+              execute: function() {
+                  this.menu.game.settings.graphic.showHealth = !this.menu.game.settings.graphic.showHealth;
+                  this.menu.game.saveSettings();
+              }
+          },
+
+          {
+              label: function() {
+                  return (
+                      (this.menu.game.settings.graphic.showLighting ? "Hide" : "Show") +
+                      " dynamic lighting"
+                  );
+              },
+              execute: function() {
+                  this.menu.game.settings.graphic.showLighting = !this.menu.game.settings.graphic.showLighting;
+                  this.menu.game.saveSettings();
+              }
+          },
+
+          {
+              label: function() {
+                if(this.menu.game.settings.graphic.showLighting){
+                  return (
+                      "└──" +
+                      (this.menu.game.settings.graphic.showColoredLighting ? "Hide" : "Show") +
+                      " colored lighting"
+                  );
+                }
+                else{
+                  return null;
+                }
+              },
+              execute: function() {
+                  this.menu.game.settings.graphic.showColoredLighting = !this.menu.game.settings.graphic.showColoredLighting;
+                  this.menu.game.saveSettings();
+              }
+          },
 
             {
                 label: "(back)",

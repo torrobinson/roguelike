@@ -77,7 +77,7 @@ class WorldDecorator {
               world.game,
               wallLayer,
               room,
-              LightColors.White
+              LightColorCode.White
             );
         }
 

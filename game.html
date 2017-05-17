@@ -76,7 +76,7 @@
                 document.onkeyup = keyUp;
                 var isKeyRepeating = false;
                 var keyRepeatTimer = null;
-                var keyRepeatRate = 25; // In milliseconds
+                var keyRepeatRate = 100; // In milliseconds
                 function keyUp(e) {
                     if (keyRepeatTimer !== null) {
                         clearTimeout(keyRepeatTimer);
