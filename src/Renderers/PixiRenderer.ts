@@ -295,7 +295,7 @@ class PixiRenderer implements Renderer {
                                   // Hit it with player light
                                   var lightCount: number = 0;
                                   if(Geometry.IsPointInCircle(world.game.player.location, world.game.player.viewRadius, actor.location)){
-                                    lightCount+=2;
+                                    lightCount++;
                                   }
                                   // Count the number of other lights being mixed in
                                   for (let e = 0; e < lights.length; e++) {
@@ -307,14 +307,33 @@ class PixiRenderer implements Renderer {
                                   // Hit it with the lights, with decreasing intensity the more other lights are in play
                                   for (let e = 0; e < lights.length; e++) {
                                       var light: Torch = lights[e];
-                                      if(Geometry.IsPointInCircle(light.location, light.emitRadius, actor.location)){
-                                          Rendering.lightSpriteByDistanceFromLightSource(sprite, actor, light, light.emitColor, light.emitIntensity/lightCount);
+                                      if(Geometry.IsPointInCircle(light.location, light.emitRadius, actor.location))
+                                      {
+                                          // Illuminate it
+                                          Rendering.lightSpriteByDistanceFromLightSource(
+                                            sprite,
+                                            actor,
+                                            light,
+                                            light.emitColor,
+                                            light.emitIntensity/lightCount // divide the intensity among all lights tot "mix" them
+                                          );
+
+                                          // If the actor is normally fogged but happens to be illuminated this frame, then override
+                                          //    and reveal their sprite
+                                          if(actor.fogged && actor.fogStyle === FogStyle.Hide){
+                                              sprite.visible = true;
+                                              if(actor instanceof Chaser)
+                                              var foo='bar';
+                                          }
                                       }
                                   }
 
                                   // Fullbright it if needed
                                   if (actor.fullBright) {
                                       sprite.tint = 0xFFFFFF; // full white
+                                      if(actor instanceof Torch){
+                                        sprite.tint = Color.shadeBlendInt(0.4,sprite.tint, actor.emitColor);
+                                      }
                                   }
 
     							                // END LIGHTING

@@ -39,17 +39,17 @@ class Rendering {
         return slicedLayers;
     }
 
-    static fogSprite(sprite: Sprite, fogged: boolean, fogStyle: FogStyle) {
+    static fogSprite(sprite: any, fogged: boolean, fogStyle: FogStyle) {
         if (fogStyle === FogStyle.Hide) {
             sprite.visible = !fogged;
         }
         if (fogStyle === FogStyle.Darken) {
-            sprite.tint = fogged ? 0x555555 : 0xfff1d6; // 0xfff1d6 is a slightly red-shifted white, as this is more pleasing tot he eye and realistic that straight up white
+            sprite.tint = fogged? LightColors.Black : LightColors.White; // 0xfff1d6 is a slightly red-shifted white, as this is more pleasing tot he eye and realistic that straight up white
         }
     }
 
     static darkenSpriteByDistanceFromLightSource(sprite: Sprite, spriteActor: Actor, lightSourceActor: Actor) {
-        var darkColor = 0x131823; // 0x131823 is nearly black, but blue-shifted because blue shadows are more pleasing to the eye
+        var darkColor = LightColors.Black; // 0x131823 is nearly black, but blue-shifted because blue shadows are more pleasing to the eye
         if (spriteActor !== null && lightSourceActor !== null && spriteActor.location !== null && lightSourceActor.location !== null) {
             var currentTint = sprite.tint;
             var darkenAmount = 1 - Geometry.getBrightnessForPoint(spriteActor.location, lightSourceActor.location, lightSourceActor.viewRadius, 1);

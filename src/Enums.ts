@@ -21,6 +21,11 @@ enum Direction {
     UpDownLeftRight = 15
 }
 
+enum LightColors {
+     White = 0xffedb2, // red shifted white
+     Black = 0x0f1523 // blue shifted black
+}
+
 enum Corner {
     TopLeft = 0,
     TopRight = 1,

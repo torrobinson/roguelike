@@ -241,6 +241,9 @@ class Game {
         var torch3 = new Torch(this, 0x00ff2a);
         mainLayer.placeActor(torch3, Movement.AddPoints(spawnLocation, new Point(-2, 2)));
 
+        var exitTorch = new Torch(this, 0xFFFFFF);
+        mainLayer.placeActor(exitTorch, Movement.AddPoints(exitLocation, new Point(2, 2)));
+
         var exit = new StairsDown(this);
         mainLayer.placeActor(exit, exitLocation);
 
