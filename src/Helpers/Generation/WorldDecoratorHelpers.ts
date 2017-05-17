@@ -57,7 +57,7 @@ class WorldDecoratorHelpers {
 
     // Given a layer, a room, and the padding to ignore around the room's border, draw a rectangle of
     //  actorytpe in the center of the room
-    static decorateWithCenteredRectangle(game: Game, layer, room, padding, actorType) {
+    static decorateWithCenteredRectangle(game: Game, layer: Layer, room: Room, padding: number, actorType: any) {
         for (var y = padding; y < room.height - padding; y++) {
             for (var x = padding; x < room.width - padding; x++) {
                 var location = Movement.AddPoints(room.position, new Point(x, y));
@@ -66,5 +66,53 @@ class WorldDecoratorHelpers {
                 }
             }
         }
+    }
+
+    static addTorchesToCorners(game: Game, layer: Layer, room: Room, color: number){
+      var topLeft = new Point(room.position.x, room.position.y);
+      var topRight = new Point(room.position.x + room.width-1, room.position.y);
+      var bottomLeft = new Point(room.position.x, room.height-1 + room.position.y);
+      var bottomRight = new Point(room.position.x+room.width-1, room.height-1 + room.position.y);
+
+      // Top Left
+      var possibleBlock1: Point = Movement.AddPoints(topLeft,Movement.DirectionToOffset(Direction.Left));
+      var possibleBlock2: Point = Movement.AddPoints(topLeft,Movement.DirectionToOffset(Direction.Up));
+      if(layer.getTile(topLeft.x, topLeft.y) === null && layer.getTile(possibleBlock1.x, possibleBlock1.y) instanceof Wall && layer.getTile(possibleBlock2.x, possibleBlock2.y) instanceof Wall){
+        layer.placeActor(
+          new Torch(game, color),
+          topLeft
+        );
+      }
+
+      // Top Right
+      possibleBlock1 = Movement.AddPoints(topRight,Movement.DirectionToOffset(Direction.Right));
+      possibleBlock2 = Movement.AddPoints(topRight,Movement.DirectionToOffset(Direction.Up));
+      if(layer.getTile(topRight.x, topRight.y) === null && layer.getTile(possibleBlock1.x, possibleBlock1.y) instanceof Wall && layer.getTile(possibleBlock2.x, possibleBlock2.y) instanceof Wall){
+        layer.placeActor(
+          new Torch(game, color),
+          topRight
+        );
+      }
+
+      // Bottom Left
+      possibleBlock1 = Movement.AddPoints(bottomLeft,Movement.DirectionToOffset(Direction.Left));
+      possibleBlock2 = Movement.AddPoints(bottomLeft,Movement.DirectionToOffset(Direction.Down));
+      if(layer.getTile(bottomLeft.x, bottomLeft.y) === null && layer.getTile(possibleBlock1.x, possibleBlock1.y) instanceof Wall && layer.getTile(possibleBlock2.x, possibleBlock2.y) instanceof Wall){
+        layer.placeActor(
+          new Torch(game, color),
+          bottomLeft
+        );
+      }
+
+      // Bottom Right
+      possibleBlock1 = Movement.AddPoints(bottomRight,Movement.DirectionToOffset(Direction.Right));
+      possibleBlock2 = Movement.AddPoints(bottomRight,Movement.DirectionToOffset(Direction.Down));
+      if(layer.getTile(bottomRight.x, bottomRight.y) === null && layer.getTile(possibleBlock1.x, possibleBlock1.y) instanceof Wall && layer.getTile(possibleBlock2.x, possibleBlock2.y) instanceof Wall){
+        layer.placeActor(
+          new Torch(game, color),
+          bottomRight
+        );
+      }
+
     }
 }

@@ -72,6 +72,13 @@ class WorldDecorator {
                 Pillar,
                 orientation
             );
+
+            WorldDecoratorHelpers.addTorchesToCorners(
+              world.game,
+              wallLayer,
+              room,
+              LightColors.White
+            );
         }
 
         // LIBRARY
