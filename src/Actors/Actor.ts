@@ -22,6 +22,7 @@ class Actor {
     startingHealth: number = undefined;
     health: number = this.startingHealth;
     world: World = null;
+    fullBright: boolean = false;
 
     constructor(game: Game) {
         // Actors must be born with awareness of the game they are in

@@ -275,6 +275,11 @@ class PixiRenderer implements Renderer {
                             // Darken it as it leaves the player view radius
                             Rendering.darkenSpriteByDistanceFromLightSource(sprite, actor, world.game.player);
 
+                            // Fullbright it if needed
+                            if (actor.fullBright) {
+                                sprite.tint = 0xFFFFFF; // full white
+                            }
+
                             // Draw it
                             layerContainer.addChild(sprite);
 
