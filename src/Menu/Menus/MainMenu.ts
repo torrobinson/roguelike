@@ -82,50 +82,46 @@ var MainMenu = new Menu([
         name: "Graphics",
         options: [
 
-          {
-              label: function() {
-                  return (
-                      (this.menu.game.settings.graphic.showHealth ? "Hide" : "Show") +
-                      " health pips"
-                  );
-              },
-              execute: function() {
-                  this.menu.game.settings.graphic.showHealth = !this.menu.game.settings.graphic.showHealth;
-                  this.menu.game.saveSettings();
-              }
-          },
-
-          {
-              label: function() {
-                  return (
-                      (this.menu.game.settings.graphic.showLighting ? "Hide" : "Show") +
-                      " dynamic lighting"
-                  );
-              },
-              execute: function() {
-                  this.menu.game.settings.graphic.showLighting = !this.menu.game.settings.graphic.showLighting;
-                  this.menu.game.saveSettings();
-              }
-          },
-
-          {
-              label: function() {
-                if(this.menu.game.settings.graphic.showLighting){
-                  return (
-                      "└──" +
-                      (this.menu.game.settings.graphic.showColoredLighting ? "Hide" : "Show") +
-                      " colored lighting"
-                  );
+            {
+                label: function() {
+                    return (
+                        (this.menu.game.settings.graphic.showHealth ? "Hide" : "Show") +
+                        " health pips"
+                    );
+                },
+                execute: function() {
+                    this.menu.game.settings.graphic.showHealth = !this.menu.game.settings.graphic.showHealth;
+                    this.menu.game.saveSettings();
                 }
-                else{
-                  return null;
+            },
+
+            {
+                label: function() {
+                    return (
+                        (this.menu.game.settings.graphic.showLighting ? "Hide" : "Show") +
+                        " dynamic lighting"
+                    );
+                },
+                execute: function() {
+                    this.menu.game.settings.graphic.showLighting = !this.menu.game.settings.graphic.showLighting;
+                    this.menu.game.saveSettings();
                 }
-              },
-              execute: function() {
-                  this.menu.game.settings.graphic.showColoredLighting = !this.menu.game.settings.graphic.showColoredLighting;
-                  this.menu.game.saveSettings();
-              }
-          },
+            },
+
+            {
+                label: function() {
+                    return (
+                        "└──" +
+                        (this.menu.game.settings.graphic.showColoredLighting ? "Hide" : "Show") +
+                        " colored lighting"
+                    );
+                },
+                execute: function() {
+                    this.menu.game.settings.graphic.showColoredLighting = !this.menu.game.settings.graphic.showColoredLighting;
+                    this.menu.game.saveSettings();
+                },
+                visible: function() { return this.menu.game.settings.graphic.showLighting }
+            },
 
             {
                 label: "(back)",
@@ -157,20 +153,21 @@ var MainMenu = new Menu([
             {
                 label: function() {
                     return (
-                        "Minimap size: " + this.menu.game.settings.minimap.size
+                        "├──Minimap size: " + this.menu.game.settings.minimap.size
                     );
                 },
                 execute: function() {
                     this.menu.game.settings.minimap.size += 0.5;
                     if (this.menu.game.settings.minimap.size > 3) this.menu.game.settings.minimap.size = 0.5;
                     this.menu.game.saveSettings();
-                }
+                },
+                visible: function() { return this.menu.game.settings.minimap.visible }
             },
 
             {
                 label: function() {
                     return (
-                        "Minimap opacity: " + this.menu.game.settings.minimap.opacity
+                        "├──Minimap opacity: " + this.menu.game.settings.minimap.opacity
                     );
                 },
                 execute: function() {
@@ -178,7 +175,8 @@ var MainMenu = new Menu([
                     this.menu.game.settings.minimap.opacity = Math.round(this.menu.game.settings.minimap.opacity * 10) / 10 // nearest 1 decimal place
                     if (this.menu.game.settings.minimap.opacity > 1) this.menu.game.settings.minimap.opacity = 0.1;
                     this.menu.game.saveSettings();
-                }
+                },
+                visible: function() { return this.menu.game.settings.minimap.visible }
             },
 
             {
@@ -199,14 +197,15 @@ var MainMenu = new Menu([
                             break;
                     }
                     return (
-                        "Minimap position: " + cornerEnglish
+                        "└──Minimap position: " + cornerEnglish
                     );
                 },
                 execute: function() {
                     this.menu.game.settings.minimap.position++;
                     if (this.menu.game.settings.minimap.position > 3) this.menu.game.settings.minimap.position = 0;
                     this.menu.game.saveSettings();
-                }
+                },
+                visible: function() { return this.menu.game.settings.minimap.visible }
             },
 
             {
@@ -215,64 +214,6 @@ var MainMenu = new Menu([
                     this.menu.goBackAPage();
                 }
             },
-        ]
-    },
-
-    {
-        id: "controlOptions",
-        name: "Controls",
-        options: [
-            {
-                label: "Control Option 1",
-                execute: function() { }
-            },
-            {
-                label: "Control Option 2",
-                execute: function() { }
-            },
-            {
-                label: "Control Option 3",
-                execute: function() { }
-            },
-            {
-                label: "Control Option 4",
-                execute: function() { }
-            },
-            {
-                label: "Control Option 5",
-                execute: function() { }
-            },
-            {
-                label: "(back)",
-                execute: function() {
-                    this.menu.goBackAPage();
-                }
-            }
-        ]
-    },
-
-    {
-        id: "graphicOptions",
-        name: "Graphics",
-        options: [
-            {
-                label: "Graphics Option 1",
-                execute: function() { }
-            },
-            {
-                label: "Graphics Option 2",
-                execute: function() { }
-            },
-            {
-                label: "Graphics Option 3",
-                execute: function() { }
-            },
-            {
-                label: "(back)",
-                execute: function() {
-                    this.menu.goBackAPage();
-                }
-            }
         ]
     }
 ]);

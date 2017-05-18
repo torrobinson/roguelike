@@ -77,14 +77,14 @@ class PixiRenderer implements Renderer {
                 label = option.label();
             else
                 label = option.label;
-            if(label !== null){
-              if (menu.selectedOptionIndex === o) {
-                  text += '->' + label;
-              }
-              else {
-                  text += '  ' + label;
-              }
-              text += '\r\n';
+            if (option.visible === undefined || (typeof option.visible == 'function' && option.visible())) {
+                if (menu.selectedOptionIndex === o) {
+                    text += '->' + label;
+                }
+                else {
+                    text += '  ' + label;
+                }
+                text += '\r\n';
             }
         }
 
@@ -284,63 +284,62 @@ class PixiRenderer implements Renderer {
                             sprite.y = 0 + (y * this.tileSize);
 
                             // As long as it's in the game world, deal with it
-                            if(actor instanceof OutOfBounds === false){
+                            if (actor instanceof OutOfBounds === false) {
 
-    							                // START LIGHTING
+                                // START LIGHTING
 
-                                  // Fog it if needed
-                                  Rendering.fogSprite(sprite, actor.fogged, actor.fogStyle);
+                                // Fog it if needed
+                                Rendering.fogSprite(sprite, actor.fogged, actor.fogStyle);
 
-                                  // Darken it as it leaves the player view radius
-                                  Rendering.darkenSpriteByDistanceFromLightSource(sprite, actor, world.game.player);
+                                // Darken it as it leaves the player view radius
+                                Rendering.darkenSpriteByDistanceFromLightSource(sprite, actor, world.game.player);
 
-                                  // Hit it with player light
-                                  var lightCount: number = 0;
-                                  if(Geometry.IsPointInCircle(world.game.player.location, world.game.player.viewRadius, actor.location)){
+                                // Hit it with player light
+                                var lightCount: number = 0;
+                                if (Geometry.IsPointInCircle(world.game.player.location, world.game.player.viewRadius, actor.location)) {
                                     lightCount++;
-                                  }
+                                }
 
-                                  if(this.game.settings.graphic.showLighting){
-                                    if(this.game.settings.graphic.showColoredLighting){
-                                      // Count the number of other lights being mixed in
-                                      for (let e = 0; e < lights.length; e++) {
-                                          var light: Torch = lights[e];
-                                          if(Geometry.IsPointInCircle(light.location, light.emitRadius, actor.location)){
-                                            lightCount++;
-                                          }
-                                      }
+                                if (this.game.settings.graphic.showLighting) {
+                                    if (this.game.settings.graphic.showColoredLighting) {
+                                        // Count the number of other lights being mixed in
+                                        for (let e = 0; e < lights.length; e++) {
+                                            var light: Torch = lights[e];
+                                            if (Geometry.IsPointInCircle(light.location, light.emitRadius, actor.location)) {
+                                                lightCount++;
+                                            }
+                                        }
                                     }
-                                    else{
-                                      lightCount = 1;
+                                    else {
+                                        lightCount = 1;
                                     }
 
                                     // Hit it with the lights, with decreasing intensity the more other lights are in play
                                     for (let e = 0; e < lights.length; e++) {
                                         var light: Torch = lights[e];
-                                        if(Geometry.IsPointInCircle(light.location, light.emitRadius, actor.location))
-                                        {
+                                        if (Geometry.IsPointInCircle(light.location, light.emitRadius, actor.location)) {
                                             var color: number;
-                                            if(this.game.settings.graphic.showColoredLighting){
-                                              color = light.emitColor;
+                                            if (this.game.settings.graphic.showColoredLighting) {
+                                                color = light.emitColor;
                                             }
-                                            else{
-                                              color = LightColorCode.White
+                                            else {
+                                                color = LightColorCode.White
                                             }
                                             // Illuminate it
                                             Rendering.lightSpriteByDistanceFromLightSource(
-                                              sprite,
-                                              actor,
-                                              light,
-                                              color,
-                                              light.emitIntensity/lightCount // divide the intensity among all lights tot "mix" them
+                                                sprite,
+                                                actor,
+                                                light,
+                                                color,
+                                                light.emitIntensity / lightCount // divide the intensity among all lights tot "mix" them
                                             );
 
                                             // If the actor is normally fogged but happens to be illuminated this frame, then override
                                             //    and reveal their sprite
-                                            if(actor.fogged && actor.fogStyle === FogStyle.Hide){
+                                            if (actor.fogged && actor.fogStyle === FogStyle.Hide) {
                                                 sprite.visible = true;
-                                                if(actor instanceof Chaser)
-                                                var foo='bar';
+                                                if (actor instanceof Chaser)
+                                                    var foo = 'bar';
                                             }
                                         }
                                     }
@@ -348,14 +347,14 @@ class PixiRenderer implements Renderer {
                                     // Fullbright it if needed
                                     if (actor.fullBright) {
                                         sprite.tint = 0xFFFFFF; // full white
-                                        if(actor instanceof Torch){
-                                          sprite.tint = Color.shadeBlendInt(0.4,sprite.tint, actor.emitColor);
+                                        if (actor instanceof Torch) {
+                                            sprite.tint = Color.shadeBlendInt(0.4, sprite.tint, actor.emitColor);
                                         }
                                     }
-                                  }
+                                }
 
-                                  // Draw it
-                                  layerContainer.addChild(sprite);
+                                // Draw it
+                                layerContainer.addChild(sprite);
                             }
 
                             // Add health graphics to draw later

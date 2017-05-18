@@ -4,6 +4,7 @@ class Menu {
     navStack: any[] = [];
     previousSelectedOptionIndexStack: any[] = [];
     selectedOptionIndex: number = 0;
+    charWidth: number = 50;
 
     constructor(pages: any[]) {
         this.pages = this.init(pages);
