@@ -17,7 +17,9 @@ class Menu {
         return this.navStack[0];
     }
     currentOption() {
-        return this.currentPage().options[this.selectedOptionIndex];
+        var options = this.currentPage().options;
+        if(typeof options == 'function') options = options();
+        return options[this.selectedOptionIndex];
     }
     getPreviousPageSelectedIndex() {
         if (this.previousSelectedOptionIndexStack.length > 0) {
@@ -37,10 +39,13 @@ class Menu {
     }
     containCursor() {
 
+        var options = this.currentPage().options;
+        if(typeof options == 'function') options = options();
+
         if (this.selectedOptionIndex < 0) {
-            this.selectedOptionIndex = this.currentPage().options.length - 1;
+            this.selectedOptionIndex = options.length - 1;
         }
-        else if (this.selectedOptionIndex >= this.currentPage().options.length) {
+        else if (this.selectedOptionIndex >= options.length) {
             this.selectedOptionIndex = 0;
         }
     }
@@ -74,7 +79,7 @@ class Menu {
     }
     executeCurrentOption() {
         var option = this.currentOption();
-        if (option !== null) {
+        if (option !== undefined && option!== null) {
             option.execute();
         }
     }

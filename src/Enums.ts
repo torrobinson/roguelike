@@ -23,7 +23,7 @@ enum Direction {
 
 enum LightColorCode {
      White = 0xffedb2, // red shifted white
-     Black = 0x0f1523 // blue shifted black
+     Black = 0x121723 // blue shifted black
 }
 
 enum ColorCode {
@@ -68,7 +68,8 @@ enum Control {
     Enter = 13,
     Backspace = 8,
     Escape = 27,
-    P = 80
+    P = 80,
+    I = 73
 }
 
 enum ExecutionType {

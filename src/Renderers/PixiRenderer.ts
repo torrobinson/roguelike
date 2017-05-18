@@ -70,8 +70,15 @@ class PixiRenderer implements Renderer {
 
         // Render current page
         var page = menu.currentPage();
-        for (var o = 0; o < page.options.length; o++) {
-            var option = page.options[o];
+        var options: any[];
+        if(typeof page.options == 'function'){
+          options = page.options();
+        }
+        else{
+          options = page.options;
+        }
+        for (var o = 0; o < options.length; o++) {
+            var option = options[o];
             var label;
             if (typeof option.label == 'function')
                 label = option.label();
@@ -97,11 +104,9 @@ class PixiRenderer implements Renderer {
         });
 
         var menuText = new PIXI.Text(text, style);
-        // Set the anchor point to be the exact center of the text bounds
-        menuText.anchor.set(0.5, 0.5);
         // Set the center of the text to be the middle of the canvas
-        menuText.x = this.pixiRenderer.width / 2;
-        menuText.y = this.pixiRenderer.height / 2;
+        menuText.x = Math.floor(this.pixiRenderer.width / 2 - menuText.width / 2);
+        menuText.y = Math.floor(this.pixiRenderer.height / 2 -  menuText.height / 2);
 
         var pauseOverlay = new PIXI.Graphics();
         pauseOverlay.beginFill(0x000000, 0.5);
@@ -409,8 +414,8 @@ class PixiRenderer implements Renderer {
         }
 
         // Draw a menu if we're paused
-        if (this.game.state === GameState.Paused) {
-            this.drawMenu(this.game.menu);
+        if (this.game.activeMenu !== null) {
+            this.drawMenu(this.game.activeMenu);
         }
 
         // Render the frame

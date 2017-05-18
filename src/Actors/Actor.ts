@@ -23,6 +23,7 @@ class Actor {
     health: number = this.startingHealth;
     world: World = null;
     fullBright: boolean = false;
+    lastSprite : Sprite;
 
     constructor(game: Game) {
         // Actors must be born with awareness of the game they are in
@@ -30,17 +31,23 @@ class Actor {
     }
 
     getSprite() {
+      if(this.game.state === GameState.Playing){
         if (this.spritesets !== null) {
             var sprite = this.spritesets.filter(
                 function(spriteset) {
                     return spriteset.status === this.status && spriteset.direction === this.facing
                 }, this).first().getSprite(this.restartSpriteNextFrame);
             this.restartSpriteNextFrame = false;
+            this.lastSprite = sprite;
             return sprite;
         }
         else {
             return null;
         }
+      }
+      else{
+        return this.lastSprite;
+      }
     }
 
     isMoving() {

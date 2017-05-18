@@ -12,7 +12,10 @@ class Game {
     state: GameState;
     settings: GameSettings;
     gameLog: string[];
-    menu: Menu;
+
+    pauseMenu: Menu;
+    inventoryMenu: Menu;
+    activeMenu: Menu = null;
 
     constructor(renderer: Renderer, seed: number, settings: GameSettings) {
         this.renderer = renderer;
@@ -49,8 +52,12 @@ class Game {
         };
 
         // Menus
-        this.menu = MainMenu;
-        this.menu.linkToGame(this);
+        // Main
+        this.pauseMenu = MainMenu;
+        this.pauseMenu.linkToGame(this);
+        // Inventory
+        this.inventoryMenu = InventoryMenu;
+        this.inventoryMenu.linkToGame(this);
 
     }
 
@@ -67,11 +74,18 @@ class Game {
 
     pause() {
         this.state = GameState.Paused;
+        this.activeMenu = this.pauseMenu;
+    }
+    openInventory(){
+      this.state = GameState.Paused;
+      this.activeMenu = this.inventoryMenu;
     }
 
-    unpause() {
+    killActiveMenu() {
         this.state = GameState.Playing;
+        this.activeMenu = null;
     }
+
 
     log(text: string) {
         this.gameLog.push(text);
@@ -132,27 +146,34 @@ class Game {
 
     controlPressed(control: Control) {
         // PAUSED
-        if (this.state === GameState.Paused) {
+        if (this.activeMenu !== null) {
             if (control === Control.UpArrow) {
-                this.menu.navUp();
+                this.activeMenu.navUp();
             }
 
             if (control === Control.DownArrow) {
-                this.menu.navDown();
+                this.activeMenu.navDown();
             }
 
             if (control === Control.Enter || control === Control.Space) {
-                this.menu.executeCurrentOption();
+                this.activeMenu.executeCurrentOption();
             }
 
             if (control === Control.Backspace) {
-                this.menu.goBackAPage();
+                this.activeMenu.goBackAPage();
             }
 
             if (control === Control.Escape) {
-                this.unpause();
-                this.menu.resetNavStack();
+                this.activeMenu.resetNavStack();
+                this.killActiveMenu();
             }
+
+            // Let the Inventory key toggle itself
+            if (control === Control.I && this.activeMenu === this.inventoryMenu) {
+                this.activeMenu.resetNavStack();
+                this.killActiveMenu();
+            }
+
             return;
         }
 
@@ -181,6 +202,10 @@ class Game {
 
             if (control === Control.P) {
                 this.player.tryUseInventory(Potion);
+            }
+
+            if (control === Control.I) {
+              this.activeMenu = this.inventoryMenu;
             }
 
             return;
@@ -266,7 +291,9 @@ class Game {
         mainLayer.placeActor(chaser8, exitLocation.offsetBy(-1, 1));
 
         var demoChest = new Chest(this, [new Potion()]);
+        var demoChest2 = new Chest(this, [new Potion(), new Potion(), new Potion()]);
         mainLayer.placeActor(demoChest, this.world.rooms.second().getCenter());
+        mainLayer.placeActor(demoChest2, Movement.AddPoints(spawnLocation, new Point(1, 0)));
 
     }
 
