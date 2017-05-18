@@ -57,7 +57,15 @@ class WorldDecorator {
 
         // NOTHING
         if (roomType === RoomDecorationType.Nothing) {
-            // Do nothing
+            // Empty rooms get a 33% chance to get torches
+            if (this.random.go() > 0.66) {
+                WorldDecoratorHelpers.addTorchesToCorners(
+                    world.game,
+                    wallLayer,
+                    room,
+                    LightColorCode.White
+                );
+            }
         }
 
         // ATRIUM
@@ -73,12 +81,15 @@ class WorldDecorator {
                 orientation
             );
 
-            WorldDecoratorHelpers.addTorchesToCorners(
-              world.game,
-              wallLayer,
-              room,
-              LightColorCode.White
-            );
+            // Half of all atriums get torches
+            if (this.random.go() > 0.5) {
+                WorldDecoratorHelpers.addTorchesToCorners(
+                    world.game,
+                    wallLayer,
+                    room,
+                    LightColorCode.White
+                );
+            }
         }
 
         // LIBRARY
