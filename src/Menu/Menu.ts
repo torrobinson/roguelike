@@ -17,8 +17,7 @@ class Menu {
         return this.navStack[0];
     }
     currentOption() {
-        var options = this.currentPage().options;
-        if(typeof options == 'function') options = options();
+        var options = Generic.ResolveIfDynamic(this.currentPage().options);
         return options[this.selectedOptionIndex];
     }
     getPreviousPageSelectedIndex() {
@@ -38,9 +37,7 @@ class Menu {
         this.previousSelectedOptionIndexStack = [];
     }
     containCursor() {
-
-        var options = this.currentPage().options;
-        if(typeof options == 'function') options = options();
+        var options = Generic.ResolveIfDynamic(this.currentPage().options);
 
         if (this.selectedOptionIndex < 0) {
             this.selectedOptionIndex = options.length - 1;

@@ -1,3 +1,4 @@
+/// <reference path="../Helpers/Generic.ts" />
 declare var PIXI: any;
 
 class PixiRenderer implements Renderer {
@@ -68,22 +69,11 @@ class PixiRenderer implements Renderer {
         text += breadcrumb + '\r\n';
         text += '-'.repeat(breadcrumb.length) + '\r\n';
 
-        // Render current page
-        var page = menu.currentPage();
-        var options: any[];
-        if(typeof page.options == 'function'){
-          options = page.options();
-        }
-        else{
-          options = page.options;
-        }
+        // Render current page;
+        var options = Generic.ResolveIfDynamic(menu.currentPage().options);
         for (var o = 0; o < options.length; o++) {
             var option = options[o];
-            var label;
-            if (typeof option.label == 'function')
-                label = option.label();
-            else
-                label = option.label;
+            var label = Generic.ResolveIfDynamic(option.label);
             if (option.visible === undefined || (typeof option.visible == 'function' && option.visible())) {
                 if (menu.selectedOptionIndex === o) {
                     text += '->' + label;
@@ -269,7 +259,7 @@ class PixiRenderer implements Renderer {
                         var actorSprite = actor.getSprite();
 
 
-                        if (actorSprite !== null) {
+                        if (actorSprite !== undefined && actorSprite !== null) {
                             // Come up with the sprite to draw
                             var atlas = null;
                             if (actor instanceof Player || actor instanceof Chaser) {

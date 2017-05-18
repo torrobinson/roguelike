@@ -7,19 +7,19 @@ var MainMenu = new Menu([
             {
                 label: "Resume",
                 execute: function() {
-                    this.menu.game.state = GameState.Playing;
+                    MainMenu.game.state = GameState.Playing;
                 }
             },
             {
                 label: "Options...",
                 execute: function() {
-                    this.menu.navToPage("options");
+                    MainMenu.navToPage("options");
                 }
             },
             {
                 label: "Start Over",
                 execute: function() {
-                    this.menu.navToPage("reset");
+                    MainMenu.navToPage("reset");
                 }
             }
         ]
@@ -32,17 +32,17 @@ var MainMenu = new Menu([
             {
                 label: "No",
                 execute: function() {
-                    this.menu.goBackAPage();
+                    MainMenu.goBackAPage();
                 }
             },
             {
                 label: "Yes",
                 execute: function() {
-                    this.menu.game.player.reset();
-                    this.menu.game.setRandomDungeon();
-                    this.menu.game.unpause();
-                    this.menu.game.gameTick(this.menu.game);
-                    this.menu.resetNavStack();
+                    MainMenu.game.player.reset();
+                    MainMenu.game.setRandomDungeon();
+                    MainMenu.game.unpause();
+                    MainMenu.game.gameTick(MainMenu.game);
+                    MainMenu.resetNavStack();
                 }
             }
         ]
@@ -55,14 +55,14 @@ var MainMenu = new Menu([
             {
                 label: "Minimap...",
                 execute: function() {
-                    this.menu.navToPage("minimapOptions");
+                    MainMenu.navToPage("minimapOptions");
                 }
             },
 
             {
                 label: "Graphics...",
                 execute: function() {
-                    this.menu.navToPage("graphicOptions");
+                    MainMenu.navToPage("graphicOptions");
                 }
             },
 
@@ -70,7 +70,7 @@ var MainMenu = new Menu([
             {
                 label: "(back)",
                 execute: function() {
-                    this.menu.goBackAPage();
+                    MainMenu.goBackAPage();
                 }
             },
 
@@ -85,26 +85,26 @@ var MainMenu = new Menu([
             {
                 label: function() {
                     return (
-                        (this.menu.game.settings.graphic.showHealth ? "Hide" : "Show") +
+                        (MainMenu.game.settings.graphic.showHealth ? "Hide" : "Show") +
                         " health pips"
                     );
                 },
                 execute: function() {
-                    this.menu.game.settings.graphic.showHealth = !this.menu.game.settings.graphic.showHealth;
-                    this.menu.game.saveSettings();
+                    MainMenu.game.settings.graphic.showHealth = !MainMenu.game.settings.graphic.showHealth;
+                    MainMenu.game.saveSettings();
                 }
             },
 
             {
                 label: function() {
                     return (
-                        (this.menu.game.settings.graphic.showLighting ? "Hide" : "Show") +
+                        (MainMenu.game.settings.graphic.showLighting ? "Hide" : "Show") +
                         " dynamic lighting"
                     );
                 },
                 execute: function() {
-                    this.menu.game.settings.graphic.showLighting = !this.menu.game.settings.graphic.showLighting;
-                    this.menu.game.saveSettings();
+                    MainMenu.game.settings.graphic.showLighting = !MainMenu.game.settings.graphic.showLighting;
+                    MainMenu.game.saveSettings();
                 }
             },
 
@@ -112,21 +112,21 @@ var MainMenu = new Menu([
                 label: function() {
                     return (
                         "└──" +
-                        (this.menu.game.settings.graphic.showColoredLighting ? "Hide" : "Show") +
+                        (MainMenu.game.settings.graphic.showColoredLighting ? "Hide" : "Show") +
                         " colored lighting"
                     );
                 },
                 execute: function() {
-                    this.menu.game.settings.graphic.showColoredLighting = !this.menu.game.settings.graphic.showColoredLighting;
-                    this.menu.game.saveSettings();
+                    MainMenu.game.settings.graphic.showColoredLighting = !MainMenu.game.settings.graphic.showColoredLighting;
+                    MainMenu.game.saveSettings();
                 },
-                visible: function() { return this.menu.game.settings.graphic.showLighting }
+                visible: function() { return MainMenu.game.settings.graphic.showLighting }
             },
 
             {
                 label: "(back)",
                 execute: function() {
-                    this.menu.goBackAPage();
+                    MainMenu.goBackAPage();
                 }
             },
 
@@ -140,49 +140,49 @@ var MainMenu = new Menu([
             {
                 label: function() {
                     return (
-                        (this.menu.game.settings.minimap.visible ? "Hide" : "Show") +
+                        (MainMenu.game.settings.minimap.visible ? "Hide" : "Show") +
                         " minimap"
                     );
                 },
                 execute: function() {
-                    this.menu.game.settings.minimap.visible = !this.menu.game.settings.minimap.visible;
-                    this.menu.game.saveSettings();
+                    MainMenu.game.settings.minimap.visible = !MainMenu.game.settings.minimap.visible;
+                    MainMenu.game.saveSettings();
                 }
             },
 
             {
                 label: function() {
                     return (
-                        "├──Minimap size: " + this.menu.game.settings.minimap.size
+                        "├──Minimap size: " + MainMenu.game.settings.minimap.size
                     );
                 },
                 execute: function() {
-                    this.menu.game.settings.minimap.size += 0.5;
-                    if (this.menu.game.settings.minimap.size > 3) this.menu.game.settings.minimap.size = 0.5;
-                    this.menu.game.saveSettings();
+                    MainMenu.game.settings.minimap.size += 0.5;
+                    if (MainMenu.game.settings.minimap.size > 3) MainMenu.game.settings.minimap.size = 0.5;
+                    MainMenu.game.saveSettings();
                 },
-                visible: function() { return this.menu.game.settings.minimap.visible }
+                visible: function() { return MainMenu.game.settings.minimap.visible }
             },
 
             {
                 label: function() {
                     return (
-                        "├──Minimap opacity: " + this.menu.game.settings.minimap.opacity
+                        "├──Minimap opacity: " + MainMenu.game.settings.minimap.opacity
                     );
                 },
                 execute: function() {
-                    this.menu.game.settings.minimap.opacity += 0.1;
-                    this.menu.game.settings.minimap.opacity = Math.round(this.menu.game.settings.minimap.opacity * 10) / 10 // nearest 1 decimal place
-                    if (this.menu.game.settings.minimap.opacity > 1) this.menu.game.settings.minimap.opacity = 0.1;
-                    this.menu.game.saveSettings();
+                    MainMenu.game.settings.minimap.opacity += 0.1;
+                    MainMenu.game.settings.minimap.opacity = Math.round(MainMenu.game.settings.minimap.opacity * 10) / 10 // nearest 1 decimal place
+                    if (MainMenu.game.settings.minimap.opacity > 1) MainMenu.game.settings.minimap.opacity = 0.1;
+                    MainMenu.game.saveSettings();
                 },
-                visible: function() { return this.menu.game.settings.minimap.visible }
+                visible: function() { return MainMenu.game.settings.minimap.visible }
             },
 
             {
                 label: function() {
                     var cornerEnglish;
-                    switch (this.menu.game.settings.minimap.position) {
+                    switch (MainMenu.game.settings.minimap.position) {
                         case Corner.TopLeft:
                             cornerEnglish = 'top-left';
                             break;
@@ -201,17 +201,17 @@ var MainMenu = new Menu([
                     );
                 },
                 execute: function() {
-                    this.menu.game.settings.minimap.position++;
-                    if (this.menu.game.settings.minimap.position > 3) this.menu.game.settings.minimap.position = 0;
-                    this.menu.game.saveSettings();
+                    MainMenu.game.settings.minimap.position++;
+                    if (MainMenu.game.settings.minimap.position > 3) MainMenu.game.settings.minimap.position = 0;
+                    MainMenu.game.saveSettings();
                 },
-                visible: function() { return this.menu.game.settings.minimap.visible }
+                visible: function() { return MainMenu.game.settings.minimap.visible }
             },
 
             {
                 label: "(back)",
                 execute: function() {
-                    this.menu.goBackAPage();
+                    MainMenu.goBackAPage();
                 }
             },
         ]
