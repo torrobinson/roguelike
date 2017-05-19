@@ -306,6 +306,9 @@ class Game {
         mainLayer.placeActor(demoChest, this.world.rooms.second().getCenter());
         mainLayer.placeActor(demoChest2, Movement.AddPoints(spawnLocation, new Point(1, 0)));
 
+        var dummyGold1 = new GoldPile(this, 5);
+        mainLayer.placeActor(dummyGold1, Movement.AddPoints(spawnLocation, new Point(2, 3)));
+
     }
 
 }

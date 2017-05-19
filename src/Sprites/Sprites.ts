@@ -904,6 +904,27 @@ class Sprites {
         ]
     };
 
+    static GoldPileSprites() {
+        return [
+
+            new SpriteSet(
+                ActorStatus.Idle,
+                Direction.Down,
+                [
+                    new Sprite(
+                        'CoinStack',
+                        ' '
+                    ),
+                    new Sprite(
+                        'CoinPile',
+                        ' '
+                    )
+                ],
+                AnimationLoopStyle.RandomStatic
+            )
+        ]
+    };
+
     static ShirtSprites() {
         return [
 

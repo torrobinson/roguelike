@@ -30,7 +30,8 @@ enum ColorCode {
     White = 0xFFFFFF,
     Black = 0x000000,
     Red = 0xFF0000,
-    DarkRed = 0x820000
+    DarkRed = 0x820000,
+    Green = 0x00FF00
 }
 
 enum EquipPoint {

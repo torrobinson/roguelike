@@ -38,7 +38,7 @@ class PixiRenderer implements Renderer {
         this.pixelWidth = this.width * this.tileSize;
         this.pixelHeight = (this.height * this.tileSize) + this.infoBar.height;
         PIXI.RESOLUTION = this.scale;
-        this.pixiRenderer = PIXI.autoDetectRenderer(this.width * this.tileSize * this.scale, ((this.height * this.tileSize) + this.infoBar.height) * this.scale, { backgroundColor: 0x000000 });
+        this.pixiRenderer = PIXI.autoDetectRenderer(this.width * this.tileSize * this.scale, ((this.height * this.tileSize) + this.infoBar.height) * this.scale, { backgroundColor: ColorCode.Black });
         this.canvas.appendChild(this.pixiRenderer.view);
         this.pixiStage = new PIXI.Container();
 
@@ -88,7 +88,7 @@ class PixiRenderer implements Renderer {
         var style = new PIXI.TextStyle({
             fontFamily: 'Courier',
             fontSize: 11,
-            fill: 0xFFFFFF,
+            fill: ColorCode.White,
             wordWrap: true,
             wordWrapWidth: 440
         });
@@ -99,7 +99,7 @@ class PixiRenderer implements Renderer {
         menuText.y = Math.floor(this.pixiRenderer.height / 2 - menuText.height / 2);
 
         var pauseOverlay = new PIXI.Graphics();
-        pauseOverlay.beginFill(0x000000, 0.5);
+        pauseOverlay.beginFill(ColorCode.Black, 0.5);
         pauseOverlay.drawRect(0, 0, this.pixelWidth, this.pixelHeight);
         pauseOverlay.endFill();
 
@@ -115,11 +115,12 @@ class PixiRenderer implements Renderer {
         var writeLocation = new Point(0, this.height * this.tileSize);
         var text = 'Health: ' + this.game.player.health + ' | Kills: ' + this.game.player.runStats.kills + '\r\n'
             + this.game.getLastLog() + newLine
+            + "Gold: " + this.game.player.gold;
 
         var style = new PIXI.TextStyle({
             fontFamily: 'monospace',
             fontSize: 11,
-            fill: 0xFFFFFF,
+            fill: ColorCode.White,
         });
 
         var pixiText = new PIXI.Text(text, style);
@@ -195,10 +196,6 @@ class PixiRenderer implements Renderer {
     getMiniMapGraphics(world: World) {
         var offsetX = 20;
         var offsetY = 20;
-        var white = 0xFFFFFF;
-        var black = 0x000000;
-        var red = 0xFF0000;
-        var green = 0x00FF00;
 
         var mapAlpha = this.game.settings.minimap.opacity;
 
@@ -211,7 +208,7 @@ class PixiRenderer implements Renderer {
             for (var x = 0; x < floorLayer.tiles[y].length; x++) {
                 var tile = floorLayer.tiles[y][x];
                 if (tile !== null && tile.fogged === false) {
-                    graphics.beginFill(white, mapAlpha);
+                    graphics.beginFill(ColorCode.White, mapAlpha);
                     graphics.drawRect(x * pixelSize, y * pixelSize, pixelSize, pixelSize);
                 }
             }
@@ -225,7 +222,7 @@ class PixiRenderer implements Renderer {
                 if (tile !== null && tile.fogged === false) {
 
                     if (tile instanceof StairsDown) {
-                        graphics.beginFill(green, 1);
+                        graphics.beginFill(ColorCode.Green, 1);
                         graphics.drawRect(x * pixelSize, y * pixelSize, pixelSize, pixelSize);
                     }
 
@@ -234,12 +231,12 @@ class PixiRenderer implements Renderer {
         }
 
         // Draw player location
-        graphics.beginFill(red, 1);
+        graphics.beginFill(ColorCode.Red, 1);
         graphics.drawRect(this.game.player.location.x * pixelSize, this.game.player.location.y * pixelSize, pixelSize, pixelSize);
 
         // Draw a border to show map bounds
-        graphics.beginFill(white, 0);
-        graphics.lineStyle(1, white, mapAlpha);
+        graphics.beginFill(ColorCode.White, 0);
+        graphics.lineStyle(1, ColorCode.White, mapAlpha);
         graphics.drawRect(0, 0, world.width * pixelSize, world.height * pixelSize);
 
         graphics.endFill();
@@ -343,7 +340,7 @@ class PixiRenderer implements Renderer {
                                 // Hit it with player light
                                 var lightCount: number = 0;
                                 if (Geometry.IsPointInCircle(world.game.player.location, world.game.player.viewRadius, actor.location)) {
-                                    lightCount++;
+                                    lightCount += Geometry.getBrightnessForPoint(actor.location, world.game.player.location, world.game.player.viewRadius, 1);
                                 }
 
                                 if (this.game.settings.graphic.showLighting) {
@@ -352,7 +349,7 @@ class PixiRenderer implements Renderer {
                                         for (let e = 0; e < lights.length; e++) {
                                             var light: Torch = lights[e];
                                             if (Geometry.IsPointInCircle(light.location, light.emitRadius, actor.location)) {
-                                                lightCount++;
+                                                lightCount += light.emitIntensity;
                                             }
                                         }
                                     }
@@ -392,7 +389,7 @@ class PixiRenderer implements Renderer {
 
                                     // Fullbright it if needed
                                     if (actor.fullBright) {
-                                        sprite.tint = 0xFFFFFF; // full white
+                                        sprite.tint = ColorCode.White;
                                         if (actor instanceof Torch) {
                                             sprite.tint = Color.shadeBlendInt(0.4, sprite.tint, actor.emitColor);
                                         }

@@ -2,21 +2,21 @@ class InventoryItem {
     holder: Actor = null;
     name: string = '';
     spritesets: SpriteSet[] = null;
-    spriteIndex: number = 0;
+    randomSpriteIndex: number = 0;
     random: Random;
 
     constructor(random: Random) {
-      this.random = random;
+        this.random = random;
     }
 
-    setSprite(){
-      // Set the random sprite to use on creation
-      this.spriteIndex = this.random.next(0, this.spritesets.first().sprites.length);
+    setSprite() {
+        // Set the random sprite to use on creation
+        this.randomSpriteIndex = this.random.next(0, this.spritesets.first().sprites.length);
     }
 
     getSprite() {
         if (this.spritesets !== null) {
-            return this.spritesets.first().sprites[this.spriteIndex];
+            return this.spritesets.first().sprites[this.randomSpriteIndex];
         }
         else {
             return null;

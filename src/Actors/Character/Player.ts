@@ -6,6 +6,7 @@ class Player extends Actor {
     defaultAttackPower: number = 1;
     name: string = 'You';
     viewRadius: number = 10;
+    gold: number = 0;
     constructor(game: Game) {
         super(game);
         this.doesSubscribeToTicks = true;
@@ -64,6 +65,13 @@ class Player extends Actor {
 
     equip(equipment: Equipment) {
         equipment.equip();
+    }
+
+    giveGold(goldCount: number) {
+        this.gold += goldCount;
+    }
+    takeGold(goldCount: number) {
+        this.gold -= goldCount;
     }
 
 
