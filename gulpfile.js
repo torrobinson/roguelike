@@ -23,6 +23,9 @@ gulp.task('default', function () {
 	gulp.src("./node_modules/pixi.js/dist/pixi.min.js")
     	.pipe(include())
      .pipe(gulp.dest(buildFolder + "/js/"));
+    gulp.src("./node_modules/pixi.js/dist/pixi.min.js.map")
+     	.pipe(include())
+      .pipe(gulp.dest(buildFolder + "/js/"));
 	gulp.src("./node_modules/pathfinding/visual/lib/pathfinding-browser.min.js")
      .pipe(include())
     	.pipe(gulp.dest(buildFolder + "/js/"));

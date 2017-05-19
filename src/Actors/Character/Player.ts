@@ -50,18 +50,23 @@ class Player extends Actor {
         this.revealWorld();
     }
 
-    tryUseInventory(inventoryItemType: any) {
+    tryUseInventory(consumable) {
         for (var i = 0; i < this.inventory.length; i++) {
             var item = this.inventory[i];
-            if (item instanceof inventoryItemType) {
-                this.useItem(item);
+            if (item instanceof consumable) {
+                this.useItem(consumable);
             }
         }
     }
 
-    useItem(item: InventoryItem) {
+    useItem(item: Consumable) {
         item.use();
     }
+
+    equip(equipment: Equipment) {
+        equipment.equip();
+    }
+
 
     attackedBy(attacker: Actor, damage: number) {
         super.attackedBy(attacker, damage);

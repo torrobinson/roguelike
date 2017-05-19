@@ -10,6 +10,10 @@ interface Array<T> {
     onlyOdd(): Array<T>;
     onlyEven(): Array<T>;
     insert(obj: Object, index: number): Array<T>;
+    whereNotNull(): Array<T>;
+    where(condition): Array<T>;
+    select(what): Array<any>;
+    sum(): number;
 }
 interface Object {
     clone(): any;
@@ -94,9 +98,33 @@ Array.prototype.insert = function(obj, index) {
     return this.splice(index, 0, obj);
 };
 
+Array.prototype.whereNotNull = function() {
+    return this.filter((val) => { return val !== null });
+};
+
+
+// LINQ-esque extensions
+Array.prototype.where = function(condition) {
+    return this.filter(condition);
+};
+
+Array.prototype.select = function(attributes) {
+    return this.map(attributes);
+};
+
+Array.prototype.sum = function(): number {
+    return this.reduce((a, b) => a + b, 0);
+};
+
+
+// Object extensions
+
 Object.prototype.clone = function() {
     return JSON.parse(JSON.stringify(this));
 };
+
+
+// String extensions
 
 String.prototype.repeat = function(times) {
     return (new Array(times + 1)).join(this);

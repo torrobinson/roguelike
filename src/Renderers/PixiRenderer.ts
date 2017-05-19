@@ -96,7 +96,7 @@ class PixiRenderer implements Renderer {
         var menuText = new PIXI.Text(text, style);
         // Set the center of the text to be the middle of the canvas
         menuText.x = Math.floor(this.pixiRenderer.width / 2 - menuText.width / 2);
-        menuText.y = Math.floor(this.pixiRenderer.height / 2 -  menuText.height / 2);
+        menuText.y = Math.floor(this.pixiRenderer.height / 2 - menuText.height / 2);
 
         var pauseOverlay = new PIXI.Graphics();
         pauseOverlay.beginFill(0x000000, 0.5);
@@ -111,11 +111,14 @@ class PixiRenderer implements Renderer {
     }
 
     drawInfoBar() {
+        var newLine = '\r\n';
         var writeLocation = new Point(0, this.height * this.tileSize);
         var text = 'Health: ' + this.game.player.health + ' | Kills: ' + this.game.player.runStats.kills + '\r\n'
-            + this.game.getLastLog() + '\r\n'
-            + 'Inventory:' + this.getInventoryText();
+            + this.game.getLastLog() + newLine
 
+        if (this.game.player.equippedTorso !== null) {
+            text += 'Equipped Torso: ' + this.game.player.equippedTorso.name + " (+" + this.game.player.equippedTorso.maxHealthBuff + ") ";
+        }
 
         var style = new PIXI.TextStyle({
             fontFamily: 'monospace',
@@ -134,7 +137,7 @@ class PixiRenderer implements Renderer {
             var heartPipWidth = 3;
             var heartPipHeight = 3;
             var spacingBetweenPips = 3;
-            var pipsToDraw = actor.health;
+            var pipsToDraw = actor.maxHealth();
 
             var totalHeight = heartPipHeight;
             var totalWidth = (pipsToDraw * heartPipWidth) + ((pipsToDraw - 1) * spacingBetweenPips);
@@ -146,7 +149,15 @@ class PixiRenderer implements Renderer {
 
             var healthGraphic = new PIXI.Graphics();
             for (var i = 0; i < pipsToDraw; i++) {
-                healthGraphic.beginFill(0xff0800, 1);
+                if (i <= actor.health - 1) {
+                    // Health they have
+                    healthGraphic.beginFill(ColorCode.Red, 1);
+                }
+                else {
+                    // Potential Health
+                    healthGraphic.beginFill(ColorCode.DarkRed, 1);
+                }
+
                 healthGraphic.drawRect(x, y, heartPipWidth, heartPipHeight);
                 healthGraphic.endFill();
                 x += heartPipWidth + spacingBetweenPips;

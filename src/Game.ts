@@ -76,9 +76,9 @@ class Game {
         this.state = GameState.Paused;
         this.activeMenu = this.pauseMenu;
     }
-    openInventory(){
-      this.state = GameState.Paused;
-      this.activeMenu = this.inventoryMenu;
+    openInventory() {
+        this.state = GameState.Paused;
+        this.activeMenu = this.inventoryMenu;
     }
 
     killActiveMenu() {
@@ -205,7 +205,7 @@ class Game {
             }
 
             if (control === Control.I) {
-              this.activeMenu = this.inventoryMenu;
+                this.activeMenu = this.inventoryMenu;
             }
 
             return;
@@ -291,7 +291,13 @@ class Game {
         mainLayer.placeActor(chaser8, exitLocation.offsetBy(-1, 1));
 
         var demoChest = new Chest(this, [new Potion()]);
-        var demoChest2 = new Chest(this, [new Potion(), new Potion(), new Potion()]);
+        var demoChest2 = new Chest(this, [
+            new Potion(),
+            new Potion(),
+            new Potion(),
+            new WeakShirt(),
+            new StrongShirt()
+        ]);
         mainLayer.placeActor(demoChest, this.world.rooms.second().getCenter());
         mainLayer.placeActor(demoChest2, Movement.AddPoints(spawnLocation, new Point(1, 0)));
 

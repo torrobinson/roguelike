@@ -22,13 +22,25 @@ enum Direction {
 }
 
 enum LightColorCode {
-     White = 0xffedb2, // red shifted white
-     Black = 0x121723 // blue shifted black
+    White = 0xffedb2, // red shifted white
+    Black = 0x121723 // blue shifted black
 }
 
 enum ColorCode {
     White = 0xFFFFFF,
-    Black = 0x000000
+    Black = 0x000000,
+    Red = 0xFF0000,
+    DarkRed = 0x820000
+}
+
+enum EquipPoint {
+    None,
+    Head,
+    Torso,
+    Legs,
+    Hands,
+    Feet,
+    Weapon
 }
 
 enum Corner {

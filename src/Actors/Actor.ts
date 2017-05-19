@@ -14,7 +14,6 @@ class Actor {
     viewRadius: number = 5;
     defaultAttackPower: number = 1;
     inventory: InventoryItem[] = [];
-    equippedWeapon: InventoryItem = null;
     fogged: boolean = true;
     fogStyle: FogStyle = FogStyle.Hide;
     blocksSight: boolean = true;
@@ -23,7 +22,14 @@ class Actor {
     health: number = this.startingHealth;
     world: World = null;
     fullBright: boolean = false;
-    lastSprite : Sprite;
+    lastSprite: Sprite;
+
+    equippedHead: Armor = null;
+    equippedTorso: Armor = null;
+    equippedLegs: Armor = null;
+    equippedHands: Armor = null;
+    equippedFeet: Armor = null;
+    equippedWeapon: Weapon = null;
 
     constructor(game: Game) {
         // Actors must be born with awareness of the game they are in
@@ -31,27 +37,48 @@ class Actor {
     }
 
     getSprite() {
-      if(this.game.state === GameState.Playing){
-        if (this.spritesets !== null) {
-            var sprite = this.spritesets.filter(
-                function(spriteset) {
-                    return spriteset.status === this.status && spriteset.direction === this.facing
-                }, this).first().getSprite(this.restartSpriteNextFrame);
-            this.restartSpriteNextFrame = false;
-            this.lastSprite = sprite;
-            return sprite;
+        if (this.game.state === GameState.Playing) {
+            if (this.spritesets !== null) {
+                var sprite = this.spritesets.filter(
+                    function(spriteset) {
+                        return spriteset.status === this.status && spriteset.direction === this.facing
+                    }, this).first().getSprite(this.restartSpriteNextFrame);
+                this.restartSpriteNextFrame = false;
+                this.lastSprite = sprite;
+                return sprite;
+            }
+            else {
+                return null;
+            }
         }
         else {
-            return null;
+            return this.lastSprite;
         }
-      }
-      else{
-        return this.lastSprite;
-      }
     }
 
     isMoving() {
         return this.status === ActorStatus.Moving;
+    }
+
+    maxHealth() {
+        return this.startingHealth + this.getMaxHealthBuff();
+    }
+
+    getMaxHealthBuff(): number {
+        return this.getArmor().select((armor) => { return armor.maxHealthBuff }).sum();
+    }
+
+    getArmor(): Armor[] {
+        return []
+            .concat(this.equippedHead)
+            .concat(this.equippedTorso)
+            .concat(this.equippedLegs)
+            .concat(this.equippedHands)
+            .concat(this.equippedFeet)
+            .whereNotNull();
+    }
+    getWeapon(): Weapon {
+        return this.equippedWeapon;
     }
 
     attack(otherActor: Actor, damage: number) {
