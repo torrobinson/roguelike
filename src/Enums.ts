@@ -118,7 +118,8 @@ enum AnimationLoopStyle {
     Static = 0,
     Loop = 1,
     Once = 2,
-    PingPong = 3
+    PingPong = 3,
+    RandomStatic = 4
 }
 
 enum GameDefault {

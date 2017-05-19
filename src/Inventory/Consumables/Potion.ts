@@ -1,9 +1,9 @@
 /// <reference path="../Base/InventoryItem.ts" />
 class Potion extends Consumable {
     healAmount: number;
-
-    constructor(holder?: Actor) {
-        super(holder);
+    spriteSets: SpriteSet[] = Sprites.PotionSprites();
+    constructor() {
+        super();
         this.name = 'Potion';
         this.healAmount = 10;
     }

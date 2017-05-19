@@ -31,6 +31,12 @@ class SpriteSet {
         this.sprites = sprites;
         this.animationLoopStyle = animationLoopStyle;
         this.frameWaitDuration = frameWaitDuration;
+
+        // If we have many sprites and just want to pick 1 random one, then shuffle
+        //  and pick the first always later
+        if (this.animationLoopStyle === AnimationLoopStyle.RandomStatic) {
+            this.sprites = this.sprites.shuffle(new Random(this.sprites.length));
+        }
     }
 
     reset() {
@@ -43,7 +49,7 @@ class SpriteSet {
         this.restart = restart !== undefined && restart === true;
 
         // Static sprites are always just the first sprite/frame
-        if (this.animationLoopStyle === AnimationLoopStyle.Static) {
+        if (this.animationLoopStyle === AnimationLoopStyle.Static || this.animationLoopStyle === AnimationLoopStyle.RandomStatic) {
             return this.sprites.first();
         }
 

@@ -116,10 +116,6 @@ class PixiRenderer implements Renderer {
         var text = 'Health: ' + this.game.player.health + ' | Kills: ' + this.game.player.runStats.kills + '\r\n'
             + this.game.getLastLog() + newLine
 
-        if (this.game.player.equippedTorso !== null) {
-            text += 'Equipped Torso: ' + this.game.player.equippedTorso.name + " (+" + this.game.player.equippedTorso.maxHealthBuff + ") ";
-        }
-
         var style = new PIXI.TextStyle({
             fontFamily: 'monospace',
             fontSize: 11,
@@ -130,6 +126,20 @@ class PixiRenderer implements Renderer {
         pixiText.x = writeLocation.x;
         pixiText.y = writeLocation.y;
         this.pixiStage.addChild(pixiText);
+
+        // Render armor
+        var armors: Armor[] = this.game.player.getArmor();
+        let armorX = this.pixelWidth - this.tileSize;
+        let armorY = this.pixelHeight - this.infoBar.height;
+        for (let a = 0; a < armors.length; a++) {
+            var armor = armors[a];
+            var atlas = PIXI.loader.resources.itemAtlas.textures;
+            var sprite = new PIXI.Sprite(atlas[armor.getSprite().spriteName]);
+            sprite.x = armorX;
+            sprite.y = armorY;
+            this.pixiStage.addChild(sprite);
+            armorX -= this.tileSize;
+        }
     }
 
     getHealthGraphic(actor: Actor, x: number, y: number) {
@@ -273,15 +283,30 @@ class PixiRenderer implements Renderer {
                         if (actorSprite !== undefined && actorSprite !== null) {
                             // Come up with the sprite to draw
                             var atlas = null;
+
+                            // Characters
                             if (actor instanceof Player || actor instanceof Chaser) {
                                 atlas = PIXI.loader.resources.characterAtlas.textures;
                             }
+                            // Walls
                             else if (actor instanceof Wall) {
                                 atlas = PIXI.loader.resources.wallsAtlas.textures;
                             }
+                            // Carpets
                             else if (actor instanceof Carpet) {
                                 atlas = PIXI.loader.resources.carpetAtlas.textures;
                             }
+
+                            // Temporary Chest
+                            else if (actor instanceof Chest) {
+                                atlas = PIXI.loader.resources.terrainAtlas.textures;
+                            }
+
+                            // Items
+                            else if (actor instanceof InventoryItem || actor instanceof WorldItem) {
+                                atlas = PIXI.loader.resources.itemAtlas.textures;
+                            }
+                            // Terrain
                             else {
                                 atlas = PIXI.loader.resources.terrainAtlas.textures;
                             }

@@ -295,8 +295,12 @@ class Game {
             new Potion(),
             new Potion(),
             new Potion(),
-            new WeakShirt(),
-            new StrongShirt()
+            new Shirt(1),
+            new Shirt(2),
+            new Chestplate(5),
+            new Chestplate(7),
+            new LeatherBoots(4),
+            new SteelBoots(5)
         ]);
         mainLayer.placeActor(demoChest, this.world.rooms.second().getCenter());
         mainLayer.placeActor(demoChest2, Movement.AddPoints(spawnLocation, new Point(1, 0)));

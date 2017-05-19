@@ -1,10 +1,18 @@
 class InventoryItem {
     holder: Actor = null;
     name: string = '';
+    spritesets: SpriteSet[] = null;
 
-    constructor(holder?: Actor) {
-        if (holder) {
-            this.holder = holder;
+    constructor() {
+
+    }
+
+    getSprite() {
+        if (this.spritesets !== null) {
+            return this.spritesets.first().getSprite(false);
+        }
+        else {
+            return null;
         }
     }
 }
@@ -13,8 +21,8 @@ class InventoryItem {
 class Consumable extends InventoryItem {
     usesRemaining: number = 1;
 
-    constructor(holder?: Actor) {
-        super(holder);
+    constructor() {
+        super();
     }
 
     use() {
@@ -28,8 +36,8 @@ class Consumable extends InventoryItem {
 class Equipment extends InventoryItem {
     equipPoint: EquipPoint;
     isEquipped: boolean = false;
-    constructor(holder?: Actor) {
-        super(holder);
+    constructor() {
+        super();
     }
     equip() {
         this.isEquipped = true;
@@ -43,8 +51,8 @@ class Equipment extends InventoryItem {
 class Weapon extends Equipment {
     attackPower: number = 0;
     equipPoint: EquipPoint = EquipPoint.Weapon;
-    constructor(holder?: Actor) {
-        super(holder);
+    constructor() {
+        super();
     }
 
     equip() {
@@ -70,8 +78,9 @@ class Weapon extends Equipment {
 
 class Armor extends Equipment {
     maxHealthBuff: number = 0;
-    constructor(holder?: Actor) {
-        super(holder);
+    constructor(healthBuff: number) {
+        super();
+        this.maxHealthBuff = healthBuff;
     }
 
     equip() {
@@ -151,84 +160,86 @@ class Armor extends Equipment {
     }
 }
 
-class Gauntlets extends Armor {
+class GloveArmor extends Armor { //Gauntlets
     name: string = 'Gauntlets';
     equipPoint: EquipPoint = EquipPoint.Hands;
 
-    constructor(holder?: Actor) {
-        super(holder);
+    constructor(healthBuff: number) {
+        super(healthBuff);
     }
 }
 
-class Pants extends Armor {
+class LegArmor extends Armor { //Pants
     name: string = 'Pants';
     equipPoint: EquipPoint = EquipPoint.Legs;
 
-    constructor(holder?: Actor) {
-        super(holder);
+    constructor(healthBuff: number) {
+        super(healthBuff);
     }
 }
 
-class Greaves extends Armor {
-    name: string = 'Greaves';
-    equipPoint: EquipPoint = EquipPoint.Legs;
-
-    constructor(holder?: Actor) {
-        super(holder);
-    }
-}
-
-class Helmet extends Armor {
+class HeadArmor extends Armor { //Helmet
     name: string = 'Helmet';
     equipPoint: EquipPoint = EquipPoint.Head;
 
-    constructor(holder?: Actor) {
-        super(holder);
+    constructor(healthBuff: number) {
+        super(healthBuff);
     }
 }
 
-class Shirt extends Armor {
+class TorsoArmor extends Armor { //Shirt
     name: string = 'Shirt';
     equipPoint: EquipPoint = EquipPoint.Torso;
 
-    constructor(holder?: Actor) {
-        super(holder);
+    constructor(healthBuff: number) {
+        super(healthBuff);
     }
 }
 
-class Chestplate extends Armor {
-    name: string = 'Chestplate';
-    equipPoint: EquipPoint = EquipPoint.Torso;
-
-    constructor(holder?: Actor) {
-        super(holder);
-    }
-}
-
-class Boots extends Armor {
+class FootArmor extends Armor { //Boots
     name: string = 'Boots';
     equipPoint: EquipPoint = EquipPoint.Feet;
 
-    constructor(holder?: Actor) {
-        super(holder);
+    constructor(healthBuff: number) {
+        super(healthBuff);
     }
 }
 
 
 
 // Implementations
-class WeakShirt extends Shirt {
-    name: string = "Weak Shirt";
-    maxHealthBuff: number = 5;
-    constructor(holder?: Actor) {
-        super(holder);
+class Shirt extends TorsoArmor {
+    name: string = "Shirt";
+    spritesets: SpriteSet[] = Sprites.ShirtSprites();
+
+    constructor(healthBuff: number) {
+        super(healthBuff);
     }
 }
 
-class StrongShirt extends Shirt {
-    name: string = "Strong Shirt";
-    maxHealthBuff: number = 15;
-    constructor(holder?: Actor) {
-        super(holder);
+class Chestplate extends TorsoArmor {
+    name: string = "Chestplate";
+    spritesets: SpriteSet[] = Sprites.ChestplaceSprites();
+
+    constructor(healthBuff: number) {
+        super(healthBuff);
+    }
+}
+
+class LeatherBoots extends FootArmor {
+    name: string = "Leather Boots";
+    spritesets: SpriteSet[] = Sprites.LeatherBootsSprites();
+
+    constructor(healthBuff: number) {
+        super(healthBuff);
+    }
+}
+
+class SteelBoots extends FootArmor {
+    name: string = "Steel Boots";
+    spritesets: SpriteSet[] = Sprites.SteelBootsSprites();
+
+    constructor(healthBuff: number) {
+        super(healthBuff);
     }
 }

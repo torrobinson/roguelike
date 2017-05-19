@@ -825,8 +825,7 @@ class Sprites {
                         ' '
                     )
                 ],
-                AnimationLoopStyle.Static,
-                0
+                AnimationLoopStyle.Static
             ),
 
             new SpriteSet(
@@ -838,10 +837,138 @@ class Sprites {
                         ' '
                     )
                 ],
-                AnimationLoopStyle.Static,
-                0
+                AnimationLoopStyle.Static
             ),
 
+        ]
+    };
+
+    static PotionSprites() {
+        return [
+
+            new SpriteSet(
+                ActorStatus.Idle,
+                Direction.Down,
+                [
+                    new Sprite(
+                        'PotionSilver',
+                        ' '
+                    ),
+                    new Sprite(
+                        'PotionBlack',
+                        ' '
+                    ),
+                    new Sprite(
+                        'PotionPurple',
+                        ' '
+                    ),
+                    new Sprite(
+                        'PotionGreen',
+                        ' '
+                    ),
+                    new Sprite(
+                        'PotionRed',
+                        ' '
+                    ),
+                    new Sprite(
+                        'PotionDarkBlue',
+                        ' '
+                    ),
+                    new Sprite(
+                        'PotionBrown',
+                        ' '
+                    ),
+                    new Sprite(
+                        'PotionBlue',
+                        ' '
+                    ),
+                    new Sprite(
+                        'PotionGold',
+                        ' '
+                    ),
+                    new Sprite(
+                        'PotionOrange',
+                        ' '
+                    ),
+                    new Sprite(
+                        'PotionWhite',
+                        ' '
+                    ),
+                    new Sprite(
+                        'PotionDarkerBlue',
+                        ' '
+                    )
+                ],
+                AnimationLoopStyle.RandomStatic
+            )
+        ]
+    };
+
+    static ShirtSprites() {
+        return [
+
+            new SpriteSet(
+                ActorStatus.Idle,
+                Direction.Down,
+                [
+                    new Sprite(
+                        'Shirt',
+                        ' '
+                    )
+                ],
+                AnimationLoopStyle.RandomStatic
+            )
+        ]
+    };
+
+    static ChestplaceSprites() {
+        return [
+
+            new SpriteSet(
+                ActorStatus.Idle,
+                Direction.Down,
+                [
+                    new Sprite(
+                        'ChestArmor',
+                        ' '
+                    )
+                ],
+                AnimationLoopStyle.RandomStatic
+            )
+        ]
+    };
+
+    static LeatherBootsSprites() {
+        return [
+
+            new SpriteSet(
+                ActorStatus.Idle,
+                Direction.Down,
+                [
+                    new Sprite(
+                        'BootsBrown',
+                        ' '
+                    )
+                ],
+                AnimationLoopStyle.RandomStatic
+            )
+        ]
+    };
+
+    static SteelBootsSprites() {
+        return [
+
+            new SpriteSet(
+                ActorStatus.Idle,
+                Direction.Down,
+                [
+                    new Sprite(
+                        'BootsBlack',
+                        ' '
+                    )
+                ],
+                AnimationLoopStyle.RandomStatic
+            )
         ]
     };
 
