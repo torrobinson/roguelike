@@ -140,6 +140,21 @@ class PixiRenderer implements Renderer {
             this.pixiStage.addChild(sprite);
             armorX -= this.tileSize;
         }
+
+        // Render potions in inventory (for debugging)
+        var potions: Potion[] = <Potion[]>this.game.player.getInventoryOfType(Potion);
+        let potionX = this.pixelWidth - this.tileSize;
+        let potionY = this.pixelHeight - this.infoBar.height + this.tileSize;
+        for (let p = 0; p < potions.length; p++) {
+            var potion = potions[p];
+            var atlas = PIXI.loader.resources.itemAtlas.textures;
+            var sprite = new PIXI.Sprite(atlas[potion.getSprite().spriteName]);
+            sprite.x = potionX;
+            sprite.y = potionY;
+            this.pixiStage.addChild(sprite);
+            potionX -= this.tileSize;
+        }
+
     }
 
     getHealthGraphic(actor: Actor, x: number, y: number) {

@@ -12,8 +12,10 @@ var InventoryMenu = new Menu([
                     {
                         menu: InventoryMenu, // set up reference live
 label: function() {
-                            if (inventoryItem instanceof Armor) {
-                                return inventoryItem.name + '(+' + inventoryItem.maxHealthBuff + ')' + (inventoryItem.isEquipped ? ' (equipped)' : '');
+                            if (inventoryItem instanceof Equipment) {
+                                return inventoryItem.name + // Name
+                                (inventoryItem instanceof Armor ? '(+' + inventoryItem.maxHealthBuff + ')' : '') + // Buff
+                                (inventoryItem.isEquipped ? ' (equipped)' : ''); // Equipped status
                             }
                             else {
                                 return inventoryItem.name;

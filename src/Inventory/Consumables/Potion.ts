@@ -1,11 +1,12 @@
 /// <reference path="../Base/InventoryItem.ts" />
 class Potion extends Consumable {
     healAmount: number;
-    spriteSets: SpriteSet[] = Sprites.PotionSprites();
-    constructor() {
-        super();
+    spritesets: SpriteSet[] = Sprites.PotionSprites();
+    constructor(random: Random) {
+        super(random);
         this.name = 'Potion';
         this.healAmount = 10;
+        this.setSprite();
     }
 
     use() {

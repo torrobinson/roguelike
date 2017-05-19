@@ -290,17 +290,18 @@ class Game {
         var chaser8 = new Chaser(this);
         mainLayer.placeActor(chaser8, exitLocation.offsetBy(-1, 1));
 
-        var demoChest = new Chest(this, [new Potion()]);
+        var spriteRandom = new Random(this.seed);
+        var demoChest = new Chest(this, [new Potion(spriteRandom)]);
         var demoChest2 = new Chest(this, [
-            new Potion(),
-            new Potion(),
-            new Potion(),
-            new Shirt(1),
-            new Shirt(2),
-            new Chestplate(5),
-            new Chestplate(7),
-            new LeatherBoots(4),
-            new SteelBoots(5)
+            new Potion(spriteRandom),
+            new Potion(spriteRandom),
+            new Potion(spriteRandom),
+            new Shirt(1, spriteRandom),
+            new Shirt(2, spriteRandom),
+            new Chestplate(5, spriteRandom),
+            new Chestplate(7, spriteRandom),
+            new LeatherBoots(4, spriteRandom),
+            new SteelBoots(5, spriteRandom)
         ]);
         mainLayer.placeActor(demoChest, this.world.rooms.second().getCenter());
         mainLayer.placeActor(demoChest2, Movement.AddPoints(spawnLocation, new Point(1, 0)));

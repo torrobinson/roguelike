@@ -81,6 +81,10 @@ class Actor {
         return this.equippedWeapon;
     }
 
+    getInventoryOfType(type: any) : InventoryItem[]{
+       return this.inventory.where((inv) => {return inv instanceof type});
+    }
+
     attack(otherActor: Actor, damage: number) {
         otherActor.attackedBy(this, damage);
     }
