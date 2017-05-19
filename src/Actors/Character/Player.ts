@@ -51,11 +51,10 @@ class Player extends Actor {
     }
 
     tryUseInventory(consumable) {
-        for (var i = 0; i < this.inventory.length; i++) {
-            var item = this.inventory[i];
-            if (item instanceof consumable) {
-                this.useItem(consumable);
-            }
+        // Get and use the first instance of the consumable type passed in
+        var item: Consumable = <Consumable>this.inventory.where((inv) => { return inv instanceof consumable }).first();
+        if (item !== undefined && item !== null) {
+            this.useItem(item);
         }
     }
 
