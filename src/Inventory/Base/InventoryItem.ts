@@ -216,7 +216,7 @@ class Armor extends Equipment {
 }
 
 class HandArmor extends Armor { //Gauntlets
-    name: string = 'Gauntlets';
+    static friendlyName: string = 'Hand Armor';
     equipPoint: EquipPoint = EquipPoint.Hands;
 
     constructor(healthBuff: number, random: Random) {
@@ -225,7 +225,7 @@ class HandArmor extends Armor { //Gauntlets
 }
 
 class LegArmor extends Armor { //Pants
-    name: string = 'Pants';
+    static friendlyName: string = 'Leg Armor';
     equipPoint: EquipPoint = EquipPoint.Legs;
 
     constructor(healthBuff: number, random: Random) {
@@ -234,7 +234,7 @@ class LegArmor extends Armor { //Pants
 }
 
 class HeadArmor extends Armor { //Helmet
-    name: string = 'Helmet';
+    static friendlyName: string = 'Head Armor';
     equipPoint: EquipPoint = EquipPoint.Head;
 
     constructor(healthBuff: number, random: Random) {
@@ -243,7 +243,7 @@ class HeadArmor extends Armor { //Helmet
 }
 
 class TorsoArmor extends Armor { //Shirt
-    name: string = 'Shirt';
+    static friendlyName: string = 'Torso Armor';
     equipPoint: EquipPoint = EquipPoint.Torso;
 
     constructor(healthBuff: number, random: Random) {
@@ -252,7 +252,7 @@ class TorsoArmor extends Armor { //Shirt
 }
 
 class FootArmor extends Armor { //Boots
-    name: string = 'Boots';
+    static friendlyName: string = 'Foot Armor';
     equipPoint: EquipPoint = EquipPoint.Feet;
 
     constructor(healthBuff: number, random: Random) {

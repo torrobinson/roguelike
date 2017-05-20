@@ -43,7 +43,7 @@ var InventoryMenu = new Menu([
                     options.push(
                         {
                             menu: InventoryMenu, // set up reference live
-                            label: type.name,
+                            label: type.friendlyName,
                         }
                     );
                 }
