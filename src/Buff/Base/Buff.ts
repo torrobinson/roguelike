@@ -2,6 +2,7 @@ class Buff {
     owner: Actor = null;
     maxUses: number = Infinity;
     uses: number = 0;
+    namePart: string;
 
     constructor() {
 
@@ -29,6 +30,7 @@ class Buff {
         return this.maxUses - this.uses;
     }
 
+    // Describes the state of the buff
     getDescription() {
 
     }

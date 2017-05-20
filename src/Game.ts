@@ -292,27 +292,28 @@ class Game {
 
         var spriteRandom = new Random(this.seed);
         var demoChest = new Chest(this, [new Potion(spriteRandom)]);
+
+        var buffedSteelBoots = new SteelBoots(5, spriteRandom);
+        buffedSteelBoots.addBuff(
+            new WallBreakerBuff()
+        );
+
         var demoChest2 = new Chest(this, [
             new Potion(spriteRandom),
             new Potion(spriteRandom),
             new Potion(spriteRandom),
-            new Shirt(1, spriteRandom),
             new Shirt(2, spriteRandom),
             new Chestplate(5, spriteRandom),
-            new Chestplate(7, spriteRandom),
             new LeatherBoots(4, spriteRandom),
-            new SteelBoots(5, spriteRandom)
+            new SteelBoots(5, spriteRandom),
+            buffedSteelBoots
         ]);
+
         mainLayer.placeActor(demoChest, this.world.rooms.second().getCenter());
         mainLayer.placeActor(demoChest2, Movement.AddPoints(spawnLocation, new Point(1, 0)));
 
         var dummyGold1 = new GoldPile(this, 5);
         mainLayer.placeActor(dummyGold1, Movement.AddPoints(spawnLocation, new Point(2, 3)));
-
-        // Buff Experiments
-        this.player.addBuff(
-            new WallBreakerBuff()
-        );
 
     }
 

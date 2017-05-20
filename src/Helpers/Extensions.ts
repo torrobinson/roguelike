@@ -14,6 +14,7 @@ interface Array<T> {
     where(condition): Array<T>;
     select(what): Array<any>;
     sum(): number;
+    any(): boolean;
 }
 interface Object {
     clone(): any;
@@ -115,6 +116,10 @@ Array.prototype.select = function(attributes) {
 Array.prototype.sum = function(): number {
     return this.reduce((a, b) => a + b, 0);
 };
+
+Array.prototype.any = function(): boolean {
+    return this.length > 0;
+}
 
 
 // Object extensions

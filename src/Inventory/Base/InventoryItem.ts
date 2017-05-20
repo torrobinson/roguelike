@@ -1,12 +1,16 @@
 class InventoryItem {
     holder: Actor = null;
-    name: string = '';
+    protected name: string = '';
     spritesets: SpriteSet[] = null;
     randomSpriteIndex: number = 0;
     random: Random;
 
     constructor(random: Random) {
         this.random = random;
+    }
+
+    getName() {
+        return this.name;
     }
 
     setSprite() {
@@ -42,16 +46,60 @@ class Consumable extends InventoryItem {
 
 class Equipment extends InventoryItem {
     equipPoint: EquipPoint;
+    buffs: Buff[] = [];
     isEquipped: boolean = false;
     constructor(random: Random) {
         super(random);
     }
     equip() {
         this.isEquipped = true;
+
+        // Apply any buffs with remaining uses
+        this.buffs
+            .where((buff) => {
+                return buff.getUsesRemaining() > 0
+            })
+            .forEach((buff) => {
+                this.holder.addBuff(buff)
+            });
+        this.cleanEmptyBuffs();
     }
 
     unqeuip() {
         this.isEquipped = false;
+
+        // Remove any buffs
+        this.buffs.forEach((buff) => { this.holder.removeBuff(buff) });
+
+        this.cleanEmptyBuffs();
+    }
+
+    cleanEmptyBuffs() {
+        this.buffs
+            .where((buff) => {
+                return buff.getUsesRemaining() <= 0
+            })
+            .forEach((buff) => {
+                this.removeBuff(buff)
+            });
+    }
+
+    // Override to include buff name
+    getName() {
+        if (this.buffs.any() && this.buffs.first().getUsesRemaining() > 0) {
+            return this.name + ' of ' + this.buffs.first().namePart;
+        }
+        else {
+            return this.name;
+        }
+    }
+
+    addBuff(buff: Buff) {
+        this.buffs.push(buff);
+    }
+
+    removeBuff(buff: Buff) {
+        this.buffs.remove(buff);
     }
 }
 

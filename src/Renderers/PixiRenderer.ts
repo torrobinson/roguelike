@@ -49,7 +49,7 @@ class PixiRenderer implements Renderer {
 
     getInventoryText() {
         var text = '';
-        var inv = this.game.player.inventory.map(function(inv) { return inv.name });
+        var inv = this.game.player.inventory.map(function(inv) { return inv.getName() });
 
         var itemCounts = [];
 

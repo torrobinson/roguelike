@@ -1,6 +1,7 @@
 // <reference path="../Base/Buff.ts" />
 class WallBreakerBuff extends Buff {
     maxUses: number = 5;
+    namePart: string = 'Wall Breaking';
 
     getDescription() {
         return "Destroy the next " + this.getUsesRemaining() + ' walls you touch';

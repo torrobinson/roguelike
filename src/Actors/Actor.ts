@@ -315,7 +315,7 @@ class Actor {
     obtainInventoryItem(inventoryItem: InventoryItem) {
         inventoryItem.holder = this;
         this.inventory.push(inventoryItem);
-        this.game.log(this.name + ' obtained ' + inventoryItem.name);
+        this.game.log(this.name + ' obtained ' + inventoryItem.getName());
     }
 
     destroy() {

@@ -11,14 +11,14 @@ var InventoryMenu = new Menu([
                 options.push(
                     {
                         menu: InventoryMenu, // set up reference live
-label: function() {
+                        label: function() {
                             if (inventoryItem instanceof Equipment) {
-                                return inventoryItem.name + // Name
-                                (inventoryItem instanceof Armor ? '(+' + inventoryItem.maxHealthBuff + ')' : '') + // Buff
-                                (inventoryItem.isEquipped ? ' (equipped)' : ''); // Equipped status
+                                return inventoryItem.getName() + // Name
+                                    (inventoryItem instanceof Armor ? '(+' + inventoryItem.maxHealthBuff + ')' : '') + // Buff
+                                    (inventoryItem.isEquipped ? ' (equipped)' : ''); // Equipped status
                             }
                             else {
-                                return inventoryItem.name;
+                                return inventoryItem.getName();
                             }
                         },
                         execute: function() {
