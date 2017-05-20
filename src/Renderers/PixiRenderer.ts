@@ -115,7 +115,7 @@ class PixiRenderer implements Renderer {
         var writeLocation = new Point(0, this.height * this.tileSize);
         var text = 'Health: ' + this.game.player.health + ' | Kills: ' + this.game.player.runStats.kills + '\r\n'
             + this.game.getLastLog() + newLine
-            + "Gold: " + this.game.player.gold;
+            + "Gold: " + this.game.player.gold + ' |    Buffs: ' + (this.game.player.buffs.length ? (this.game.player.buffs.first().getDescription()) : '');
 
         var style = new PIXI.TextStyle({
             fontFamily: 'monospace',

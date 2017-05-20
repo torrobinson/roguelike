@@ -2,13 +2,12 @@
 class WallBreakerBuff extends Buff {
     maxUses: number = 5;
 
-    constructor() {
-        super();
+    getDescription() {
+        return "Destroy the next " + this.getUsesRemaining() + ' walls you touch';
     }
 
     // The wall breaker buff causes things the actor bumps into to be destroyed immediately
     onCollideBefore(bumped: Actor) {
-        super.onCollideBefore(bumped);
         if (bumped instanceof Wall) {
             bumped.die();
             this.used();

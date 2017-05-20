@@ -7,7 +7,7 @@ class Buff {
 
     }
 
-    // Apply/remove helpers
+    // Basic Helpers
     applyTo(actor: Actor) {
         actor.buffs.push(this);
         this.owner = actor;
@@ -24,6 +24,16 @@ class Buff {
             this.remove();
         }
     }
+
+    getUsesRemaining() {
+        return this.maxUses - this.uses;
+    }
+
+    getDescription() {
+
+    }
+
+
 
     // Event handlers
     onAttackBefore(attacked: Actor) {
