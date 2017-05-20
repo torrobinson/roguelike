@@ -4,4 +4,16 @@ class Wall extends Actor {
         this.spritesets = Sprites.WallSprites();
         this.fogStyle = FogStyle.Darken;
     }
+
+    die() {
+        // Before a wall is removed from the world, ensure there's a floor piece under it
+        var floorLayer = this.game.world.getLayersOfType(LayerType.Floor).first();
+        if (floorLayer.getTile(this.location.x, this.location.y) === null) {
+            floorLayer.placeActor(
+                new Floor(this.game),
+                this.location
+            );
+        }
+        super.die();
+    }
 }

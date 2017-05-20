@@ -5,7 +5,7 @@ class Player extends Actor {
     moveTickDuration: number = 1;
     defaultAttackPower: number = 1;
     name: string = 'You';
-    viewRadius: number = 10;
+    viewRadius: number = 9;
     gold: number = 0;
     constructor(game: Game) {
         super(game);

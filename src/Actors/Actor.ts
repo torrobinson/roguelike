@@ -31,6 +31,8 @@ class Actor {
     equippedFeet: Armor = null;
     equippedWeapon: Weapon = null;
 
+    buffs: Buff[] = [];
+
     constructor(game: Game) {
         // Actors must be born with awareness of the game they are in
         this.game = game;
@@ -81,15 +83,18 @@ class Actor {
         return this.equippedWeapon;
     }
 
-    getInventoryOfType(type: any) : InventoryItem[]{
-       return this.inventory.where((inv) => {return inv instanceof type});
+    getInventoryOfType(type: any): InventoryItem[] {
+        return this.inventory.where((inv) => { return inv instanceof type });
     }
 
     attack(otherActor: Actor, damage: number) {
+        BuffHelpers.handleOnAttackBuffsBefore(this, otherActor);
         otherActor.attackedBy(this, damage);
+        BuffHelpers.handleOnAttackBuffsAfter(this, otherActor);
     }
 
     attackedBy(attacker: Actor, damage: number) {
+        BuffHelpers.handleonAttackedBuffsBefore(this, attacker);
         this.health -= damage;
         // Did we die?
         if (this.health <= 0) {
@@ -99,6 +104,7 @@ class Actor {
             // And then die
             this.die();
         }
+        BuffHelpers.handleonAttackedBuffsAfter(this, attacker);
     }
 
     madeKill(killedActor: Actor) {
@@ -110,7 +116,26 @@ class Actor {
         this.destroy();
     }
 
+    addBuff(buff: Buff) {
+        buff.applyTo(this);
+    }
+
+    removeBuff(buff: Buff) {
+        this.buffs.remove(buff);
+    }
+
+    removeBuffByType(type: any) {
+        var buffsToRemove: Buff[] = this.buffs.where((buff) => {
+            return buff instanceof type;
+        });
+        for (let b = 0; b < buffsToRemove.length; b++) {
+            this.buffs.remove(buffsToRemove[b]);
+        }
+    }
+
     move(direction: Direction) {
+        BuffHelpers.handleonMovedBuffsBefore(this);
+
         this.facing = direction;
         var offsetToMove = Movement.DirectionToOffset(direction);
         if (this.layer !== null) {
@@ -128,6 +153,8 @@ class Actor {
             }
         }
         this.restartSpriteNextFrame = true;
+
+        BuffHelpers.handleonMovedBuffsAfter(this);
     }
 
     // Generic action to perform when any collision happened
@@ -137,14 +164,16 @@ class Actor {
 
     // When tried to move into another object
     collidedInto(actor: Actor) {
+        BuffHelpers.handleonCollideBuffsBefore(this, actor);
         this.collided();
-
-
+        BuffHelpers.handleonCollideBuffsAfter(this, actor);
     }
 
     // When another object tried to move into me
     collidedBy(actor: Actor) {
+        BuffHelpers.handleonCollidedIntoBuffsBefore(this, actor);
         this.collided();
+        BuffHelpers.handleonCollidedIntoBuffsAfer(this, actor);
 
     }
 
@@ -197,6 +226,7 @@ class Actor {
 
     // On game timer tick
     tick() {
+        BuffHelpers.handleTickBuffsBefore(this);
 
         if (!this.doesSubscribeToTicks) return;
 
@@ -258,6 +288,8 @@ class Actor {
             this.status = ActorStatus.Idle;
         }
 
+
+        BuffHelpers.handleTickBuffsAfter(this);
     }
 
     canSeePoint(point: Point, range: number) {

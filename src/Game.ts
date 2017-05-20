@@ -309,6 +309,11 @@ class Game {
         var dummyGold1 = new GoldPile(this, 5);
         mainLayer.placeActor(dummyGold1, Movement.AddPoints(spawnLocation, new Point(2, 3)));
 
+        // Buff Experiments
+        this.player.addBuff(
+            new WallBreakerBuff()
+        );
+
     }
 
 }
