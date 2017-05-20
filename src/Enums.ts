@@ -148,4 +148,8 @@ class Enumeration {
         }
         return parseInt(result);
     }
+
+    static GetEnumValuesAsArray(obj: any): number[] {
+        return Object.keys(obj).filter(key => !isNaN(Number(obj[key]))).select(key => Number(key));
+    }
 }

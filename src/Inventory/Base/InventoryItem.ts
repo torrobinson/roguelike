@@ -215,7 +215,7 @@ class Armor extends Equipment {
     }
 }
 
-class GloveArmor extends Armor { //Gauntlets
+class HandArmor extends Armor { //Gauntlets
     name: string = 'Gauntlets';
     equipPoint: EquipPoint = EquipPoint.Hands;
 

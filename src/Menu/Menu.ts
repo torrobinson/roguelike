@@ -69,14 +69,22 @@ class Menu {
     navUp() {
         this.selectedOptionIndex--;
         this.containCursor();
+        if (this.currentOption().execute === undefined) {
+            // If there's no action, dont let it be selected
+            this.navUp();
+        }
     }
     navDown() {
         this.selectedOptionIndex++;
         this.containCursor();
+        if (this.currentOption().execute === undefined) {
+            // If there's no action, dont let it be selected
+            this.navDown();
+        }
     }
     executeCurrentOption() {
         var option = this.currentOption();
-        if (option !== undefined && option!== null) {
+        if (option !== undefined && option !== null) {
             option.execute();
         }
     }
@@ -89,6 +97,10 @@ class Menu {
         this.previousSelectedOptionIndexStack.unshift(this.selectedOptionIndex);
 
         this.selectedOptionIndex = 0;
+        if (this.currentOption().execute === undefined) {
+            // If there's no action, dont let it be selected and go down to the first it can
+            this.navDown();
+        }
     }
     goBackAPage() {
         if (this.navStack.length > 1) {
