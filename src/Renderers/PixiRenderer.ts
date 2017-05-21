@@ -118,7 +118,7 @@ class PixiRenderer implements Renderer {
             + "Gold: " + this.game.player.gold + ' |    Buffs: ' + (this.game.player.buffs.length ? (this.game.player.buffs.first().getDescription()) : '');
 
         var style = new PIXI.TextStyle({
-            fontFamily: 'monospace',
+            fontFamily: 'Courier',
             fontSize: 11,
             fill: ColorCode.White,
         });
@@ -160,24 +160,34 @@ class PixiRenderer implements Renderer {
 
     getHealthGraphic(actor: Actor, x: number, y: number) {
         if (actor.health !== undefined) {
-            var heartPipWidth = 3;
-            var heartPipHeight = 3;
-            var spacingBetweenPips = 3;
-            var pipsToDraw = actor.maxHealth();
+            var percentDecimal = (actor.health / actor.maxHealth());
+
+            var maxPipCount = 20;
+
+
+            var pipsToDraw = Math.ceil(maxPipCount * percentDecimal);
+            var heartPipWidth = 2;
+            var heartPipHeight = 2;
+            var spacingBetweenPips = 0;
+            var offsetAboveActor = 5;
+
 
             var totalHeight = heartPipHeight;
-            var totalWidth = (pipsToDraw * heartPipWidth) + ((pipsToDraw - 1) * spacingBetweenPips);
+            var totalWidth = (maxPipCount * heartPipWidth) + ((maxPipCount - 1) * spacingBetweenPips);
 
             // Offset the pen
             x += (this.tileSize / 2); // move halfway in to the center
             x -= totalWidth / 2; // then move halfway out to it before drawing so that the whole thing is centered
-            y -= 5; // move up above the actor
+            y -= offsetAboveActor; // move up above the actor
 
             var healthGraphic = new PIXI.Graphics();
-            for (var i = 0; i < pipsToDraw; i++) {
-                if (i <= actor.health - 1) {
+            for (var i = 0; i < maxPipCount; i++) {
+                if (i <= pipsToDraw - 1) {
                     // Health they have
-                    healthGraphic.beginFill(ColorCode.Red, 1);
+                    healthGraphic.beginFill(
+                        Color.shadeBlendInt(percentDecimal, ColorCode.Red, ColorCode.Green),
+                        1
+                    );
                 }
                 else {
                     // Potential Health
