@@ -113,7 +113,7 @@ class PixiRenderer implements Renderer {
     drawInfoBar() {
         var newLine = '\r\n';
         var writeLocation = new Point(0, this.height * this.tileSize);
-        var text = 'Health: ' + this.game.player.health + ' | Kills: ' + this.game.player.runStats.kills + '\r\n'
+        var text = 'Health: ' + this.game.player.health + '/' + this.game.player.maxHealth() + ' | Kills: ' + this.game.player.runStats.kills + '\r\n'
             + this.game.getLastLog() + newLine
             + "Gold: " + this.game.player.gold + ' |    Buffs: ' + (this.game.player.buffs.length ? (this.game.player.buffs.first().getDescription()) : '');
 
@@ -345,12 +345,12 @@ class PixiRenderer implements Renderer {
                                 Rendering.fogSprite(sprite, actor.fogged, actor.fogStyle);
 
                                 // Darken it as it leaves the player view radius
-                                Rendering.darkenSpriteByDistanceFromLightSource(sprite, actor, world.game.player);
+                                Rendering.darkenSpriteByDistanceFromLightSource(sprite, actor, world.game.player, Falloff.QuadraticInverse);
 
                                 // Hit it with player light
                                 var lightCount: number = 0;
                                 if (Geometry.IsPointInCircle(world.game.player.location, world.game.player.viewRadius, actor.location)) {
-                                    lightCount += Geometry.getBrightnessForPoint(actor.location, world.game.player.location, world.game.player.viewRadius, 1);
+                                    lightCount += Geometry.getBrightnessForPoint(actor.location, world.game.player.location, world.game.player.viewRadius, 1, Falloff.QuadraticInverse);
                                 }
 
                                 if (this.game.settings.graphic.showLighting) {
@@ -384,6 +384,7 @@ class PixiRenderer implements Renderer {
                                                 actor,
                                                 light,
                                                 color,
+                                                Falloff.QuadraticInverse,
                                                 light.emitIntensity / lightCount // divide the intensity among all lights tot "mix" them
                                             );
 

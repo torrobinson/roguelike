@@ -44,28 +44,28 @@ class Rendering {
             sprite.visible = !fogged;
         }
         if (fogStyle === FogStyle.Darken) {
-            sprite.tint = fogged? LightColorCode.Black : LightColorCode.White; // 0xfff1d6 is a slightly red-shifted white, as this is more pleasing tot he eye and realistic that straight up white
+            sprite.tint = fogged ? LightColorCode.Black : LightColorCode.White;
         }
     }
 
-    static darkenSpriteByDistanceFromLightSource(sprite: Sprite, spriteActor: Actor, lightSourceActor: Actor) {
-        var darkColor = LightColorCode.Black; // 0x131823 is nearly black, but blue-shifted because blue shadows are more pleasing to the eye
+    static darkenSpriteByDistanceFromLightSource(sprite: Sprite, spriteActor: Actor, lightSourceActor: Actor, fallOffFunction) {
+        var darkColor = LightColorCode.Black;
         if (spriteActor !== null && lightSourceActor !== null && spriteActor.location !== null && lightSourceActor.location !== null) {
             var currentTint = sprite.tint;
-            var darkenAmount = 1 - Geometry.getBrightnessForPoint(spriteActor.location, lightSourceActor.location, lightSourceActor.viewRadius, 1);
+            var darkenAmount = 1 - Geometry.getBrightnessForPoint(spriteActor.location, lightSourceActor.location, lightSourceActor.viewRadius, 1, fallOffFunction);
             var newTint = Color.shadeBlendInt(darkenAmount, currentTint, darkColor); // blend that much blackness into it to darken it
 
             sprite.tint = newTint;
         }
     }
 
-    static lightSpriteByDistanceFromLightSource(sprite: Sprite, spriteActor: Actor, lightSourceActor: Actor, color: number, intensity?: number) {
+    static lightSpriteByDistanceFromLightSource(sprite: Sprite, spriteActor: Actor, lightSourceActor: Actor, color: number, fallOffFunction, intensity?: number) {
         if (spriteActor !== null && lightSourceActor !== null && spriteActor.location !== null && lightSourceActor.location !== null) {
             if (!intensity) {
                 intensity = 1.0;
             }
             var currentTint = sprite.tint;
-            var darkenAmount = Geometry.getBrightnessForPoint(spriteActor.location, lightSourceActor.location, lightSourceActor.viewRadius, 1) * intensity;
+            var darkenAmount = Geometry.getBrightnessForPoint(spriteActor.location, lightSourceActor.location, lightSourceActor.viewRadius, 1, fallOffFunction) * intensity;
             if (darkenAmount > 0.0) {
                 var newTint = Color.shadeBlendInt(darkenAmount, currentTint, color); // blend that much blackness into it to darken it
                 sprite.tint = newTint;

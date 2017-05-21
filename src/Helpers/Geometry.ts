@@ -43,13 +43,9 @@ class Geometry {
         return true; // the line was fully drawn
     }
 
-    // Given the distance that something is away, the maximum distance in which you can see, and the maxiumum value to return, apply
-    static getBrightnessFromDistance(distanceAway: number, maxViewDistance: number, maxReturnValue: number) {
-        return Math.max(0, -Math.pow((distanceAway / maxViewDistance), 2) + maxReturnValue);
-    }
 
-    static getBrightnessForPoint(point: Point, lightsource: Point, maxViewDistance: number, maxReturnValue: number) {
-        return this.getBrightnessFromDistance(
+    static getBrightnessForPoint(point: Point, lightsource: Point, maxViewDistance: number, maxReturnValue: number, fallOffFunction: any) {
+        return fallOffFunction(
             Math.hypot(point.x - lightsource.x, point.y - lightsource.y),
             maxViewDistance,
             maxReturnValue);
