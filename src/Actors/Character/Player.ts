@@ -134,8 +134,13 @@ class Player extends Actor {
     }
 
     giveXP(xp: number) {
-        this.totalXP += xp;
         this.currentLevelXP += xp;
+        var overflow = 0;
+        if (this.currentLevelXP > this.xpNeeded) {
+            overflow = this.currentLevelXP - this.xpNeeded;
+        }
+
+        this.totalXP += xp - overflow;
 
         this.game.log(
             new LogMessage(
@@ -146,6 +151,9 @@ class Player extends Actor {
 
         if (this.currentLevelXP >= this.xpNeeded) {
             this.level++;
+            this.currentLevelXP = 0;
+            this.xpNeeded = Math.floor(XP.getExperiencePointsRequired(this.level));
+
             this.game.log(
                 new LogMessage(
                     'You levelled up to level ' + this.level,
@@ -153,15 +161,13 @@ class Player extends Actor {
                 )
             );
 
-            var overflow = xp - this.xpNeeded
             if (overflow > 0) {
-                this.currentLevelXP = overflow;
+                this.giveXP(overflow);
             }
             else {
                 this.currentLevelXP = 0;
             }
 
-            this.xpNeeded = Math.floor(XP.getExperiencePointsRequired(this.level));
         }
     }
 

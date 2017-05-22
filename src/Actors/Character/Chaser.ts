@@ -14,7 +14,7 @@ class Chaser extends Actor {
 
         // Initialize level as the same as the player
         this.level = Battle.getLevelModifierForActor(game.player);
-        this.xpBounty = this.level * 2;
+        this.xpBounty = 1 + this.level * 2;
     }
 
     collidedInto(actor: Actor) {
