@@ -25,6 +25,7 @@ var InventoryMenu = new Menu([
             var options = [];
 
             var equipmentTypesToShow = [
+                Weapon,
                 HeadArmor,
                 TorsoArmor,
                 LegArmor,
@@ -54,9 +55,17 @@ var InventoryMenu = new Menu([
                         {
                             menu: InventoryMenu, // set up reference live
                             label: function() {
-                                return ' └──' + inventoryItem.getName() + // Name
-                                    (inventoryItem instanceof Armor ? '(+' + inventoryItem.maxHealthBuff + ')' : '') + // Buff
-                                    (inventoryItem.isEquipped ? ' (equipped)' : ''); // Equipped status
+                                if (inventoryItem instanceof Armor) {
+                                    return ' └──' + inventoryItem.getName() + // Name
+                                        '(+' + inventoryItem.maxHealthBuff + ' HP)' + // Buff
+                                        (inventoryItem.isEquipped ? ' (equipped)' : ''); // Equipped status
+                                }
+
+                                else if (inventoryItem instanceof Weapon) {
+                                    return ' └──' + inventoryItem.getName() + // Name
+                                        '(+' + inventoryItem.attackPower + ' AP)' + // AP
+                                        (inventoryItem.isEquipped ? ' (equipped)' : ''); // Equipped status
+                                }
 
                             },
                             execute: function() {

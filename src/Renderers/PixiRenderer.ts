@@ -114,7 +114,6 @@ class PixiRenderer implements Renderer {
         var newLine = '\r\n';
         var writeLocation = new Point(0, this.height * this.tileSize);
         var text = 'Health: ' + this.game.player.health + '/' + this.game.player.maxHealth() + ' | Kills: ' + this.game.player.runStats.kills + '\r\n'
-            + this.game.getLastLog() + newLine
             + "Gold: " + this.game.player.gold + ' |    Buffs: ' + (this.game.player.buffs.length ? (this.game.player.buffs.first().getDescription()) : '');
 
         var style = new PIXI.TextStyle({
@@ -127,6 +126,18 @@ class PixiRenderer implements Renderer {
         pixiText.x = writeLocation.x;
         pixiText.y = writeLocation.y;
         this.pixiStage.addChild(pixiText);
+
+        var log = this.game.getLastLog(5).join(newLine);
+        var logStyle = new PIXI.TextStyle({
+            fontFamily: 'Courier',
+            fontSize: 10,
+            fill: ColorCode.White,
+        });
+        var logText = new PIXI.Text(log, logStyle);
+        var logLocation = new Point(250, this.height * this.tileSize);
+        logText.x = logLocation.x;
+        logText.y = logLocation.y;
+        this.pixiStage.addChild(logText);
 
         // Render armor
         var armors: Armor[] = this.game.player.getArmor();

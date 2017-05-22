@@ -87,9 +87,21 @@ class Actor {
         return this.inventory.where((inv) => { return inv instanceof type });
     }
 
-    attack(otherActor: Actor, damage: number) {
+    attack(otherActor: Actor) {
         BuffHelpers.handleOnAttackBuffsBefore(this, otherActor);
+
+        // Figure out the damage to do
+        var damage = this.defaultAttackPower; // default
+        var weapon: Weapon = this.getWeapon();
+        if (weapon) {
+            damage += weapon.attackPower;     // add more if weapon equipped
+        }
+
+        // Deal the damage
         otherActor.attackedBy(this, damage);
+
+        this.game.log(this.name + ' attacked ' + otherActor.name + ' for ' + damage + ' HP');
+
         BuffHelpers.handleOnAttackBuffsAfter(this, otherActor);
     }
 

@@ -1,10 +1,10 @@
 class Chaser extends Actor {
-      startingHealth: number = 1;
-      health: number = this.startingHealth;
-      name: string = 'Blob';
-      moveTickDuration: number = 2;
-      viewRadius: number = 15;
-      target: Actor = null;
+    startingHealth: number = 2;
+    health: number = this.startingHealth;
+    name: string = 'Blob';
+    moveTickDuration: number = 2;
+    viewRadius: number = 15;
+    target: Actor = null;
     constructor(game: Game) {
         super(game);
         this.doesSubscribeToTicks = true;
@@ -17,11 +17,11 @@ class Chaser extends Actor {
         super.collidedInto(actor);
 
         if (actor instanceof Player) {
-            this.attack(actor, this.defaultAttackPower);
+            this.attack(actor);
         }
 
         // If we hit something that wasn't our target, re-evaluate the path
-        else if(this.target !== null && actor !== this.target){
+        else if (this.target !== null && actor !== this.target) {
             this.setCourseFor(this.target);
         }
     }
@@ -43,7 +43,7 @@ class Chaser extends Actor {
 
     }
 
-    setCourseFor(actor: Actor){
+    setCourseFor(actor: Actor) {
         this.target = actor;
         var command = new MoveTo(
             this,

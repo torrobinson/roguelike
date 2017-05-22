@@ -91,8 +91,8 @@ class Game {
         this.gameLog.push(text);
     }
 
-    getLastLog() {
-        return this.gameLog.last();
+    getLastLog(count: number): string[] {
+        return this.gameLog.clone().reverse().slice(0, count);
     }
 
     frameTick(game: Game) {
@@ -298,6 +298,8 @@ class Game {
             new WallBreakerBuff()
         );
 
+        var dagger = new Dagger(spriteRandom, 2);
+
         var demoChest2 = new Chest(this, [
             new Potion(spriteRandom),
             new Potion(spriteRandom),
@@ -306,7 +308,8 @@ class Game {
             new Chestplate(5, spriteRandom),
             new LeatherBoots(4, spriteRandom),
             new SteelBoots(5, spriteRandom),
-            buffedSteelBoots
+            buffedSteelBoots,
+            dagger
         ]);
 
         mainLayer.placeActor(demoChest, this.world.rooms.second().getCenter());

@@ -42,7 +42,7 @@ class Player extends Actor {
             this.game.setRandomDungeon();
         }
         else if (actor instanceof Chaser) {
-            this.attack(actor, this.defaultAttackPower);
+            this.attack(actor);
         }
     }
 
@@ -77,12 +77,11 @@ class Player extends Actor {
 
     attackedBy(attacker: Actor, damage: number) {
         super.attackedBy(attacker, damage);
-        this.game.log('You were damaged by ' + attacker.name + ' for ' + damage + 'HP');
+        this.game.log('You were damaged by ' + attacker.name + ' for ' + damage + ' HP');
     }
 
-    attack(otherActor: Actor, damage: number) {
-        super.attack(otherActor, damage);
-        this.game.log('You attacked ' + otherActor.name + ' for ' + damage + 'HP');
+    attack(otherActor: Actor) {
+        super.attack(otherActor);
     }
 
     die() {

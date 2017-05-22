@@ -31,7 +31,7 @@
 
             // On resources load
             function setupGame() {
-                // Setup resources
+                var keyRepeatRate = 50; // In milliseconds
 
                 // Setup game
                 var time = (new Date).getTime(); // or specify a seed to be used by the entire game
@@ -77,7 +77,6 @@
                 document.onkeyup = keyUp;
                 var isKeyRepeating = false;
                 var keyRepeatTimer = null;
-                var keyRepeatRate = 100; // In milliseconds
                 function keyUp(e) {
                     if (keyRepeatTimer !== null) {
                         clearTimeout(keyRepeatTimer);

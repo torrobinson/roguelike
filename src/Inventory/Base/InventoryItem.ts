@@ -104,6 +104,7 @@ class Equipment extends InventoryItem {
 }
 
 class Weapon extends Equipment {
+    static friendlyName: string = 'Weapon';
     attackPower: number = 0;
     equipPoint: EquipPoint = EquipPoint.Weapon;
     constructor(random: Random) {
@@ -124,10 +125,12 @@ class Weapon extends Equipment {
                 this.holder.equippedWeapon.unqeuip();
             }
         }
+        this.holder.equippedWeapon = this;
     }
 
     unqeuip() {
         super.unqeuip();
+        this.holder.equippedWeapon = null;
     }
 }
 

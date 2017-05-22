@@ -1,5 +1,5 @@
 class Torch extends Actor implements EmitsLight {
-    emitRadius: number = 10;
+    emitRadius: number = 8;
     emitColor: number = LightColorCode.White;
     emitIntensity: number = 1;
 
