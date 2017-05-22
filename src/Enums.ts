@@ -31,7 +31,10 @@ enum ColorCode {
     Black = 0x000000,
     Red = 0xFF0000,
     DarkRed = 0x820000,
-    Green = 0x00FF00
+    Green = 0x00FF00,
+    Yellow = 0xffff00,
+    Purple = 0x7f00ff,
+    Pink = 0xff00ee
 }
 
 enum EquipPoint {
@@ -133,6 +136,17 @@ enum GameDefault {
 enum Orientation {
     Horizontal = 0,
     Vertical = 1
+}
+
+enum LogMessageType {
+    LandedAttack,
+    Damaged,
+    GainedXP,
+    LevelledUp,
+    ObtainedItem,
+    ObtainedGold,
+    LostGold,
+    Informational
 }
 
 class Enumeration {

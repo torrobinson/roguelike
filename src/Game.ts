@@ -11,7 +11,7 @@ class Game {
     worldStack: World[];
     state: GameState;
     settings: GameSettings;
-    gameLog: string[];
+    gameLog: LogMessage[];
 
     pauseMenu: Menu;
     inventoryMenu: Menu;
@@ -41,7 +41,7 @@ class Game {
         // Initialize the renderer
         this.renderer.init();
 
-        this.gameLog = ['You enter the dungeon'];
+        this.gameLog = [new LogMessage('You enter the dungeon')];
 
         // Helpers
         this.startFrameTimer = (game: Game) => {
@@ -87,11 +87,11 @@ class Game {
     }
 
 
-    log(text: string) {
-        this.gameLog.push(text);
+    log(message: LogMessage) {
+        this.gameLog.push(message);
     }
 
-    getLastLog(count: number): string[] {
+    getLastLog(count: number): LogMessage[] {
         return this.gameLog.clone().reverse().slice(0, count);
     }
 

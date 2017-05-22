@@ -19,7 +19,6 @@ class GoldPile extends WorldItem {
         // Override pickedUp with method to deliver the contents
         if (actor instanceof Player) {
             (<Player>actor).giveGold(this.goldCount);
-            this.game.log('You found ' + this.goldCount + ' gold');
         }
     }
 

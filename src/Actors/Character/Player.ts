@@ -69,15 +69,32 @@ class Player extends Actor {
 
     giveGold(goldCount: number) {
         this.gold += goldCount;
+        this.game.log(
+            new LogMessage(
+                'You received ' + goldCount + ' gold',
+                LogMessageType.ObtainedGold
+            )
+        );
     }
     takeGold(goldCount: number) {
         this.gold -= goldCount;
+        this.game.log(
+            new LogMessage(
+                'You lost ' + goldCount + ' gold',
+                LogMessageType.LostGold
+            )
+        );
     }
 
 
     attackedBy(attacker: Actor, damage: number) {
         super.attackedBy(attacker, damage);
-        this.game.log('You were damaged by ' + attacker.name + ' for ' + damage + ' HP');
+        this.game.log(
+            new LogMessage(
+                'You were damaged by ' + attacker.name + ' for ' + damage + ' HP',
+                LogMessageType.Damaged
+            )
+        );
     }
 
     attack(otherActor: Actor) {
@@ -94,7 +111,14 @@ class Player extends Actor {
     madeKill(killedActor: Actor) {
         super.madeKill(killedActor);
         this.runStats.kills++;
-        this.game.log('You killed ' + killedActor.name);
+
+        this.game.log(
+            new LogMessage(
+                'You killed ' + killedActor.name,
+                LogMessageType.Informational
+            )
+        );
+
     }
 
     // Unfog the world as it's explored

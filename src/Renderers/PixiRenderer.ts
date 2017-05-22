@@ -127,17 +127,25 @@ class PixiRenderer implements Renderer {
         pixiText.y = writeLocation.y;
         this.pixiStage.addChild(pixiText);
 
-        var log = this.game.getLastLog(5).join(newLine);
-        var logStyle = new PIXI.TextStyle({
-            fontFamily: 'Courier',
-            fontSize: 10,
-            fill: ColorCode.White,
-        });
-        var logText = new PIXI.Text(log, logStyle);
+        var log: LogMessage[] = this.game.getLastLog(5);
+        var fontFamily = 'Courier';
+        var fontSize = 10;
         var logLocation = new Point(250, this.height * this.tileSize);
-        logText.x = logLocation.x;
-        logText.y = logLocation.y;
-        this.pixiStage.addChild(logText);
+        for (let m = 0; m < log.length; m++) {
+            var logMessage = log[m];
+            var logStyle = new PIXI.TextStyle({
+                fontFamily: fontFamily,
+                fontSize: fontSize,
+                fill: logMessage.color
+            });
+
+            // Write the message to the screen
+            var logText = new PIXI.Text(logMessage.message, logStyle);
+            logText.x = logLocation.x;
+            logText.y = logLocation.y;
+            this.pixiStage.addChild(logText);
+            logLocation.y += fontSize;
+        }
 
         // Render armor
         var armors: Armor[] = this.game.player.getArmor();
@@ -160,11 +168,13 @@ class PixiRenderer implements Renderer {
         for (let p = 0; p < potions.length; p++) {
             var potion = potions[p];
             var atlas = PIXI.loader.resources.itemAtlas.textures;
-            var sprite = new PIXI.Sprite(atlas[potion.getSprite().spriteName]);
-            sprite.x = potionX;
-            sprite.y = potionY;
-            this.pixiStage.addChild(sprite);
-            potionX -= this.tileSize;
+            if (potion.getSprite() !== undefined && potion.getSprite() !== null) {
+                var sprite = new PIXI.Sprite(atlas[potion.getSprite().spriteName]);
+                sprite.x = potionX;
+                sprite.y = potionY;
+                this.pixiStage.addChild(sprite);
+                potionX -= this.tileSize;
+            }
         }
 
     }

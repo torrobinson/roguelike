@@ -100,8 +100,6 @@ class Actor {
         // Deal the damage
         otherActor.attackedBy(this, damage);
 
-        this.game.log(this.name + ' attacked ' + otherActor.name + ' for ' + damage + ' HP');
-
         BuffHelpers.handleOnAttackBuffsAfter(this, otherActor);
     }
 
@@ -327,7 +325,14 @@ class Actor {
     obtainInventoryItem(inventoryItem: InventoryItem) {
         inventoryItem.holder = this;
         this.inventory.push(inventoryItem);
-        this.game.log(this.name + ' obtained ' + inventoryItem.getName());
+
+        this.game.log(
+            new LogMessage(
+                this.name + ' obtained ' + inventoryItem.getName(),
+                LogMessageType.ObtainedItem
+            )
+        );
+
     }
 
     destroy() {
