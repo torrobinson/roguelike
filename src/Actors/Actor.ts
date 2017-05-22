@@ -10,9 +10,9 @@ class Actor {
     moveTickDuration: number = 1;
     spritesets: SpriteSet[] = null;
     name: string = '';
+    xpBounty: number = 0;
     status: ActorStatus = ActorStatus.Idle;
     viewRadius: number = 5;
-    defaultAttackPower: number = 1;
     inventory: InventoryItem[] = [];
     fogged: boolean = true;
     fogStyle: FogStyle = FogStyle.Hide;
@@ -23,6 +23,7 @@ class Actor {
     world: World = null;
     fullBright: boolean = false;
     lastSprite: Sprite;
+    level: number;
 
     equippedHead: Armor = null;
     equippedTorso: Armor = null;
@@ -91,7 +92,7 @@ class Actor {
         BuffHelpers.handleOnAttackBuffsBefore(this, otherActor);
 
         // Figure out the damage to do
-        var damage = this.defaultAttackPower; // default
+        var damage = this.defaultAttackPower(); // default
         var weapon: Weapon = this.getWeapon();
         if (weapon) {
             damage += weapon.attackPower;     // add more if weapon equipped
@@ -115,6 +116,10 @@ class Actor {
             this.die();
         }
         BuffHelpers.handleonAttackedBuffsAfter(this, attacker);
+    }
+
+    defaultAttackPower(): number {
+        return 1 + Math.floor(this.level);
     }
 
     madeKill(killedActor: Actor) {

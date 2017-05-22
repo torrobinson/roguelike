@@ -3,15 +3,19 @@ class Player extends Actor {
     startingHealth: number = 10;
     health: number = this.startingHealth;
     moveTickDuration: number = 1;
-    defaultAttackPower: number = 1;
     name: string = 'You';
     viewRadius: number = 12;
     gold: number = 0;
+    totalXP: number = 0;
+    currentLevelXP: number = 0;
+    xpNeeded: number = 0;
     constructor(game: Game) {
         super(game);
         this.doesSubscribeToTicks = true;
         this.fogged = false;
         this.spritesets = Sprites.PlayerSprites();
+        this.level = 0;
+        this.xpNeeded = XP.getExperiencePointsRequired(this.level);
         this.initStats();
     }
 
@@ -60,6 +64,12 @@ class Player extends Actor {
     }
 
     useItem(item: Consumable) {
+
+        // Don't let the player waste potions if they're at max health
+        if (item instanceof Potion && this.health === this.maxHealth()) {
+            return;
+        }
+
         item.use();
     }
 
@@ -119,6 +129,40 @@ class Player extends Actor {
             )
         );
 
+        this.giveXP(killedActor.xpBounty);
+
+    }
+
+    giveXP(xp: number) {
+        this.totalXP += xp;
+        this.currentLevelXP += xp;
+
+        this.game.log(
+            new LogMessage(
+                'You gained ' + xp + ' XP',
+                LogMessageType.GainedXP
+            )
+        );
+
+        if (this.currentLevelXP >= this.xpNeeded) {
+            this.level++;
+            this.game.log(
+                new LogMessage(
+                    'You levelled up to level ' + this.level,
+                    LogMessageType.LevelledUp
+                )
+            );
+
+            var overflow = xp - this.xpNeeded
+            if (overflow > 0) {
+                this.currentLevelXP = overflow;
+            }
+            else {
+                this.currentLevelXP = 0;
+            }
+
+            this.xpNeeded = Math.floor(XP.getExperiencePointsRequired(this.level));
+        }
     }
 
     // Unfog the world as it's explored

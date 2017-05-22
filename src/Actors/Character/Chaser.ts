@@ -2,6 +2,7 @@ class Chaser extends Actor {
     startingHealth: number = 2;
     health: number = this.startingHealth;
     name: string = 'Blob';
+    xpBounty: number = 2;
     moveTickDuration: number = 2;
     viewRadius: number = 15;
     target: Actor = null;
@@ -10,6 +11,10 @@ class Chaser extends Actor {
         this.doesSubscribeToTicks = true;
         this.blocksSight = false; // it's short and we can see over it
         this.spritesets = Sprites.ChaserSprites();
+
+        // Initialize level as the same as the player
+        this.level = Battle.getLevelModifierForActor(game.player);
+        this.xpBounty = this.level * 2;
     }
 
     collidedInto(actor: Actor) {
@@ -24,6 +29,10 @@ class Chaser extends Actor {
         else if (this.target !== null && actor !== this.target) {
             this.setCourseFor(this.target);
         }
+    }
+
+    defaultAttackPower(): number {
+        return 1 + Math.floor(this.level * 0.5);
     }
 
     tick() {

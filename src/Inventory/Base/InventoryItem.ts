@@ -15,7 +15,7 @@ class InventoryItem {
 
     setSprite() {
         // Set the random sprite to use on creation
-        this.randomSpriteIndex = this.random.next(0, this.spritesets.first().sprites.length);
+        this.randomSpriteIndex = this.random.next(0, this.spritesets.first().sprites.length - 1);
     }
 
     getSprite() {

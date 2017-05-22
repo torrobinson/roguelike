@@ -113,8 +113,10 @@ class PixiRenderer implements Renderer {
     drawInfoBar() {
         var newLine = '\r\n';
         var writeLocation = new Point(0, this.height * this.tileSize);
-        var text = 'Health: ' + this.game.player.health + '/' + this.game.player.maxHealth() + ' | Kills: ' + this.game.player.runStats.kills + '\r\n'
-            + "Gold: " + this.game.player.gold + ' |    Buffs: ' + (this.game.player.buffs.length ? (this.game.player.buffs.first().getDescription()) : '');
+        var text = 'Health: ' + this.game.player.health + '/' + this.game.player.maxHealth() + ' | Kills: ' + this.game.player.runStats.kills + ' | Level: ' + this.game.player.level + newLine
+            + "Gold: " + this.game.player.gold + ' |    Buffs: ' + (this.game.player.buffs.length ? (this.game.player.buffs.first().getDescription()) : '')
+            + newLine + 'XP: ' + this.game.player.currentLevelXP + '/' + this.game.player.xpNeeded + '(' + this.game.player.totalXP + ')'
+            ;
 
         var style = new PIXI.TextStyle({
             fontFamily: 'Courier',
