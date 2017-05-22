@@ -993,5 +993,39 @@ class Sprites {
         ]
     };
 
+    static CrossGraveSprites() {
+        return [
+
+            new SpriteSet(
+                ActorStatus.Idle,
+                Direction.Down,
+                [
+                    new Sprite(
+                        'GraveCrossDown',
+                        ' '
+                    )
+                ],
+                AnimationLoopStyle.Static
+            )
+        ]
+    };
+
+    static TombstoneSprites() {
+        return [
+
+            new SpriteSet(
+                ActorStatus.Idle,
+                Direction.Down,
+                [
+                    new Sprite(
+                        'TombstoneDown',
+                        ' '
+                    )
+                ],
+                AnimationLoopStyle.Static
+            )
+        ]
+    };
+
 
 }

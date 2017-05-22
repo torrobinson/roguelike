@@ -13,13 +13,13 @@ class Random {
 
     next(min: number, max: number) {
         // Fetches the next random number in the sequence, with a minimum and maximum
-        return Math.floor(this.go() * (max - min)) + min;
+        return Math.floor(this.go() * (max - min + 1)) + min;
     }
 
     nextWeighted(min: number, max: number) {
         // Fetches the next random number in the sequence, with a minimum and maximum, and weighted
         //  towards the center.
         // This is done by generating only two numbers at half the maximum and adding them together
-        return (Math.floor(this.go() * (max / 2)) + min) + (Math.floor(this.go() * (max / 2)) + min);
+        return (Math.floor(this.go() * (max / 2)) + min + 1) + (Math.floor(this.go() * (max / 2)) + min + 1);
     }
 }

@@ -63,7 +63,8 @@ enum SizeCategory {
 enum RoomDecorationType {
     Nothing = 0, // Do not decorate
     Atrium = 1,	 // Room with columns down the left and right sides
-    Library = 2  // Room with bookshelves down the side walls
+    Library = 2,  // Room with bookshelves down the side walls
+    Graveyard = 3 // Room with graves everywhere
 }
 
 enum LayerType {

@@ -146,25 +146,25 @@ class Player extends Actor {
 
                             // Unfog blocked surrounded wall pieces OR side pieces within view radius
                             var surroundedWall = wallLayer.getTile(point.x, point.y);
-                            if (surroundedWall !== null
-                                && surroundedWall.fogged
-                                && (
-                                    surroundedWall.facing === Direction.UpDownLeftRight ||
-                                    surroundedWall.facing === Direction.UpDownRight ||
-                                    surroundedWall.facing === Direction.UpDownLeft ||
-                                    surroundedWall.facing === Direction.UpLeftRight ||
-                                    surroundedWall.facing === Direction.DownLeftRight ||
-                                    (
-                                        surroundedWall.location.x === 0
-                                        || surroundedWall.location.y === 0
-                                        || surroundedWall.location.y === this.layer.tiles.length - 1
-                                        || surroundedWall.location.x === this.layer.tiles[0].length - 1
+                            if (surroundedWall !== null && surroundedWall.location !== null) {
+                                if (surroundedWall.fogged
+                                    && (
+                                        surroundedWall.facing === Direction.UpDownLeftRight ||
+                                        surroundedWall.facing === Direction.UpDownRight ||
+                                        surroundedWall.facing === Direction.UpDownLeft ||
+                                        surroundedWall.facing === Direction.UpLeftRight ||
+                                        surroundedWall.facing === Direction.DownLeftRight ||
+                                        (
+                                            surroundedWall.location.x === 0
+                                            || surroundedWall.location.y === 0
+                                            || surroundedWall.location.y === this.layer.tiles.length - 1
+                                            || surroundedWall.location.x === this.layer.tiles[0].length - 1
+                                        )
                                     )
-                                )
-                            ) {
-                                surroundedWall.fogged = false;
+                                ) {
+                                    surroundedWall.fogged = false;
+                                }
                             }
-
                         }
 
                     }

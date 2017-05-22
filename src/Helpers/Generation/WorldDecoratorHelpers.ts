@@ -68,51 +68,75 @@ class WorldDecoratorHelpers {
         }
     }
 
-    static addTorchesToCorners(game: Game, layer: Layer, room: Room, color: number){
-      var topLeft = new Point(room.position.x, room.position.y);
-      var topRight = new Point(room.position.x + room.width-1, room.position.y);
-      var bottomLeft = new Point(room.position.x, room.height-1 + room.position.y);
-      var bottomRight = new Point(room.position.x+room.width-1, room.height-1 + room.position.y);
+    static addTorchesToCorners(game: Game, layer: Layer, room: Room, color: number) {
+        var topLeft = new Point(room.position.x, room.position.y);
+        var topRight = new Point(room.position.x + room.width - 1, room.position.y);
+        var bottomLeft = new Point(room.position.x, room.height - 1 + room.position.y);
+        var bottomRight = new Point(room.position.x + room.width - 1, room.height - 1 + room.position.y);
 
-      // Top Left
-      var possibleBlock1: Point = Movement.AddPoints(topLeft,Movement.DirectionToOffset(Direction.Left));
-      var possibleBlock2: Point = Movement.AddPoints(topLeft,Movement.DirectionToOffset(Direction.Up));
-      if(layer.getTile(topLeft.x, topLeft.y) === null && layer.getTile(possibleBlock1.x, possibleBlock1.y) instanceof Wall && layer.getTile(possibleBlock2.x, possibleBlock2.y) instanceof Wall){
-        layer.placeActor(
-          new Torch(game, color),
-          topLeft
-        );
-      }
+        // Top Left
+        var possibleBlock1: Point = Movement.AddPoints(topLeft, Movement.DirectionToOffset(Direction.Left));
+        var possibleBlock2: Point = Movement.AddPoints(topLeft, Movement.DirectionToOffset(Direction.Up));
+        if (layer.getTile(topLeft.x, topLeft.y) === null && layer.getTile(possibleBlock1.x, possibleBlock1.y) instanceof Wall && layer.getTile(possibleBlock2.x, possibleBlock2.y) instanceof Wall) {
+            layer.placeActor(
+                new Torch(game, color),
+                topLeft
+            );
+        }
 
-      // Top Right
-      possibleBlock1 = Movement.AddPoints(topRight,Movement.DirectionToOffset(Direction.Right));
-      possibleBlock2 = Movement.AddPoints(topRight,Movement.DirectionToOffset(Direction.Up));
-      if(layer.getTile(topRight.x, topRight.y) === null && layer.getTile(possibleBlock1.x, possibleBlock1.y) instanceof Wall && layer.getTile(possibleBlock2.x, possibleBlock2.y) instanceof Wall){
-        layer.placeActor(
-          new Torch(game, color),
-          topRight
-        );
-      }
+        // Top Right
+        possibleBlock1 = Movement.AddPoints(topRight, Movement.DirectionToOffset(Direction.Right));
+        possibleBlock2 = Movement.AddPoints(topRight, Movement.DirectionToOffset(Direction.Up));
+        if (layer.getTile(topRight.x, topRight.y) === null && layer.getTile(possibleBlock1.x, possibleBlock1.y) instanceof Wall && layer.getTile(possibleBlock2.x, possibleBlock2.y) instanceof Wall) {
+            layer.placeActor(
+                new Torch(game, color),
+                topRight
+            );
+        }
 
-      // Bottom Left
-      possibleBlock1 = Movement.AddPoints(bottomLeft,Movement.DirectionToOffset(Direction.Left));
-      possibleBlock2 = Movement.AddPoints(bottomLeft,Movement.DirectionToOffset(Direction.Down));
-      if(layer.getTile(bottomLeft.x, bottomLeft.y) === null && layer.getTile(possibleBlock1.x, possibleBlock1.y) instanceof Wall && layer.getTile(possibleBlock2.x, possibleBlock2.y) instanceof Wall){
-        layer.placeActor(
-          new Torch(game, color),
-          bottomLeft
-        );
-      }
+        // Bottom Left
+        possibleBlock1 = Movement.AddPoints(bottomLeft, Movement.DirectionToOffset(Direction.Left));
+        possibleBlock2 = Movement.AddPoints(bottomLeft, Movement.DirectionToOffset(Direction.Down));
+        if (layer.getTile(bottomLeft.x, bottomLeft.y) === null && layer.getTile(possibleBlock1.x, possibleBlock1.y) instanceof Wall && layer.getTile(possibleBlock2.x, possibleBlock2.y) instanceof Wall) {
+            layer.placeActor(
+                new Torch(game, color),
+                bottomLeft
+            );
+        }
 
-      // Bottom Right
-      possibleBlock1 = Movement.AddPoints(bottomRight,Movement.DirectionToOffset(Direction.Right));
-      possibleBlock2 = Movement.AddPoints(bottomRight,Movement.DirectionToOffset(Direction.Down));
-      if(layer.getTile(bottomRight.x, bottomRight.y) === null && layer.getTile(possibleBlock1.x, possibleBlock1.y) instanceof Wall && layer.getTile(possibleBlock2.x, possibleBlock2.y) instanceof Wall){
-        layer.placeActor(
-          new Torch(game, color),
-          bottomRight
-        );
-      }
+        // Bottom Right
+        possibleBlock1 = Movement.AddPoints(bottomRight, Movement.DirectionToOffset(Direction.Right));
+        possibleBlock2 = Movement.AddPoints(bottomRight, Movement.DirectionToOffset(Direction.Down));
+        if (layer.getTile(bottomRight.x, bottomRight.y) === null && layer.getTile(possibleBlock1.x, possibleBlock1.y) instanceof Wall && layer.getTile(possibleBlock2.x, possibleBlock2.y) instanceof Wall) {
+            layer.placeActor(
+                new Torch(game, color),
+                bottomRight
+            );
+        }
 
+    }
+
+    static populateWithActor(game: Game, layer: Layer, room: Room, actorsToPlace: any[], random: Random, mininum: number, maximum: number, placeOnBorders: boolean = true): void {
+        var numberToDrop = random.nextWeighted(mininum, maximum);
+        var attemptsToMake = 20;
+        var totalAttempts = 0;
+        var placed = 0;
+
+        while (totalAttempts < attemptsToMake && placed < numberToDrop) {
+            for (let i = 0; i < numberToDrop; i++) {
+                var randomX = random.next(room.position.x + (placeOnBorders ? 0 : 1), room.position.x + room.width - (placeOnBorders ? 0 : 1));
+                var randomY = random.next(room.position.y + (placeOnBorders ? 0 : 1), room.position.y + room.height - (placeOnBorders ? 0 : 1));
+                var actorToPlace = actorsToPlace.pickRandom(random);
+                try {
+                    if (layer.getTile(randomX, randomY) === null) {
+                        layer.placeActor(new actorToPlace(game), new Point(randomX, randomY));
+                        placed++;
+                    }
+                }
+                finally {
+                    totalAttempts++;
+                }
+            }
+        }
     }
 }

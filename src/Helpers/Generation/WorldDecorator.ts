@@ -117,6 +117,44 @@ class WorldDecorator {
             );
         }
 
+        // GRAVEYARD
+        else if (roomType === RoomDecorationType.Graveyard) {
+            var min: number = 1, max: number;
+
+            switch (room.getSizeCategory()) {
+                case SizeCategory.Tiny:
+                    max = 2;
+                    break;
+
+                case SizeCategory.Small:
+                    max = 4;
+                    break;
+
+                case SizeCategory.Medium:
+                    max = 8;
+                    break;
+
+                case SizeCategory.Large:
+                    max = 16;
+                    break;
+
+                case SizeCategory.Huge:
+                    max = 32;
+                    break;
+            }
+
+            WorldDecoratorHelpers.populateWithActor(
+                world.game,
+                wallLayer,
+                room,
+                [Tombstone, CrossGrave],
+                this.random,
+                min,
+                max,
+                false
+            );
+        }
+
     }
 
 }

@@ -2,7 +2,9 @@ class Geometry {
 
     // Use Pythagoras to check if a point is a certain distance away
     static IsPointInCircle(circleLocation: Point, circleRadius: number, point: Point) {
-        return Math.pow((point.x - circleLocation.x), 2) + Math.pow((point.y - circleLocation.y), 2) <= Math.pow(circleRadius, 2);
+        if (circleLocation !== null && point !== null) {
+            return Math.pow((point.x - circleLocation.x), 2) + Math.pow((point.y - circleLocation.y), 2) <= Math.pow(circleRadius, 2);
+        }
     }
 
     static IsAdjacent(point1: Point, point2: Point) {
