@@ -22,3 +22,9 @@ This is an experiment to familiarize myself with game mechanics, TypeScript, and
 ### Tools ###
 - [Pixi.js](http://pixijs.com)
 - [Pathfinding](https://www.npmjs.com/package/pathfinding) by [imor](https://github.com/imor)
+
+### Lessons Learned ###
+- Start off using TypeScript, don't try to convert later (kill me)
+- Abstract everything
+- Separate gameclock from frameclock - game should be playble blind without a renderer attached
+- Finding sprite assets and mapping them to actors is hard
