@@ -7,8 +7,6 @@ class Player extends Actor {
     viewRadius: number = 12;
     gold: number = 0;
     totalXP: number = 0;
-    currentLevelXP: number = 0;
-    xpNeeded: number = 0;
     constructor(game: Game) {
         super(game);
         this.doesSubscribeToTicks = true;

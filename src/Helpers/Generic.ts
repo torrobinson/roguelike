@@ -26,4 +26,8 @@ class Generic {
     return date.getHours().toString().padLeft('0',2) + ':' + date.getMinutes().toString().padLeft('0',2) + ':' + date.getSeconds().toString().padLeft('0',2);
   }
 
+  static NewLine() : string{
+      return '\r\n';
+  }
+
 }

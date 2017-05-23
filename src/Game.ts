@@ -8,7 +8,6 @@ class Game {
     seed: number;
     player: Player;
     world: World;
-    worldStack: World[];
     state: GameState;
     settings: GameSettings;
     gameLog: LogMessage[];
@@ -36,7 +35,6 @@ class Game {
         this.player = new Player(this);
 
         this.world = null;
-        this.worldStack = [];
 
         this.state = GameState.NotStarted;
 

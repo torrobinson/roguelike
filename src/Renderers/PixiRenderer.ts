@@ -32,6 +32,7 @@ class PixiRenderer implements Renderer {
     guiEffectsContainer: any = new PIXI.Container();    // buffs/debuffs
     guiOverlayContainer: any = new PIXI.Container();    // overlays like health bars
     stageContainer: any  = new PIXI.Container();   // the actual game actors
+    guiPad: number = 5;
 
     constructor(canvas: any, width: number, height: number) {
         this.canvas = canvas;
@@ -56,8 +57,75 @@ class PixiRenderer implements Renderer {
         this.healthGraphics = [];
     }
 
+    guiGetStatsContainer(forActor: Actor, barHeight: number){
+      var yOffset = -3;
+      var healthStyle = new PIXI.TextStyle({
+          fontFamily: 'monospace',
+          fontSize: 10,
+          fill: ColorCode.White,
+          align: 'center'
+      });
+      var barTotalWidth = this.verticalContainerWidth -  this.guiPad * 2;
+      var health = 'HP: ' + forActor.health + ' / ' + forActor.maxHealth() + Generic.NewLine() +
+      '(' + forActor.startingHealth + ' + ' + forActor.getMaxHealthBuff() + ')';
+      var healthText = new PIXI.Text(health, healthStyle);
+      var healthWidth = (forActor.health / forActor.maxHealth()) * barTotalWidth;
+
+
+
+      var experienceStyle = new PIXI.TextStyle({
+          fontFamily: 'monospace',
+          fontSize: 10,
+          fill: ColorCode.White,
+          align: 'center'
+      });
+      var experience = 'Level ' + forActor.level + Generic.NewLine() +
+      '(' + forActor.currentLevelXP + ' / ' + forActor.xpNeeded + ')';
+      var experienceText = new PIXI.Text(experience, experienceStyle);
+      var experiencehWidth = (forActor.currentLevelXP / forActor.xpNeeded) * barTotalWidth;
+
+
+
+      // Relative to this stats container, not the entire screen
+      var drawX = this.guiPad;
+      var drawY = this.guiPad;
+      var barPadding = 0;
+
+      var healthLocation = new Point(this.verticalContainerWidth/2 - healthText.width/2, drawY + barHeight/2 - healthText.height/2 + yOffset);
+      healthText.x = healthLocation.x;
+      healthText.y = healthLocation.y;
+      var healthBarGraphic = new PIXI.Graphics();
+      healthBarGraphic.beginFill(ColorCode.DarkRed, 1);
+      healthBarGraphic.drawRect(drawX, drawY, barTotalWidth, barHeight + barPadding - this.guiPad);
+      healthBarGraphic.endFill();
+      healthBarGraphic.beginFill(ColorCode.Red, 1);
+      healthBarGraphic.drawRect(drawX, drawY, healthWidth, barHeight + barPadding - this.guiPad);
+      healthBarGraphic.endFill();
+
+      drawY += barHeight + barPadding;
+
+      var experienceLocation = new Point(this.verticalContainerWidth/2 - experienceText.width/2, drawY + barHeight/2 - experienceText.height/2 + yOffset);
+      experienceText.x = experienceLocation.x;
+      experienceText.y = experienceLocation.y;
+      var experienceBarGraphic = new PIXI.Graphics();
+      experienceBarGraphic.beginFill(ColorCode.DarkPurple, 1);
+      experienceBarGraphic.drawRect(drawX, drawY, barTotalWidth, barHeight + barPadding - this.guiPad);
+      experienceBarGraphic.endFill();
+      experienceBarGraphic.beginFill(ColorCode.Purple, 1);
+      experienceBarGraphic.drawRect(drawX, drawY, experiencehWidth, barHeight + barPadding - this.guiPad);
+      experienceBarGraphic.endFill();
+
+      var statsContainer = new PIXI.Container();
+      statsContainer.addChild(healthBarGraphic);
+      statsContainer.addChild(healthText);
+      statsContainer.addChild(experienceBarGraphic);
+      statsContainer.addChild(experienceText);
+
+      return statsContainer;
+    }
+
     guiGetEquipMapContainer(scale: number, paddingBetweenSlots: number){
-      // Draw the definition of a 'slot'
+          // Draw the definition of a 'slot'
 					var slotGraphic = new PIXI.Graphics();
 					var size = this.tileSize * scale;
 					var padding = paddingBetweenSlots;
@@ -240,8 +308,8 @@ class PixiRenderer implements Renderer {
         var breadcrumb = menu.navStack.map(function(page) { return page.name }).reverse().join(' / ');
         var text = '';
 
-        text += breadcrumb + '\r\n';
-        text += '-'.repeat(breadcrumb.length) + '\r\n';
+        text += breadcrumb + Generic.NewLine();
+        text += '-'.repeat(breadcrumb.length) + Generic.NewLine();
 
         // Render current page;
         var options = Generic.ResolveIfDynamic(menu.currentPage().options);
@@ -255,7 +323,7 @@ class PixiRenderer implements Renderer {
                 else {
                     text += '  ' + label;
                 }
-                text += '\r\n';
+                text += Generic.NewLine();
             }
         }
 
@@ -609,35 +677,44 @@ class PixiRenderer implements Renderer {
 
         // Prepare the GUI
         // Horizontal
-        this.guiHorizontalContainer.backgroundColor = ColorCode.DarkGrey;
         this.guiHorizontalContainer.width = this.pixelWidth;
         this.guiHorizontalContainer.height = this.horizontalContainerHeight;
         this.guiHorizontalContainer.x = 0;
         this.guiHorizontalContainer.y = this.pixelHeight - this.horizontalContainerHeight;
         // Horizontal Log
-        this.guiLogContainer.x=0;
-        this.guiLogContainer.y=0;
-        this.guiLogContainer.addChild(this.guiGetLogContainer(20));
+        var gameLog = this.guiGetLogContainer(20);
+        gameLog.x = this.guiPad;
+        gameLog.y = this.guiPad;
+        this.guiLogContainer.addChild(gameLog);
         this.guiHorizontalContainer.addChild(this.guiLogContainer);
 
         // Vertical
-        this.guiVerticalContainer.backgroundColor = ColorCode.DarkGrey;
         this.guiVerticalContainer.width = this.verticalContainerWidth;
         this.guiVerticalContainer.height = this.pixelHeight - this.horizontalContainerHeight;
         this.guiVerticalContainer.x = this.pixelWidth - this.verticalContainerWidth;
         this.guiVerticalContainer.y = 0;
+        // Draw the background:
+        var background = new PIXI.Graphics();
+        background.beginFill(ColorCode.DarkGrey, 1);
+        background.drawRect(0,0, this.guiVerticalContainer.width, this.guiVerticalContainer.height);
+        background.endFill();
+        this.guiVerticalContainer.addChild(background);
         // Equip
         var equipMap = this.guiGetEquipMapContainer(1, 5);
         this.guiVerticalContainer.addChild(equipMap);
-        equipMap.x = 0;
-        equipMap.y = 0;
+        equipMap.x = this.verticalContainerWidth - (this.verticalContainerWidth / 2) - (equipMap.width/2);
+        equipMap.y = this.guiPad;
         ///
+        /// Stats
+        var statsContainer = this.guiGetStatsContainer(this.game.player, 40);
+        this.guiVerticalContainer.addChild(statsContainer);
+        statsContainer.y = equipMap.height + this.guiPad;
 
         // Collect all GUI elements prior to render
         this.guiOverlayContainer.addChild(this.guiHorizontalContainer);
         this.guiOverlayContainer.addChild(this.guiVerticalContainer);
 
-        // Draw health
+        // Draw health overlays
         for (var i = 0; i < this.healthGraphics.length; i++) {
             this.guiOverlayContainer.addChild(this.healthGraphics[i]);
         }
@@ -668,9 +745,6 @@ class PixiRenderer implements Renderer {
                     mapHolder.position.y = this.pixiRenderer.height - mapHolder.height - padding - this.horizontalContainerHeight;
                     break;
             }
-
-            //mapHolder.position.x = this.pixiRenderer.width;
-            //mapHolder.position.y = this.pixiRenderer.height;
 
             this.stageContainer.addChild(mapHolder);
 

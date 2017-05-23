@@ -24,6 +24,8 @@ class Actor {
     fullBright: boolean = false;
     lastSprite: Sprite;
     level: number;
+    xpNeeded: number = 0;
+    currentLevelXP: number = 0;
 
     equippedHead: Armor = null;
     equippedTorso: Armor = null;
