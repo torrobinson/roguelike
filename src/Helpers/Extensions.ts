@@ -21,6 +21,8 @@ interface Object {
 }
 interface String {
     repeat(times: number): string;
+    padLeft(char: string, maxLength: number): string;
+    padRight(char: string, maxLength: number): string;
 }
 
 // Array extensions
@@ -134,3 +136,11 @@ Object.prototype.clone = function() {
 String.prototype.repeat = function(times) {
     return (new Array(times + 1)).join(this);
 };
+
+String.prototype.padLeft = function(char: string, maxLength: number) : string{
+  return char.repeat(maxLength-this.length) + this;
+}
+
+String.prototype.padRight = function(char: string, maxLength: number) : string{
+  return this + char.repeat(maxLength-this.length);
+}

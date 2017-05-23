@@ -959,6 +959,27 @@ class Sprites {
         ]
     };
 
+    static DaggerSprites() {
+        return [
+
+            new SpriteSet(
+                ActorStatus.Idle,
+                Direction.Down,
+                [
+                    new Sprite(
+                        'Dagger1',
+                        ' '
+                    ),
+                    new Sprite(
+                        'Dagger2',
+                        ' '
+                    )
+                ],
+                AnimationLoopStyle.RandomStatic
+            )
+        ]
+    };
+
     static LeatherBootsSprites() {
         return [
 

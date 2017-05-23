@@ -2,8 +2,7 @@ class LogMessage {
     message: string;
     color: number = ColorCode.White;
     constructor(message: string, logMessageType: LogMessageType = LogMessageType.Informational) {
-        this.message = message;
-
+        this.message = '[' +Generic.GetTimeStamp() + '] ' + message;
         var color = ColorCode.White;
         switch (logMessageType) {
             case LogMessageType.LandedAttack:

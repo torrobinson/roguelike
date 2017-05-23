@@ -109,6 +109,12 @@ class Player extends Actor {
 
     attack(otherActor: Actor) {
         super.attack(otherActor);
+        this.game.log(
+            new LogMessage(
+                'You damaged ' + otherActor.name + ' for ' + this.getDamage() + ' HP',
+                LogMessageType.LandedAttack
+            )
+        );
     }
 
     die() {
@@ -133,7 +139,7 @@ class Player extends Actor {
 
     }
 
-    giveXP(xp: number) {
+    giveXP(xp: number, announce: boolean = true) {
         this.currentLevelXP += xp;
         var overflow = 0;
         if (this.currentLevelXP > this.xpNeeded) {
@@ -142,12 +148,14 @@ class Player extends Actor {
 
         this.totalXP += xp - overflow;
 
-        this.game.log(
-            new LogMessage(
-                'You gained ' + xp + ' XP',
-                LogMessageType.GainedXP
-            )
-        );
+        if(announce){
+          this.game.log(
+              new LogMessage(
+                  'You gained ' + xp + ' XP',
+                  LogMessageType.GainedXP
+              )
+          );
+        }
 
         if (this.currentLevelXP >= this.xpNeeded) {
             this.level++;
@@ -162,7 +170,7 @@ class Player extends Actor {
             );
 
             if (overflow > 0) {
-                this.giveXP(overflow);
+                this.giveXP(overflow, false);
             }
             else {
                 this.currentLevelXP = 0;

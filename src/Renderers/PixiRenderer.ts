@@ -13,11 +13,25 @@ class PixiRenderer implements Renderer {
     pixelWidth: number;
     pixelHeight: number;
 
-    pixiRenderer: any;
-    pixiStage: any;
 
-    infoBar: any;
+
+    // Pixi Containers
+    pixiRenderer: any;
+
     healthGraphics: any[];
+
+    guiHorizontalContainer: any = new PIXI.Container(); // master bottom bar
+    horizontalContainerHeight: number = 200;
+    guiLogContainer:any = new PIXI.Container();         // game log
+
+    guiVerticalContainer: any = new PIXI.Container();   // master side bar
+    verticalContainerWidth: number = 200;
+    guiEquipContainer: any = new PIXI.Container();      // equipment
+    guiBarsContainer: any = new PIXI.Container();       // health, XP
+    guiStatsContainer: any = new PIXI.Container();      // AP, HP, etc
+    guiEffectsContainer: any = new PIXI.Container();    // buffs/debuffs
+    guiOverlayContainer: any = new PIXI.Container();    // overlays like health bars
+    stageContainer: any  = new PIXI.Container();   // the actual game actors
 
     constructor(canvas: any, width: number, height: number) {
         this.canvas = canvas;
@@ -31,20 +45,180 @@ class PixiRenderer implements Renderer {
         this.tileSize = 16;
         this.scale = 1;
         // Set up Pixi and attach to the canvas
-        this.infoBar = {
-            width: this.width * this.tileSize,
-            height: 40,
-        };
-        this.pixelWidth = this.width * this.tileSize;
-        this.pixelHeight = (this.height * this.tileSize) + this.infoBar.height;
+        this.pixelWidth = (this.width * this.tileSize) + this.verticalContainerWidth;
+        this.pixelHeight = (this.height * this.tileSize) + this.horizontalContainerHeight;
         PIXI.RESOLUTION = this.scale;
-        this.pixiRenderer = PIXI.autoDetectRenderer(this.width * this.tileSize * this.scale, ((this.height * this.tileSize) + this.infoBar.height) * this.scale, { backgroundColor: ColorCode.Black });
+        this.pixiRenderer = PIXI.autoDetectRenderer((this.width * this.tileSize + this.verticalContainerWidth) * this.scale, ((this.height * this.tileSize) + this.horizontalContainerHeight) * this.scale, { backgroundColor: ColorCode.Black });
         this.canvas.appendChild(this.pixiRenderer.view);
-        this.pixiStage = new PIXI.Container();
 
-        this.pixiStage.interactive = true;
+        this.stageContainer.interactive = true;
 
         this.healthGraphics = [];
+    }
+
+    guiGetEquipMapContainer(scale: number, paddingBetweenSlots: number){
+      // Draw the definition of a 'slot'
+					var slotGraphic = new PIXI.Graphics();
+					var size = this.tileSize * scale;
+					var padding = paddingBetweenSlots;
+					var iterations = size/4;
+					var startAlpha = 0.75;
+					for(var i=0; i<iterations; i++){
+						slotGraphic.lineStyle(1, ColorCode.White, Math.max(startAlpha-(i/iterations),0))
+						slotGraphic.drawRect(i, i, size-i*2, size-i*2)
+					}
+
+
+					// Create a texture out of it
+					var slotTexture = new PIXI.RenderTexture(this.pixiRenderer, size, size);
+					slotTexture.render(slotGraphic);
+
+					// Create our sprites based on the slot sprite
+					var headSlot = new PIXI.Sprite(slotTexture);
+					var torsoSlot = new PIXI.Sprite(slotTexture);
+					var legSlot = new PIXI.Sprite(slotTexture);
+					var footSlot = new PIXI.Sprite(slotTexture);
+					var handSlot = new PIXI.Sprite(slotTexture);
+					var weaponSlot = new PIXI.Sprite(slotTexture);
+
+          var atlas = PIXI.loader.resources.itemAtlas.textures;
+          if(this.game.player.equippedHead){
+            var headItem = new PIXI.Sprite(atlas[this.game.player.equippedHead.getSprite().spriteName]);
+              headItem.scale.x = scale;
+              headItem.scale.y = scale;
+          }
+          if(this.game.player.equippedTorso){
+            var torsoItem = new PIXI.Sprite(atlas[this.game.player.equippedTorso.getSprite().spriteName]);
+              torsoItem.scale.x = scale;
+              torsoItem.scale.y = scale;
+          }
+          if(this.game.player.equippedLegs){
+            var legItem = new PIXI.Sprite(atlas[this.game.player.equippedLegs.getSprite().spriteName]);
+              legItem.scale.x = scale;
+              legItem.scale.y = scale;
+          }
+          if(this.game.player.equippedFeet){
+            var footItem = new PIXI.Sprite(atlas[this.game.player.equippedFeet.getSprite().spriteName]);
+              footItem.scale.x = scale;
+              footItem.scale.y = scale;
+          }
+          if(this.game.player.equippedHands){
+            var handItem = new PIXI.Sprite(atlas[this.game.player.equippedHands.getSprite().spriteName]);
+              handItem.scale.x = scale;
+              handItem.scale.y = scale;
+          }
+          if(this.game.player.equippedWeapon){
+              var weaponItem = new PIXI.Sprite(atlas[this.game.player.equippedWeapon.getSprite().spriteName]);
+              weaponItem.scale.x = scale;
+              weaponItem.scale.y = scale;
+          }
+
+					// Create a container for place teh equip slots in
+					var equipContainer = new PIXI.Container();
+
+					var slotX = size + padding;
+					var slotY = 0;
+
+					// Vertical
+					headSlot.x = slotX;
+					headSlot.y = slotY;
+					equipContainer.addChild(headSlot);
+          if(this.game.player.equippedHead){
+            headItem.x = slotX;
+  					headItem.y = slotY;
+  					equipContainer.addChild(headItem);
+          }
+					slotY+=size+padding;
+
+					torsoSlot.x = slotX;
+					torsoSlot.y = slotY;
+					equipContainer.addChild(torsoSlot);
+          if(this.game.player.equippedTorso){
+            torsoItem.x = slotX;
+  					torsoItem.y = slotY;
+  					equipContainer.addChild(torsoItem);
+          }
+					slotY+=size+padding;
+
+					legSlot.x = slotX;
+					legSlot.y = slotY;
+					equipContainer.addChild(legSlot);
+          if(this.game.player.equippedLegs){
+            legItem.x = slotX;
+  					legItem.y = slotY;
+  					equipContainer.addChild(legItem);
+          }
+					slotY+=size+padding;
+
+					footSlot.x = slotX;
+					footSlot.y = slotY;
+					equipContainer.addChild(footSlot);
+          if(this.game.player.equippedFeet){
+            footItem.x = slotX;
+  					footItem.y = slotY;
+  					equipContainer.addChild(footItem);
+          }
+
+
+					// Horizontal
+					slotX = 0;
+					slotY = size + padding;
+
+					handSlot.x = slotX;
+					handSlot.y = slotY;
+					equipContainer.addChild(handSlot);
+          if(this.game.player.equippedHands){
+            handItem.x = slotX;
+  					handItem.y = slotY;
+  					equipContainer.addChild(handItem);
+          }
+					slotX+=(size+padding) * 2;
+
+					weaponSlot.x = slotX;
+					weaponSlot.y = slotY;
+					equipContainer.addChild(weaponSlot);
+          if(this.game.player.equippedWeapon){
+            weaponItem.x = slotX;
+  					weaponItem.y = slotY;
+  					equipContainer.addChild(weaponItem);
+          }
+
+          return equipContainer;
+    }
+
+    guiGetLogContainer(logCount: number){
+      var container = new PIXI.Container();
+
+      container.height = this.horizontalContainerHeight;
+      container.width = this.pixelWidth;
+
+      var background = new PIXI.Graphics();
+      background.beginFill(ColorCode.DarkerGrey, 1);
+      background.drawRect(0,0, this.pixelWidth, this.horizontalContainerHeight);
+      background.endFill();
+      container.addChild(background);
+
+      var log: LogMessage[] = this.game.getLastLog(logCount);
+      var fontFamily = 'Courier';
+      var fontSize = 12;
+      var logLocation = new Point(0, 0);
+      for (let m = 0; m < log.length; m++) {
+          var logMessage: LogMessage = log[m];
+          var logStyle = new PIXI.TextStyle({
+              fontFamily: fontFamily,
+              fontSize: fontSize,
+              fill: logMessage.color
+          });
+
+          // Write the message to the screen
+          var logText = new PIXI.Text(logMessage.message, logStyle);
+          logText.x = logLocation.x;
+          logText.y = logLocation.y;
+          container.addChild(logText);
+          logLocation.y += fontSize;
+      }
+
+      return container;
     }
 
     getInventoryText() {
@@ -104,82 +278,62 @@ class PixiRenderer implements Renderer {
         pauseOverlay.endFill();
 
         // Draw the overlay
-        this.pixiStage.addChild(pauseOverlay);
+        this.stageContainer.addChild(pauseOverlay);
 
         // Draw the menu on top
-        this.pixiStage.addChild(menuText);
+        this.stageContainer.addChild(menuText);
     }
 
-    drawInfoBar() {
-        var newLine = '\r\n';
-        var writeLocation = new Point(0, this.height * this.tileSize);
-        var text = 'Health: ' + this.game.player.health + '/' + this.game.player.maxHealth() + ' | Kills: ' + this.game.player.runStats.kills + ' | Level: ' + this.game.player.level + newLine
-            + "Gold: " + this.game.player.gold + ' |    Buffs: ' + (this.game.player.buffs.length ? (this.game.player.buffs.first().getDescription()) : '')
-            + newLine + 'XP: ' + this.game.player.currentLevelXP + '/' + this.game.player.xpNeeded + '(' + this.game.player.totalXP + ')'
-            ;
-
-        var style = new PIXI.TextStyle({
-            fontFamily: 'Courier',
-            fontSize: 11,
-            fill: ColorCode.White,
-        });
-
-        var pixiText = new PIXI.Text(text, style);
-        pixiText.x = writeLocation.x;
-        pixiText.y = writeLocation.y;
-        this.pixiStage.addChild(pixiText);
-
-        var log: LogMessage[] = this.game.getLastLog(5);
-        var fontFamily = 'Courier';
-        var fontSize = 10;
-        var logLocation = new Point(250, this.height * this.tileSize);
-        for (let m = 0; m < log.length; m++) {
-            var logMessage = log[m];
-            var logStyle = new PIXI.TextStyle({
-                fontFamily: fontFamily,
-                fontSize: fontSize,
-                fill: logMessage.color
-            });
-
-            // Write the message to the screen
-            var logText = new PIXI.Text(logMessage.message, logStyle);
-            logText.x = logLocation.x;
-            logText.y = logLocation.y;
-            this.pixiStage.addChild(logText);
-            logLocation.y += fontSize;
-        }
-
-        // Render armor
-        var armors: Armor[] = this.game.player.getArmor();
-        let armorX = this.pixelWidth - this.tileSize;
-        let armorY = this.pixelHeight - this.infoBar.height;
-        for (let a = 0; a < armors.length; a++) {
-            var armor = armors[a];
-            var atlas = PIXI.loader.resources.itemAtlas.textures;
-            var sprite = new PIXI.Sprite(atlas[armor.getSprite().spriteName]);
-            sprite.x = armorX;
-            sprite.y = armorY;
-            this.pixiStage.addChild(sprite);
-            armorX -= this.tileSize;
-        }
-
-        // Render potions in inventory (for debugging)
-        var potions: Potion[] = <Potion[]>this.game.player.getInventoryOfType(Potion);
-        let potionX = this.pixelWidth - this.tileSize;
-        let potionY = this.pixelHeight - this.infoBar.height + this.tileSize;
-        for (let p = 0; p < potions.length; p++) {
-            var potion = potions[p];
-            var atlas = PIXI.loader.resources.itemAtlas.textures;
-            if (potion.getSprite() !== undefined && potion.getSprite() !== null) {
-                var sprite = new PIXI.Sprite(atlas[potion.getSprite().spriteName]);
-                sprite.x = potionX;
-                sprite.y = potionY;
-                this.pixiStage.addChild(sprite);
-                potionX -= this.tileSize;
-            }
-        }
-
-    }
+    // drawInfoBar() {
+    //     var newLine = '\r\n';
+    //     var writeLocation = new Point(0, this.height * this.tileSize);
+    //     var text = 'Health: ' + this.game.player.health + '/' + this.game.player.maxHealth() + ' | Kills: ' + this.game.player.runStats.kills + ' | Level: ' + this.game.player.level + newLine
+    //         + "Gold: " + this.game.player.gold + ' |    Buffs: ' + (this.game.player.buffs.length ? (this.game.player.buffs.first().getDescription()) : '')
+    //         + newLine + 'XP: ' + this.game.player.currentLevelXP + '/' + this.game.player.xpNeeded + '(' + this.game.player.totalXP + ')'
+    //         ;
+    //
+    //     var style = new PIXI.TextStyle({
+    //         fontFamily: 'Courier',
+    //         fontSize: 11,
+    //         fill: ColorCode.White,
+    //     });
+    //
+    //     var pixiText = new PIXI.Text(text, style);
+    //     pixiText.x = writeLocation.x;
+    //     pixiText.y = writeLocation.y;
+    //     this.stageContainer.addChild(pixiText);
+    //
+    //     // Render armor
+    //     var armors: Armor[] = this.game.player.getArmor();
+    //     let armorX = this.pixelWidth - this.tileSize;
+    //     let armorY = this.pixelHeight - this.infoBar.height;
+    //     for (let a = 0; a < armors.length; a++) {
+    //         var armor = armors[a];
+    //         var atlas = PIXI.loader.resources.itemAtlas.textures;
+    //         var sprite = new PIXI.Sprite(atlas[armor.getSprite().spriteName]);
+    //         sprite.x = armorX;
+    //         sprite.y = armorY;
+    //         this.stageContainer.addChild(sprite);
+    //         armorX -= this.tileSize;
+    //     }
+    //
+    //     // Render potions in inventory (for debugging)
+    //     var potions: Potion[] = <Potion[]>this.game.player.getInventoryOfType(Potion);
+    //     let potionX = this.pixelWidth - this.tileSize;
+    //     let potionY = this.pixelHeight - this.infoBar.height + this.tileSize;
+    //     for (let p = 0; p < potions.length; p++) {
+    //         var potion = potions[p];
+    //         var atlas = PIXI.loader.resources.itemAtlas.textures;
+    //         if (potion.getSprite() !== undefined && potion.getSprite() !== null) {
+    //             var sprite = new PIXI.Sprite(atlas[potion.getSprite().spriteName]);
+    //             sprite.x = potionX;
+    //             sprite.y = potionY;
+    //             this.stageContainer.addChild(sprite);
+    //             potionX -= this.tileSize;
+    //         }
+    //     }
+    //
+    // }
 
     getHealthGraphic(actor: Actor, x: number, y: number) {
         if (actor.health !== undefined) {
@@ -276,16 +430,23 @@ class PixiRenderer implements Renderer {
         return graphics;
     }
 
-    drawHealth() {
-        for (var i = 0; i < this.healthGraphics.length; i++) {
-            this.pixiStage.addChild(this.healthGraphics[i]);
-        }
-        this.healthGraphics = [];
+    clearContainer(container: any){
+        for (var i = container.children.length - 1; i >= 0; i--) { container.removeChild(container.children[i]); };
     }
 
     drawFrame(world: World, centerPoint: Point) {
         // Clear frame
-        for (var i = this.pixiStage.children.length - 1; i >= 0; i--) { this.pixiStage.removeChild(this.pixiStage.children[i]); };
+        this.clearContainer(this.stageContainer);
+
+        // Clear all Containers
+        this.clearContainer(this.guiHorizontalContainer);
+        this.clearContainer(this.guiLogContainer);
+        this.clearContainer(this.guiVerticalContainer);
+        this.clearContainer(this.guiEquipContainer);
+        this.clearContainer(this.guiBarsContainer);
+        this.clearContainer(this.guiStatsContainer);
+        this.clearContainer(this.guiEffectsContainer);
+        this.clearContainer(this.guiOverlayContainer);
 
         // Get things that emit light
         var lightLayer = world.getLayersOfType(LayerType.Wall).first();
@@ -443,16 +604,46 @@ class PixiRenderer implements Renderer {
 
                 }
             }
-            this.pixiStage.addChild(layerContainer);
+            this.stageContainer.addChild(layerContainer);
         }
 
-        // Draw some live game info
-        this.drawInfoBar();
+        // Prepare the GUI
+        // Horizontal
+        this.guiHorizontalContainer.backgroundColor = ColorCode.DarkGrey;
+        this.guiHorizontalContainer.width = this.pixelWidth;
+        this.guiHorizontalContainer.height = this.horizontalContainerHeight;
+        this.guiHorizontalContainer.x = 0;
+        this.guiHorizontalContainer.y = this.pixelHeight - this.horizontalContainerHeight;
+        // Horizontal Log
+        this.guiLogContainer.x=0;
+        this.guiLogContainer.y=0;
+        this.guiLogContainer.addChild(this.guiGetLogContainer(20));
+        this.guiHorizontalContainer.addChild(this.guiLogContainer);
+
+        // Vertical
+        this.guiVerticalContainer.backgroundColor = ColorCode.DarkGrey;
+        this.guiVerticalContainer.width = this.verticalContainerWidth;
+        this.guiVerticalContainer.height = this.pixelHeight - this.horizontalContainerHeight;
+        this.guiVerticalContainer.x = this.pixelWidth - this.verticalContainerWidth;
+        this.guiVerticalContainer.y = 0;
+        // Equip
+        var equipMap = this.guiGetEquipMapContainer(1, 5);
+        this.guiVerticalContainer.addChild(equipMap);
+        equipMap.x = 0;
+        equipMap.y = 0;
+        ///
+
+        // Collect all GUI elements prior to render
+        this.guiOverlayContainer.addChild(this.guiHorizontalContainer);
+        this.guiOverlayContainer.addChild(this.guiVerticalContainer);
 
         // Draw health
-        this.drawHealth();
+        for (var i = 0; i < this.healthGraphics.length; i++) {
+            this.guiOverlayContainer.addChild(this.healthGraphics[i]);
+        }
+        this.healthGraphics = [];
 
-        // Draw miniMap
+        // Prepare and render the minimap
         if (this.game.settings.minimap.visible) {
             var padding = 20;
             var graphics = this.getMiniMapGraphics(world);
@@ -465,25 +656,28 @@ class PixiRenderer implements Renderer {
                     mapHolder.position.y = padding;
                     break;
                 case Corner.TopRight:
-                    mapHolder.position.x = this.pixiRenderer.width - mapHolder.width - padding;
+                    mapHolder.position.x = this.pixiRenderer.width - mapHolder.width - padding - this.verticalContainerWidth;
                     mapHolder.position.y = padding;
                     break;
                 case Corner.BottomLeft:
                     mapHolder.position.x = padding
-                    mapHolder.position.y = this.pixiRenderer.height - mapHolder.height - padding - this.infoBar.height;
+                    mapHolder.position.y = this.pixiRenderer.height - mapHolder.height - padding - this.horizontalContainerHeight;
                     break;
                 case Corner.BottomRight:
-                    mapHolder.position.x = this.pixiRenderer.width - mapHolder.width - padding;
-                    mapHolder.position.y = this.pixiRenderer.height - mapHolder.height - padding - this.infoBar.height;
+                    mapHolder.position.x = this.pixiRenderer.width - mapHolder.width - padding - this.verticalContainerWidth;
+                    mapHolder.position.y = this.pixiRenderer.height - mapHolder.height - padding - this.horizontalContainerHeight;
                     break;
             }
 
             //mapHolder.position.x = this.pixiRenderer.width;
             //mapHolder.position.y = this.pixiRenderer.height;
 
-            this.pixiStage.addChild(mapHolder);
+            this.stageContainer.addChild(mapHolder);
 
         }
+
+        // Draw the overlay/gui
+        this.stageContainer.addChild(this.guiOverlayContainer);
 
         // Draw a menu if we're paused
         if (this.game.activeMenu !== null) {
@@ -491,8 +685,12 @@ class PixiRenderer implements Renderer {
         }
 
         // Render the frame
-        this.pixiStage.scale.x = this.scale;
-        this.pixiStage.scale.y = this.scale;
-        this.pixiRenderer.render(this.pixiStage);
+        this.stageContainer.scale.x = this.scale;
+        this.stageContainer.scale.y = this.scale;
+
+        this.stageContainer.skewX = 10;
+        this.stageContainer.skewY = 10;
+
+        this.pixiRenderer.render(this.stageContainer);
     }
 }

@@ -10,5 +10,20 @@ class Generic {
   static ResolveIfDynamic(property){
     return typeof property == 'function' ? property() : property;
   }
-  
+
+
+  static GetDateTimeStamp(date?: Date){
+    if(!date){
+        date = new Date();
+    }
+    return (date.getMonth()+1).toString().padLeft('0',2) + '/' + date.getDate().toString().padLeft('0',2) + '/' +  date.getFullYear().toString().padLeft('0',2) + ' ' + date.getHours().toString().padLeft('0',2) + ':' + date.getMinutes().toString().padLeft('0',2) + ':' + date.getSeconds().toString().padLeft('0',2);
+  }
+
+  static GetTimeStamp(date?: Date){
+    if(!date){
+        date = new Date();
+    }
+    return date.getHours().toString().padLeft('0',2) + ':' + date.getMinutes().toString().padLeft('0',2) + ':' + date.getSeconds().toString().padLeft('0',2);
+  }
+
 }

@@ -34,7 +34,9 @@ enum ColorCode {
     Green = 0x00FF00,
     Yellow = 0xffff00,
     Purple = 0x7f00ff,
-    Pink = 0xff00ee
+    Pink = 0xff00ee,
+    DarkGrey = 0x2d2d2d,
+    DarkerGrey = 0x070707
 }
 
 enum EquipPoint {

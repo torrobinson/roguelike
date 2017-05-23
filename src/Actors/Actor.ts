@@ -84,6 +84,16 @@ class Actor {
         return this.equippedWeapon;
     }
 
+    getDamage() : number {
+      var damage = this.defaultAttackPower(); // default
+      var weapon: Weapon = this.getWeapon();
+      if (weapon) {
+          damage += weapon.attackPower;     // add more if weapon equipped
+      }
+
+      return damage;
+    }
+
     getInventoryOfType(type: any): InventoryItem[] {
         return this.inventory.where((inv) => { return inv instanceof type });
     }
@@ -91,12 +101,7 @@ class Actor {
     attack(otherActor: Actor) {
         BuffHelpers.handleOnAttackBuffsBefore(this, otherActor);
 
-        // Figure out the damage to do
-        var damage = this.defaultAttackPower(); // default
-        var weapon: Weapon = this.getWeapon();
-        if (weapon) {
-            damage += weapon.attackPower;     // add more if weapon equipped
-        }
+        var damage = otherActor.getDamage();
 
         // Deal the damage
         otherActor.attackedBy(this, damage);
