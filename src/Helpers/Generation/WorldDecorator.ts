@@ -20,6 +20,9 @@ class WorldDecorator {
         // Decorate with objects
         this.decorateAllRooms(world);
 
+        // Drop gold
+        this.dropGold(world);
+
         // Connect carpets
         this.setAjdacentActorStatuses(world, LayerType.FloorDecor, Carpet);
     }
@@ -57,8 +60,8 @@ class WorldDecorator {
 
         // NOTHING
         if (roomType === RoomDecorationType.Nothing) {
-            // Empty rooms get a 33% chance to get torches
-            if (this.random.go() > 0.66) {
+            // Empty rooms get a 1/3 chance of having torches in the corners
+            if (this.random.wasLucky(1, 3)) {
                 WorldDecoratorHelpers.addTorchesToCorners(
                     world.game,
                     wallLayer,
@@ -155,6 +158,25 @@ class WorldDecorator {
             );
         }
 
+    }
+
+    dropGold(world: World) {
+        var wallLayer = world.getLayersOfType(LayerType.Wall).first();
+        for (var r = 0; r < world.rooms.length; r++) {
+            var room = world.rooms[r];
+            // Rooms get a 1/7 chance of having gold in them anywhere
+            if (this.random.wasLucky(1, 8)) {
+                WorldDecoratorHelpers.populateWithActor(
+                    world.game,
+                    wallLayer,
+                    room,
+                    [GoldPile],
+                    this.random,
+                    1, //between 1 and 4 of them will be dropped
+                    3
+                );
+            }
+        }
     }
 
 }

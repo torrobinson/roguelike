@@ -122,7 +122,7 @@ class WorldDecoratorHelpers {
         var totalAttempts = 0;
         var placed = 0;
 
-        while (totalAttempts < attemptsToMake && placed < numberToDrop) {
+        while (placed < numberToDrop && totalAttempts < attemptsToMake) {
             for (let i = 0; i < numberToDrop; i++) {
                 var randomX = random.next(room.position.x + (placeOnBorders ? 0 : 1), room.position.x + room.width - (placeOnBorders ? 0 : 1));
                 var randomY = random.next(room.position.y + (placeOnBorders ? 0 : 1), room.position.y + room.height - (placeOnBorders ? 0 : 1));

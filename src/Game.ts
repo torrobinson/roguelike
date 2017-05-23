@@ -12,6 +12,7 @@ class Game {
     state: GameState;
     settings: GameSettings;
     gameLog: LogMessage[];
+    random: Random;
 
     pauseMenu: Menu;
     inventoryMenu: Menu;
@@ -21,6 +22,7 @@ class Game {
         this.renderer = renderer;
         this.renderer.game = this; // set up a reference
         this.seed = seed;
+        this.random = new Random(seed);
         this.settings = settings;
 
         this.frameClock = null;
