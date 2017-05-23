@@ -1,5 +1,5 @@
 # roguelike #
-![preview](https://d3vv6lp55qjaqc.cloudfront.net/items/0p3x1h0f1s0w2x3G1I28/Image%202017-05-18%20at%205.23.44%20PM.png)
+![preview](https://d3vv6lp55qjaqc.cloudfront.net/items/3e1s1Z1Q40180U340606/Image%202017-05-22%20at%207.04.33%20PM.png)
 This is an experiment to familiarize myself with game mechanics, TypeScript, and Pixi.js
 
 ### To Play: ###
