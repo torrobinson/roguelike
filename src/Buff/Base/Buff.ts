@@ -1,17 +1,22 @@
 class Buff {
     owner: Actor = null;
+    granter: any = null;
     maxUses: number = Infinity;
     uses: number = 0;
     namePart: string;
+    color: number = ColorCode.Grey;
 
     constructor() {
 
     }
 
     // Basic Helpers
-    applyTo(actor: Actor) {
+    applyTo(actor: Actor, granter = null) {
         actor.buffs.push(this);
         this.owner = actor;
+        if(granter){
+          this.granter = granter;
+        }
     }
 
     remove() {

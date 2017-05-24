@@ -5,7 +5,6 @@ class Player extends Actor {
     moveTickDuration: number = 1;
     name: string = 'You';
     viewRadius: number = 12;
-    gold: number = 0;
     totalXP: number = 0;
     doesSubscribeToTicks: boolean = true;
     constructor(game: Game) {

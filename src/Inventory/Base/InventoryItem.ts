@@ -53,25 +53,32 @@ class Equipment extends InventoryItem {
     }
     equip() {
         this.isEquipped = true;
-
-        // Apply any buffs with remaining uses
-        this.buffs
-            .where((buff) => {
-                return buff.getUsesRemaining() > 0
-            })
-            .forEach((buff) => {
-                this.holder.addBuff(buff)
-            });
-        this.cleanEmptyBuffs();
     }
 
-    unqeuip() {
+    giveHolderBuffs(){
+      // Apply any buffs with remaining uses
+      this.buffs
+          .where((buff) => {
+              return buff.getUsesRemaining() > 0
+          })
+          .forEach((buff) => {
+              this.holder.addBuff(
+                buff, // the buff
+                this  // who granted.caused it
+              )
+          });
+      this.cleanEmptyBuffs();
+    }
+
+    removeHolderBuffs(){
+      // Remove any buffs
+      this.buffs.forEach((buff) => { this.holder.removeBuff(buff) });
+      this.cleanEmptyBuffs();
+    }
+
+    unequip() {
         this.isEquipped = false;
-
-        // Remove any buffs
-        this.buffs.forEach((buff) => { this.holder.removeBuff(buff) });
-
-        this.cleanEmptyBuffs();
+        this.removeHolderBuffs();
     }
 
     cleanEmptyBuffs() {
@@ -112,25 +119,24 @@ class Weapon extends Equipment {
     }
 
     equip() {
-        super.equip();
-
         // Toggle if this is what is equipped
         if (this.holder.equippedWeapon === this) {
-            this.unqeuip();
+            this.unequip();
             return;
         }
         else {
             // Unequip anything already in this spot
             if (this.holder.equippedWeapon !== null) {
-                this.holder.equippedWeapon.unqeuip();
+                this.holder.equippedWeapon.unequip();
             }
         }
         this.holder.equippedWeapon = this;
+        this.giveHolderBuffs();
     }
 
-    unqeuip() {
-        super.unqeuip();
+    unequip() {
         this.holder.equippedWeapon = null;
+        super.unequip();
     }
 }
 
@@ -142,53 +148,52 @@ class Armor extends Equipment {
     }
 
     equip() {
-        super.equip();
-
         // Toggle off is this item is already equipped
         if (this.equipPoint === EquipPoint.Feet && this.holder.equippedFeet === this) {
-            this.holder.equippedFeet.unqeuip();
+            this.holder.equippedFeet.unequip();
             return;
         }
         if (this.equipPoint === EquipPoint.Hands && this.holder.equippedHands === this) {
-            this.holder.equippedHands.unqeuip();
+            this.holder.equippedHands.unequip();
             return;
         }
         if (this.equipPoint === EquipPoint.Head && this.holder.equippedHead === this) {
-            this.holder.equippedHead.unqeuip();
+            this.holder.equippedHead.unequip();
             return;
         }
         if (this.equipPoint === EquipPoint.Legs && this.holder.equippedLegs === this) {
-            this.holder.equippedLegs.unqeuip();
+            this.holder.equippedLegs.unequip();
             return;
         }
         if (this.equipPoint === EquipPoint.Torso && this.holder.equippedTorso === this) {
-            this.holder.equippedTorso.unqeuip();
+            this.holder.equippedTorso.unequip();
             return;
         }
 
         // Otherwise unequip anything already in this spot
         if (this.equipPoint === EquipPoint.Feet && this.holder.equippedFeet !== null) {
-            this.holder.equippedFeet.unqeuip();
+            this.holder.equippedFeet.unequip();
         }
         if (this.equipPoint === EquipPoint.Hands && this.holder.equippedHands !== null) {
-            this.holder.equippedHands.unqeuip();
+            this.holder.equippedHands.unequip();
         }
         if (this.equipPoint === EquipPoint.Head && this.holder.equippedHead !== null) {
-            this.holder.equippedHead.unqeuip();
+            this.holder.equippedHead.unequip();
         }
         if (this.equipPoint === EquipPoint.Legs && this.holder.equippedLegs !== null) {
-            this.holder.equippedLegs.unqeuip();
+            this.holder.equippedLegs.unequip();
         }
         if (this.equipPoint === EquipPoint.Torso && this.holder.equippedTorso !== null) {
-            this.holder.equippedTorso.unqeuip();
+            this.holder.equippedTorso.unequip();
         }
 
         // Then equip this
         this.updateHolder(this.equipPoint, this, true);
+        this.giveHolderBuffs(); 
     }
 
-    unqeuip() {
-        super.unqeuip();
+    unequip() {
+        super.unequip();
         this.updateHolder(this.equipPoint, null, false);
 
         // Lower the heatlh down if this is buffing it beyond max

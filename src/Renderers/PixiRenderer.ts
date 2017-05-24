@@ -32,7 +32,7 @@ class PixiRenderer implements Renderer {
     guiEffectsContainer: any = new PIXI.Container();    // buffs/debuffs
     guiOverlayContainer: any = new PIXI.Container();    // overlays like health bars
     stageContainer: any = new PIXI.Container();   // the actual game actors
-    guiPad: number = 5;
+    guiPad: number = 10;
 
     constructor(canvas: any, width: number, height: number) {
         this.canvas = canvas;
@@ -57,6 +57,107 @@ class PixiRenderer implements Renderer {
         this.healthGraphics = [];
     }
 
+    guiGetIndividualBuffContainer(buff: Buff, width: number, height: number){
+      	var container = new PIXI.Container();
+      	var containerGraphics = new PIXI.Graphics();
+        var internalPad = 6;
+
+        var granterSpriteName = null;
+        if(buff.granter !== null){
+          granterSpriteName = buff.granter.getSprite().spriteName;
+        }
+        var iconWidth = this.tileSize;
+        var scale = 1;
+        iconWidth *= scale;
+
+        var style = new PIXI.TextStyle({
+            fontFamily: 'Courier',
+            fontSize: 10,
+            fill: ColorCode.White,
+            align: 'center',
+            dropShadow: true,
+            dropShadowBlur: 1,
+            dropShadowColor: ColorCode.Black,
+            dropShadowAngle: Math.PI / 3,
+            dropShadowDistance: 1,
+            wordWrap: true,
+            wordWrapWidth: width - internalPad - iconWidth - internalPad - internalPad
+        });
+        var widthFilled = width * (buff.getUsesRemaining() / buff.maxUses);
+
+      	containerGraphics.beginFill(buff.color, 0.5);
+        containerGraphics.lineStyle(2, ColorCode.Black, 0.25);
+      	containerGraphics.drawRect(
+      		0,
+      		0,
+      		width,
+      		height
+      	);
+        containerGraphics.endFill();
+
+        containerGraphics.beginFill(buff.color);
+        containerGraphics.lineStyle(2, ColorCode.Black, 0.25);
+      	containerGraphics.drawRect(
+      		0,
+      		0,
+      		widthFilled,
+      		height
+      	);
+        containerGraphics.endFill();
+
+        var atlas = PIXI.loader.resources.itemAtlas.textures;
+        var granterSprite = new PIXI.Sprite(atlas[granterSpriteName]);
+        granterSprite.scale.x = scale;
+        granterSprite.scale.y = scale;
+        granterSprite.x = containerGraphics.x + internalPad;
+        granterSprite.y = containerGraphics.y + (containerGraphics.height/2) - (granterSprite.height/2);
+
+      	var buffDescription = buff.getDescription();
+      	var buffText = new PIXI.Text(buffDescription, style);
+      	buffText.x = Math.ceil(granterSprite.x + granterSprite.width + internalPad);
+      	buffText.y = Math.ceil(containerGraphics.height/2 - buffText.height/2);
+
+      	container.addChild(containerGraphics);
+      	container.addChild(buffText);
+        container.addChild(granterSprite);
+
+      	return container;
+      }
+
+    guiGetBuffContainer(forActor: Actor, buffHeight: number){
+      var container = new PIXI.Container;
+      var buffSpacing = 3;
+      var width = this.verticalContainerWidth - this.guiPad - this.guiPad;
+
+      var style = new PIXI.TextStyle({
+          fontFamily: 'Courier',
+          fontSize: 10,
+          fill: ColorCode.White,
+          align: 'center',
+          dropShadow: true,
+          dropShadowBlur: 8,
+          dropShadowColor: ColorCode.Black,
+          dropShadowAngle: Math.PI / 3,
+          dropShadowDistance: 1
+      });
+      var headerText = new PIXI.Text("Effects:", style);
+      headerText.x = Math.ceil(width /2 - headerText.width/2 - this.guiPad);
+      headerText.y = 0;
+
+      var y = 3 + Math.ceil(headerText.y + buffSpacing + buffHeight/2);
+      for(let b=0; b<forActor.buffs.length; b++){
+         var buff = forActor.buffs[b];
+         var buffItemContainer = this.guiGetIndividualBuffContainer(buff, width, buffHeight);
+         container.addChild(buffItemContainer);
+         buffItemContainer.x = 0;
+         buffItemContainer.y = y;
+         y+=buffHeight+buffSpacing;
+      }
+
+      container.addChild(headerText);
+      return container;
+    }
+
     guiGetStatsContainer(forActor: Actor, barHeight: number) {
         var yOffset = -3;
         var style = new PIXI.TextStyle({
@@ -72,15 +173,22 @@ class PixiRenderer implements Renderer {
         });
         var barTotalWidth = this.verticalContainerWidth - this.guiPad * 2;
         var health = 'HP: ' + forActor.health + ' / ' + forActor.maxHealth() + Generic.NewLine() +
-            '(' + forActor.startingHealth + ' + ' + forActor.getMaxHealthBuff() + ')';
+            '(' + forActor.startingHealth + ' player + ' + forActor.getMaxHealthBuff() + ' armor)';
         var healthText = new PIXI.Text(health, style);
         var healthWidth = (forActor.health / forActor.maxHealth()) * barTotalWidth;
 
 
         var experience = 'Level ' + forActor.level + Generic.NewLine() +
-            '(' + forActor.currentLevelXP + ' / ' + forActor.xpNeeded + ')';
+            '(' + forActor.currentLevelXP + ' / ' + forActor.xpNeeded + ' until ' + (forActor.level + 1) + ')';
         var experienceText = new PIXI.Text(experience, style);
         var experiencehWidth = (forActor.currentLevelXP / forActor.xpNeeded) * barTotalWidth;
+
+        var attackPower = 'Attack Power: ' + forActor.getDamage() + Generic.NewLine() +
+            '(' + forActor.defaultAttackPower() + ' player + ' + forActor.getWeaponOnlyDamage() + ' weapon)';
+        var attackPowerText = new PIXI.Text(attackPower, style);
+
+        var gold = '$' + forActor.gold;
+        var goldText = new PIXI.Text(gold, style);
 
 
 
@@ -115,11 +223,39 @@ class PixiRenderer implements Renderer {
         experienceBarGraphic.drawRect(drawX, drawY, experiencehWidth, barHeight + barPadding - this.guiPad);
         experienceBarGraphic.endFill();
 
+        drawY += barHeight + barPadding;
+
+        var attackPowerLocation = new Point(Math.ceil(this.verticalContainerWidth / 2 - attackPowerText.width / 2), Math.ceil(drawY + barHeight / 2 - attackPowerText.height / 2 + yOffset));
+        attackPowerText.x = attackPowerLocation.x;
+        attackPowerText.y = attackPowerLocation.y;
+        var attackPowerBarGraphic = new PIXI.Graphics();
+        attackPowerBarGraphic.lineStyle(2, ColorCode.Red, 1);
+        attackPowerBarGraphic.beginFill(ColorCode.Red, 0);
+        attackPowerBarGraphic.drawRect(drawX, drawY, barTotalWidth, barHeight + barPadding - this.guiPad);
+        attackPowerBarGraphic.endFill();
+
+        drawY += barHeight + barPadding;
+
+        var goldLocation = new Point(Math.ceil(this.verticalContainerWidth / 2 - goldText.width / 2), Math.ceil(drawY + barHeight / 2 - goldText.height / 2 + yOffset));
+        goldText.x = goldLocation.x;
+        goldText.y = goldLocation.y;
+        var goldBarGraphic = new PIXI.Graphics();
+        goldBarGraphic.lineStyle(2, ColorCode.Yellow, 1);
+        goldBarGraphic.beginFill(ColorCode.Yellow, 0);
+        goldBarGraphic.drawRect(drawX, drawY, barTotalWidth, barHeight + barPadding - this.guiPad);
+        goldBarGraphic.endFill();
+
+
+
         var statsContainer = new PIXI.Container();
         statsContainer.addChild(healthBarGraphic);
         statsContainer.addChild(healthText);
         statsContainer.addChild(experienceBarGraphic);
         statsContainer.addChild(experienceText);
+        statsContainer.addChild(attackPowerBarGraphic);
+        statsContainer.addChild(attackPowerText);
+        statsContainer.addChild(goldBarGraphic);
+        statsContainer.addChild(goldText);
 
         return statsContainer;
     }
@@ -706,9 +842,14 @@ class PixiRenderer implements Renderer {
         equipMap.y = this.guiPad;
         ///
         /// Stats
-        var statsContainer = this.guiGetStatsContainer(this.game.player, 30);
+        var statsContainer = this.guiGetStatsContainer(this.game.player, 50);
         this.guiVerticalContainer.addChild(statsContainer);
-        statsContainer.y = Math.ceil(equipMap.height + this.guiPad);
+        statsContainer.y = Math.ceil(equipMap.height + this.guiPad * 2);
+        /// Buffs
+        var buffContainer = this.guiGetBuffContainer(this.game.player, 35);
+        this.guiVerticalContainer.addChild(buffContainer);
+        buffContainer.x = this.guiPad;
+        buffContainer.y = Math.ceil(statsContainer.y + statsContainer.height + this.guiPad);
 
         // Collect all GUI elements prior to render
         this.guiOverlayContainer.addChild(this.guiHorizontalContainer);

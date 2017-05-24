@@ -12,6 +12,7 @@ class Actor {
     name: string = '';
     xpBounty: number = 0;
     status: ActorStatus = ActorStatus.Idle;
+    gold: number = 0;
     viewRadius: number = 5;
     inventory: InventoryItem[] = [];
     fogged: boolean = true;
@@ -87,12 +88,16 @@ class Actor {
     }
 
     getDamage() : number {
-      var damage = this.defaultAttackPower(); // default
+        // Get total default + weapon attack damage together
+        return this.defaultAttackPower() + this.getWeaponOnlyDamage();
+    }
+
+    getWeaponOnlyDamage(): number{
+      var damage = 0;
       var weapon: Weapon = this.getWeapon();
       if (weapon) {
           damage += weapon.attackPower;     // add more if weapon equipped
       }
-
       return damage;
     }
 
@@ -138,8 +143,8 @@ class Actor {
         this.destroy();
     }
 
-    addBuff(buff: Buff) {
-        buff.applyTo(this);
+    addBuff(buff: Buff, granter: any = null) {
+        buff.applyTo(this, granter);
     }
 
     removeBuff(buff: Buff) {

@@ -2,6 +2,7 @@
 class WallBreakerBuff extends Buff {
     maxUses: number = 10;
     namePart: string = 'Wall Breaking';
+    color: number = ColorCode.Purple;
 
     getDescription() {
         return "Destroy the next " + this.getUsesRemaining() + ' walls you touch';
