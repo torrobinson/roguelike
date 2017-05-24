@@ -7,9 +7,9 @@ class Player extends Actor {
     viewRadius: number = 12;
     gold: number = 0;
     totalXP: number = 0;
+    doesSubscribeToTicks: boolean = true;
     constructor(game: Game) {
         super(game);
-        this.doesSubscribeToTicks = true;
         this.fogged = false;
         this.spritesets = Sprites.PlayerSprites();
         this.level = 0;
@@ -40,7 +40,6 @@ class Player extends Actor {
         // When the player touches the stairs, generate the next dungeon
         if (actor instanceof StairsDown) {
             // push the current state of the world to the stack
-            this.game.worldStack.push(this.game.world);
             this.game.setRandomDungeon();
         }
         else if (actor instanceof Chaser) {
@@ -146,13 +145,13 @@ class Player extends Actor {
 
         this.totalXP += xp - overflow;
 
-        if(announce){
-          this.game.log(
-              new LogMessage(
-                  'You gained ' + xp + ' XP',
-                  LogMessageType.GainedXP
-              )
-          );
+        if (announce) {
+            this.game.log(
+                new LogMessage(
+                    'You gained ' + xp + ' XP',
+                    LogMessageType.GainedXP
+                )
+            );
         }
 
         if (this.currentLevelXP >= this.xpNeeded) {

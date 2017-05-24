@@ -22,7 +22,7 @@ class PixiRenderer implements Renderer {
 
     guiHorizontalContainer: any = new PIXI.Container(); // master bottom bar
     horizontalContainerHeight: number = 200;
-    guiLogContainer:any = new PIXI.Container();         // game log
+    guiLogContainer: any = new PIXI.Container();         // game log
 
     guiVerticalContainer: any = new PIXI.Container();   // master side bar
     verticalContainerWidth: number = 200;
@@ -31,7 +31,7 @@ class PixiRenderer implements Renderer {
     guiStatsContainer: any = new PIXI.Container();      // AP, HP, etc
     guiEffectsContainer: any = new PIXI.Container();    // buffs/debuffs
     guiOverlayContainer: any = new PIXI.Container();    // overlays like health bars
-    stageContainer: any  = new PIXI.Container();   // the actual game actors
+    stageContainer: any = new PIXI.Container();   // the actual game actors
     guiPad: number = 5;
 
     constructor(canvas: any, width: number, height: number) {
@@ -57,236 +57,236 @@ class PixiRenderer implements Renderer {
         this.healthGraphics = [];
     }
 
-    guiGetStatsContainer(forActor: Actor, barHeight: number){
-      var yOffset = -3;
-      var healthStyle = new PIXI.TextStyle({
-          fontFamily: 'monospace',
-          fontSize: 10,
-          fill: ColorCode.White,
-          align: 'center'
-      });
-      var barTotalWidth = this.verticalContainerWidth -  this.guiPad * 2;
-      var health = 'HP: ' + forActor.health + ' / ' + forActor.maxHealth() + Generic.NewLine() +
-      '(' + forActor.startingHealth + ' + ' + forActor.getMaxHealthBuff() + ')';
-      var healthText = new PIXI.Text(health, healthStyle);
-      var healthWidth = (forActor.health / forActor.maxHealth()) * barTotalWidth;
+    guiGetStatsContainer(forActor: Actor, barHeight: number) {
+        var yOffset = -3;
+        var style = new PIXI.TextStyle({
+            fontFamily: 'Courier',
+            fontSize: 10,
+            fill: ColorCode.White,
+            align: 'center',
+            dropShadow: true,
+            dropShadowBlur: 8,
+            dropShadowColor: ColorCode.Black,
+            dropShadowAngle: Math.PI / 3,
+            dropShadowDistance: 1
+        });
+        var barTotalWidth = this.verticalContainerWidth - this.guiPad * 2;
+        var health = 'HP: ' + forActor.health + ' / ' + forActor.maxHealth() + Generic.NewLine() +
+            '(' + forActor.startingHealth + ' + ' + forActor.getMaxHealthBuff() + ')';
+        var healthText = new PIXI.Text(health, style);
+        var healthWidth = (forActor.health / forActor.maxHealth()) * barTotalWidth;
+
+
+        var experience = 'Level ' + forActor.level + Generic.NewLine() +
+            '(' + forActor.currentLevelXP + ' / ' + forActor.xpNeeded + ')';
+        var experienceText = new PIXI.Text(experience, style);
+        var experiencehWidth = (forActor.currentLevelXP / forActor.xpNeeded) * barTotalWidth;
 
 
 
-      var experienceStyle = new PIXI.TextStyle({
-          fontFamily: 'monospace',
-          fontSize: 10,
-          fill: ColorCode.White,
-          align: 'center'
-      });
-      var experience = 'Level ' + forActor.level + Generic.NewLine() +
-      '(' + forActor.currentLevelXP + ' / ' + forActor.xpNeeded + ')';
-      var experienceText = new PIXI.Text(experience, experienceStyle);
-      var experiencehWidth = (forActor.currentLevelXP / forActor.xpNeeded) * barTotalWidth;
+        // Relative to this stats container, not the entire screen
+        var drawX = this.guiPad;
+        var drawY = this.guiPad;
+        var barPadding = 0;
 
+        var healthLocation = new Point(Math.ceil(this.verticalContainerWidth / 2 - healthText.width / 2), Math.ceil(drawY + barHeight / 2 - healthText.height / 2 + yOffset));
+        healthText.x = Math.ceil(healthLocation.x);
+        healthText.y = Math.ceil(healthLocation.y);
+        var healthBarGraphic = new PIXI.Graphics();
+        healthBarGraphic.lineStyle(2, ColorCode.Black, 0.25);
+        healthBarGraphic.beginFill(ColorCode.DarkRed, 1);
+        healthBarGraphic.drawRect(drawX, drawY, barTotalWidth, barHeight + barPadding - this.guiPad);
+        healthBarGraphic.endFill();
+        healthBarGraphic.beginFill(ColorCode.Red, 1);
+        healthBarGraphic.drawRect(drawX, drawY, healthWidth, barHeight + barPadding - this.guiPad);
+        healthBarGraphic.endFill();
 
+        drawY += barHeight + barPadding;
 
-      // Relative to this stats container, not the entire screen
-      var drawX = this.guiPad;
-      var drawY = this.guiPad;
-      var barPadding = 0;
+        var experienceLocation = new Point(Math.ceil(this.verticalContainerWidth / 2 - experienceText.width / 2), Math.ceil(drawY + barHeight / 2 - experienceText.height / 2 + yOffset));
+        experienceText.x = experienceLocation.x;
+        experienceText.y = experienceLocation.y;
+        var experienceBarGraphic = new PIXI.Graphics();
+        experienceBarGraphic.lineStyle(2, ColorCode.Black, 0.25);
+        experienceBarGraphic.beginFill(ColorCode.DarkPurple, 1);
+        experienceBarGraphic.drawRect(drawX, drawY, barTotalWidth, barHeight + barPadding - this.guiPad);
+        experienceBarGraphic.endFill();
+        experienceBarGraphic.beginFill(ColorCode.Purple, 1);
+        experienceBarGraphic.drawRect(drawX, drawY, experiencehWidth, barHeight + barPadding - this.guiPad);
+        experienceBarGraphic.endFill();
 
-      var healthLocation = new Point(this.verticalContainerWidth/2 - healthText.width/2, drawY + barHeight/2 - healthText.height/2 + yOffset);
-      healthText.x = healthLocation.x;
-      healthText.y = healthLocation.y;
-      var healthBarGraphic = new PIXI.Graphics();
-      healthBarGraphic.beginFill(ColorCode.DarkRed, 1);
-      healthBarGraphic.drawRect(drawX, drawY, barTotalWidth, barHeight + barPadding - this.guiPad);
-      healthBarGraphic.endFill();
-      healthBarGraphic.beginFill(ColorCode.Red, 1);
-      healthBarGraphic.drawRect(drawX, drawY, healthWidth, barHeight + barPadding - this.guiPad);
-      healthBarGraphic.endFill();
+        var statsContainer = new PIXI.Container();
+        statsContainer.addChild(healthBarGraphic);
+        statsContainer.addChild(healthText);
+        statsContainer.addChild(experienceBarGraphic);
+        statsContainer.addChild(experienceText);
 
-      drawY += barHeight + barPadding;
-
-      var experienceLocation = new Point(this.verticalContainerWidth/2 - experienceText.width/2, drawY + barHeight/2 - experienceText.height/2 + yOffset);
-      experienceText.x = experienceLocation.x;
-      experienceText.y = experienceLocation.y;
-      var experienceBarGraphic = new PIXI.Graphics();
-      experienceBarGraphic.beginFill(ColorCode.DarkPurple, 1);
-      experienceBarGraphic.drawRect(drawX, drawY, barTotalWidth, barHeight + barPadding - this.guiPad);
-      experienceBarGraphic.endFill();
-      experienceBarGraphic.beginFill(ColorCode.Purple, 1);
-      experienceBarGraphic.drawRect(drawX, drawY, experiencehWidth, barHeight + barPadding - this.guiPad);
-      experienceBarGraphic.endFill();
-
-      var statsContainer = new PIXI.Container();
-      statsContainer.addChild(healthBarGraphic);
-      statsContainer.addChild(healthText);
-      statsContainer.addChild(experienceBarGraphic);
-      statsContainer.addChild(experienceText);
-
-      return statsContainer;
+        return statsContainer;
     }
 
-    guiGetEquipMapContainer(scale: number, paddingBetweenSlots: number){
-          // Draw the definition of a 'slot'
-					var slotGraphic = new PIXI.Graphics();
-					var size = this.tileSize * scale;
-					var padding = paddingBetweenSlots;
-					var iterations = size/4;
-					var startAlpha = 0.75;
-					for(var i=0; i<iterations; i++){
-						slotGraphic.lineStyle(1, ColorCode.White, Math.max(startAlpha-(i/iterations),0))
-						slotGraphic.drawRect(i, i, size-i*2, size-i*2)
-					}
+    guiGetEquipMapContainer(scale: number, paddingBetweenSlots: number) {
+        // Draw the definition of a 'slot'
+        var slotGraphic = new PIXI.Graphics();
+        var size = this.tileSize * scale;
+        var padding = paddingBetweenSlots;
+        var iterations = size / 4;
+        var startAlpha = 0.75;
+        for (var i = 0; i < iterations; i++) {
+            slotGraphic.lineStyle(1, ColorCode.White, Math.max(startAlpha - (i / iterations), 0))
+            slotGraphic.drawRect(i, i, size - i * 2, size - i * 2)
+        }
 
 
-					// Create a texture out of it
-					var slotTexture = new PIXI.RenderTexture(this.pixiRenderer, size, size);
-					slotTexture.render(slotGraphic);
+        // Create a texture out of it
+        var slotTexture = new PIXI.RenderTexture(this.pixiRenderer, size, size);
+        slotTexture.render(slotGraphic);
 
-					// Create our sprites based on the slot sprite
-					var headSlot = new PIXI.Sprite(slotTexture);
-					var torsoSlot = new PIXI.Sprite(slotTexture);
-					var legSlot = new PIXI.Sprite(slotTexture);
-					var footSlot = new PIXI.Sprite(slotTexture);
-					var handSlot = new PIXI.Sprite(slotTexture);
-					var weaponSlot = new PIXI.Sprite(slotTexture);
+        // Create our sprites based on the slot sprite
+        var headSlot = new PIXI.Sprite(slotTexture);
+        var torsoSlot = new PIXI.Sprite(slotTexture);
+        var legSlot = new PIXI.Sprite(slotTexture);
+        var footSlot = new PIXI.Sprite(slotTexture);
+        var handSlot = new PIXI.Sprite(slotTexture);
+        var weaponSlot = new PIXI.Sprite(slotTexture);
 
-          var atlas = PIXI.loader.resources.itemAtlas.textures;
-          if(this.game.player.equippedHead){
+        var atlas = PIXI.loader.resources.itemAtlas.textures;
+        if (this.game.player.equippedHead) {
             var headItem = new PIXI.Sprite(atlas[this.game.player.equippedHead.getSprite().spriteName]);
-              headItem.scale.x = scale;
-              headItem.scale.y = scale;
-          }
-          if(this.game.player.equippedTorso){
+            headItem.scale.x = scale;
+            headItem.scale.y = scale;
+        }
+        if (this.game.player.equippedTorso) {
             var torsoItem = new PIXI.Sprite(atlas[this.game.player.equippedTorso.getSprite().spriteName]);
-              torsoItem.scale.x = scale;
-              torsoItem.scale.y = scale;
-          }
-          if(this.game.player.equippedLegs){
+            torsoItem.scale.x = scale;
+            torsoItem.scale.y = scale;
+        }
+        if (this.game.player.equippedLegs) {
             var legItem = new PIXI.Sprite(atlas[this.game.player.equippedLegs.getSprite().spriteName]);
-              legItem.scale.x = scale;
-              legItem.scale.y = scale;
-          }
-          if(this.game.player.equippedFeet){
+            legItem.scale.x = scale;
+            legItem.scale.y = scale;
+        }
+        if (this.game.player.equippedFeet) {
             var footItem = new PIXI.Sprite(atlas[this.game.player.equippedFeet.getSprite().spriteName]);
-              footItem.scale.x = scale;
-              footItem.scale.y = scale;
-          }
-          if(this.game.player.equippedHands){
+            footItem.scale.x = scale;
+            footItem.scale.y = scale;
+        }
+        if (this.game.player.equippedHands) {
             var handItem = new PIXI.Sprite(atlas[this.game.player.equippedHands.getSprite().spriteName]);
-              handItem.scale.x = scale;
-              handItem.scale.y = scale;
-          }
-          if(this.game.player.equippedWeapon){
-              var weaponItem = new PIXI.Sprite(atlas[this.game.player.equippedWeapon.getSprite().spriteName]);
-              weaponItem.scale.x = scale;
-              weaponItem.scale.y = scale;
-          }
+            handItem.scale.x = scale;
+            handItem.scale.y = scale;
+        }
+        if (this.game.player.equippedWeapon) {
+            var weaponItem = new PIXI.Sprite(atlas[this.game.player.equippedWeapon.getSprite().spriteName]);
+            weaponItem.scale.x = scale;
+            weaponItem.scale.y = scale;
+        }
 
-					// Create a container for place teh equip slots in
-					var equipContainer = new PIXI.Container();
+        // Create a container for place teh equip slots in
+        var equipContainer = new PIXI.Container();
 
-					var slotX = size + padding;
-					var slotY = 0;
+        var slotX = size + padding;
+        var slotY = 0;
 
-					// Vertical
-					headSlot.x = slotX;
-					headSlot.y = slotY;
-					equipContainer.addChild(headSlot);
-          if(this.game.player.equippedHead){
+        // Vertical
+        headSlot.x = slotX;
+        headSlot.y = slotY;
+        equipContainer.addChild(headSlot);
+        if (this.game.player.equippedHead) {
             headItem.x = slotX;
-  					headItem.y = slotY;
-  					equipContainer.addChild(headItem);
-          }
-					slotY+=size+padding;
+            headItem.y = slotY;
+            equipContainer.addChild(headItem);
+        }
+        slotY += size + padding;
 
-					torsoSlot.x = slotX;
-					torsoSlot.y = slotY;
-					equipContainer.addChild(torsoSlot);
-          if(this.game.player.equippedTorso){
+        torsoSlot.x = slotX;
+        torsoSlot.y = slotY;
+        equipContainer.addChild(torsoSlot);
+        if (this.game.player.equippedTorso) {
             torsoItem.x = slotX;
-  					torsoItem.y = slotY;
-  					equipContainer.addChild(torsoItem);
-          }
-					slotY+=size+padding;
+            torsoItem.y = slotY;
+            equipContainer.addChild(torsoItem);
+        }
+        slotY += size + padding;
 
-					legSlot.x = slotX;
-					legSlot.y = slotY;
-					equipContainer.addChild(legSlot);
-          if(this.game.player.equippedLegs){
+        legSlot.x = slotX;
+        legSlot.y = slotY;
+        equipContainer.addChild(legSlot);
+        if (this.game.player.equippedLegs) {
             legItem.x = slotX;
-  					legItem.y = slotY;
-  					equipContainer.addChild(legItem);
-          }
-					slotY+=size+padding;
+            legItem.y = slotY;
+            equipContainer.addChild(legItem);
+        }
+        slotY += size + padding;
 
-					footSlot.x = slotX;
-					footSlot.y = slotY;
-					equipContainer.addChild(footSlot);
-          if(this.game.player.equippedFeet){
+        footSlot.x = slotX;
+        footSlot.y = slotY;
+        equipContainer.addChild(footSlot);
+        if (this.game.player.equippedFeet) {
             footItem.x = slotX;
-  					footItem.y = slotY;
-  					equipContainer.addChild(footItem);
-          }
+            footItem.y = slotY;
+            equipContainer.addChild(footItem);
+        }
 
 
-					// Horizontal
-					slotX = 0;
-					slotY = size + padding;
+        // Horizontal
+        slotX = 0;
+        slotY = size + padding;
 
-					handSlot.x = slotX;
-					handSlot.y = slotY;
-					equipContainer.addChild(handSlot);
-          if(this.game.player.equippedHands){
+        handSlot.x = slotX;
+        handSlot.y = slotY;
+        equipContainer.addChild(handSlot);
+        if (this.game.player.equippedHands) {
             handItem.x = slotX;
-  					handItem.y = slotY;
-  					equipContainer.addChild(handItem);
-          }
-					slotX+=(size+padding) * 2;
+            handItem.y = slotY;
+            equipContainer.addChild(handItem);
+        }
+        slotX += (size + padding) * 2;
 
-					weaponSlot.x = slotX;
-					weaponSlot.y = slotY;
-					equipContainer.addChild(weaponSlot);
-          if(this.game.player.equippedWeapon){
+        weaponSlot.x = slotX;
+        weaponSlot.y = slotY;
+        equipContainer.addChild(weaponSlot);
+        if (this.game.player.equippedWeapon) {
             weaponItem.x = slotX;
-  					weaponItem.y = slotY;
-  					equipContainer.addChild(weaponItem);
-          }
+            weaponItem.y = slotY;
+            equipContainer.addChild(weaponItem);
+        }
 
-          return equipContainer;
+        return equipContainer;
     }
 
-    guiGetLogContainer(logCount: number){
-      var container = new PIXI.Container();
+    guiGetLogContainer(logCount: number) {
+        var container = new PIXI.Container();
 
-      container.height = this.horizontalContainerHeight;
-      container.width = this.pixelWidth;
+        container.height = this.horizontalContainerHeight;
+        container.width = this.pixelWidth;
 
-      var background = new PIXI.Graphics();
-      background.beginFill(ColorCode.DarkerGrey, 1);
-      background.drawRect(0,0, this.pixelWidth, this.horizontalContainerHeight);
-      background.endFill();
-      container.addChild(background);
+        var background = new PIXI.Graphics();
+        background.beginFill(ColorCode.DarkerGrey, 1);
+        background.drawRect(0, 0, this.pixelWidth, this.horizontalContainerHeight);
+        background.endFill();
+        container.addChild(background);
 
-      var log: LogMessage[] = this.game.getLastLog(logCount);
-      var fontFamily = 'Courier';
-      var fontSize = 12;
-      var logLocation = new Point(0, 0);
-      for (let m = 0; m < log.length; m++) {
-          var logMessage: LogMessage = log[m];
-          var logStyle = new PIXI.TextStyle({
-              fontFamily: fontFamily,
-              fontSize: fontSize,
-              fill: logMessage.color
-          });
+        var log: LogMessage[] = this.game.getLastLog(logCount);
+        var fontFamily = 'Courier';
+        var fontSize = 12;
+        var logLocation = new Point(0, 0);
+        for (let m = 0; m < log.length; m++) {
+            var logMessage: LogMessage = log[m];
+            var logStyle = new PIXI.TextStyle({
+                fontFamily: fontFamily,
+                fontSize: fontSize,
+                fill: logMessage.color
+            });
 
-          // Write the message to the screen
-          var logText = new PIXI.Text(logMessage.message, logStyle);
-          logText.x = logLocation.x;
-          logText.y = logLocation.y;
-          container.addChild(logText);
-          logLocation.y += fontSize;
-      }
+            // Write the message to the screen
+            var logText = new PIXI.Text(logMessage.message, logStyle);
+            logText.x = logLocation.x;
+            logText.y = logLocation.y;
+            container.addChild(logText);
+            logLocation.y += fontSize;
+        }
 
-      return container;
+        return container;
     }
 
     getInventoryText() {
@@ -498,7 +498,7 @@ class PixiRenderer implements Renderer {
         return graphics;
     }
 
-    clearContainer(container: any){
+    clearContainer(container: any) {
         for (var i = container.children.length - 1; i >= 0; i--) { container.removeChild(container.children[i]); };
     }
 
@@ -585,8 +585,8 @@ class PixiRenderer implements Renderer {
                                 atlas = PIXI.loader.resources.terrainAtlas.textures;
                             }
                             var sprite = new PIXI.Sprite(atlas[actorSprite.spriteName]);
-                            sprite.x = 0 + (x * this.tileSize);
-                            sprite.y = 0 + (y * this.tileSize);
+                            sprite.x = x * this.tileSize;
+                            sprite.y = y * this.tileSize;
 
                             // As long as it's in the game world, deal with it
                             if (actor instanceof OutOfBounds === false) {
@@ -691,24 +691,24 @@ class PixiRenderer implements Renderer {
         // Vertical
         this.guiVerticalContainer.width = this.verticalContainerWidth;
         this.guiVerticalContainer.height = this.pixelHeight - this.horizontalContainerHeight;
-        this.guiVerticalContainer.x = this.pixelWidth - this.verticalContainerWidth;
+        this.guiVerticalContainer.x = Math.ceil(this.pixelWidth - this.verticalContainerWidth);
         this.guiVerticalContainer.y = 0;
         // Draw the background:
         var background = new PIXI.Graphics();
-        background.beginFill(ColorCode.DarkGrey, 1);
-        background.drawRect(0,0, this.guiVerticalContainer.width, this.guiVerticalContainer.height);
+        background.beginFill(ColorCode.DarkerGrey, 1);
+        background.drawRect(0, 0, this.guiVerticalContainer.width, this.guiVerticalContainer.height);
         background.endFill();
         this.guiVerticalContainer.addChild(background);
         // Equip
-        var equipMap = this.guiGetEquipMapContainer(1, 5);
+        var equipMap = this.guiGetEquipMapContainer(1.5, 5);
         this.guiVerticalContainer.addChild(equipMap);
-        equipMap.x = this.verticalContainerWidth - (this.verticalContainerWidth / 2) - (equipMap.width/2);
+        equipMap.x = Math.ceil(this.verticalContainerWidth - (this.verticalContainerWidth / 2) - (equipMap.width / 2));
         equipMap.y = this.guiPad;
         ///
         /// Stats
-        var statsContainer = this.guiGetStatsContainer(this.game.player, 40);
+        var statsContainer = this.guiGetStatsContainer(this.game.player, 30);
         this.guiVerticalContainer.addChild(statsContainer);
-        statsContainer.y = equipMap.height + this.guiPad;
+        statsContainer.y = Math.ceil(equipMap.height + this.guiPad);
 
         // Collect all GUI elements prior to render
         this.guiOverlayContainer.addChild(this.guiHorizontalContainer);
