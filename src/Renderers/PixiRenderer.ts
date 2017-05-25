@@ -722,6 +722,21 @@ class PixiRenderer implements Renderer {
                             sprite.x = x * this.tileSize;
                             sprite.y = y * this.tileSize;
 
+                            // Set opacity based on visibility
+                            if(actor.isVisible === false){
+                              // Still show the player if they are invisble, to indciate
+                              //   that they are invisible
+                              if(actor instanceof Player){
+                                sprite.alpha = 0.4;
+                              }
+
+                              // If something other than the player is invisible, then
+                              //    hide them entirely
+                              else{
+                                sprite.visible = false;
+                              }
+                            }
+
                             // As long as it's in the game world, deal with it
                             if (actor instanceof OutOfBounds === false) {
 

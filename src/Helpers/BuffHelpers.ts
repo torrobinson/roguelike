@@ -2,7 +2,9 @@ class BuffHelpers {
 
     // Attack
     static handleOnAttackBuffsBefore(actor: Actor, attacked: Actor) {
-        actor.buffs.forEach((buff) => { buff.onAttackBefore(attacked) });
+        var skipExistingBehaviour = false;
+        actor.buffs.forEach((buff) => { buff.onAttackBefore(attacked); skipExistingBehaviour = buff.overridesExistingBehaviour; });
+        return skipExistingBehaviour;
     }
     static handleOnAttackBuffsAfter(actor: Actor, attacked: Actor) {
         actor.buffs.forEach((buff) => { buff.onAttackAfter(attacked) });
@@ -10,7 +12,9 @@ class BuffHelpers {
 
     // Attacked By
     static handleonAttackedBuffsBefore(actor: Actor, attackedBy: Actor) {
-        actor.buffs.forEach((buff) => { buff.onAttackedByBefore(attackedBy) });
+        var skipExistingBehaviour = false;
+        actor.buffs.forEach((buff) => { buff.onAttackedByBefore(attackedBy); skipExistingBehaviour = buff.overridesExistingBehaviour; });
+        return skipExistingBehaviour;
     }
     static handleonAttackedBuffsAfter(actor: Actor, attackedBy: Actor) {
         actor.buffs.forEach((buff) => { buff.onAttackedByAfter(attackedBy) });
@@ -19,7 +23,9 @@ class BuffHelpers {
 
     // Moved
     static handleonMovedBuffsBefore(actor: Actor) {
-        actor.buffs.forEach((buff) => { buff.onMovedBefore() });
+        var skipExistingBehaviour = false;
+        actor.buffs.forEach((buff) => { buff.onMovedBefore(); skipExistingBehaviour = buff.overridesExistingBehaviour; });
+        return skipExistingBehaviour;
     }
     static handleonMovedBuffsAfter(actor: Actor) {
         actor.buffs.forEach((buff) => { buff.onMovedAfter() });
@@ -28,7 +34,9 @@ class BuffHelpers {
 
     // Collided
     static handleonCollideBuffsBefore(actor: Actor, bumped: Actor) {
-        actor.buffs.forEach((buff) => { buff.onCollideBefore(bumped) });
+        var skipExistingBehaviour = false;
+        actor.buffs.forEach((buff) => { buff.onCollideBefore(bumped); skipExistingBehaviour = buff.overridesExistingBehaviour; });
+        return skipExistingBehaviour;
     }
     static handleonCollideBuffsAfter(actor: Actor, bumped: Actor) {
         actor.buffs.forEach((buff) => { buff.onCollideAfter(bumped) });
@@ -36,7 +44,9 @@ class BuffHelpers {
 
     // Collided Into
     static handleonCollidedIntoBuffsBefore(actor: Actor, bumper: Actor) {
-        actor.buffs.forEach((buff) => { buff.onCollidedIntoByBefore(bumper) });
+        var skipExistingBehaviour = false;
+        actor.buffs.forEach((buff) => { buff.onCollidedIntoByBefore(bumper); skipExistingBehaviour = buff.overridesExistingBehaviour; });
+        return skipExistingBehaviour;
     }
     static handleonCollidedIntoBuffsAfer(actor: Actor, bumper: Actor) {
         actor.buffs.forEach((buff) => { buff.onCollidedIntoByAfter(bumper) });
@@ -44,9 +54,30 @@ class BuffHelpers {
 
     // Ticked
     static handleTickBuffsBefore(actor: Actor) {
-        actor.buffs.forEach((buff) => { buff.tickedBefore() });
+        var skipExistingBehaviour = false;
+        actor.buffs.forEach((buff) => { buff.tickedBefore(); skipExistingBehaviour = buff.overridesExistingBehaviour; });
+        return skipExistingBehaviour;
     }
     static handleTickBuffsAfter(actor: Actor) {
         actor.buffs.forEach((buff) => { buff.tickedAfter() });
     }
+
+    // Equipped Buffs
+    static handleOnBuffEquippedBefore(actor: Actor, buff: Buff){
+        var skipExistingBehaviour = false;
+        actor.buffs.forEach((buff) => { buff.onBuffEquippedBefore(actor, buff); skipExistingBehaviour = buff.overridesExistingBehaviour; });
+        return skipExistingBehaviour;
+    }
+    static handleOnBuffEquippedAfter(actor: Actor, buff: Buff){
+        actor.buffs.forEach((buff) => { buff.onBuffEquippedAfter(actor, buff)});
+    }
+    static handleOnBuffUnequippedBefore(actor: Actor, buff: Buff){
+        var skipExistingBehaviour = false;
+        actor.buffs.forEach((buff) => { buff.onBuffUnequippedBefore(actor, buff); skipExistingBehaviour = buff.overridesExistingBehaviour;  });
+        return skipExistingBehaviour;
+    }
+    static handleOnBuffUnequippedAfter(actor: Actor, buff: Buff){
+        actor.buffs.forEach((buff) => { buff.onBuffUnequippedAfter(actor, buff)});
+    }
+
 }

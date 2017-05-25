@@ -5,6 +5,7 @@ class Buff {
     uses: number = 0;
     namePart: string;
     color: number = ColorCode.Grey;
+    overridesExistingBehaviour: boolean = false;
 
     constructor() {
 
@@ -20,7 +21,7 @@ class Buff {
     }
 
     remove() {
-        this.owner.buffs.remove(this);
+        this.owner.removeBuff(this);
         this.owner = null;
     }
 
@@ -83,6 +84,19 @@ class Buff {
 
     }
     tickedAfter() {
+
+    }
+
+    onBuffEquippedBefore(user: Actor, buff: Buff){
+
+    }
+    onBuffEquippedAfter(user: Actor, buff: Buff){
+
+    }
+    onBuffUnequippedBefore(user: Actor, buff: Buff){
+
+    }
+    onBuffUnequippedAfter(user: Actor, buff: Buff){
 
     }
 

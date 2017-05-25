@@ -27,6 +27,7 @@ class Actor {
     level: number;
     xpNeeded: number = 0;
     currentLevelXP: number = 0;
+    isVisible: boolean = true;
 
     equippedHead: Armor = null;
     equippedTorso: Armor = null;
@@ -106,7 +107,7 @@ class Actor {
     }
 
     attack(otherActor: Actor) {
-        BuffHelpers.handleOnAttackBuffsBefore(this, otherActor);
+        if(BuffHelpers.handleOnAttackBuffsBefore(this, otherActor)){return;}
 
         var damage = otherActor.getDamage();
 
@@ -117,7 +118,7 @@ class Actor {
     }
 
     attackedBy(attacker: Actor, damage: number) {
-        BuffHelpers.handleonAttackedBuffsBefore(this, attacker);
+        if(BuffHelpers.handleonAttackedBuffsBefore(this, attacker)){return;}
         this.health -= damage;
         // Did we die?
         if (this.health <= 0) {
@@ -144,11 +145,19 @@ class Actor {
     }
 
     addBuff(buff: Buff, granter: any = null) {
+        if(BuffHelpers.handleOnBuffEquippedBefore(this, buff)){return;}
+
         buff.applyTo(this, granter);
+
+        BuffHelpers.handleOnBuffEquippedAfter(this, buff);
     }
 
     removeBuff(buff: Buff) {
+        if(BuffHelpers.handleOnBuffUnequippedBefore(this, buff)){return;}
+
         this.buffs.remove(buff);
+
+        BuffHelpers.handleOnBuffUnequippedAfter(this, buff);
     }
 
     removeBuffByType(type: any) {
@@ -161,7 +170,7 @@ class Actor {
     }
 
     move(direction: Direction) {
-        BuffHelpers.handleonMovedBuffsBefore(this);
+        if(BuffHelpers.handleonMovedBuffsBefore(this)){return;}
 
         this.facing = direction;
         var offsetToMove = Movement.DirectionToOffset(direction);
@@ -191,14 +200,14 @@ class Actor {
 
     // When tried to move into another object
     collidedInto(actor: Actor) {
-        BuffHelpers.handleonCollideBuffsBefore(this, actor);
+        if(BuffHelpers.handleonCollideBuffsBefore(this, actor)){return;}
         this.collided();
         BuffHelpers.handleonCollideBuffsAfter(this, actor);
     }
 
     // When another object tried to move into me
     collidedBy(actor: Actor) {
-        BuffHelpers.handleonCollidedIntoBuffsBefore(this, actor);
+        if(BuffHelpers.handleonCollidedIntoBuffsBefore(this, actor)){return;}
         this.collided();
         BuffHelpers.handleonCollidedIntoBuffsAfer(this, actor);
 
@@ -253,7 +262,7 @@ class Actor {
 
     // On game timer tick
     tick() {
-        BuffHelpers.handleTickBuffsBefore(this);
+        if(BuffHelpers.handleTickBuffsBefore(this)){return;}
 
         if (!this.doesSubscribeToTicks) return;
 
@@ -332,11 +341,11 @@ class Actor {
     }
 
     canSeeActor(actor: Actor) {
-        return this.canSeePoint(actor.location, this.viewRadius);
+        return actor.isVisible && this.canSeePoint(actor.location, this.viewRadius);
     }
 
     canBeSeenByActor(actor: Actor) {
-        return this.canBeSeenByPoint(actor.location, actor.viewRadius);
+        return this.isVisible && this.canBeSeenByPoint(actor.location, actor.viewRadius);
     }
 
     obtainInventoryItem(inventoryItem: InventoryItem) {

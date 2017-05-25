@@ -298,13 +298,18 @@ class Game {
             new WallBreakerBuff()
         );
 
+        var buffedShirt = new Shirt(2, spriteRandom);
+        buffedShirt.addBuff(
+            new InvisibilityBuff()
+        );
+
         var dagger = new Dagger(spriteRandom, 2);
 
         var demoChest2 = new Chest(this, [
             new Potion(spriteRandom),
             new Potion(spriteRandom),
             new Potion(spriteRandom),
-            new Shirt(2, spriteRandom),
+            buffedShirt,
             new Chestplate(5, spriteRandom),
             new LeatherBoots(4, spriteRandom),
             new SteelBoots(5, spriteRandom),
