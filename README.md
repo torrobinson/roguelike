@@ -2,6 +2,8 @@
 ![preview](https://d3vv6lp55qjaqc.cloudfront.net/items/3e1s1Z1Q40180U340606/Image%202017-05-22%20at%207.04.33%20PM.png)
 This is an experiment to familiarize myself with game mechanics, TypeScript, and Pixi.js
 
+The game "engine" is written entirely from scratch, with the exception of a pathfinder (for resolving paths) and Pixi for drawing images and shapes to the screen.
+
 ### To Play: ###
 - Install Node.js
   - This should include NPM
