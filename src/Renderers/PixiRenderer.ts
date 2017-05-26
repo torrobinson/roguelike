@@ -541,14 +541,14 @@ class PixiRenderer implements Renderer {
         if (actor.health !== undefined) {
             var percentDecimal = (actor.health / actor.maxHealth());
 
-            var maxPipCount = 20;
+            var maxPipCount = 14;
 
 
             var pipsToDraw = Math.ceil(maxPipCount * percentDecimal);
-            var heartPipWidth = 2;
-            var heartPipHeight = 2;
+            var heartPipWidth = 1;
+            var heartPipHeight = 1;
             var spacingBetweenPips = 0;
-            var offsetAboveActor = 5;
+            var offsetAboveActor = 1;
 
 
             var totalHeight = heartPipHeight;
