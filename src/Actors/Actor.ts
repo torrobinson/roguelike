@@ -46,10 +46,14 @@ class Actor {
     getSprite() {
         if (this.game.state === GameState.Playing) {
             if (this.spritesets !== null) {
-                var sprite = this.spritesets.filter(
+                var spriteSet: SpriteSet = this.spritesets.filter(
                     function(spriteset) {
                         return spriteset.status === this.status && spriteset.direction === this.facing
-                    }, this).first().getSprite(this.restartSpriteNextFrame);
+                    }, this).first();
+                var sprite: Sprite = null;
+                if(spriteSet !== null){
+                    sprite = spriteSet.getSprite(this.restartSpriteNextFrame);
+                }
                 this.restartSpriteNextFrame = false;
                 this.lastSprite = sprite;
                 return sprite;
@@ -169,6 +173,10 @@ class Actor {
         }
     }
 
+    jumpToLayer(layer: Layer): void{
+      World.MoveActorToLayer(this, layer);
+    }
+
     move(direction: Direction) {
         if(BuffHelpers.handleonMovedBuffsBefore(this)){return;}
 
@@ -201,6 +209,12 @@ class Actor {
     // When tried to move into another object
     collidedInto(actor: Actor) {
         if(BuffHelpers.handleonCollideBuffsBefore(this, actor)){return;}
+
+        // If anything hits into a wall, open it
+        if(actor instanceof Door){
+           (<Door>actor).tryOpen();
+        }
+
         this.collided();
         BuffHelpers.handleonCollideBuffsAfter(this, actor);
     }
@@ -210,7 +224,6 @@ class Actor {
         if(BuffHelpers.handleonCollidedIntoBuffsBefore(this, actor)){return;}
         this.collided();
         BuffHelpers.handleonCollidedIntoBuffsAfer(this, actor);
-
     }
 
     cancelCurrentCommand() {

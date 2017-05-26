@@ -1,3 +1,4 @@
+
 class World{
     width: number;
     height: number;
@@ -29,6 +30,14 @@ class World{
       return this.layers.filter(function(layer){
           return layer.type !== layerType
       });
+  }
+
+  static MoveActorToLayer(actor: Actor, layer: Layer): void{
+      // Remove from the current layer
+      actor.layer.setTile(actor.location.x, actor.location.y, null);
+
+      // Add to the new layer
+      layer.placeActor(actor, actor.location);
   }
 
 }

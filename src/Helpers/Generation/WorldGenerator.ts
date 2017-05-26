@@ -22,6 +22,9 @@ class WorldGenerator {
         // The world to return
         var world = new World(settings.totalWidth, settings.totalHeight, game);
 
+
+        var walLDecor = new Layer(settings.totalHeight, settings.totalWidth, 1, 'WallDecorations', LayerType.WallDecor);
+
         // Set up the main collision layer as ALL walls
         var wallLayer = new Layer(settings.totalHeight, settings.totalWidth, 0, 'Main', LayerType.Wall);
         wallLayer.fillWith(Wall, game);
@@ -120,6 +123,7 @@ class WorldGenerator {
         GenerationHelpers.carveHallway(rooms.second(), rooms.secondLast(), wallLayer, floorLayer, settings.floorActorType, settings.minHallThickness, settings.maxHallThickness, random, game);
 
         // Set and return the World so far
+        world.addLayer(walLDecor);
         world.addLayer(wallLayer);
         world.addLayer(floorDecorLayer);
         world.addLayer(floorLayer);

@@ -76,9 +76,10 @@ enum RoomDecorationType {
 }
 
 enum LayerType {
-    Wall = 1,
-    FloorDecor = 2,
-    Floor = 3
+    WallDecor,
+    Wall,
+    FloorDecor,
+    Floor
 }
 
 enum Control {

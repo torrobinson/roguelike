@@ -1048,5 +1048,61 @@ class Sprites {
         ]
     };
 
+    static DoorSprites() {
+        return [
+
+          // Vertical Doors
+            new SpriteSet(
+                ActorStatus.Closed,
+                Direction.Down,
+                [
+                    new Sprite(
+                        'DoorDownClosed',
+                        ' '
+                    )
+                ],
+                AnimationLoopStyle.Static
+            ),
+
+            new SpriteSet(
+                ActorStatus.Open,
+                Direction.Down,
+                [
+                    new Sprite(
+                        'DoorDownOpen',
+                        ' '
+                    )
+                ],
+                AnimationLoopStyle.Static
+            ),
+
+
+          // Horizontal Doors
+            new SpriteSet(
+                ActorStatus.Closed,
+                Direction.Left,
+                [
+                    new Sprite(
+                        'DoorDownClosed',
+                        ' '
+                    )
+                ],
+                AnimationLoopStyle.Static
+            ),
+
+            new SpriteSet(
+                ActorStatus.Open,
+                Direction.Left,
+                [
+                    new Sprite(
+                        'DoorDownOpen',
+                        ' '
+                    )
+                ],
+                AnimationLoopStyle.Static
+            )
+        ]
+    };
+
 
 }

@@ -244,12 +244,6 @@ class Game {
     }
 
     generateNextDungeon() {
-      // DEBUG
-      for(let num=1; num<=20; num++){
-        var settings: WorldGeneratorSettings = this.getWorldSettingsForDungeonNumber(num);
-        console.log(settings);
-      }
-      /////////
         console.log('Generating dungeon with seed "' + this.seed + '"');
         this.log(
             new LogMessage("You've entered dungeon #" + this.dungeonNumber, LogMessageType.Informational)
@@ -348,6 +342,12 @@ class Game {
 
         mainLayer.placeActor(demoChest, this.world.rooms.second().getCenter());
         mainLayer.placeActor(demoChest2, Movement.AddPoints(spawnLocation, new Point(1, 0)));
+
+        var doorTest = new Door(this, Orientation.Horizontal);
+        mainLayer.placeActor(
+          doorTest,
+          this.world.rooms.second().getCenter()
+        );
 
     }
 

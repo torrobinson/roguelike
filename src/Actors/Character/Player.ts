@@ -115,8 +115,9 @@ class Player extends Actor {
 
     die() {
         super.die();
-        this.game.generateNextDungeon();
         this.reset();
+        this.game.dungeonNumber = 0;
+        this.game.generateNextDungeon();
         this.game.gameTick(this.game);
     }
 
