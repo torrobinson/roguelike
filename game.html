@@ -70,7 +70,7 @@
 
                 // Start the game
                 var game = new Game(renderer, parseInt(seed), gameSettings);
-                game.setRandomDungeon();
+                game.generateNextDungeon();
                 game.start();
 
                 // Bind keys

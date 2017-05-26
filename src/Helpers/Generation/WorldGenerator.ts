@@ -7,9 +7,9 @@ class WorldGeneratorSettings {
     maxRoomHeight: number = 0;
     minNumRooms: number = 0;
     maxNumRooms: number = 0;
-    minHallThickness: number = 0;
-    maxHallThickness: number = 0;
-    retryAttempts: number = 0;
+    minHallThickness: number = 1;
+    maxHallThickness: number = 1;
+    retryAttempts: number = 100;
     floorActorType: any = null;
 }
 

@@ -39,7 +39,7 @@ var MainMenu = new Menu([
                 label: "Yes",
                 execute: function() {
                     MainMenu.game.player.reset();
-                    MainMenu.game.setRandomDungeon();
+                    MainMenu.game.generateNextDungeon();
                     MainMenu.game.unpause();
                     MainMenu.game.gameTick(MainMenu.game);
                     MainMenu.resetNavStack();

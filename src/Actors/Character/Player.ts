@@ -39,7 +39,7 @@ class Player extends Actor {
         // When the player touches the stairs, generate the next dungeon
         if (actor instanceof StairsDown) {
             // push the current state of the world to the stack
-            this.game.setRandomDungeon();
+            this.game.generateNextDungeon();
         }
         else if (actor instanceof Chaser) {
             this.attack(actor);
@@ -115,7 +115,7 @@ class Player extends Actor {
 
     die() {
         super.die();
-        this.game.setRandomDungeon();
+        this.game.generateNextDungeon();
         this.reset();
         this.game.gameTick(this.game);
     }
