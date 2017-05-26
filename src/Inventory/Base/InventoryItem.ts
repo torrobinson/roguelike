@@ -55,25 +55,25 @@ class Equipment extends InventoryItem {
         this.isEquipped = true;
     }
 
-    giveHolderBuffs(){
-      // Apply any buffs with remaining uses
-      this.buffs
-          .where((buff) => {
-              return buff.getUsesRemaining() > 0
-          })
-          .forEach((buff) => {
-              this.holder.addBuff(
-                buff, // the buff
-                this  // who granted.caused it
-              )
-          });
-      this.cleanEmptyBuffs();
+    giveHolderBuffs() {
+        // Apply any buffs with remaining uses
+        this.buffs
+            .where((buff) => {
+                return buff.getUsesRemaining() > 0
+            })
+            .forEach((buff) => {
+                this.holder.addBuff(
+                    buff, // the buff
+                    this  // who granted.caused it
+                )
+            });
+        this.cleanEmptyBuffs();
     }
 
-    removeHolderBuffs(){
-      // Remove any buffs
-      this.buffs.forEach((buff) => { this.holder.removeBuff(buff) });
-      this.cleanEmptyBuffs();
+    removeHolderBuffs() {
+        // Remove any buffs
+        this.buffs.forEach((buff) => { this.holder.removeBuff(buff) });
+        this.cleanEmptyBuffs();
     }
 
     unequip() {
@@ -132,6 +132,7 @@ class Weapon extends Equipment {
         }
         this.holder.equippedWeapon = this;
         this.giveHolderBuffs();
+        this.isEquipped = true;
     }
 
     unequip() {
@@ -189,7 +190,8 @@ class Armor extends Equipment {
 
         // Then equip this
         this.updateHolder(this.equipPoint, this, true);
-        this.giveHolderBuffs(); 
+        this.isEquipped = true;
+        this.giveHolderBuffs();
     }
 
     unequip() {
