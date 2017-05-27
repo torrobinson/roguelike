@@ -231,7 +231,7 @@ class Game {
         settings.maxNumRooms = settings.minNumRooms * 2;
 
         settings.minHallThickness = 1;
-        settings.maxHallThickness = 3;
+        settings.maxHallThickness = settings.maxRoomWidth > 25 ? 3 : 1;
         settings.retryAttempts = 1000;
         settings.floorActorType = Floor;
         this.world = WorldGenerator.GenerateCarvedWorld(

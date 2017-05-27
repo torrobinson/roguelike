@@ -1083,7 +1083,7 @@ class Sprites {
                 Direction.Left,
                 [
                     new Sprite(
-                        'DoorDownClosed',
+                        'DoorLeftClosed',
                         ' '
                     )
                 ],
@@ -1095,7 +1095,7 @@ class Sprites {
                 Direction.Left,
                 [
                     new Sprite(
-                        'DoorDownOpen',
+                        'DoorLeftOpen',
                         ' '
                     )
                 ],

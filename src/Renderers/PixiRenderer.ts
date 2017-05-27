@@ -712,7 +712,7 @@ class PixiRenderer implements Renderer {
 
                             // Doors temp
                             else if (actor instanceof Door) {
-                                atlas = PIXI.loader.resources.terrainAtlas.textures;
+                                atlas = PIXI.loader.resources.wallsAtlas.textures;
                             }
 
                             // Items
