@@ -29,6 +29,8 @@ class Actor {
     xpNeeded: number = 0;
     currentLevelXP: number = 0;
     isVisible: boolean = true;
+    isFrozen: boolean = false;
+    isStone: boolean = false;
 
     equippedHead: Armor = null;
     equippedTorso: Armor = null;

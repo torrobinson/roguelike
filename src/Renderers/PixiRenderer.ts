@@ -34,6 +34,8 @@ class PixiRenderer implements Renderer {
     stageContainer: any = new PIXI.Container();   // the actual game actors
     guiPad: number = 10;
 
+    grayscaleFilter: any;
+
 
     slotTexture: any = null;
 
@@ -43,6 +45,9 @@ class PixiRenderer implements Renderer {
         this.height = height;
 
         this.game = null;
+
+        this.grayscaleFilter = new PIXI.filters.ColorMatrixFilter();
+        this.grayscaleFilter.desaturate();
     }
 
     init() {
@@ -818,6 +823,11 @@ class PixiRenderer implements Renderer {
                                             sprite.tint = Color.shadeBlendInt(0.4, sprite.tint, actor.emitColor);
                                         }
                                     }
+                                }
+
+                                // Set other visual traits
+                                if (actor.isStone) {
+                                    sprite.filters = [this.grayscaleFilter];
                                 }
 
                                 // Draw it

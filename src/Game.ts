@@ -301,6 +301,9 @@ class Game {
         mainLayer.placeActor(chaser7, exitLocation.offsetBy(1, -1));
         var chaser8 = new Chaser(this);
         mainLayer.placeActor(chaser8, exitLocation.offsetBy(-1, 1));
+        chaser8.addBuff(
+            new PetrifiedDebuff()
+        );
 
         var spriteRandom = new Random(this.seed);
         var demoChest = new Chest(this, [new Potion(spriteRandom)]);
