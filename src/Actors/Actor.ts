@@ -376,6 +376,12 @@ class Actor {
 
     }
 
+    getAdjacentActor(direction: Direction): Actor {
+        var offset = Movement.DirectionToOffset(direction);
+        var location = this.location.offsetBy(offset.x, offset.y);
+        return this.layer.getTile(location.x, location.y);
+    }
+
     destroy() {
         // Stop acting on game ticks after this goes away
         this.doesSubscribeToTicks = false;

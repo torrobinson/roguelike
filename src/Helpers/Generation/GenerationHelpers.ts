@@ -171,4 +171,33 @@ class GenerationHelpers {
             layer.placeActor(door, door.location);
         }
     }
+
+    static removeStandaloneDoors(world: World) {
+        // For any doors, check if the door isn't connected to a wall
+        //    and delete it if so
+        var doorLayer = world.getLayersOfType(LayerType.Wall).first();
+        for (let y = 0; y < doorLayer.tiles.length; y++) {
+            for (let x = 0; x < doorLayer.tiles[y].length; x++) {
+                var actor = doorLayer.getTile(x, y);
+                if (actor && actor instanceof Door) {
+                    if (actor.facing === Direction.Down) { // vertical
+                        if (
+                            actor.getAdjacentActor(Direction.Left) === null ||
+                            actor.getAdjacentActor(Direction.Right) === null
+                        ) {
+                            doorLayer.destroyTile(actor.location.x, actor.location.y);
+                        }
+                    }
+                    else if (actor.facing === Direction.Left) { // horizontal
+                        if (
+                            actor.getAdjacentActor(Direction.Up) === null ||
+                            actor.getAdjacentActor(Direction.Down) === null
+                        ) {
+                            doorLayer.destroyTile(actor.location.x, actor.location.y);
+                        }
+                    }
+                }
+            }
+        }
+    }
 }

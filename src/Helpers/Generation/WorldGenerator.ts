@@ -134,6 +134,7 @@ class WorldGenerator {
 
         // Place doors
         GenerationHelpers.placeDoors(world, doorsToPlace);
+        GenerationHelpers.removeStandaloneDoors(world);
 
         return world;
     }

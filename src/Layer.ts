@@ -28,8 +28,14 @@ class Layer {
         this.setTile(x, y, null);
     }
 
-    getTile(x: number, y: number) {
-        return this.tiles[y][x];
+    getTile(x: number, y: number): Actor {
+        var vert = this.tiles[y];
+        if (vert) {
+            return vert[x];
+        }
+        else {
+            return null;
+        }
     }
 
     // Will fill with unaware actors (no layer or world or game contexts)
