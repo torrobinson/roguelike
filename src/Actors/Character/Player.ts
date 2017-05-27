@@ -115,7 +115,12 @@ class Player extends Actor {
     }
 
     die() {
-        super.die();
+        this.game.log(
+            new LogMessage(
+                "You died.",
+                LogMessageType.Damaged
+            )
+        );
         this.reset();
         this.game.dungeonNumber = 0;
         this.game.generateNextDungeon();

@@ -1,7 +1,7 @@
 class Door extends Actor {
     tryToClose: boolean = false;
     doesSubscribeToTicks: boolean = true;
-    defaultOpenTickDuration: number = 4;
+    defaultOpenTickDuration: number = 3;
     openTickDuration: number;
 
     constructor(game: Game, orientation: Orientation) {
