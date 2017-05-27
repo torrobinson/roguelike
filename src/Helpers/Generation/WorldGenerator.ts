@@ -37,6 +37,9 @@ class WorldGenerator {
         //    in-between the floor and the wall layer
         var floorDecorLayer = new Layer(settings.totalHeight, settings.totalWidth, -1, 'FloorDecorations', LayerType.FloorDecor);
 
+        // The doors we'll have to place, as conceived during hallway carving
+        var doorsToPlace: Door[] = [];
+
         // The rooms we're creating
         var rooms = [];
         // Our RNG
@@ -116,11 +119,11 @@ class WorldGenerator {
             var room = rooms[i];
             var previousRoom = rooms[i - 1];
 
-            GenerationHelpers.carveHallway(previousRoom, room, wallLayer, floorLayer, settings.floorActorType, settings.minHallThickness, settings.maxHallThickness, random, game);
+            GenerationHelpers.carveHallway(previousRoom, room, wallLayer, floorLayer, settings.floorActorType, settings.minHallThickness, settings.maxHallThickness, random, game, doorsToPlace);
         }
 
-        // Then to keep it from being too linear, conect the second and second last rooms
-        GenerationHelpers.carveHallway(rooms.second(), rooms.secondLast(), wallLayer, floorLayer, settings.floorActorType, settings.minHallThickness, settings.maxHallThickness, random, game);
+        // Then to keep it from being too linear, connect the second and second last rooms
+        GenerationHelpers.carveHallway(rooms.second(), rooms.secondLast(), wallLayer, floorLayer, settings.floorActorType, settings.minHallThickness, settings.maxHallThickness, random, game, doorsToPlace);
 
         // Set and return the World so far
         world.addLayer(walLDecor);
@@ -128,6 +131,9 @@ class WorldGenerator {
         world.addLayer(floorDecorLayer);
         world.addLayer(floorLayer);
         world.rooms = rooms;
+
+        // Place doors
+        GenerationHelpers.placeDoors(world, doorsToPlace);
 
         return world;
     }

@@ -32,7 +32,7 @@ class GenerationHelpers {
     }
 
     // Given 2 Rooms, create a hallway made of Actor at given thicknesses on a Layer
-    static carveHallway(room1: Room, room2: Room, wallLayer: Layer, floorLayer: Layer, floorActorType: any, minHallThickness: number, maxHallThickness: number, random: Random, gameReference: Game) {
+    static carveHallway(room1: Room, room2: Room, wallLayer: Layer, floorLayer: Layer, floorActorType: any, minHallThickness: number, maxHallThickness: number, random: Random, gameReference: Game, doorsToPlace: Door[]) {
         var prevCenter = room1.getCenter();
         var newCenter = room2.getCenter();
 
@@ -45,20 +45,41 @@ class GenerationHelpers {
         var horizontalFirst = random.next(0, 2);
 
         if (horizontalFirst) {
-            this.carveHorizontalHallway(prevCenter.x, newCenter.x, prevCenter.y, hallThickness, wallLayer, floorLayer, floorActorType, gameReference);
-            this.carveVerticalHallway(prevCenter.y, newCenter.y, newCenter.x, hallThickness, wallLayer, floorLayer, floorActorType, gameReference);
+            this.carveHorizontalHallway(prevCenter.x, newCenter.x, prevCenter.y, hallThickness, wallLayer, floorLayer, floorActorType, gameReference, doorsToPlace, room1, room2, true);
+            this.carveVerticalHallway(prevCenter.y, newCenter.y, newCenter.x, hallThickness, wallLayer, floorLayer, floorActorType, gameReference, doorsToPlace, room1, room2, false);
         }
         else {
             //vertical first
-            this.carveVerticalHallway(prevCenter.y, newCenter.y, prevCenter.x, hallThickness, wallLayer, floorLayer, floorActorType, gameReference);
-            this.carveHorizontalHallway(prevCenter.x, newCenter.x, newCenter.y, hallThickness, wallLayer, floorLayer, floorActorType, gameReference);
+            this.carveVerticalHallway(prevCenter.y, newCenter.y, prevCenter.x, hallThickness, wallLayer, floorLayer, floorActorType, gameReference, doorsToPlace, room1, room2, true);
+            this.carveHorizontalHallway(prevCenter.x, newCenter.x, newCenter.y, hallThickness, wallLayer, floorLayer, floorActorType, gameReference, doorsToPlace, room1, room2, false);
         }
     }
 
+    private static newDoorHere(gameReference: Game, x: number, y: number, orientation: Orientation): Door {
+        var newDoor = new Door(gameReference, orientation);
+        newDoor.location = new Point(x, y);
+        return newDoor;
+    }
+
     // Carve a horizontal hallway at a given Y, from a given X to X2, on a Layer, and fill with an Actor
-    static carveHorizontalHallway(x1, x2, y, thickness, wallLayer, floorLayer, floorActorType, gameReference) {
+    static carveHorizontalHallway(x1: number, x2: number, y: number, thickness: number, wallLayer: Layer, floorLayer: Layer, floorActorType: any, gameReference: Game, doorsToPlace: Door[], room1: Room, room2: Room, startingWithThis: boolean) {
         // bulk to add on either side of hallway if thickness > 1
         var bulk = thickness == 1 ? 0 : (thickness - 1) / 2;
+
+        // figure out room order
+        var room1_orig: Room = room1;
+        var room2_orig: Room = room2;
+        room1 = null;
+        room2 = null;
+        if (room1_orig.getCenter().x > room2_orig.getCenter().x) {
+            room1 = room2_orig;
+            room2 = room1_orig;
+        }
+        else {
+            room1 = room1_orig;
+            room2 = room2_orig;
+        }
+
         for (var x = Math.min(x1, x2); x < Math.max(x1, x2) + 1 + bulk; x++) {
             if (thickness == 1) {
                 // Carve to null from the walls
@@ -67,6 +88,14 @@ class GenerationHelpers {
                 // Add the floor tile
                 var actor = new floorActorType(gameReference);
                 floorLayer.placeActor(actor, new Point(x, y));
+
+                // And mark this space as needing a door if it's at the boundry of a room
+                if (
+                    (startingWithThis && x === room1.right() + 1) ||
+                    (!startingWithThis && x === room2.left() - 1)
+                ) {
+                    doorsToPlace.push(this.newDoorHere(gameReference, x, y, Orientation.Horizontal));
+                }
             }
             else {
                 for (var o = bulk; o > -bulk; o--) {
@@ -82,9 +111,24 @@ class GenerationHelpers {
     }
 
     // Carve a horizontal hallway at a given X, from a given Y to Y2, on a Layer, and fill with an Actor
-    static carveVerticalHallway(y1, y2, x, thickness, wallLayer, floorLayer, floorActorType, gameReference) {
+    static carveVerticalHallway(y1: number, y2: number, x: number, thickness: number, wallLayer: Layer, floorLayer: Layer, floorActorType: any, gameReference: Game, doorsToPlace: Door[], room1: Room, room2: Room, startingWithThis: boolean) {
         // bulk to add on either side of hallway if thickness > 1
         var bulk = thickness == 1 ? 0 : (thickness - 1) / 2;
+
+        // figure out room order
+        var room1_orig: Room = room1;
+        var room2_orig: Room = room2;
+        room1 = null;
+        room2 = null;
+        if (room1_orig.getCenter().y > room2_orig.getCenter().y) {
+            room1 = room2_orig;
+            room2 = room1_orig;
+        }
+        else {
+            room1 = room1_orig;
+            room2 = room2_orig;
+        }
+
         for (var y = Math.min(y1, y2); y < Math.max(y1, y2) + 1 + bulk; y++) {
             if (thickness == 1) {
                 // Carve to null from the walls
@@ -93,6 +137,14 @@ class GenerationHelpers {
                 // Add the floor tile
                 var actor = new floorActorType(gameReference);
                 floorLayer.placeActor(actor, new Point(x, y));
+
+                // And mark this space as needing a door if it's at the boundry of a room
+                if (
+                    (startingWithThis && y === room1.bottom() + 1) ||
+                    (!startingWithThis && y === room2.top() - 1)
+                ) {
+                    doorsToPlace.push(this.newDoorHere(gameReference, x, y, Orientation.Vertical));
+                }
             }
             else {
                 for (var o = bulk; o > -bulk; o--) {
@@ -104,6 +156,16 @@ class GenerationHelpers {
                     floorLayer.placeActor(actor, new Point(x + o, y));
                 }
             }
+        }
+    }
+
+    // Given a world and a list of doors with their locations and orientations set but not placed, place them
+    //   on the WallDecor layer
+    static placeDoors(world: World, doorsToPlace: Door[]) {
+        for (let d = 0; d < doorsToPlace.length; d++) {
+            var door = doorsToPlace[d];
+            var layer: Layer = world.getLayersOfType(LayerType.Wall).first();
+            layer.placeActor(door, door.location);
         }
     }
 }

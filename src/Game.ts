@@ -213,34 +213,34 @@ class Game {
         }
     }
 
-    getWorldSettingsForDungeonNumber(dungeonNumber: number): WorldGeneratorSettings{
-      var settings = new WorldGeneratorSettings();
-      var incrementConstant = 2;
+    getWorldSettingsForDungeonNumber(dungeonNumber: number): WorldGeneratorSettings {
+        var settings = new WorldGeneratorSettings();
+        var incrementConstant = 2;
 
-      var startingWidth = 25;
-      var startingMinNumRooms = 3;
+        var startingWidth = 25;
+        var startingMinNumRooms = 3;
 
 
-      settings.totalWidth = Math.ceil(startingWidth + (dungeonNumber * incrementConstant * 0.5));
-      settings.totalHeight = settings.totalWidth; // mirror the width for always a square
-      settings.minRoomWidth = 3;
-      settings.maxRoomWidth = settings.minRoomWidth + (dungeonNumber * incrementConstant); // allow 1*constant tile bigger each floor
-      settings.minRoomHeight = 3;
-      settings.maxRoomHeight = settings.minRoomHeight + (dungeonNumber * incrementConstant);
-      settings.minNumRooms = Math.floor(startingMinNumRooms + (dungeonNumber * 0.5));
-      settings.maxNumRooms = settings.minNumRooms * 2;
+        settings.totalWidth = Math.ceil(startingWidth + (dungeonNumber * incrementConstant * 0.5));
+        settings.totalHeight = settings.totalWidth; // mirror the width for always a square
+        settings.minRoomWidth = 3;
+        settings.maxRoomWidth = settings.minRoomWidth + (dungeonNumber * incrementConstant); // allow 1*constant tile bigger each floor
+        settings.minRoomHeight = 3;
+        settings.maxRoomHeight = settings.minRoomHeight + (dungeonNumber * incrementConstant);
+        settings.minNumRooms = Math.floor(startingMinNumRooms + (dungeonNumber * 0.5));
+        settings.maxNumRooms = settings.minNumRooms * 2;
 
-      settings.minHallThickness = 1;
-      settings.maxHallThickness = 5;
-      settings.retryAttempts = 1000;
-      settings.floorActorType = Floor;
-      this.world = WorldGenerator.GenerateCarvedWorld(
-          this.seed,  // seed,
-          settings,   // settings,
-          this        // forward on the reference to this game instance
-      );
+        settings.minHallThickness = 1;
+        settings.maxHallThickness = 3;
+        settings.retryAttempts = 1000;
+        settings.floorActorType = Floor;
+        this.world = WorldGenerator.GenerateCarvedWorld(
+            this.seed,  // seed,
+            settings,   // settings,
+            this        // forward on the reference to this game instance
+        );
 
-      return settings;
+        return settings;
     }
 
     generateNextDungeon() {
@@ -343,12 +343,5 @@ class Game {
         mainLayer.placeActor(demoChest, this.world.rooms.second().getCenter());
         mainLayer.placeActor(demoChest2, Movement.AddPoints(spawnLocation, new Point(1, 0)));
 
-        var doorTest = new Door(this, Orientation.Horizontal);
-        mainLayer.placeActor(
-          doorTest,
-          this.world.rooms.second().getCenter()
-        );
-
     }
-
 }

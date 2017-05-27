@@ -9,16 +9,16 @@ class Room {
         this.position = position;
     }
 
-    getArea() {
+    getArea(): number {
         return this.width * this.height;
     }
 
-    getCenter() {
+    getCenter(): Point {
         return new Point(Math.floor((this.left() + this.right()) / 2),
             Math.floor((this.top() + this.bottom()) / 2));
     }
 
-    getSizeCategory() {
+    getSizeCategory(): SizeCategory {
         var area = this.getArea();
         if (area < SizeCategory.Tiny)
             return SizeCategory.Tiny;
@@ -32,39 +32,39 @@ class Room {
             return SizeCategory.Huge;
     }
 
-    left() {
+    left(): number {
         return this.position.x;
     }
 
-    right() {
+    right(): number {
         return this.position.x + this.width;
     }
 
-    top() {
+    top(): number {
         return this.position.y;
     }
 
-    bottom() {
+    bottom(): number {
         return this.position.y + this.height;
     }
 
-    topLeft() {
+    topLeft(): Point {
         return new Point(this.position.x, this.position.y);
     }
 
-    topRight() {
+    topRight(): Point {
         return new Point(this.position.x + this.width, this.position.y);
     }
 
-    bottomLeft() {
+    bottomLeft(): Point {
         return new Point(this.position.x, this.position.y + this.height);
     }
 
-    bottomRight() {
+    bottomRight(): Point {
         return new Point(this.position.x + this.width, this.position.y + this.height);
     }
 
-    static Intersects(a: Room, b: Room) {
+    static Intersects(a: Room, b: Room): boolean {
         return (a.left() <= b.right() &&
             b.left() <= a.right() &&
             a.top() <= b.bottom() &&
