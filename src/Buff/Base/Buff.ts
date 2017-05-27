@@ -12,33 +12,33 @@ class Buff {
     }
 
     // Basic Helpers
-    applyTo(actor: Actor, granter = null) {
+    applyTo(actor: Actor, granter = null): void {
         actor.buffs.push(this);
         this.owner = actor;
-        if(granter){
-          this.granter = granter;
+        if (granter) {
+            this.granter = granter;
         }
     }
 
-    remove() {
+    remove(): void {
         this.owner.removeBuff(this);
         this.owner = null;
     }
 
-    used() {
+    used(): void {
         this.uses++;
         if (this.uses >= this.maxUses) {
             this.remove();
         }
     }
 
-    getUsesRemaining() {
+    getUsesRemaining(): number {
         return this.maxUses - this.uses;
     }
 
     // Describes the state of the buff
-    getDescription() {
-
+    getDescription(): string {
+        return '';
     }
 
 
@@ -87,16 +87,16 @@ class Buff {
 
     }
 
-    onBuffEquippedBefore(user: Actor, buff: Buff){
+    onBuffEquippedBefore(user: Actor, buff: Buff) {
 
     }
-    onBuffEquippedAfter(user: Actor, buff: Buff){
+    onBuffEquippedAfter(user: Actor, buff: Buff) {
 
     }
-    onBuffUnequippedBefore(user: Actor, buff: Buff){
+    onBuffUnequippedBefore(user: Actor, buff: Buff) {
 
     }
-    onBuffUnequippedAfter(user: Actor, buff: Buff){
+    onBuffUnequippedAfter(user: Actor, buff: Buff) {
 
     }
 

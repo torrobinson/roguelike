@@ -6,10 +6,11 @@ class Player extends Actor {
     name: string = 'You';
     viewRadius: number = 12;
     totalXP: number = 0;
-    doesSubscribeToTicks: boolean = true;
     constructor(game: Game) {
         super(game);
         this.fogged = false;
+        this.takesCommands = true;
+        this.doesSubscribeToTicks = true;
         this.spritesets = Sprites.PlayerSprites();
         this.level = 0;
         this.xpNeeded = XP.getExperiencePointsRequired(this.level);

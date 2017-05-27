@@ -7,6 +7,7 @@ class Actor {
     currentCommand: Command = null;
     ticksUntilNextAction: number = null;
     doesSubscribeToTicks: boolean = false;
+    takesCommands: boolean = false;
     moveTickDuration: number = 1;
     spritesets: SpriteSet[] = null;
     name: string = '';
@@ -51,7 +52,7 @@ class Actor {
                         return spriteset.status === this.status && spriteset.direction === this.facing
                     }, this).first();
                 var sprite: Sprite = null;
-                if(spriteSet !== null){
+                if (spriteSet !== null) {
                     sprite = spriteSet.getSprite(this.restartSpriteNextFrame);
                 }
                 this.restartSpriteNextFrame = false;
@@ -92,18 +93,18 @@ class Actor {
         return this.equippedWeapon;
     }
 
-    getDamage() : number {
+    getDamage(): number {
         // Get total default + weapon attack damage together
         return this.defaultAttackPower() + this.getWeaponOnlyDamage();
     }
 
-    getWeaponOnlyDamage(): number{
-      var damage = 0;
-      var weapon: Weapon = this.getWeapon();
-      if (weapon) {
-          damage += weapon.attackPower;     // add more if weapon equipped
-      }
-      return damage;
+    getWeaponOnlyDamage(): number {
+        var damage = 0;
+        var weapon: Weapon = this.getWeapon();
+        if (weapon) {
+            damage += weapon.attackPower;     // add more if weapon equipped
+        }
+        return damage;
     }
 
     getInventoryOfType(type: any): InventoryItem[] {
@@ -111,7 +112,7 @@ class Actor {
     }
 
     attack(otherActor: Actor) {
-        if(BuffHelpers.handleOnAttackBuffsBefore(this, otherActor)){return;}
+        if (BuffHelpers.handleOnAttackBuffsBefore(this, otherActor)) { return; }
 
         var damage = otherActor.getDamage();
 
@@ -122,7 +123,7 @@ class Actor {
     }
 
     attackedBy(attacker: Actor, damage: number) {
-        if(BuffHelpers.handleonAttackedBuffsBefore(this, attacker)){return;}
+        if (BuffHelpers.handleonAttackedBuffsBefore(this, attacker)) { return; }
         this.health -= damage;
         // Did we die?
         if (this.health <= 0) {
@@ -149,7 +150,7 @@ class Actor {
     }
 
     addBuff(buff: Buff, granter: any = null) {
-        if(BuffHelpers.handleOnBuffEquippedBefore(this, buff)){return;}
+        if (BuffHelpers.handleOnBuffEquippedBefore(this, buff)) { return; }
 
         buff.applyTo(this, granter);
 
@@ -157,7 +158,7 @@ class Actor {
     }
 
     removeBuff(buff: Buff) {
-        if(BuffHelpers.handleOnBuffUnequippedBefore(this, buff)){return;}
+        if (BuffHelpers.handleOnBuffUnequippedBefore(this, buff)) { return; }
 
         this.buffs.remove(buff);
 
@@ -173,12 +174,12 @@ class Actor {
         }
     }
 
-    jumpToLayer(layer: Layer): void{
-      World.MoveActorToLayer(this, layer);
+    jumpToLayer(layer: Layer): void {
+        World.MoveActorToLayer(this, layer);
     }
 
     move(direction: Direction) {
-        if(BuffHelpers.handleonMovedBuffsBefore(this)){return;}
+        if (BuffHelpers.handleonMovedBuffsBefore(this)) { return; }
 
         this.facing = direction;
         var offsetToMove = Movement.DirectionToOffset(direction);
@@ -208,11 +209,11 @@ class Actor {
 
     // When tried to move into another object
     collidedInto(actor: Actor) {
-        if(BuffHelpers.handleonCollideBuffsBefore(this, actor)){return;}
+        if (BuffHelpers.handleonCollideBuffsBefore(this, actor)) { return; }
 
         // If anything hits into a wall, open it
-        if(actor instanceof Door){
-           (<Door>actor).tryOpen();
+        if (actor instanceof Door) {
+            (<Door>actor).tryOpen();
         }
 
         this.collided();
@@ -221,7 +222,7 @@ class Actor {
 
     // When another object tried to move into me
     collidedBy(actor: Actor) {
-        if(BuffHelpers.handleonCollidedIntoBuffsBefore(this, actor)){return;}
+        if (BuffHelpers.handleonCollidedIntoBuffsBefore(this, actor)) { return; }
         this.collided();
         BuffHelpers.handleonCollidedIntoBuffsAfer(this, actor);
     }
@@ -275,9 +276,10 @@ class Actor {
 
     // On game timer tick
     tick() {
-        if(BuffHelpers.handleTickBuffsBefore(this)){return;}
+        if (BuffHelpers.handleTickBuffsBefore(this)) { return; }
 
         if (!this.doesSubscribeToTicks) return;
+        if (!this.takesCommands) return;
 
         // Immediately decrease the ticks remaining for the next action
         if (this.ticksUntilNextAction !== null) {

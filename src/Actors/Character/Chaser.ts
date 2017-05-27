@@ -6,9 +6,11 @@ class Chaser extends Actor {
     moveTickDuration: number = 2;
     viewRadius: number = 15;
     target: Actor = null;
+
     constructor(game: Game) {
         super(game);
         this.doesSubscribeToTicks = true;
+        this.takesCommands = true;
         this.blocksSight = false; // it's short and we can see over it
         this.spritesets = Sprites.ChaserSprites();
 
