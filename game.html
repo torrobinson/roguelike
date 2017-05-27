@@ -17,9 +17,19 @@
             return results === null ? '' : decodeURIComponent(results[1].replace(/\+/g, ' '));
         };
 
+        function wipeQueryString(){
+            var uri = window.location.toString();
+            if (uri.indexOf("?") > 0) {
+                var clean_uri = uri.substring(0, uri.indexOf("?"));
+                window.location.href = clean_uri;
+            }
+        }
+
 
         // on DOM load
         document.addEventListener("DOMContentLoaded", function(event) {
+            document.getElementById('btnRandom').addEventListener('click', wipeQueryString, false);
+
             // Load resources
             PIXI.loader
                 .add('terrainAtlas', './art/rogueliketiles.json')
@@ -113,5 +123,6 @@
         <div id="canvas" style="height:100%;width:100%">
 
         </div>
+        <button id="btnRandom" style="position:absolute; top:0; right:0;">Random Dungeon</button>
     </body>
 </html>
