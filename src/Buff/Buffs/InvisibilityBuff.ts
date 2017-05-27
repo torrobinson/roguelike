@@ -9,17 +9,18 @@ class InvisibilityBuff extends Buff {
     }
 
     // After this buff is added, flip the actor to invisible
-    onBuffEquippedAfter(user: Actor, buff: Buff){
-      if(buff === this) user.isVisible = false;
+    onBuffEquippedAfter(user: Actor, buff: Buff) {
+        if (buff === this) user.isVisible = false;
     }
 
     // Right before we remove this buff, flip the actor to visible again
-    onBuffUnequippedBefore(user: Actor, buff: Buff){
-      if(buff === this) user.isVisible = true;
+    onBuffUnequippedBefore(user: Actor, buff: Buff): boolean {
+        if (buff === this) user.isVisible = true;
+        return false; // don't skip other normal behaiour
     }
 
     // Every tick while on, count as a use
-    tickedAfter(){
+    tickedAfter() {
         this.used();
     }
 

@@ -9,7 +9,7 @@ class WallBreakerBuff extends Buff {
     }
 
     // The wall breaker buff causes walls the actor bumps into to be destroyed immediately
-    onCollideBefore(bumped: Actor) {
+    onCollideBefore(bumped: Actor): boolean {
         // If we hit a wall
         if (bumped instanceof Wall) {
             // And the wall isn't the border of the map
@@ -24,5 +24,6 @@ class WallBreakerBuff extends Buff {
                 this.used();
             }
         }
+        return false; // don't skip other normal behaiour
     }
 }

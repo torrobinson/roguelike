@@ -44,57 +44,60 @@ class Buff {
 
 
     // Event handlers
-    onAttackBefore(attacked: Actor) {
-
+    // BEFORE handlers should return TRUE or FALSE for if they should override and cancell out the normally
+    //     proceeding behaviour
+    onAttackBefore(attacked: Actor): boolean {
+        return false;
     }
     onAttackAfter(attacked: Actor) {
 
     }
 
-    onAttackedByBefore(attackedBy: Actor) {
-
+    onAttackedByBefore(attackedBy: Actor): boolean {
+        return false;
     }
     onAttackedByAfter(attackedBy: Actor) {
 
     }
 
-    onMovedBefore() {
-
+    onMovedBefore(): boolean {
+        return false;
     }
     onMovedAfter() {
 
     }
 
-    onCollideBefore(bumped: Actor) {
-
+    onCollideBefore(bumped: Actor): boolean {
+        return false;
     }
     onCollideAfter(bumped: Actor) {
 
     }
 
 
-    onCollidedIntoByBefore(bumper: Actor) {
-
+    onCollidedIntoByBefore(bumper: Actor): boolean {
+        return false;
     }
     onCollidedIntoByAfter(bumper: Actor) {
 
     }
 
-    tickedBefore() {
-
+    tickedBefore(): boolean {
+        return false;
     }
     tickedAfter() {
 
     }
 
-    onBuffEquippedBefore(user: Actor, buff: Buff) {
-
+    onBuffEquippedBefore(user: Actor, buff: Buff): boolean {
+        return false;
     }
     onBuffEquippedAfter(user: Actor, buff: Buff) {
 
     }
-    onBuffUnequippedBefore(user: Actor, buff: Buff) {
 
+    onBuffUnequippedBefore(user: Actor, buff: Buff): boolean {
+        return false;
     }
     onBuffUnequippedAfter(user: Actor, buff: Buff) {
 
