@@ -55,10 +55,13 @@ class GenerationHelpers {
         }
     }
 
-    private static newDoorHere(gameReference: Game, x: number, y: number, orientation: Orientation): Door {
-        var newDoor = new Door(gameReference, orientation);
-        newDoor.location = new Point(x, y);
-        return newDoor;
+    private static newDoorHere(gameReference: Game, x: number, y: number, orientation: Orientation, doorsToPlace: Door[]): void {
+        // roll a die to decide whether to even put one down or not
+        if (gameReference.random.wasLuckyPercent(50)) {
+            var newDoor = new Door(gameReference, orientation);
+            newDoor.location = new Point(x, y);
+            doorsToPlace.push(newDoor);
+        }
     }
 
     // Carve a horizontal hallway at a given Y, from a given X to X2, on a Layer, and fill with an Actor
@@ -66,7 +69,7 @@ class GenerationHelpers {
         // bulk to add on either side of hallway if thickness > 1
         var bulk = thickness == 1 ? 0 : (thickness - 1) / 2;
 
-        // figure out room order
+        // figure out room order (for door dropping)
         var room1_orig: Room = room1;
         var room2_orig: Room = room2;
         room1 = null;
@@ -91,10 +94,10 @@ class GenerationHelpers {
 
                 // And mark this space as needing a door if it's at the boundry of a room
                 if (
-                    (startingWithThis && x === room1.right() + 1) ||
-                    (!startingWithThis && x === room2.left() - 1)
+                    (!startingWithThis && x === room1.right() + 1) ||
+                    (startingWithThis && x === room2.left() - 1)
                 ) {
-                    doorsToPlace.push(this.newDoorHere(gameReference, x, y, Orientation.Horizontal));
+                    this.newDoorHere(gameReference, x, y, Orientation.Horizontal, doorsToPlace);
                 }
             }
             else {
@@ -115,7 +118,7 @@ class GenerationHelpers {
         // bulk to add on either side of hallway if thickness > 1
         var bulk = thickness == 1 ? 0 : (thickness - 1) / 2;
 
-        // figure out room order
+        // figure out room order (for door dropping)
         var room1_orig: Room = room1;
         var room2_orig: Room = room2;
         room1 = null;
@@ -143,7 +146,7 @@ class GenerationHelpers {
                     (startingWithThis && y === room1.bottom() + 1) ||
                     (!startingWithThis && y === room2.top() - 1)
                 ) {
-                    doorsToPlace.push(this.newDoorHere(gameReference, x, y, Orientation.Vertical));
+                    this.newDoorHere(gameReference, x, y, Orientation.Vertical, doorsToPlace);
                 }
             }
             else {
