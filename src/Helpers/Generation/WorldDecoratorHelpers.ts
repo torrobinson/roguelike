@@ -77,41 +77,49 @@ class WorldDecoratorHelpers {
         // Top Left
         var possibleBlock1: Point = Movement.AddPoints(topLeft, Movement.DirectionToOffset(Direction.Left));
         var possibleBlock2: Point = Movement.AddPoints(topLeft, Movement.DirectionToOffset(Direction.Up));
+        var possibleBlock3: Point = Movement.AddPoints(topLeft, new Point(1, 1)); // diagonal
         if (layer.getTile(topLeft.x, topLeft.y) === null && layer.getTile(possibleBlock1.x, possibleBlock1.y) instanceof Wall && layer.getTile(possibleBlock2.x, possibleBlock2.y) instanceof Wall) {
-            layer.placeActor(
-                new Torch(game, color),
-                topLeft
-            );
+            if (layer.getTile(possibleBlock3.x, possibleBlock3.y) === null)
+                layer.placeActor(
+                    new Torch(game, color),
+                    topLeft
+                );
         }
 
         // Top Right
         possibleBlock1 = Movement.AddPoints(topRight, Movement.DirectionToOffset(Direction.Right));
         possibleBlock2 = Movement.AddPoints(topRight, Movement.DirectionToOffset(Direction.Up));
+        possibleBlock3 = Movement.AddPoints(topRight, new Point(-1, 1)); // diagonal
         if (layer.getTile(topRight.x, topRight.y) === null && layer.getTile(possibleBlock1.x, possibleBlock1.y) instanceof Wall && layer.getTile(possibleBlock2.x, possibleBlock2.y) instanceof Wall) {
-            layer.placeActor(
-                new Torch(game, color),
-                topRight
-            );
+            if (layer.getTile(possibleBlock3.x, possibleBlock3.y) === null)
+                layer.placeActor(
+                    new Torch(game, color),
+                    topRight
+                );
         }
 
         // Bottom Left
         possibleBlock1 = Movement.AddPoints(bottomLeft, Movement.DirectionToOffset(Direction.Left));
         possibleBlock2 = Movement.AddPoints(bottomLeft, Movement.DirectionToOffset(Direction.Down));
+        possibleBlock3 = Movement.AddPoints(bottomLeft, new Point(1, -1)); // diagonal
         if (layer.getTile(bottomLeft.x, bottomLeft.y) === null && layer.getTile(possibleBlock1.x, possibleBlock1.y) instanceof Wall && layer.getTile(possibleBlock2.x, possibleBlock2.y) instanceof Wall) {
-            layer.placeActor(
-                new Torch(game, color),
-                bottomLeft
-            );
+            if (layer.getTile(possibleBlock3.x, possibleBlock3.y) === null)
+                layer.placeActor(
+                    new Torch(game, color),
+                    bottomLeft
+                );
         }
 
         // Bottom Right
         possibleBlock1 = Movement.AddPoints(bottomRight, Movement.DirectionToOffset(Direction.Right));
         possibleBlock2 = Movement.AddPoints(bottomRight, Movement.DirectionToOffset(Direction.Down));
+        possibleBlock3 = Movement.AddPoints(bottomRight, new Point(-1, -1)); // diagonal
         if (layer.getTile(bottomRight.x, bottomRight.y) === null && layer.getTile(possibleBlock1.x, possibleBlock1.y) instanceof Wall && layer.getTile(possibleBlock2.x, possibleBlock2.y) instanceof Wall) {
-            layer.placeActor(
-                new Torch(game, color),
-                bottomRight
-            );
+            if (layer.getTile(possibleBlock3.x, possibleBlock3.y) === null)
+                layer.placeActor(
+                    new Torch(game, color),
+                    bottomRight
+                );
         }
 
     }
