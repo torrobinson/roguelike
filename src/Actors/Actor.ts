@@ -281,6 +281,10 @@ class Actor {
         if (!this.doesSubscribeToTicks) return;
         if (!this.takesCommands) return;
 
+        if (this.currentCommand !== null && this.currentCommand.currentAction !== null && this.ticksUntilNextAction === null) {
+            this.ticksUntilNextAction = this.currentCommand.currentAction.tickDuration;
+        }
+
         // Immediately decrease the ticks remaining for the next action
         if (this.ticksUntilNextAction !== null) {
             this.ticksUntilNextAction--;
