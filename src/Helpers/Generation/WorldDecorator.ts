@@ -66,7 +66,7 @@ class WorldDecorator {
                     world.game,
                     wallLayer,
                     room,
-                    LightColorCode.White
+                    [ColorCode.Green, ColorCode.Red, ColorCode.Pink, ColorCode.Yellow, LightColorCode.White].pickRandom(this.random)
                 );
             }
         }
