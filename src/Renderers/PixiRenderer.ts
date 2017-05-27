@@ -34,6 +34,9 @@ class PixiRenderer implements Renderer {
     stageContainer: any = new PIXI.Container();   // the actual game actors
     guiPad: number = 10;
 
+
+    slotTexture: any = null;
+
     constructor(canvas: any, width: number, height: number) {
         this.canvas = canvas;
         this.width = width;
@@ -55,6 +58,24 @@ class PixiRenderer implements Renderer {
         this.stageContainer.interactive = true;
 
         this.healthGraphics = [];
+    }
+
+    getSlotTexture(scale) {
+        if (this.slotTexture === null) {
+            // Draw the definition of a 'slot'
+            var slotGraphic = new PIXI.Graphics();
+            var size = this.tileSize * scale;
+            var iterations = size / 4;
+            var startAlpha = 0.75;
+            for (var i = 0; i < iterations; i++) {
+                slotGraphic.lineStyle(1, ColorCode.White, Math.max(startAlpha - (i / iterations), 0))
+                slotGraphic.drawRect(i, i, size - i * 2, size - i * 2)
+            }
+            // Create a texture out of it
+            this.slotTexture = new PIXI.RenderTexture(this.pixiRenderer, size, size);
+            this.slotTexture.render(slotGraphic);
+        }
+        return this.slotTexture;
     }
 
     guiGetIndividualBuffContainer(buff: Buff, width: number, height: number) {
@@ -265,29 +286,15 @@ class PixiRenderer implements Renderer {
     }
 
     guiGetEquipMapContainer(scale: number, paddingBetweenSlots: number) {
-        // Draw the definition of a 'slot'
-        var slotGraphic = new PIXI.Graphics();
-        var size = this.tileSize * scale;
         var padding = paddingBetweenSlots;
-        var iterations = size / 4;
-        var startAlpha = 0.75;
-        for (var i = 0; i < iterations; i++) {
-            slotGraphic.lineStyle(1, ColorCode.White, Math.max(startAlpha - (i / iterations), 0))
-            slotGraphic.drawRect(i, i, size - i * 2, size - i * 2)
-        }
-
-
-        // Create a texture out of it
-        var slotTexture = new PIXI.RenderTexture(this.pixiRenderer, size, size);
-        slotTexture.render(slotGraphic);
 
         // Create our sprites based on the slot sprite
-        var headSlot = new PIXI.Sprite(slotTexture);
-        var torsoSlot = new PIXI.Sprite(slotTexture);
-        var legSlot = new PIXI.Sprite(slotTexture);
-        var footSlot = new PIXI.Sprite(slotTexture);
-        var handSlot = new PIXI.Sprite(slotTexture);
-        var weaponSlot = new PIXI.Sprite(slotTexture);
+        var headSlot = new PIXI.Sprite(this.getSlotTexture(scale));
+        var torsoSlot = new PIXI.Sprite(this.getSlotTexture(scale));
+        var legSlot = new PIXI.Sprite(this.getSlotTexture(scale));
+        var footSlot = new PIXI.Sprite(this.getSlotTexture(scale));
+        var handSlot = new PIXI.Sprite(this.getSlotTexture(scale));
+        var weaponSlot = new PIXI.Sprite(this.getSlotTexture(scale));
 
         var atlas = PIXI.loader.resources.itemAtlas.textures;
         if (this.game.player.equippedHead) {
@@ -323,7 +330,7 @@ class PixiRenderer implements Renderer {
 
         // Create a container for place teh equip slots in
         var equipContainer = new PIXI.Container();
-
+        var size = this.tileSize * scale;
         var slotX = size + padding;
         var slotY = 0;
 
