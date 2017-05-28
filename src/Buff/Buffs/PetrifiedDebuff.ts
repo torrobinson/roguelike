@@ -1,8 +1,8 @@
 // <reference path="../Base/Buff.ts" />
 class PetrifiedDebuff extends Buff {
-    maxUses: number = 20;
+    maxUses: number = 30;
     namePart: string = 'Petrified';
-    color: number = ColorCode.Purple;
+    color: number = ColorCode.DarkGrey;
     overridesExistingBehaviour: boolean = true;
 
     getDescription() {
