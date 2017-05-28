@@ -1,14 +1,23 @@
 declare var PF: any;
 
 class MoveTo extends Command {
-    constructor(actor: Actor, endPoint: Point, overrideStartPoint?: Point) {
+    /**
+     * constructor
+     * @param  {Actor}      actor    [description]
+     * @param  {Point}      endPoint [description]
+     * @param  {boolean =        false}       canBeNear if true, actor will try move as close as possible
+     * @param  {number =        5}       canBeNearRadius is the radius around endPoint to check for free spots to override with, if endPoint is taken
+     */
+    constructor(actor: Actor, endPoint: Point, canBeNear: boolean = false, canBeNearRadius: number = 5) {
         super(actor);
 
         var startPoint = actor.location;
-
-        // overrideStartPoint is an optional override to where to calculate the move's starting location
-        if (overrideStartPoint) {
-            startPoint = overrideStartPoint;
+        // Override the endPoint to be as close as possible, if endPoint is current blocked
+        if (canBeNear && actor.layer.getTile(endPoint.x, endPoint.y) !== null) {
+            var nearestPoint = Geometry.GetNearestFreePointTo(endPoint, actor.layer, canBeNearRadius)
+            if (nearestPoint != null) {
+                endPoint = nearestPoint;
+            }
         }
 
         if (Point.getDistanceBetweenPoints(startPoint, endPoint) === 1) {

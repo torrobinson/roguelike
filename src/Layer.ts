@@ -77,7 +77,7 @@ class Layer {
             var row = [];
             for (var x = 0; x < this.tiles[y].length; x++) {
                 var actor = this.getTile(x, y);
-                if (actor === null || (x == ignorePointA.x && y == ignorePointA.y) || (x == ignorePointB.x && y == ignorePointB.y)) {
+                if (actor === null || actor instanceof Door || (x == ignorePointA.x && y == ignorePointA.y) || (x == ignorePointB.x && y == ignorePointB.y)) {
                     row.push(PathfinderTile.Walkable);
                 }
                 else {

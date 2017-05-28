@@ -7,6 +7,41 @@ class Geometry {
         }
     }
 
+    static GetPointsInCircle(circleLocation: Point, circleRadius: number, layer: Layer): Point[] {
+        var points: Point[] = [];
+
+        for (let y = circleLocation.y - circleRadius; y < circleLocation.y + circleRadius; y++) {
+            for (let x = circleLocation.x - circleRadius; x < circleLocation.x + circleRadius; x++) {
+                if (y > 0 && y < layer.tiles.length && x > 0 && x < layer.tiles[y].length) {
+                    var possiblePoint = new Point(x, y);
+                    if (this.IsPointInCircle(circleLocation, circleRadius, possiblePoint)) {
+                        points.push(possiblePoint);
+                    }
+                }
+            }
+        }
+
+        return points;
+    }
+
+    static GetNearestFreePointTo(idealPoint: Point, onLayer: Layer, maxDistance: number) {
+        var nearestPoint: Point = null;
+
+        var checkRadius = 1;
+        while (nearestPoint === null && checkRadius <= maxDistance) {
+            var possiblyFreePoints: Point[] = this.GetPointsInCircle(idealPoint, checkRadius, onLayer);
+            for (let p = 0; p < possiblyFreePoints.length; p++) {
+                var possiblyFreePoint = possiblyFreePoints[p];
+                if (onLayer.getTile(possiblyFreePoint.x, possiblyFreePoint.y) === null) {
+                    nearestPoint = possiblyFreePoint;
+                }
+            }
+            checkRadius++;
+        }
+
+        return nearestPoint;
+    }
+
     static IsAdjacent(point1: Point, point2: Point) {
         return Math.abs(point2.x - point1.x) === 1 && Math.abs(point2.y - point1.y) === 1;
     }
