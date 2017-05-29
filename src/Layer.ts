@@ -61,6 +61,10 @@ class Layer {
     placeActor(actor: Actor, location: Point) {
         this.setTile(location.x, location.y, actor);
         if (actor !== null) {
+            // If we're placing for the first time, amke note of it as the actor's home
+            if(actor.location === null){
+                actor.home = location;
+            }
             actor.location = location;
             actor.layer = this;
         }

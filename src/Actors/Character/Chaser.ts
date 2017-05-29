@@ -48,7 +48,18 @@ class Chaser extends Actor {
         }
         else {
             // Can't see the player.
-            // They'll finish their current move to where the last saw yiy
+            // They'll finish their current move to where the last saw you
+
+            // If they have nothing to do, go home
+            if(this.currentCommand === null && this.home !== null && !this.location.equals(this.home)){
+                this.interruptWithCommand(
+                    new MoveTo(
+                        this,
+                        this.home,
+                        true
+                    )
+                );
+            }
 
         }
 
@@ -60,12 +71,6 @@ class Chaser extends Actor {
             this,
             actor.location
         );
-        if (this.currentCommand !== null) {
-            // Retarget the player
-            this.interruptWithCommand(command);
-        }
-        else {
-            this.addCommand(command);
-        }
+        this.interruptWithCommand(command);
     }
 }

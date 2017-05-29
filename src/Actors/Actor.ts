@@ -2,6 +2,7 @@ class Actor {
     game: Game;
     facing: Direction = Direction.Down;
     location: Point = null;
+    home: Point;
     layer: Layer = null;
     commands: Command[] = [];
     currentCommand: Command = null;
@@ -252,17 +253,24 @@ class Actor {
     // When we interrupt with a new command, we shouldn't clear away the currentCommand
     //
     interruptWithCommand(command: Command) {
-        // Backup the current ticks until next action
-        var ticksUntilNextAction = this.ticksUntilNextAction;
-        var ignoreExecutionUntilNextFire = this.currentCommand.ignoreExecutionUntilNextFire;
+        if (this.currentCommand !== null) {
+            // Retarget the player
+            // Backup the current ticks until next action
+            var ticksUntilNextAction = this.ticksUntilNextAction;
+            var ignoreExecutionUntilNextFire = this.currentCommand.ignoreExecutionUntilNextFire;
 
-        // Wipe the current commands
-        this.clearCommands();
-        this.addCommand(command);
+            // Wipe the current commands
+            this.clearCommands();
+            this.addCommand(command);
 
-        // And restore
-        this.currentCommand.ignoreExecutionUntilNextFire = ignoreExecutionUntilNextFire;
-        this.ticksUntilNextAction = ticksUntilNextAction;
+            // And restore
+            this.currentCommand.ignoreExecutionUntilNextFire = ignoreExecutionUntilNextFire;
+            this.ticksUntilNextAction = ticksUntilNextAction;
+        }
+        else {
+            // If we're already out of commands, just add it like normal
+            this.addCommand(command);
+        }
     }
 
     popCommand() {

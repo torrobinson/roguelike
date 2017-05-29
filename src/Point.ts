@@ -29,4 +29,8 @@ class Point {
     toString() {
         return "{x=" + this.x + ", y=" + this.y + "}"
     }
+
+    clone(): Point{
+       return new Point(this.x, this.y);
+    }
 }
