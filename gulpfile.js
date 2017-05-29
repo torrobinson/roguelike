@@ -11,24 +11,27 @@ var uglify = require('gulp-uglify');
 var include = require("gulp-include");
 var run = require('gulp-run');
 var open = require('gulp-open');
+var notify = require("gulp-notify");
 
-global.errorMessage = '';
+var buildFolder = './build';
 
+gulp.task('default', ['build']);
 
-gulp.task('default', function () {
+gulp.task('buildAndLaunch',['build'], function(){
+    return gulp.src([buildFolder + '/game.html']).pipe(open()).pipe(notify("Build launched"));
+});
 
-     var buildFolder = './build';
-
-	// Include third party scripts
-	gulp.src("./node_modules/pixi.js/dist/pixi.min.js")
-    	.pipe(include())
+gulp.task('build', function(){
+  // Include third party scripts
+  gulp.src("./node_modules/pixi.js/dist/pixi.min.js")
+      .pipe(include())
      .pipe(gulp.dest(buildFolder + "/js/"));
     gulp.src("./node_modules/pixi.js/dist/pixi.min.js.map")
-     	.pipe(include())
+      .pipe(include())
       .pipe(gulp.dest(buildFolder + "/js/"));
-	gulp.src("./node_modules/pathfinding/visual/lib/pathfinding-browser.min.js")
+    gulp.src("./node_modules/pathfinding/visual/lib/pathfinding-browser.min.js")
      .pipe(include())
-    	.pipe(gulp.dest(buildFolder + "/js/"));
+      .pipe(gulp.dest(buildFolder + "/js/"));
 
      // Copy over game client
      gulp.src(['game.html'])
@@ -39,8 +42,8 @@ gulp.task('default', function () {
      .pipe(gulp.dest(buildFolder + '/art'));
 
      // Compile typescript
-     return run('tsc').exec(function(){
+     run('tsc').exec(function(){
           gulp.src([buildFolder + '/game.html'])
-          .pipe(open());
+          .pipe(notify("Build succeeded"));
      });
 });
