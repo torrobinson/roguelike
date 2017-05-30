@@ -18,7 +18,7 @@ var buildFolder = './build';
 gulp.task('default', ['build']);
 
 gulp.task('buildAndLaunch',['build'], function(){
-    return gulp.src([buildFolder + '/game.html']).pipe(open()).pipe(notify("Build launched"));
+    return gulp.src([buildFolder + '/game.html']).pipe(open());
 });
 
 gulp.task('build', function(){
@@ -44,6 +44,6 @@ gulp.task('build', function(){
      // Compile typescript
      run('tsc').exec(function(){
           gulp.src([buildFolder + '/game.html'])
-          .pipe(notify("Build succeeded"));
+          .pipe(notify({title: 'Gulp',  message: 'Build finished', wait: false }));
      });
 });
