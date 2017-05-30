@@ -685,8 +685,9 @@ class PixiRenderer implements Renderer {
                                 atlas = PIXI.loader.resources.terrainAtlas.textures;
                             }
                             var sprite = new PIXI.Sprite(atlas[actorSprite.spriteName]);
-                            sprite.x = x * this.tileSize;
-                            sprite.y = y * this.tileSize;
+
+                            sprite.x = x * this.tileSize + actorSprite.originOffset.x;
+                            sprite.y = y * this.tileSize + actorSprite.originOffset.y;
 
                             // Set opacity based on visibility
                             if (actor.isVisible === false) {

@@ -974,7 +974,8 @@ class Sprites {
                 Direction.Left,
                 [
                     new Sprite(
-                        'DoorLeftClosed'
+                        'DoorLeftClosed',
+                        new Point(0, -16)
                     )
                 ],
                 AnimationLoopStyle.Static
@@ -985,7 +986,8 @@ class Sprites {
                 Direction.Left,
                 [
                     new Sprite(
-                        'DoorLeftOpen'
+                        'DoorLeftOpen',
+                        new Point(0, -16)
                     )
                 ],
                 AnimationLoopStyle.Static
