@@ -8,16 +8,13 @@ class Sprites {
                 Direction.Up,
                 [
                     new Sprite(
-                        'BlobUp_1',
-                        '↑'
+                        'BlobUp_1'
                     ),
                     new Sprite(
-                        'BlobUp_2',
-                        '↑'
+                        'BlobUp_2'
                     ),
                     new Sprite(
-                        'BlobUp_3',
-                        '↑'
+                        'BlobUp_3'
                     )
                 ],
                 AnimationLoopStyle.Loop
@@ -28,16 +25,13 @@ class Sprites {
                 Direction.Down,
                 [
                     new Sprite(
-                        'BlobDown_1',
-                        '↓'
+                        'BlobDown_1'
                     ),
                     new Sprite(
-                        'BlobDown_2',
-                        '↓'
+                        'BlobDown_2'
                     ),
                     new Sprite(
-                        'BlobDown_3',
-                        '↓'
+                        'BlobDown_3'
                     )
                 ],
                 AnimationLoopStyle.Loop
@@ -48,16 +42,13 @@ class Sprites {
                 Direction.Left,
                 [
                     new Sprite(
-                        'BlobLeft_1',
-                        '←'
+                        'BlobLeft_1'
                     ),
                     new Sprite(
-                        'BlobLeft_2',
-                        '←'
+                        'BlobLeft_2'
                     ),
                     new Sprite(
-                        'BlobLeft_3',
-                        '←'
+                        'BlobLeft_3'
                     )
                 ],
                 AnimationLoopStyle.Loop
@@ -68,16 +59,13 @@ class Sprites {
                 Direction.Right,
                 [
                     new Sprite(
-                        'BlobRight_1',
-                        '→'
+                        'BlobRight_1'
                     ),
                     new Sprite(
-                        'BlobRight_2',
-                        '→'
+                        'BlobRight_2'
                     ),
                     new Sprite(
-                        'BlobRight_3',
-                        '→'
+                        'BlobRight_3'
                     )
                 ],
                 AnimationLoopStyle.Loop
@@ -92,8 +80,7 @@ class Sprites {
                 Direction.Up,
                 [
                     new Sprite(
-                        'BlobUp_2',
-                        '↑'
+                        'BlobUp_2'
                     )
                 ],
                 AnimationLoopStyle.Loop
@@ -104,8 +91,7 @@ class Sprites {
                 Direction.Down,
                 [
                     new Sprite(
-                        'BlobDown_2',
-                        '↓'
+                        'BlobDown_2'
                     )
                 ],
                 AnimationLoopStyle.Loop
@@ -116,8 +102,7 @@ class Sprites {
                 Direction.Left,
                 [
                     new Sprite(
-                        'BlobLeft_2',
-                        '←'
+                        'BlobLeft_2'
                     )
                 ],
                 AnimationLoopStyle.Loop
@@ -128,8 +113,7 @@ class Sprites {
                 Direction.Right,
                 [
                     new Sprite(
-                        'BlobRight_2',
-                        '→'
+                        'BlobRight_2'
                     )
                 ],
                 AnimationLoopStyle.Loop
@@ -147,20 +131,16 @@ class Sprites {
                 Direction.Up,
                 [
                     new Sprite(
-                        'PlayerUp_1',
-                        '↑'
+                        'PlayerUp_1'
                     ),
                     new Sprite(
-                        'PlayerUp_2',
-                        '↑'
+                        'PlayerUp_2'
                     ),
                     new Sprite(
-                        'PlayerUp_3',
-                        '↑'
+                        'PlayerUp_3'
                     ),
                     new Sprite(
-                        'PlayerUp_2',
-                        '↑'
+                        'PlayerUp_2'
                     ),
                 ],
                 AnimationLoopStyle.Loop
@@ -171,20 +151,16 @@ class Sprites {
                 Direction.Down,
                 [
                     new Sprite(
-                        'PlayerDown_1',
-                        '↑'
+                        'PlayerDown_1'
                     ),
                     new Sprite(
-                        'PlayerDown_2',
-                        '↑'
+                        'PlayerDown_2'
                     ),
                     new Sprite(
-                        'PlayerDown_3',
-                        '↑'
+                        'PlayerDown_3'
                     ),
                     new Sprite(
-                        'PlayerDown_2',
-                        '↑'
+                        'PlayerDown_2'
                     )
                 ],
                 AnimationLoopStyle.Loop
@@ -195,20 +171,16 @@ class Sprites {
                 Direction.Left,
                 [
                     new Sprite(
-                        'PlayerLeft_1',
-                        '↑'
+                        'PlayerLeft_1'
                     ),
                     new Sprite(
-                        'PlayerLeft_2',
-                        '↑'
+                        'PlayerLeft_2'
                     ),
                     new Sprite(
-                        'PlayerLeft_3',
-                        '↑'
+                        'PlayerLeft_3'
                     ),
                     new Sprite(
-                        'PlayerLeft_2',
-                        '↑'
+                        'PlayerLeft_2'
                     )
                 ],
                 AnimationLoopStyle.Loop
@@ -219,20 +191,16 @@ class Sprites {
                 Direction.Right,
                 [
                     new Sprite(
-                        'PlayerRight_1',
-                        '↑'
+                        'PlayerRight_1'
                     ),
                     new Sprite(
-                        'PlayerRight_2',
-                        '↑'
+                        'PlayerRight_2'
                     ),
                     new Sprite(
-                        'PlayerRight_3',
-                        '↑'
+                        'PlayerRight_3'
                     ),
                     new Sprite(
-                        'PlayerRight_2',
-                        '↑'
+                        'PlayerRight_2'
                     )
                 ],
                 AnimationLoopStyle.Loop
@@ -248,16 +216,13 @@ class Sprites {
                 Direction.Up,
                 [
                     new Sprite(
-                        'PlayerUp_1',
-                        '↑'
+                        'PlayerUp_1'
                     ),
                     new Sprite(
-                        'PlayerUp_2',
-                        '↑'
+                        'PlayerUp_2'
                     ),
                     new Sprite(
-                        'PlayerUp_3',
-                        '↑'
+                        'PlayerUp_3'
                     )
                 ],
                 AnimationLoopStyle.Loop
@@ -268,16 +233,13 @@ class Sprites {
                 Direction.Down,
                 [
                     new Sprite(
-                        'PlayerDown_1',
-                        '↓'
+                        'PlayerDown_1'
                     ),
                     new Sprite(
-                        'PlayerDown_2',
-                        '↓'
+                        'PlayerDown_2'
                     ),
                     new Sprite(
-                        'PlayerDown_3',
-                        '↓'
+                        'PlayerDown_3'
                     )
                 ],
                 AnimationLoopStyle.Loop
@@ -288,16 +250,13 @@ class Sprites {
                 Direction.Left,
                 [
                     new Sprite(
-                        'PlayerLeft_1',
-                        '←'
+                        'PlayerLeft_1'
                     ),
                     new Sprite(
-                        'PlayerLeft_2',
-                        '←'
+                        'PlayerLeft_2'
                     ),
                     new Sprite(
-                        'PlayerLeft_3',
-                        '←'
+                        'PlayerLeft_3'
                     )
                 ],
                 AnimationLoopStyle.Loop
@@ -308,16 +267,13 @@ class Sprites {
                 Direction.Right,
                 [
                     new Sprite(
-                        'PlayerRight_1',
-                        '→'
+                        'PlayerRight_1'
                     ),
                     new Sprite(
-                        'PlayerRight_2',
-                        '→'
+                        'PlayerRight_2'
                     ),
                     new Sprite(
-                        'PlayerRight_3',
-                        '→'
+                        'PlayerRight_3'
                     )
                 ],
                 AnimationLoopStyle.Loop
@@ -333,8 +289,7 @@ class Sprites {
                 Direction.Down,
                 [
                     new Sprite(
-                        'WallDarkDown',
-                        ' '
+                        'WallDarkDown'
                     )
                 ],
                 AnimationLoopStyle.Static
@@ -350,8 +305,7 @@ class Sprites {
                 Direction.Down,
                 [
                     new Sprite(
-                        'LadderTopDown',
-                        '%'
+                        'LadderTopDown'
                     )
                 ],
                 AnimationLoopStyle.Static
@@ -367,8 +321,7 @@ class Sprites {
                 Direction.Down,
                 [
                     new Sprite(
-                        'LadderBottomDown',
-                        '%'
+                        'LadderBottomDown'
                     )
                 ],
                 AnimationLoopStyle.Static
@@ -384,8 +337,7 @@ class Sprites {
                 Direction.Down,
                 [
                     new Sprite(
-                        'BookshelfDown',
-                        'B'
+                        'BookshelfDown'
                     )
                 ],
                 AnimationLoopStyle.Static
@@ -401,8 +353,7 @@ class Sprites {
                 Direction.Down,
                 [
                     new Sprite(
-                        'TorchDown',
-                        'T'
+                        'TorchDown'
                     )
                 ],
                 AnimationLoopStyle.Static
@@ -419,8 +370,7 @@ class Sprites {
                 Direction.Up,
                 [
                     new Sprite(
-                        'CarpetUp',
-                        '#'
+                        'CarpetUp'
                     )
                 ],
                 AnimationLoopStyle.Static
@@ -430,8 +380,7 @@ class Sprites {
                 Direction.Right,
                 [
                     new Sprite(
-                        'CarpetRight',
-                        '#'
+                        'CarpetRight'
                     )
                 ],
                 AnimationLoopStyle.Static
@@ -441,8 +390,7 @@ class Sprites {
                 Direction.UpRight,
                 [
                     new Sprite(
-                        'CarpetUpRight',
-                        '#'
+                        'CarpetUpRight'
                     )
                 ],
                 AnimationLoopStyle.Static
@@ -452,8 +400,7 @@ class Sprites {
                 Direction.Down,
                 [
                     new Sprite(
-                        'CarpetDown',
-                        '#'
+                        'CarpetDown'
                     )
                 ],
                 AnimationLoopStyle.Static
@@ -463,8 +410,7 @@ class Sprites {
                 Direction.UpDown,
                 [
                     new Sprite(
-                        'CarpetUpDown',
-                        '#'
+                        'CarpetUpDown'
                     )
                 ],
                 AnimationLoopStyle.Static
@@ -474,8 +420,7 @@ class Sprites {
                 Direction.DownRight,
                 [
                     new Sprite(
-                        'CarpetDownRight',
-                        '#'
+                        'CarpetDownRight'
                     )
                 ],
                 AnimationLoopStyle.Static
@@ -485,8 +430,7 @@ class Sprites {
                 Direction.UpDownRight,
                 [
                     new Sprite(
-                        'CarpetUpDownRight',
-                        '#'
+                        'CarpetUpDownRight'
                     )
                 ],
                 AnimationLoopStyle.Static
@@ -496,8 +440,7 @@ class Sprites {
                 Direction.Left,
                 [
                     new Sprite(
-                        'CarpetLeft',
-                        '#'
+                        'CarpetLeft'
                     )
                 ],
                 AnimationLoopStyle.Static
@@ -507,8 +450,7 @@ class Sprites {
                 Direction.UpLeft,
                 [
                     new Sprite(
-                        'CarpetUpLeft',
-                        '#'
+                        'CarpetUpLeft'
                     )
                 ],
                 AnimationLoopStyle.Static
@@ -518,8 +460,7 @@ class Sprites {
                 Direction.LeftRight,
                 [
                     new Sprite(
-                        'CarpetLeftRight',
-                        '#'
+                        'CarpetLeftRight'
                     )
                 ],
                 AnimationLoopStyle.Static
@@ -529,8 +470,7 @@ class Sprites {
                 Direction.UpLeftRight,
                 [
                     new Sprite(
-                        'CarpetUpLeftRight',
-                        '#'
+                        'CarpetUpLeftRight'
                     )
                 ],
                 AnimationLoopStyle.Static
@@ -540,8 +480,7 @@ class Sprites {
                 Direction.DownLeft,
                 [
                     new Sprite(
-                        'CarpetDownLeft',
-                        '#'
+                        'CarpetDownLeft'
                     )
                 ],
                 AnimationLoopStyle.Static
@@ -551,8 +490,7 @@ class Sprites {
                 Direction.UpDownLeft,
                 [
                     new Sprite(
-                        'CarpetUpDownLeft',
-                        '#'
+                        'CarpetUpDownLeft'
                     )
                 ],
                 AnimationLoopStyle.Static
@@ -562,8 +500,7 @@ class Sprites {
                 Direction.DownLeftRight,
                 [
                     new Sprite(
-                        'CarpetDownLeftRight',
-                        '#'
+                        'CarpetDownLeftRight'
                     )
                 ],
                 AnimationLoopStyle.Static
@@ -573,8 +510,7 @@ class Sprites {
                 Direction.UpDownLeftRight,
                 [
                     new Sprite(
-                        'CarpetUpDownLeftRight',
-                        '#'
+                        'CarpetUpDownLeftRight'
                     )
                 ],
                 AnimationLoopStyle.Static
@@ -584,8 +520,7 @@ class Sprites {
                 Direction.None,
                 [
                     new Sprite(
-                        'CarpetUpDownLeftRight',
-                        '#'
+                        'CarpetUpDownLeftRight'
                     )
                 ],
                 AnimationLoopStyle.Static
@@ -602,8 +537,7 @@ class Sprites {
                 Direction.Down,
                 [
                     new Sprite(
-                        'Cobblestone4Down',
-                        '.'
+                        'Cobblestone4Down'
                     )
                 ],
                 AnimationLoopStyle.Static
@@ -619,8 +553,7 @@ class Sprites {
                 Direction.Down,
                 [
                     new Sprite(
-                        'PillarDown',
-                        'P'
+                        'PillarDown'
                     )
                 ],
                 AnimationLoopStyle.Static
@@ -638,8 +571,7 @@ class Sprites {
                 Direction.Up,
                 [
                     new Sprite(
-                        'WallUp',
-                        '#'
+                        'WallUp'
                     )
                 ],
                 AnimationLoopStyle.Static
@@ -649,8 +581,7 @@ class Sprites {
                 Direction.Right,
                 [
                     new Sprite(
-                        'WallRight',
-                        '#'
+                        'WallRight'
                     )
                 ],
                 AnimationLoopStyle.Static
@@ -660,8 +591,7 @@ class Sprites {
                 Direction.UpRight,
                 [
                     new Sprite(
-                        'WallUpRight',
-                        '#'
+                        'WallUpRight'
                     )
                 ],
                 AnimationLoopStyle.Static
@@ -671,8 +601,7 @@ class Sprites {
                 Direction.Down,
                 [
                     new Sprite(
-                        'WallDown',
-                        '#'
+                        'WallDown'
                     )
                 ],
                 AnimationLoopStyle.Static
@@ -682,8 +611,7 @@ class Sprites {
                 Direction.UpDown,
                 [
                     new Sprite(
-                        'WallUpDown',
-                        '#'
+                        'WallUpDown'
                     )
                 ],
                 AnimationLoopStyle.Static
@@ -693,8 +621,7 @@ class Sprites {
                 Direction.DownRight,
                 [
                     new Sprite(
-                        'WallDownRight',
-                        '#'
+                        'WallDownRight'
                     )
                 ],
                 AnimationLoopStyle.Static
@@ -704,8 +631,7 @@ class Sprites {
                 Direction.UpDownRight,
                 [
                     new Sprite(
-                        'WallUpDownRight',
-                        '#'
+                        'WallUpDownRight'
                     )
                 ],
                 AnimationLoopStyle.Static
@@ -715,8 +641,7 @@ class Sprites {
                 Direction.Left,
                 [
                     new Sprite(
-                        'WallLeft',
-                        '#'
+                        'WallLeft'
                     )
                 ],
                 AnimationLoopStyle.Static
@@ -726,8 +651,7 @@ class Sprites {
                 Direction.UpLeft,
                 [
                     new Sprite(
-                        'WallUpLeft',
-                        '#'
+                        'WallUpLeft'
                     )
                 ],
                 AnimationLoopStyle.Static
@@ -737,8 +661,7 @@ class Sprites {
                 Direction.LeftRight,
                 [
                     new Sprite(
-                        'WallLeftRight',
-                        '#'
+                        'WallLeftRight'
                     )
                 ],
                 AnimationLoopStyle.Static
@@ -748,8 +671,7 @@ class Sprites {
                 Direction.UpLeftRight,
                 [
                     new Sprite(
-                        'WallUpLeftRight',
-                        '#'
+                        'WallUpLeftRight'
                     )
                 ],
                 AnimationLoopStyle.Static
@@ -759,8 +681,7 @@ class Sprites {
                 Direction.DownLeft,
                 [
                     new Sprite(
-                        'WallDownLeft',
-                        '#'
+                        'WallDownLeft'
                     )
                 ],
                 AnimationLoopStyle.Static
@@ -770,8 +691,7 @@ class Sprites {
                 Direction.UpDownLeft,
                 [
                     new Sprite(
-                        'WallUpDownLeft',
-                        '#'
+                        'WallUpDownLeft'
                     )
                 ],
                 AnimationLoopStyle.Static
@@ -781,8 +701,7 @@ class Sprites {
                 Direction.DownLeftRight,
                 [
                     new Sprite(
-                        'WallDownLeftRight',
-                        '#'
+                        'WallDownLeftRight'
                     )
                 ],
                 AnimationLoopStyle.Static
@@ -792,8 +711,7 @@ class Sprites {
                 Direction.UpDownLeftRight,
                 [
                     new Sprite(
-                        'WallUpDownLeftRight',
-                        '#'
+                        'WallUpDownLeftRight'
                     )
                 ],
                 AnimationLoopStyle.Static
@@ -803,8 +721,7 @@ class Sprites {
                 Direction.None,
                 [
                     new Sprite(
-                        'WallNone',
-                        '#'
+                        'WallNone'
                     )
                 ],
                 AnimationLoopStyle.Static
@@ -821,8 +738,7 @@ class Sprites {
                 Direction.Down,
                 [
                     new Sprite(
-                        'ChestClosedDown',
-                        ' '
+                        'ChestClosedDown'
                     )
                 ],
                 AnimationLoopStyle.Static
@@ -833,8 +749,7 @@ class Sprites {
                 Direction.Down,
                 [
                     new Sprite(
-                        'ChestOpenDown',
-                        ' '
+                        'ChestOpenDown'
                     )
                 ],
                 AnimationLoopStyle.Static
@@ -851,52 +766,40 @@ class Sprites {
                 Direction.Down,
                 [
                     new Sprite(
-                        'PotionSilver',
-                        ' '
+                        'PotionSilver'
                     ),
                     new Sprite(
-                        'PotionBlack',
-                        ' '
+                        'PotionBlack'
                     ),
                     new Sprite(
-                        'PotionPurple',
-                        ' '
+                        'PotionPurple'
                     ),
                     new Sprite(
-                        'PotionGreen',
-                        ' '
+                        'PotionGreen'
                     ),
                     new Sprite(
-                        'PotionRed',
-                        ' '
+                        'PotionRed'
                     ),
                     new Sprite(
-                        'PotionDarkBlue',
-                        ' '
+                        'PotionDarkBlue'
                     ),
                     new Sprite(
-                        'PotionBrown',
-                        ' '
+                        'PotionBrown'
                     ),
                     new Sprite(
-                        'PotionBlue',
-                        ' '
+                        'PotionBlue'
                     ),
                     new Sprite(
-                        'PotionGold',
-                        ' '
+                        'PotionGold'
                     ),
                     new Sprite(
-                        'PotionOrange',
-                        ' '
+                        'PotionOrange'
                     ),
                     new Sprite(
-                        'PotionWhite',
-                        ' '
+                        'PotionWhite'
                     ),
                     new Sprite(
-                        'PotionDarkerBlue',
-                        ' '
+                        'PotionDarkerBlue'
                     )
                 ],
                 AnimationLoopStyle.RandomStatic
@@ -912,12 +815,10 @@ class Sprites {
                 Direction.Down,
                 [
                     new Sprite(
-                        'CoinStack',
-                        ' '
+                        'CoinStack'
                     ),
                     new Sprite(
-                        'CoinPile',
-                        ' '
+                        'CoinPile'
                     )
                 ],
                 AnimationLoopStyle.RandomStatic
@@ -933,8 +834,7 @@ class Sprites {
                 Direction.Down,
                 [
                     new Sprite(
-                        'Shirt',
-                        ' '
+                        'Shirt'
                     )
                 ],
                 AnimationLoopStyle.RandomStatic
@@ -950,8 +850,7 @@ class Sprites {
                 Direction.Down,
                 [
                     new Sprite(
-                        'ChestArmor',
-                        ' '
+                        'ChestArmor'
                     )
                 ],
                 AnimationLoopStyle.RandomStatic
@@ -967,12 +866,10 @@ class Sprites {
                 Direction.Down,
                 [
                     new Sprite(
-                        'Dagger1',
-                        ' '
+                        'Dagger1'
                     ),
                     new Sprite(
-                        'Dagger2',
-                        ' '
+                        'Dagger2'
                     )
                 ],
                 AnimationLoopStyle.RandomStatic
@@ -988,8 +885,7 @@ class Sprites {
                 Direction.Down,
                 [
                     new Sprite(
-                        'BootsBrown',
-                        ' '
+                        'BootsBrown'
                     )
                 ],
                 AnimationLoopStyle.RandomStatic
@@ -1005,8 +901,7 @@ class Sprites {
                 Direction.Down,
                 [
                     new Sprite(
-                        'BootsBlack',
-                        ' '
+                        'BootsBlack'
                     )
                 ],
                 AnimationLoopStyle.RandomStatic
@@ -1022,8 +917,7 @@ class Sprites {
                 Direction.Down,
                 [
                     new Sprite(
-                        'GraveCrossDown',
-                        ' '
+                        'GraveCrossDown'
                     )
                 ],
                 AnimationLoopStyle.Static
@@ -1039,8 +933,7 @@ class Sprites {
                 Direction.Down,
                 [
                     new Sprite(
-                        'TombstoneDown',
-                        ' '
+                        'TombstoneDown'
                     )
                 ],
                 AnimationLoopStyle.Static
@@ -1051,14 +944,13 @@ class Sprites {
     static DoorSprites() {
         return [
 
-          // Vertical Doors
+            // Vertical Doors
             new SpriteSet(
                 ActorStatus.Closed,
                 Direction.Down,
                 [
                     new Sprite(
-                        'DoorDownClosed',
-                        ' '
+                        'DoorDownClosed'
                     )
                 ],
                 AnimationLoopStyle.Static
@@ -1069,22 +961,20 @@ class Sprites {
                 Direction.Down,
                 [
                     new Sprite(
-                        'DoorDownOpen',
-                        ' '
+                        'DoorDownOpen'
                     )
                 ],
                 AnimationLoopStyle.Static
             ),
 
 
-          // Horizontal Doors
+            // Horizontal Doors
             new SpriteSet(
                 ActorStatus.Closed,
                 Direction.Left,
                 [
                     new Sprite(
-                        'DoorLeftClosed',
-                        ' '
+                        'DoorLeftClosed'
                     )
                 ],
                 AnimationLoopStyle.Static
@@ -1095,8 +985,7 @@ class Sprites {
                 Direction.Left,
                 [
                     new Sprite(
-                        'DoorLeftOpen',
-                        ' '
+                        'DoorLeftOpen'
                     )
                 ],
                 AnimationLoopStyle.Static
