@@ -21,6 +21,11 @@ gulp.task('buildAndLaunch',['build'], function(){
     return gulp.src([buildFolder + '/game.html']).pipe(open());
 });
 
+gulp.task('art', function(){
+    gulp.src(['art/**/*'])
+    .pipe(gulp.dest(buildFolder + '/art'));
+});
+
 gulp.task('build', function(){
   // Include third party scripts
   gulp.src("./node_modules/pixi.js/dist/pixi.min.js")
