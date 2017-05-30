@@ -62,7 +62,7 @@ class Layer {
         this.setTile(location.x, location.y, actor);
         if (actor !== null) {
             // If we're placing for the first time, amke note of it as the actor's home
-            if(actor.location === null){
+            if (actor.location === null) {
                 actor.home = location;
             }
             actor.location = location;
@@ -75,13 +75,19 @@ class Layer {
     }
 
     // Generate a collision grid of 0s and 1s for pathfinding through
-    getCollisionGrid(ignorePointA: Point, ignorePointB: Point) {
+    getCollisionGrid(startPoint: Point, endPoint: Point) {
         var grid = [];
         for (var y = 0; y < this.tiles.length; y++) {
             var row = [];
             for (var x = 0; x < this.tiles[y].length; x++) {
                 var actor = this.getTile(x, y);
-                if (actor === null || actor instanceof Door || (x == ignorePointA.x && y == ignorePointA.y) || (x == ignorePointB.x && y == ignorePointB.y)) {
+                if (    // Consider this space temporarily free IF
+                    actor === null ||                               // There's nothing here
+                    actor instanceof Door ||                        // Or there is and it's a door (it can be opened)
+                    (actor.status === ActorStatus.Moving) ||        // Or there is and it's moving and might be free by the time we get there
+                    (x == startPoint.x && y == startPoint.y) || // Or there is and it's the start/end point to ignore
+                    (x == endPoint.x && y == endPoint.y))   // Or there is and it's the start/end point to ignore
+                {
                     row.push(PathfinderTile.Walkable);
                 }
                 else {

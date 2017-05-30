@@ -5,7 +5,11 @@ class Chaser extends Actor {
     xpBounty: number = 2;
     moveTickDuration: number = 2;
     viewRadius: number = 15;
+
+    // Movement/pathing helpers
     target: Actor = null;
+    stuckFor: number = 0;
+    abandonPathAfterStuckFor: number = 2;
 
     constructor(game: Game) {
         super(game);
@@ -48,19 +52,34 @@ class Chaser extends Actor {
         }
         else {
             // Can't see the player.
-            // They'll finish their current move to where the last saw you
+            // They'll finish their current moves here to where the last saw you
 
-            // If they have nothing to do, go home
-            if(this.currentCommand === null && this.home !== null && !this.location.equals(this.home)){
-                this.interruptWithCommand(
-                    new MoveTo(
-                        this,
-                        this.home,
-                        true
-                    )
-                );
+
+            // If they ran out of commands, then go back 'home' and forget who we were chasing
+            if (this.currentCommand === null && this.home !== null && !this.location.equals(this.home)) {
+                this.setCourseForHome();
             }
 
+        }
+
+    }
+
+    move(direction: Direction) {
+        super.move(direction);
+
+        // After every movement attempt, check if we actually moved
+        if (this.movedLastTurn) {
+            this.stuckFor = 0;
+        }
+        else if (this.target != null || this.currentCommand instanceof MoveTo) {
+            // If we didnt and we meant to (had a target or have a move command), count up
+            this.stuckFor++;
+
+            // And if we were stuck for our maximum allowable turns, then abandon the target and try return home
+            if (this.stuckFor >= this.abandonPathAfterStuckFor) {
+                this.stuckFor = 0;
+                this.setCourseForHome();
+            }
         }
 
     }
@@ -72,5 +91,20 @@ class Chaser extends Actor {
             actor.location
         );
         this.interruptWithCommand(command);
+    }
+
+    setCourseForHome() {
+        this.forgetAboutTarget();
+        this.interruptWithCommand(
+            new MoveTo(
+                this,
+                this.home,
+                true
+            )
+        );
+    }
+
+    forgetAboutTarget() {
+        this.target = null;
     }
 }

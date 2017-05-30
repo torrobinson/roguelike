@@ -1,45 +1,57 @@
 class Actor {
+    // References
     game: Game;
+    world: World = null;
+    layer: Layer = null;
+
+    // Location
     facing: Direction = Direction.Down;
     location: Point = null;
     home: Point;
-    layer: Layer = null;
+
+    // Behaviour
     commands: Command[] = [];
     currentCommand: Command = null;
     ticksUntilNextAction: number = null;
     doesSubscribeToTicks: boolean = false;
     takesCommands: boolean = false;
     moveTickDuration: number = 1;
-    spritesets: SpriteSet[] = null;
+    movedLastTurn: boolean = false;
+
+    // General attributes
     name: string = '';
     xpBounty: number = 0;
     status: ActorStatus = ActorStatus.Idle;
     gold: number = 0;
     viewRadius: number = 5;
     inventory: InventoryItem[] = [];
-    fogged: boolean = true;
-    fogStyle: FogStyle = FogStyle.Hide;
     blocksSight: boolean = true;
-    restartSpriteNextFrame: boolean = false;
     startingHealth: number = undefined;
     health: number = this.startingHealth;
-    world: World = null;
-    fullBright: boolean = false;
-    lastSprite: Sprite;
+
+    // Experience Points
     level: number;
     xpNeeded: number = 0;
     currentLevelXP: number = 0;
+
+    // Sprites
+    spritesets: SpriteSet[] = null;
+    restartSpriteNextFrame: boolean = false;
+    fogged: boolean = true;
+    fogStyle: FogStyle = FogStyle.Hide;
+    fullBright: boolean = false;
+    lastSprite: Sprite;
     isVisible: boolean = true;
     isFrozen: boolean = false;
     isStone: boolean = false;
 
+    // Equipment
     equippedHead: Armor = null;
     equippedTorso: Armor = null;
     equippedLegs: Armor = null;
     equippedHands: Armor = null;
     equippedFeet: Armor = null;
     equippedWeapon: Weapon = null;
-
     buffs: Buff[] = [];
 
     constructor(game: Game) {
@@ -191,7 +203,7 @@ class Actor {
             var result = Movement.TryMove(this, this.layer, moveTo);
             if (result) {
                 // Moved
-
+                this.movedLastTurn = true;
             }
             else {
                 // Collided
@@ -290,6 +302,8 @@ class Actor {
 
         if (!this.doesSubscribeToTicks) return;
         if (!this.takesCommands) return;
+
+        this.movedLastTurn = false;
 
         if (this.currentCommand !== null && this.currentCommand.currentAction !== null && this.ticksUntilNextAction === null) {
             this.ticksUntilNextAction = this.currentCommand.currentAction.tickDuration;
