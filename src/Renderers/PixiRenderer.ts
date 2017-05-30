@@ -498,57 +498,6 @@ class PixiRenderer implements Renderer {
         this.stageContainer.addChild(menuText);
     }
 
-    // drawInfoBar() {
-    //     var newLine = '\r\n';
-    //     var writeLocation = new Point(0, this.height * this.tileSize);
-    //     var text = 'Health: ' + this.game.player.health + '/' + this.game.player.maxHealth() + ' | Kills: ' + this.game.player.runStats.kills + ' | Level: ' + this.game.player.level + newLine
-    //         + "Gold: " + this.game.player.gold + ' |    Buffs: ' + (this.game.player.buffs.length ? (this.game.player.buffs.first().getDescription()) : '')
-    //         + newLine + 'XP: ' + this.game.player.currentLevelXP + '/' + this.game.player.xpNeeded + '(' + this.game.player.totalXP + ')'
-    //         ;
-    //
-    //     var style = new PIXI.TextStyle({
-    //         fontFamily: 'Courier',
-    //         fontSize: 11,
-    //         fill: ColorCode.White,
-    //     });
-    //
-    //     var pixiText = new PIXI.Text(text, style);
-    //     pixiText.x = writeLocation.x;
-    //     pixiText.y = writeLocation.y;
-    //     this.stageContainer.addChild(pixiText);
-    //
-    //     // Render armor
-    //     var armors: Armor[] = this.game.player.getArmor();
-    //     let armorX = this.pixelWidth - this.tileSize;
-    //     let armorY = this.pixelHeight - this.infoBar.height;
-    //     for (let a = 0; a < armors.length; a++) {
-    //         var armor = armors[a];
-    //         var atlas = PIXI.loader.resources.itemAtlas.textures;
-    //         var sprite = new PIXI.Sprite(atlas[armor.getSprite().spriteName]);
-    //         sprite.x = armorX;
-    //         sprite.y = armorY;
-    //         this.stageContainer.addChild(sprite);
-    //         armorX -= this.tileSize;
-    //     }
-    //
-    //     // Render potions in inventory (for debugging)
-    //     var potions: Potion[] = <Potion[]>this.game.player.getInventoryOfType(Potion);
-    //     let potionX = this.pixelWidth - this.tileSize;
-    //     let potionY = this.pixelHeight - this.infoBar.height + this.tileSize;
-    //     for (let p = 0; p < potions.length; p++) {
-    //         var potion = potions[p];
-    //         var atlas = PIXI.loader.resources.itemAtlas.textures;
-    //         if (potion.getSprite() !== undefined && potion.getSprite() !== null) {
-    //             var sprite = new PIXI.Sprite(atlas[potion.getSprite().spriteName]);
-    //             sprite.x = potionX;
-    //             sprite.y = potionY;
-    //             this.stageContainer.addChild(sprite);
-    //             potionX -= this.tileSize;
-    //         }
-    //     }
-    //
-    // }
-
     getHealthGraphic(actor: Actor, x: number, y: number) {
         if (actor.health !== undefined) {
             var percentDecimal = (actor.health / actor.maxHealth());
