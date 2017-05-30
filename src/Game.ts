@@ -285,21 +285,21 @@ class Game {
         mainLayer.placeActor(exit, exitLocation);
 
         // Throw in some demo enemies protecting the exit
-        var chaser = new Chaser(this);
+        var chaser = new GreenBlob(this);
         mainLayer.placeActor(chaser, exitLocation.offsetBy(1, 1));
-        var chaser2 = new Chaser(this);
+        var chaser2 = new GreenBlob(this);
         mainLayer.placeActor(chaser2, exitLocation.offsetBy(0, 1));
-        var chaser3 = new Chaser(this);
+        var chaser3 = new GreenBlob(this);
         mainLayer.placeActor(chaser3, exitLocation.offsetBy(1, 0));
-        var chaser4 = new Chaser(this);
+        var chaser4 = new Skeleton(this);
         mainLayer.placeActor(chaser4, exitLocation.offsetBy(-1, -1));
-        var chaser5 = new Chaser(this);
+        var chaser5 = new Skeleton(this);
         mainLayer.placeActor(chaser5, exitLocation.offsetBy(-1, 0));
-        var chaser6 = new Chaser(this);
+        var chaser6 = new Skeleton(this);
         mainLayer.placeActor(chaser6, exitLocation.offsetBy(0, -1));
-        var chaser7 = new Chaser(this);
+        var chaser7 = new Ghost(this);
         mainLayer.placeActor(chaser7, exitLocation.offsetBy(1, -1));
-        var chaser8 = new Chaser(this);
+        var chaser8 = new Ghost(this);
         mainLayer.placeActor(chaser8, exitLocation.offsetBy(-1, 1));
         chaser8.addBuff(
             new PetrifiedDebuff()

@@ -1,5 +1,5 @@
 class Sprites {
-    static ChaserSprites() {
+    static GreenBlobSprites() {
         return [
 
             // Moving
@@ -121,6 +121,249 @@ class Sprites {
         ]
     };
 
+    static SkeletonSprites() {
+        return [
+
+            // Moving
+            new SpriteSet(
+                ActorStatus.Moving,
+                Direction.Up,
+                [
+                    new Sprite(
+                        'SkeletonUp_1'
+                    ),
+                    new Sprite(
+                        'SkeletonUp_2'
+                    ),
+                    new Sprite(
+                        'SkeletonUp_3'
+                    )
+                ],
+                AnimationLoopStyle.Loop
+            ),
+
+            new SpriteSet(
+                ActorStatus.Moving,
+                Direction.Down,
+                [
+                    new Sprite(
+                        'SkeletonDown_1'
+                    ),
+                    new Sprite(
+                        'SkeletonDown_2'
+                    ),
+                    new Sprite(
+                        'SkeletonDown_3'
+                    )
+                ],
+                AnimationLoopStyle.Loop
+            ),
+
+            new SpriteSet(
+                ActorStatus.Moving,
+                Direction.Left,
+                [
+                    new Sprite(
+                        'SkeletonLeft_1'
+                    ),
+                    new Sprite(
+                        'SkeletonLeft_2'
+                    ),
+                    new Sprite(
+                        'SkeletonLeft_3'
+                    )
+                ],
+                AnimationLoopStyle.Loop
+            ),
+
+            new SpriteSet(
+                ActorStatus.Moving,
+                Direction.Right,
+                [
+                    new Sprite(
+                        'SkeletonRight_1'
+                    ),
+                    new Sprite(
+                        'SkeletonRight_2'
+                    ),
+                    new Sprite(
+                        'SkeletonRight_3'
+                    )
+                ],
+                AnimationLoopStyle.Loop
+            ),
+
+
+
+
+            // Idle
+            new SpriteSet(
+                ActorStatus.Idle,
+                Direction.Up,
+                [
+                    new Sprite(
+                        'SkeletonUp_2'
+                    )
+                ],
+                AnimationLoopStyle.Loop
+            ),
+
+            new SpriteSet(
+                ActorStatus.Idle,
+                Direction.Down,
+                [
+                    new Sprite(
+                        'SkeletonDown_2'
+                    )
+                ],
+                AnimationLoopStyle.Loop
+            ),
+
+            new SpriteSet(
+                ActorStatus.Idle,
+                Direction.Left,
+                [
+                    new Sprite(
+                        'SkeletonLeft_2'
+                    )
+                ],
+                AnimationLoopStyle.Loop
+            ),
+
+            new SpriteSet(
+                ActorStatus.Idle,
+                Direction.Right,
+                [
+                    new Sprite(
+                        'SkeletonRight_2'
+                    )
+                ],
+                AnimationLoopStyle.Loop
+            ),
+        ]
+    };
+
+    static GhostSprites() {
+        return [
+
+            // Moving
+            new SpriteSet(
+                ActorStatus.Moving,
+                Direction.Up,
+                [
+                    new Sprite(
+                        'GhostUp_1'
+                    ),
+                    new Sprite(
+                        'GhostUp_2'
+                    ),
+                    new Sprite(
+                        'GhostUp_3'
+                    )
+                ],
+                AnimationLoopStyle.Loop
+            ),
+
+            new SpriteSet(
+                ActorStatus.Moving,
+                Direction.Down,
+                [
+                    new Sprite(
+                        'GhostDown_1'
+                    ),
+                    new Sprite(
+                        'GhostDown_2'
+                    ),
+                    new Sprite(
+                        'GhostDown_3'
+                    )
+                ],
+                AnimationLoopStyle.Loop
+            ),
+
+            new SpriteSet(
+                ActorStatus.Moving,
+                Direction.Left,
+                [
+                    new Sprite(
+                        'GhostLeft_1'
+                    ),
+                    new Sprite(
+                        'GhostLeft_2'
+                    ),
+                    new Sprite(
+                        'GhostLeft_3'
+                    )
+                ],
+                AnimationLoopStyle.Loop
+            ),
+
+            new SpriteSet(
+                ActorStatus.Moving,
+                Direction.Right,
+                [
+                    new Sprite(
+                        'GhostRight_1'
+                    ),
+                    new Sprite(
+                        'GhostRight_2'
+                    ),
+                    new Sprite(
+                        'GhostRight_3'
+                    )
+                ],
+                AnimationLoopStyle.Loop
+            ),
+
+
+
+
+            // Idle
+            new SpriteSet(
+                ActorStatus.Idle,
+                Direction.Up,
+                [
+                    new Sprite(
+                        'GhostUp_2'
+                    )
+                ],
+                AnimationLoopStyle.Loop
+            ),
+
+            new SpriteSet(
+                ActorStatus.Idle,
+                Direction.Down,
+                [
+                    new Sprite(
+                        'GhostDown_2'
+                    )
+                ],
+                AnimationLoopStyle.Loop
+            ),
+
+            new SpriteSet(
+                ActorStatus.Idle,
+                Direction.Left,
+                [
+                    new Sprite(
+                        'GhostLeft_2'
+                    )
+                ],
+                AnimationLoopStyle.Loop
+            ),
+
+            new SpriteSet(
+                ActorStatus.Idle,
+                Direction.Right,
+                [
+                    new Sprite(
+                        'GhostRight_2'
+                    )
+                ],
+                AnimationLoopStyle.Loop
+            ),
+        ]
+    };
 
     static PlayerSprites() {
         return [
