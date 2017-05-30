@@ -1,6 +1,7 @@
 class Chaser extends Actor {
     // Movement/pathing helpers
     target: Actor = null;
+    targetKnownLocation: Point = null;
     stuckFor: number = 0;
     abandonPathAfterStuckFor: number = 2;
 
@@ -19,8 +20,8 @@ class Chaser extends Actor {
         }
 
         // If we hit something that wasn't our target, re-evaluate the path
-        else if (this.target !== null && actor !== this.target) {
-            this.setCourseFor(this.target);
+        else if (this.target !== null && actor !== this.target && this.targetKnownLocation !== null) {
+            this.setCourseForPoint(this.targetKnownLocation);
         }
     }
 
@@ -73,9 +74,14 @@ class Chaser extends Actor {
 
     setCourseFor(actor: Actor) {
         this.target = actor;
+        this.targetKnownLocation = actor.location.clone();
+        this.setCourseForPoint(this.targetKnownLocation);
+    }
+
+    setCourseForPoint(point: Point) {
         var command = new MoveTo(
             this,
-            actor.location
+            point
         );
         this.interruptWithCommand(command);
     }
@@ -93,5 +99,6 @@ class Chaser extends Actor {
 
     forgetAboutTarget() {
         this.target = null;
+        this.targetKnownLocation = null;
     }
 }
