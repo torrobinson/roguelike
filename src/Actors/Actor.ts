@@ -218,7 +218,7 @@ class Actor {
     }
 
     // Generic action to perform when any collision happened
-    collided() {
+    collided(actorInvolved: Actor) {
 
     }
 
@@ -231,14 +231,14 @@ class Actor {
             (<Door>actor).tryOpen();
         }
 
-        this.collided();
+        this.collided(actor);
         BuffHelpers.handleonCollideBuffsAfter(this, actor);
     }
 
     // When another object tried to move into me
     collidedBy(actor: Actor) {
         if (BuffHelpers.handleonCollidedIntoBuffsBefore(this, actor)) { return; }
-        this.collided();
+        this.collided(actor);
         BuffHelpers.handleonCollidedIntoBuffsAfer(this, actor);
     }
 

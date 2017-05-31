@@ -11,6 +11,7 @@ class Chaser extends Actor {
         this.takesCommands = true;
     }
 
+    // When run into the player, perform the attack
     collidedInto(actor: Actor) {
         // Call base Actor collision
         super.collidedInto(actor);
@@ -18,9 +19,13 @@ class Chaser extends Actor {
         if (actor instanceof Player) {
             this.attack(actor);
         }
+    }
 
+    // When bumped by anything else (or bumping into anything else, retarget)
+    collided(actorInvolved: Actor){
+        super.collided(actorInvolved);
         // If we hit something that wasn't our target, re-evaluate the path
-        else if (this.target !== null && actor !== this.target && this.targetKnownLocation !== null) {
+        if (!(actorInvolved instanceof Player) &&  this.target !== null && actorInvolved !== this.target && this.targetKnownLocation !== null) {
             this.setCourseForPoint(this.targetKnownLocation);
         }
     }
