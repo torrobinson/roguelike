@@ -28,6 +28,7 @@ class Actor {
     blocksSight: boolean = true;
     startingHealth: number = undefined;
     health: number = this.startingHealth;
+    attackRange: number = 1;
 
     // Experience Points
     level: number;
@@ -126,10 +127,24 @@ class Actor {
         return this.inventory.where((inv) => { return inv instanceof type });
     }
 
-    attack(otherActor: Actor) {
+    getDistanceFrom(otherActor: Actor): number{
+        return Math.hypot(otherActor.location.x - this.location.x, otherActor.location.y - this.location.y);
+    }
+    canAttack(otherActor: Actor): boolean{
+      if(this.getDistanceFrom(otherActor) <= this.attackRange){
+        return true;
+      }
+
+      return false;
+    }
+
+    attack(otherActor: Actor, damage?: number) {
         if (BuffHelpers.handleOnAttackBuffsBefore(this, otherActor)) { return; }
 
-        var damage = otherActor.getDamage();
+        // If not overridden, calculate damage
+        if(!damage){
+            damage = otherActor.getDamage();
+        }
 
         // Deal the damage
         otherActor.attackedBy(this, damage);

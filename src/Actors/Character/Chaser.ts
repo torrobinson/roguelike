@@ -39,8 +39,13 @@ class Chaser extends Actor {
 
         var player = this.game.player;
 
-        // If we can see the player, then target them
+        // If we can see the player,
         if (this.canSeeActor(player)) {
+            // Then try to attack them
+            if(this.canAttack(player)){
+              this.attack(player);
+            }
+            // Otherwise, try get closer
             this.setCourseFor(player);
         }
         else {
