@@ -127,22 +127,22 @@ class Actor {
         return this.inventory.where((inv) => { return inv instanceof type });
     }
 
-    getDistanceFrom(otherActor: Actor): number{
+    getDistanceFrom(otherActor: Actor): number {
         return Math.hypot(otherActor.location.x - this.location.x, otherActor.location.y - this.location.y);
     }
-    canAttack(otherActor: Actor): boolean{
-      if(this.getDistanceFrom(otherActor) <= this.attackRange){
-        return true;
-      }
+    canAttack(otherActor: Actor): boolean {
+        if (this.getDistanceFrom(otherActor) <= this.attackRange) {
+            return true;
+        }
 
-      return false;
+        return false;
     }
 
     attack(otherActor: Actor, damage?: number) {
         if (BuffHelpers.handleOnAttackBuffsBefore(this, otherActor)) { return; }
 
         // If not overridden, calculate damage
-        if(!damage){
+        if (!damage) {
             damage = otherActor.getDamage();
         }
 
@@ -299,6 +299,8 @@ class Actor {
             this.addCommand(command);
         }
     }
+
+
 
     popCommand() {
         if (this.commands.length > 0) {

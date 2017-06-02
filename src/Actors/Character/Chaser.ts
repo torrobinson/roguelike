@@ -22,10 +22,10 @@ class Chaser extends Actor {
     }
 
     // When bumped by anything else (or bumping into anything else, retarget)
-    collided(actorInvolved: Actor){
+    collided(actorInvolved: Actor) {
         super.collided(actorInvolved);
         // If we hit something that wasn't our target, re-evaluate the path
-        if (!(actorInvolved instanceof Player) &&  this.target !== null && actorInvolved !== this.target && this.targetKnownLocation !== null) {
+        if (!(actorInvolved instanceof Player) && this.target !== null && actorInvolved !== this.target && this.targetKnownLocation !== null) {
             this.setCourseForPoint(this.targetKnownLocation);
         }
     }
@@ -42,8 +42,13 @@ class Chaser extends Actor {
         // If we can see the player,
         if (this.canSeeActor(player)) {
             // Then try to attack them
-            if(this.canAttack(player)){
-              this.attack(player);
+            if (this.canAttack(player)) {
+                this.interruptWithCommand(
+                    new DirectAttack(
+                        this,
+                        // a chargup duration, if greater than 1
+                    )
+                );
             }
             // Otherwise, try get closer
             this.setCourseFor(player);
@@ -111,4 +116,6 @@ class Chaser extends Actor {
         this.target = null;
         this.targetKnownLocation = null;
     }
+}
+}
 }
