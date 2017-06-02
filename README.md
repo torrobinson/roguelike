@@ -2,6 +2,8 @@
 ![preview](http://i.imgur.com/l29YGJY.png)
 This is an experiment to familiarize myself with game mechanics, TypeScript, and Pixi.js
 
+It is a procedurally generated rogulike-esque game with armor, a gui, monsters, and fake "lighting".
+
 The game "engine" is written entirely from scratch, with the exception of a pathfinder (for resolving paths) and Pixi for drawing images and shapes to the screen.
 
 ### To Play: ###
