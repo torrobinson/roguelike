@@ -17,6 +17,8 @@ class Game {
     inventoryMenu: Menu;
     activeMenu: Menu = null;
 
+    selectableActorGroup: SelectableActorGroup
+
     constructor(renderer: PixiRenderer, seed: number, settings: GameSettings, dungeonNumber: number = 1) {
         this.renderer = renderer;
         this.renderer.game = this; // set up a reference
@@ -53,6 +55,7 @@ class Game {
         this.inventoryMenu = InventoryMenu;
         this.inventoryMenu.linkToGame(this);
 
+        this.selectableActorGroup = new SelectableActorGroup(this);
     }
 
     saveSettings() {
@@ -78,6 +81,7 @@ class Game {
         this.generateNextDungeon();
         this.gameLog = [];
         this.gameTick();
+        this.selectableActorGroup.clearGroup();
     }
 
     openInventory() {
@@ -201,6 +205,16 @@ class Game {
 
             if (control === Control.I) {
                 this.activeMenu = this.inventoryMenu;
+            }
+
+            if (control === Control.LeftBrace) {
+                this.selectableActorGroup.previous();
+                console.log(this.selectableActorGroup.selectedActor.name);
+            }
+
+            if (control === Control.RightBrace) {
+                this.selectableActorGroup.next();
+                console.log(this.selectableActorGroup.selectedActor.name);
             }
 
             return;

@@ -22,6 +22,8 @@ class PixiRenderer {
     // Health pips to display
     healthGraphics: any[];
 
+    selectedActorGraphicContainer: any = new PIXI.Container();
+
     // Gui containers & settings
     guiHorizontalContainer: any = new PIXI.Container(); // master bottom bar
     horizontalContainerHeight: number = 200;
@@ -752,6 +754,7 @@ class PixiRenderer {
         this.clearContainer(this.guiStatsContainer);
         this.clearContainer(this.guiEffectsContainer);
         this.clearContainer(this.guiOverlayContainer);
+        this.clearContainer(this.selectedActorGraphicContainer);
 
         // Get things that emit light
         var lightLayer = world.getWallLayer();
@@ -924,6 +927,16 @@ class PixiRenderer {
                                     sprite.filters = [this.grayscaleFilter];
                                 }
 
+                                // If it's currently selected, then highlight it
+                                if (actor === this.game.selectableActorGroup.selectedActor) {
+                                    var highlightGraphics = new PIXI.Graphics();
+                                    highlightGraphics.lineStyle(2, ColorCode.Red, 1);
+                                    highlightGraphics.beginFill(ColorCode.White, 0);
+                                    highlightGraphics.drawRect(x * this.tileSize, y * this.tileSize, this.tileSize, this.tileSize);
+                                    highlightGraphics.endFill();
+                                    this.selectedActorGraphicContainer.addChild(highlightGraphics);
+                                }
+
                                 // Draw it
                                 layerContainer.addChild(sprite);
                             }
@@ -1058,6 +1071,9 @@ class PixiRenderer {
         this.stageContainer.addChild(this.numberSmokeContainer);
 
         // Custom animations END
+
+        // Highlighted enemy info and box
+        this.stageContainer.addChild(this.selectedActorGraphicContainer);
 
         // Calculate FPS
         this.calculateFps(20);

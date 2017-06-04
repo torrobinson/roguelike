@@ -187,6 +187,10 @@ class Player extends Actor {
 
     // Unfog the world as it's explored
     revealWorld() {
+
+        // Keep track of actors in range to use for the selectable actors group
+        var enemiesInRange: Actor[] = [];
+
         // If we're placed
         if (this.location !== null) {
 
@@ -208,6 +212,10 @@ class Player extends Actor {
                         var actor = wallLayer.getTile(point.x, point.y);
                         var floor = floorLayer.getTile(point.x, point.y);
                         var floorDecor = floorDecorLayer.getTile(point.x, point.y);
+
+                        if (actor instanceof Chaser && actor !== undefined && !actor.fogged && Geometry.IsPointInCircle(this.location, this.viewRadius, point)) {
+                            enemiesInRange.push(actor);
+                        }
 
                         // If we can see this point in the world
                         if (this.canSeePoint(point, this.viewRadius)) {
@@ -259,7 +267,7 @@ class Player extends Actor {
                 }
             }
         }
-
+        this.game.selectableActorGroup.setGroup(enemiesInRange);
     }
 
 }
