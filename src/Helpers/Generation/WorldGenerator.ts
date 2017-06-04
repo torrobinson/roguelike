@@ -23,7 +23,7 @@ class WorldGenerator {
         var world = new World(settings.totalWidth, settings.totalHeight, game);
 
 
-        var walLDecor = new Layer(settings.totalHeight, settings.totalWidth, 1, 'WallDecorations', LayerType.WallDecor);
+        var wallDecor = new Layer(settings.totalHeight, settings.totalWidth, 1, 'Wall Decorations', LayerType.WallDecor);
 
         // Set up the main collision layer as ALL walls
         var wallLayer = new Layer(settings.totalHeight, settings.totalWidth, 0, 'Main', LayerType.Wall);
@@ -35,7 +35,7 @@ class WorldGenerator {
 
         // Add a layer for things that can be stepped on, or floor decorations,
         //    in-between the floor and the wall layer
-        var floorDecorLayer = new Layer(settings.totalHeight, settings.totalWidth, -1, 'FloorDecorations', LayerType.FloorDecor);
+        var floorDecorLayer = new Layer(settings.totalHeight, settings.totalWidth, -1, 'Floor Decorations', LayerType.FloorDecor);
 
         // The doors we'll have to place, as conceived during hallway carving
         var doorsToPlace: Door[] = [];
@@ -103,7 +103,8 @@ class WorldGenerator {
         // Start with the first room at random
         var currentRoom = firstRoom;
         function distanceFromCurrentRoom(x, y) {
-            return Point.getDistanceBetweenPoints(x.getCenter(), currentRoom.getCenter()) - Point.getDistanceBetweenPoints(y.getCenter(), currentRoom.getCenter());
+            return Point.getDistanceBetweenPoints(
+                x.getCenter(), currentRoom.getCenter()) - Point.getDistanceBetweenPoints(y.getCenter(), currentRoom.getCenter());
         }
         // And then find the next closest one
         while (roomBag.length > 0) {
@@ -126,7 +127,7 @@ class WorldGenerator {
         GenerationHelpers.carveHallway(rooms.second(), rooms.secondLast(), wallLayer, floorLayer, settings.floorActorType, settings.minHallThickness, settings.maxHallThickness, random, game, doorsToPlace);
 
         // Set and return the World so far
-        world.addLayer(walLDecor);
+        world.addLayer(wallDecor);
         world.addLayer(wallLayer);
         world.addLayer(floorDecorLayer);
         world.addLayer(floorLayer);
@@ -134,6 +135,7 @@ class WorldGenerator {
 
         // Place doors
         GenerationHelpers.placeDoors(world, doorsToPlace);
+        // Remove any doors that aren't entirely embedded in walls
         GenerationHelpers.removeStandaloneDoors(world);
 
         return world;

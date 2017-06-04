@@ -262,11 +262,13 @@ class Game {
         this.player.world = this.world;
 
         var mainLayer = this.world.getWallLayer();
-        var starterRoomCenter = this.world.rooms.first().getCenter();
-        var lastRoomCenter = this.world.rooms.last().getCenter();
 
-        var spawnLocation = new Point(starterRoomCenter.x, starterRoomCenter.y);
-        var exitLocation = new Point(lastRoomCenter.x, lastRoomCenter.y);
+        var startRoom: Room = this.world.rooms.first();
+        var endRoom: Room = this.world.rooms.last();
+
+        var spawnLocation = startRoom.getCenter();
+        var exitLocation = endRoom.getCenter();
+
 
         // Drop the stairs we just took down into the center of the rooms
         var stairsUp = new StairsUp(this);
@@ -297,29 +299,28 @@ class Game {
             new PetrifiedDebuff()
         );
 
-        var spriteRandom = new Random(this.seed);
-        var demoChest = new Chest(this, [new Potion(spriteRandom)]);
+        var demoChest = new Chest(this, [new Potion(this.random)]);
 
-        var buffedSteelBoots = new SteelBoots(5, spriteRandom);
+        var buffedSteelBoots = new SteelBoots(5, this.random);
         buffedSteelBoots.addBuff(
             new WallBreakerBuff()
         );
 
-        var buffedShirt = new Shirt(2, spriteRandom);
+        var buffedShirt = new Shirt(2, this.random);
         buffedShirt.addBuff(
             new InvisibilityBuff()
         );
 
-        var dagger = new Dagger(spriteRandom, 2);
+        var dagger = new Dagger(this.random, 2);
 
         var demoChest2 = new Chest(this, [
-            new Potion(spriteRandom),
-            new Potion(spriteRandom),
-            new Potion(spriteRandom),
+            new Potion(this.random),
+            new Potion(this.random),
+            new Potion(this.random),
             buffedShirt,
-            new Chestplate(5, spriteRandom),
-            new LeatherBoots(4, spriteRandom),
-            new SteelBoots(5, spriteRandom),
+            new Chestplate(5, this.random),
+            new LeatherBoots(4, this.random),
+            new SteelBoots(5, this.random),
             buffedSteelBoots,
             dagger
         ]);

@@ -13,6 +13,7 @@ interface Array<T> {
     whereNotNull(): Array<T>;
     where(condition): Array<T>;
     select(what): Array<any>;
+    not(object: any): Array<any>;
     sum(): number;
     any(): boolean;
 }
@@ -123,6 +124,10 @@ Array.prototype.any = function(): boolean {
     return this.length > 0;
 }
 
+Array.prototype.not = function(object) {
+    return this.filter((thing)=>{return thing != object});
+}
+
 
 // Object extensions
 
@@ -137,10 +142,10 @@ String.prototype.repeat = function(times) {
     return (new Array(times + 1)).join(this);
 };
 
-String.prototype.padLeft = function(char: string, maxLength: number) : string{
-  return char.repeat(maxLength-this.length) + this;
+String.prototype.padLeft = function(char: string, maxLength: number): string {
+    return char.repeat(maxLength - this.length) + this;
 }
 
-String.prototype.padRight = function(char: string, maxLength: number) : string{
-  return this + char.repeat(maxLength-this.length);
+String.prototype.padRight = function(char: string, maxLength: number): string {
+    return this + char.repeat(maxLength - this.length);
 }
