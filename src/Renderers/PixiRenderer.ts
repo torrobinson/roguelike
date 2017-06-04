@@ -141,6 +141,17 @@ class PixiRenderer {
         );
 
     }
+
+    renderGoldPickupEffect(actor: Actor, goldAmount: number) {
+        var screenLocation = this.getActorTrimmerScreenLocation(actor);
+        // Number Smoke
+        this.renderNumberSmoke(
+            '+' + goldAmount,
+            screenLocation,
+            ColorCode.Yellow
+        );
+
+    }
     renderDamageEffect(actor: Actor, damage: number) {
         // Find the actor's screen location by searching sliced layers
         var screenLocationCentered = this.getActorTrimmerScreenLocation(actor, true);

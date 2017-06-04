@@ -86,6 +86,8 @@ class Player extends Actor {
                 LogMessageType.ObtainedGold
             )
         );
+
+        this.game.renderer.renderGoldPickupEffect(this, goldCount);
     }
     takeGold(goldCount: number) {
         this.gold -= goldCount;
