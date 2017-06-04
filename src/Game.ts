@@ -62,7 +62,7 @@ class Game {
     start() {
         this.state = GameState.Playing;
         //Tick once
-        this.gameTick(this);
+        this.gameTick();
         this.renderer.startFrameLoop();
     }
 
@@ -70,6 +70,16 @@ class Game {
         this.state = GameState.Paused;
         this.activeMenu = this.pauseMenu;
     }
+
+    reset() {
+        // Reset the game
+        this.dungeonNumber = 0;
+        this.player.reset();
+        this.generateNextDungeon();
+        this.gameLog = [];
+        this.gameTick();
+    }
+
     openInventory() {
         this.state = GameState.Paused;
         this.activeMenu = this.inventoryMenu;
@@ -89,7 +99,7 @@ class Game {
         return this.gameLog.clone().reverse().slice(0, count);
     }
 
-    gameTick(game: Game) {
+    gameTick() {
         if (this.state !== GameState.Paused) {
             var actorsToTick = this.getTickableActors();
             for (var a = 0; a < actorsToTick.length; a++) {
@@ -178,7 +188,7 @@ class Game {
                 }
 
                 // Regardless, tick once
-                this.gameTick(this);
+                this.gameTick();
             }
 
             if (control === Control.Escape) {

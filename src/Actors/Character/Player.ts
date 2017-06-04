@@ -12,9 +12,7 @@ class Player extends Actor {
         this.takesCommands = true;
         this.doesSubscribeToTicks = true;
         this.spritesets = Sprites.PlayerSprites();
-        this.level = 0;
-        this.xpNeeded = XP.getExperiencePointsRequired(this.level);
-        this.initStats();
+        this.reset();
     }
 
     move(direction: Direction) {
@@ -27,11 +25,17 @@ class Player extends Actor {
         this.runStats = new RunStats();
     }
 
+    // Fully reset the player to a clean state
     reset() {
         this.health = this.startingHealth;
         this.clearCommands();
         this.equippedWeapon = null;
         this.inventory = [];
+        this.level = 0;
+        this.xpNeeded = XP.getExperiencePointsRequired(this.level);
+        this.totalXP = 0;
+        this.currentLevelXP = 0;
+        this.initStats();
     }
 
     collidedInto(actor: Actor) {
@@ -115,16 +119,13 @@ class Player extends Actor {
     }
 
     die() {
+        this.game.reset();
         this.game.log(
             new LogMessage(
                 "You died.",
                 LogMessageType.Damaged
             )
         );
-        this.reset();
-        this.game.dungeonNumber = 0;
-        this.game.generateNextDungeon();
-        this.game.gameTick(this.game);
     }
 
     madeKill(killedActor: Actor) {

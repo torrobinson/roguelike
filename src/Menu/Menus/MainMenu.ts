@@ -41,7 +41,7 @@ var MainMenu = new Menu([
                     MainMenu.game.player.reset();
                     MainMenu.game.generateNextDungeon();
                     MainMenu.game.unpause();
-                    MainMenu.game.gameTick(MainMenu.game);
+                    MainMenu.game.gameTick();
                     MainMenu.resetNavStack();
                 }
             }
