@@ -209,12 +209,10 @@ class Game {
 
             if (control === Control.LeftBrace) {
                 this.selectableActorGroup.previous();
-                console.log(this.selectableActorGroup.selectedActor.name);
             }
 
             if (control === Control.RightBrace) {
                 this.selectableActorGroup.next();
-                console.log(this.selectableActorGroup.selectedActor.name);
             }
 
             return;
