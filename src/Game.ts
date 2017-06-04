@@ -218,9 +218,9 @@ class Game {
         settings.totalWidth = Math.ceil(startingWidth + (dungeonNumber * incrementConstant * 0.5));
         settings.totalHeight = settings.totalWidth; // mirror the width for always a square
         settings.minRoomWidth = 3;
-        settings.maxRoomWidth = settings.minRoomWidth + (dungeonNumber * incrementConstant * 0.15); // allow 1*constant tile bigger each floor
+        settings.maxRoomWidth = Math.min(10, settings.minRoomWidth + (dungeonNumber * incrementConstant * 0.15)); // allow 1*constant tile bigger each floor
         settings.minRoomHeight = 3;
-        settings.maxRoomHeight = settings.minRoomHeight + (dungeonNumber * incrementConstant * 0.15);
+        settings.maxRoomHeight = Math.min(10, settings.minRoomHeight + (dungeonNumber * incrementConstant * 0.15));
         settings.minNumRooms = Math.floor(startingMinNumRooms + (dungeonNumber * 0.75));
         settings.maxNumRooms = settings.minNumRooms * 2;
 
