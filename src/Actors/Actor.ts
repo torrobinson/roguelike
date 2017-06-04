@@ -114,6 +114,15 @@ class Actor {
         return this.defaultAttackPower() + this.getWeaponOnlyDamage();
     }
 
+    heal(healAmount: number) {
+        this.health += healAmount;
+        if (this.health > this.maxHealth()) {
+            this.health = this.maxHealth();
+        }
+
+        this.game.renderer.renderHealEffect(this, healAmount);
+    }
+
     getWeaponOnlyDamage(): number {
         var damage = 0;
         var weapon: Weapon = this.getWeapon();
@@ -163,7 +172,7 @@ class Actor {
             // And then die
             this.die();
         }
-        this.game.renderer.renderDamageEffect(this);
+        this.game.renderer.renderDamageEffect(this, damage);
         BuffHelpers.handleonAttackedBuffsAfter(this, attacker);
     }
 

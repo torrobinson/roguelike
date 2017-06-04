@@ -12,10 +12,7 @@ class Potion extends Consumable {
     use() {
         super.use();
         if (this.holder !== null) {
-            this.holder.health += this.healAmount;
-            if (this.holder.health > this.holder.maxHealth()) {
-                this.holder.health = this.holder.maxHealth();
-            }
+            this.holder.heal(this.healAmount);
         }
     }
 }

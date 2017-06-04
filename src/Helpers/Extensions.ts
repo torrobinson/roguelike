@@ -15,6 +15,7 @@ interface Array<T> {
     select(what): Array<any>;
     not(object: any): Array<any>;
     sum(): number;
+    average(): number;
     any(): boolean;
 }
 interface Object {
@@ -120,12 +121,16 @@ Array.prototype.sum = function(): number {
     return this.reduce((a, b) => a + b, 0);
 };
 
+Array.prototype.average = function(): number {
+    return this.sum() / this.length;
+};
+
 Array.prototype.any = function(): boolean {
     return this.length > 0;
 }
 
 Array.prototype.not = function(object) {
-    return this.filter((thing)=>{return thing != object});
+    return this.filter((thing) => { return thing != object });
 }
 
 

@@ -8,6 +8,9 @@ class PixiRenderer {
     height: number;
     game: Game;
 
+    fps: number;
+    fpsHistory: number[] = [];
+
     tileSize: number;
     scale: number;
     pixelWidth: number;
@@ -16,12 +19,13 @@ class PixiRenderer {
     // Pixi Containers
     pixiRenderer: any;
 
+    // Health pips to display
     healthGraphics: any[];
 
+    // Gui containers & settings
     guiHorizontalContainer: any = new PIXI.Container(); // master bottom bar
     horizontalContainerHeight: number = 200;
     guiLogContainer: any = new PIXI.Container();         // game log
-
     guiVerticalContainer: any = new PIXI.Container();   // master side bar
     verticalContainerWidth: number = 200;
     guiEquipContainer: any = new PIXI.Container();      // equipment
@@ -31,13 +35,24 @@ class PixiRenderer {
     guiOverlayContainer: any = new PIXI.Container();    // overlays like health bars
     stageContainer: any = new PIXI.Container();   // the actual game actors
     guiPad: number = 10;
+    numberSmokeContainer: any = new PIXI.Container();
 
+    // Filters
     grayscaleFilter: any;
     colorFilter: any;
+
+    // Custom build-once textures
     slotTexture: any = null;
 
+    // For custom drawing
+    elapsedSecondsSinceLastFrame: number;
+    lastFrameRenderedAt: number;
+
+    // Particles
     particleEmitters: any[] = [];
-    elapsedSinceLastFrame: number;
+
+    // Animated text that fades away (for damage or gold, etc)
+    numberSmokes: NumberSmoke[] = [];
 
     slicedLayers: Layer[];
 
@@ -57,11 +72,21 @@ class PixiRenderer {
         //this.colorFilter.technicolor(true);
         //this.colorFilter.technicolor(true);
 
-        this.elapsedSinceLastFrame = Date.now();
+        this.lastFrameRenderedAt = Date.now();
     }
 
     startFrameLoop(): void {
         this.drawFrame();
+    }
+
+    calculateFps(averageSetSize: number) {
+        let newFps = Math.round(1 / this.elapsedSecondsSinceLastFrame);
+        this.fpsHistory.push(newFps);
+        if (this.fpsHistory.length > averageSetSize) {
+            this.fpsHistory.shift();
+        }
+
+        this.fps = Math.round(this.fpsHistory.average());
     }
 
     init() {
@@ -79,8 +104,7 @@ class PixiRenderer {
         this.healthGraphics = [];
     }
 
-    renderDamageEffect(actor: Actor) {
-        // Find the actor's screen location by searching sliced layers
+    getActorTrimmerScreenLocation(actor: Actor, center: boolean = false) {
         var mainLayerSliced = this.slicedLayers.where((layer) => { return layer.type === LayerType.Wall }).first();
         var found: boolean = false;
         var ended: boolean = false;
@@ -99,21 +123,71 @@ class PixiRenderer {
             ended = true;
         }
 
+        if (center) {
+            return new Point(Math.ceil((xScreenTileLocation * this.tileSize) + this.tileSize / 2), Math.ceil((yScreenTileLocation * this.tileSize) + this.tileSize / 2));
+        }
+        else {
+            return new Point(xScreenTileLocation * this.tileSize, yScreenTileLocation * this.tileSize);
+        }
+    }
+
+    renderHealEffect(actor: Actor, healAmount: number) {
+        var screenLocation = this.getActorTrimmerScreenLocation(actor);
+        // Number Smoke
+        this.renderNumberSmoke(
+            '+' + healAmount,
+            screenLocation,
+            ColorCode.Green
+        );
+
+    }
+    renderDamageEffect(actor: Actor, damage: number) {
+        // Find the actor's screen location by searching sliced layers
+        var screenLocationCentered = this.getActorTrimmerScreenLocation(actor, true);
+        var screenLocation = this.getActorTrimmerScreenLocation(actor);
+
+        // Number Smoke
+        this.renderNumberSmoke(
+            '-' + damage,
+            screenLocation,
+            ColorCode.Red
+        );
+
+        // Particles
         var config = ParticleEmitters.DamageEmitter.clone();
-        config.pos.x = Math.ceil(xScreenTileLocation * this.tileSize + (this.tileSize / 2));
-        config.pos.y = Math.ceil(yScreenTileLocation * this.tileSize + (this.tileSize / 2));
+        config.pos.x = screenLocationCentered.x;
+        config.pos.y = screenLocationCentered.y;
 
         var emitter = new PIXI.particles.Emitter(
             this.stageContainer,
             [PIXI.loader.resources.particle_standard.texture],
             config
         );
-
         // Start emitting
         emitter.emit = true;
-
         // Add to the collection of emitters to handle on every frame render
         this.particleEmitters.push(emitter);
+    }
+
+    renderNumberSmoke(text: string, screenLocation: Point, color: number) {
+        // Instantiate the number
+        var smoke: NumberSmoke = new NumberSmoke(
+            this.numberSmokeContainer,
+            text,
+            screenLocation,
+            color
+        );
+
+        // And add it to the collection of smokes to be drawn and updated every frame
+        this.numberSmokes.push(smoke);
+    }
+
+    processNumberSmokes() {
+        for (let s = 0; s < this.numberSmokes.length; s++) {
+            var smoke: NumberSmoke = this.numberSmokes[s];
+            // Update the number's text location and alpha
+            smoke.update(this.elapsedSecondsSinceLastFrame);
+        }
     }
 
     getSlotTexture(scale) {
@@ -960,12 +1034,31 @@ class PixiRenderer {
         }
 
 
-        //Particles
+        // Custom animations START
         var now = Date.now();
+        this.elapsedSecondsSinceLastFrame = (now - this.lastFrameRenderedAt) * 0.001;
+        // Particles
         for (let e = 0; e < this.particleEmitters.length; e++) {
-            this.particleEmitters[e].update((now - this.elapsedSinceLastFrame) * 0.001);
+            this.particleEmitters[e].update(this.elapsedSecondsSinceLastFrame);
         }
-        this.elapsedSinceLastFrame = now;
+
+        // Number Smokes
+        this.processNumberSmokes();
+        this.stageContainer.addChild(this.numberSmokeContainer);
+
+        // Custom animations END
+
+        // Calculate FPS
+        this.calculateFps(20);
+        let fpsStyle = new PIXI.TextStyle({
+            fontFamily: 'Courier',
+            fontSize: 10,
+            fill: ColorCode.White
+        });
+        let text = new PIXI.Text('FPS: ' + this.fps, fpsStyle);
+        text.x = 0;
+        text.y = 0;
+        this.stageContainer.addChild(text);
 
         // Render the frame
         this.stageContainer.scale.x = this.scale;
@@ -974,5 +1067,6 @@ class PixiRenderer {
         this.stageContainer.filters = [this.colorFilter];
 
         this.pixiRenderer.render(this.stageContainer);
+        this.lastFrameRenderedAt = now;
     }
 }
