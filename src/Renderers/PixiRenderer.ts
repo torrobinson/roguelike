@@ -1,7 +1,7 @@
 /// <reference path="../Helpers/Generic.ts" />
 declare var PIXI: any;
 
-class PixiRenderer implements Renderer {
+class PixiRenderer {
 
     canvas: any;
     width: number;
@@ -12,8 +12,6 @@ class PixiRenderer implements Renderer {
     scale: number;
     pixelWidth: number;
     pixelHeight: number;
-
-
 
     // Pixi Containers
     pixiRenderer: any;
@@ -35,9 +33,13 @@ class PixiRenderer implements Renderer {
     guiPad: number = 10;
 
     grayscaleFilter: any;
-
-
+    colorFilter: any;
     slotTexture: any = null;
+
+    particleEmitters: any[] = [];
+    elapsedSinceLastFrame: number;
+
+    slicedLayers: Layer[];
 
     constructor(canvas: any, width: number, height: number) {
         this.canvas = canvas;
@@ -48,6 +50,18 @@ class PixiRenderer implements Renderer {
 
         this.grayscaleFilter = new PIXI.filters.ColorMatrixFilter();
         this.grayscaleFilter.desaturate();
+
+        this.colorFilter = new PIXI.filters.ColorMatrixFilter();
+        // Experiemnt with filters
+        //this.colorFilte r.desaturate(true);
+        //this.colorFilter.technicolor(true);
+        //this.colorFilter.technicolor(true);
+
+        this.elapsedSinceLastFrame = Date.now();
+    }
+
+    startFrameLoop(): void {
+        this.drawFrame();
     }
 
     init() {
@@ -63,6 +77,43 @@ class PixiRenderer implements Renderer {
         this.stageContainer.interactive = true;
 
         this.healthGraphics = [];
+    }
+
+    renderDamageEffect(actor: Actor) {
+        // Find the actor's screen location by searching sliced layers
+        var mainLayerSliced = this.slicedLayers.where((layer) => { return layer.type === LayerType.Wall }).first();
+        var found: boolean = false;
+        var ended: boolean = false;
+        var xScreenTileLocation: number
+        var yScreenTileLocation: number;
+        while (!found && !ended) {
+            for (let y = 0; y < mainLayerSliced.tiles.length; y++) {
+                for (let x = 0; x < mainLayerSliced.tiles[y].length; x++) {
+                    if (mainLayerSliced.getTile(x, y) == actor) {
+                        found = true;
+                        xScreenTileLocation = x;
+                        yScreenTileLocation = y;
+                    }
+                }
+            }
+            ended = true;
+        }
+
+        var config = ParticleEmitters.DamageEmitter.clone();
+        config.pos.x = Math.ceil(xScreenTileLocation * this.tileSize + (this.tileSize / 2));
+        config.pos.y = Math.ceil(yScreenTileLocation * this.tileSize + (this.tileSize / 2));
+
+        var emitter = new PIXI.particles.Emitter(
+            this.stageContainer,
+            [PIXI.loader.resources.particle_standard.texture],
+            config
+        );
+
+        // Start emitting
+        emitter.emit = true;
+
+        // Add to the collection of emitters to handle on every frame render
+        this.particleEmitters.push(emitter);
     }
 
     getSlotTexture(scale) {
@@ -597,7 +648,13 @@ class PixiRenderer implements Renderer {
         for (var i = container.children.length - 1; i >= 0; i--) { container.removeChild(container.children[i]); };
     }
 
-    drawFrame(world: World, centerPoint: Point) {
+    private drawFrame = () => {
+
+        requestAnimationFrame(this.drawFrame);
+
+        var world: World = this.game.world;
+        var centerPoint: Point = this.game.player.location;
+
         // Clear frame
         this.clearContainer(this.stageContainer);
 
@@ -624,13 +681,15 @@ class PixiRenderer implements Renderer {
         }
 
         // Center the camera
-        var layersToRender = Rendering.SliceLayersToSize(
+        var layersToRender: Layer[] = Rendering.SliceLayersToSize(
             this.game,        // game reference
             world.layers,     // layer stack to render
             centerPoint,      // Center of viewport. Usually the player.
             this.width,       // Width of viewport
             this.height       // Height of viewport
         );
+
+        this.slicedLayers = layersToRender;
 
         // Order it by z-index ascending
         layersToRender = layersToRender.sort(function(layer1: Layer, layer2: Layer) { return layer1.zIndex - layer2.zIndex });
@@ -641,7 +700,7 @@ class PixiRenderer implements Renderer {
             for (var y = 0; y < this.height; y++) {
                 for (var x = 0; x < this.width; x++) {
                     if (layer.getTile(x, y) !== undefined && layer.getTile(x, y) !== null) {
-                        var actor = layer.getTile(x, y);
+                        let actor = layer.getTile(x, y);
 
                         // Note: call the below only once, as returning the sprite also increments
                         //    the frame number. Calling it elsewhere on the same frame draw per sprite
@@ -891,6 +950,7 @@ class PixiRenderer implements Renderer {
 
         }
 
+
         // Draw the overlay/gui
         this.stageContainer.addChild(this.guiOverlayContainer);
 
@@ -899,12 +959,19 @@ class PixiRenderer implements Renderer {
             this.drawMenu(this.game.activeMenu);
         }
 
+
+        //Particles
+        var now = Date.now();
+        for (let e = 0; e < this.particleEmitters.length; e++) {
+            this.particleEmitters[e].update((now - this.elapsedSinceLastFrame) * 0.001);
+        }
+        this.elapsedSinceLastFrame = now;
+
         // Render the frame
         this.stageContainer.scale.x = this.scale;
         this.stageContainer.scale.y = this.scale;
 
-        this.stageContainer.skewX = 10;
-        this.stageContainer.skewY = 10;
+        this.stageContainer.filters = [this.colorFilter];
 
         this.pixiRenderer.render(this.stageContainer);
     }

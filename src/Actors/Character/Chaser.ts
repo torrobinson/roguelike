@@ -117,5 +117,3 @@ class Chaser extends Actor {
         this.targetKnownLocation = null;
     }
 }
-}
-}

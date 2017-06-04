@@ -4,6 +4,7 @@
 
         <!-- Third-party-->
         <script src="js/pixi.min.js"></script>
+        <script src="js/pixi-particles.min.js"></script>
         <script src="js/pathfinding-browser.min.js"></script>
 
         <!-- The game -->
@@ -38,6 +39,7 @@
                 .add('carpetAtlas', './art/dungeoncarpet.json')
                 .add('itemAtlas', './art/roguelikeitems.json')
                 .add('circle_bg', './art/circle_bg.png')
+                .add('particle_standard', './art/particle.png')
                 .load(setupGame);
 
             // On resources load
@@ -56,6 +58,9 @@
                     history.pushState({}, '', window.location.href + '?seed=' + time);
                     seed = time.toString();
                 }
+                var dungeonNumberInQS = getUrlParameter('dungeon');
+                var dungeonNumber = 1;
+                if(dungeonNumberInQS != '') dungeonNumber = dungeonNumberInQS;
 
                 // Our area to render to
                 var canvas = document.getElementById('canvas');
@@ -79,7 +84,7 @@
                 var gameSettings = GameSettingsProvider.getSettings();
 
                 // Start the game
-                var game = new Game(renderer, parseInt(seed), gameSettings);
+                var game = new Game(renderer, parseInt(seed), gameSettings, dungeonNumber);
                 game.generateNextDungeon();
                 game.start();
 

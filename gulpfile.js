@@ -28,27 +28,40 @@ gulp.task('art', function(){
 
 gulp.task('build', function(){
   // Include third party scripts
-  gulp.src("./node_modules/pixi.js/dist/pixi.min.js")
-      .pipe(include())
-     .pipe(gulp.dest(buildFolder + "/js/"));
+
+    // Pixi
+    gulp.src("./node_modules/pixi.js/dist/pixi.min.js")
+        .pipe(include())
+        .pipe(gulp.dest(buildFolder + "/js/"));
     gulp.src("./node_modules/pixi.js/dist/pixi.min.js.map")
-      .pipe(include())
-      .pipe(gulp.dest(buildFolder + "/js/"));
+        .pipe(include())
+        .pipe(gulp.dest(buildFolder + "/js/"));
+
+    // Pixi particles
+    gulp.src("./node_modules/pixi-particles/dist/pixi-particles.min.js")
+        .pipe(include())
+        .pipe(gulp.dest(buildFolder + "/js/"));
+    gulp.src("./node_modules/pixi-particles/dist/pixi-particles.min.js.map")
+        .pipe(include())
+        .pipe(gulp.dest(buildFolder + "/js/"));
+
+
+    // Pathfinding
     gulp.src("./node_modules/pathfinding/visual/lib/pathfinding-browser.min.js")
-     .pipe(include())
-      .pipe(gulp.dest(buildFolder + "/js/"));
+        .pipe(include())
+        .pipe(gulp.dest(buildFolder + "/js/"));
 
      // Copy over game client
-     gulp.src(['game.html'])
-     .pipe(gulp.dest(buildFolder));
+    gulp.src(['game.html'])
+        .pipe(gulp.dest(buildFolder));
 
      // Copy over game resources
-     gulp.src(['art/**/*'])
-     .pipe(gulp.dest(buildFolder + '/art'));
+    gulp.src(['art/**/*'])
+        .pipe(gulp.dest(buildFolder + '/art'));
 
      // Compile typescript
-     run('tsc').exec(function(){
-          gulp.src([buildFolder + '/game.html'])
-          .pipe(notify({title: 'Gulp',  message: 'Build finished', wait: false }));
-     });
+    run('tsc').exec(function(){
+        gulp.src([buildFolder + '/game.html'])
+        .pipe(notify({title: 'Gulp',  message: 'Build finished', wait: false }));
+    });
 });

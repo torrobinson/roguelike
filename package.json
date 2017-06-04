@@ -22,6 +22,7 @@
     "gulp-watch": "*",
     "map-stream": "*",
     "node-notifier": "^5.1.2",
+    "pixi-particles": "^2.1.5",
     "typescript": "^2.3.2"
   }
 }

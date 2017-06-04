@@ -163,6 +163,7 @@ class Actor {
             // And then die
             this.die();
         }
+        this.game.renderer.renderDamageEffect(this);
         BuffHelpers.handleonAttackedBuffsAfter(this, attacker);
     }
 

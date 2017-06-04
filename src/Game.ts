@@ -1,10 +1,9 @@
 class Game {
 
     frameClock: any;
-    startFrameTimer: any;
     framesPerSecond: number;
     ticksPerSecond: number;
-    renderer: Renderer;
+    renderer: PixiRenderer;
     seed: number;
     player: Player;
     world: World;
@@ -12,16 +11,17 @@ class Game {
     settings: GameSettings;
     gameLog: LogMessage[];
     random: Random;
-    dungeonNumber: number = 1;
+    dungeonNumber: number;
 
     pauseMenu: Menu;
     inventoryMenu: Menu;
     activeMenu: Menu = null;
 
-    constructor(renderer: Renderer, seed: number, settings: GameSettings) {
+    constructor(renderer: PixiRenderer, seed: number, settings: GameSettings, dungeonNumber: number = 1) {
         this.renderer = renderer;
         this.renderer.game = this; // set up a reference
         this.seed = seed;
+        this.dungeonNumber = dungeonNumber;
         this.random = new Random(seed);
         this.settings = settings;
 
@@ -44,13 +44,6 @@ class Game {
 
         this.gameLog = [];
 
-        // Helpers
-        this.startFrameTimer = (game: Game) => {
-            game.frameClock = setInterval(() => {
-                game.frameTick(game);
-            },
-                (1 / game.framesPerSecond) * 1000);
-        };
 
         // Menus
         // Main
@@ -68,9 +61,9 @@ class Game {
 
     start() {
         this.state = GameState.Playing;
-        this.startFrameTimer(this);
         //Tick once
         this.gameTick(this);
+        this.renderer.startFrameLoop();
     }
 
     pause() {
@@ -94,15 +87,6 @@ class Game {
 
     getLastLog(count: number): LogMessage[] {
         return this.gameLog.clone().reverse().slice(0, count);
-    }
-
-    frameTick(game: Game) {
-        // Get player location and pass to the renderer to center on
-        var centerPoint = game.player.location;
-        if (centerPoint === null) {
-            centerPoint = new Point(Math.floor(game.world.width / 2), Math.floor(game.world.height / 2));
-        }
-        game.renderer.drawFrame(game.world, centerPoint);
     }
 
     gameTick(game: Game) {
@@ -224,10 +208,10 @@ class Game {
         settings.totalWidth = Math.ceil(startingWidth + (dungeonNumber * incrementConstant * 0.5));
         settings.totalHeight = settings.totalWidth; // mirror the width for always a square
         settings.minRoomWidth = 3;
-        settings.maxRoomWidth = settings.minRoomWidth + (dungeonNumber * incrementConstant); // allow 1*constant tile bigger each floor
+        settings.maxRoomWidth = settings.minRoomWidth + (dungeonNumber * incrementConstant * 0.15); // allow 1*constant tile bigger each floor
         settings.minRoomHeight = 3;
-        settings.maxRoomHeight = settings.minRoomHeight + (dungeonNumber * incrementConstant);
-        settings.minNumRooms = Math.floor(startingMinNumRooms + (dungeonNumber * 0.5));
+        settings.maxRoomHeight = settings.minRoomHeight + (dungeonNumber * incrementConstant * 0.15);
+        settings.minNumRooms = Math.floor(startingMinNumRooms + (dungeonNumber * 0.75));
         settings.maxNumRooms = settings.minNumRooms * 2;
 
         settings.minHallThickness = 1;
