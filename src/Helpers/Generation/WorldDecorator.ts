@@ -55,7 +55,7 @@ class WorldDecorator {
     decorateRoom(world: World, room: Room) {
         // Pick a random room type
         var roomType = Enumeration.GetRandomEnumValue(RoomDecorationType, this.random);
-        var wallLayer = world.getLayersOfType(LayerType.Wall).first();
+        var wallLayer = world.getWallLayer();
         var floorDecorLayer = world.getLayersOfType(LayerType.FloorDecor).first();
 
         // NOTHING
@@ -161,7 +161,7 @@ class WorldDecorator {
     }
 
     dropGold(world: World) {
-        var wallLayer = world.getLayersOfType(LayerType.Wall).first();
+        var wallLayer = world.getWallLayer();
         for (var r = 0; r < world.rooms.length; r++) {
             var room = world.rooms[r];
             // Rooms get a 1/7 chance of having gold in them anywhere

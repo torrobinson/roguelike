@@ -191,7 +191,7 @@ class Player extends Actor {
             // Visibility is based on line-of-site and radius around the player that's not obscured
             //  on the main collision/wall layer.
 
-            var wallLayer = this.world.getLayersOfType(LayerType.Wall).first();
+            var wallLayer = this.world.getWallLayer();
             var floorLayer = this.world.getLayersOfType(LayerType.Floor).first();
             var floorDecorLayer = this.world.getLayersOfType(LayerType.FloorDecor).first();
 

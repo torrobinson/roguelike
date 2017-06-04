@@ -44,7 +44,7 @@ class Door extends Actor {
 
     // try close when the doorway is free and open
     tryClose() {
-        var mainlayer: Layer = this.game.world.getLayersOfType(LayerType.Wall).first();
+        var mainlayer: Layer = this.game.world.getWallLayer();
         if (mainlayer.getTile(this.location.x, this.location.y) === null) {
             this.status = ActorStatus.Closed;
             this.jumpToLayer(mainlayer);

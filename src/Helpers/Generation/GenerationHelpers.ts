@@ -167,7 +167,7 @@ class GenerationHelpers {
     static placeDoors(world: World, doorsToPlace: Door[]) {
         for (let d = 0; d < doorsToPlace.length; d++) {
             var door = doorsToPlace[d];
-            var layer: Layer = world.getLayersOfType(LayerType.Wall).first();
+            var layer: Layer = world.getWallLayer();
             layer.placeActor(door, door.location);
         }
     }
@@ -175,7 +175,7 @@ class GenerationHelpers {
     static removeStandaloneDoors(world: World) {
         // For any doors, check if the door isn't connected to a wall
         //    and delete it if so
-        var doorLayer = world.getLayersOfType(LayerType.Wall).first();
+        var doorLayer = world.getWallLayer();
         for (let y = 0; y < doorLayer.tiles.length; y++) {
             for (let x = 0; x < doorLayer.tiles[y].length; x++) {
                 var actor = doorLayer.getTile(x, y);

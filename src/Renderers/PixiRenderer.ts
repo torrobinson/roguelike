@@ -616,7 +616,7 @@ class PixiRenderer {
         }
 
         // Draw any found actors on the wall layer
-        var wallLayer = world.getLayersOfType(LayerType.Wall).first();
+        var wallLayer = world.getWallLayer();
         for (var y = 0; y < wallLayer.tiles.length; y++) {
             for (var x = 0; x < wallLayer.tiles[y].length; x++) {
                 var tile = wallLayer.tiles[y][x];
@@ -669,7 +669,7 @@ class PixiRenderer {
         this.clearContainer(this.guiOverlayContainer);
 
         // Get things that emit light
-        var lightLayer = world.getLayersOfType(LayerType.Wall).first();
+        var lightLayer = world.getWallLayer();
         var lights: Torch[] = new Array<Torch>();
         for (var y = 0; y < lightLayer.height; y++) {
             for (var x = 0; x < lightLayer.width; x++) {

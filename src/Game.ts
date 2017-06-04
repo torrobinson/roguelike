@@ -261,9 +261,7 @@ class Game {
         // Pass a reference to the world so the player can navigate it
         this.player.world = this.world;
 
-        var mainLayer = this.world.layers.filter(function(layer) {
-            return layer.type == LayerType.Wall;
-        }).first();
+        var mainLayer = this.world.getWallLayer();
         var starterRoomCenter = this.world.rooms.first().getCenter();
         var lastRoomCenter = this.world.rooms.last().getCenter();
 
