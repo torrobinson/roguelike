@@ -137,8 +137,13 @@ class Actor {
     }
 
     getDistanceFrom(otherActor: Actor): number {
-        return Math.hypot(otherActor.location.x - this.location.x, otherActor.location.y - this.location.y);
+        return this.getDistanceFromPoint(otherActor.location);
     }
+
+    getDistanceFromPoint(point: Point): number {
+        return Math.hypot(point.x - this.location.x, point.y - this.location.y);
+    }
+
     canAttack(otherActor: Actor): boolean {
         if (this.getDistanceFrom(otherActor) <= this.attackRange) {
             return true;

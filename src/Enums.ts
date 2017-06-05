@@ -93,6 +93,7 @@ enum Control {
     LeftBrace = 219,
     RightBrace = 221,
     Backspace = 8,
+    Backslash = 220,
     Escape = 27,
     P = 80,
     I = 73

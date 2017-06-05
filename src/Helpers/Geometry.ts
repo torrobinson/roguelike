@@ -1,3 +1,6 @@
+// The callback type to call upon an actor that was collided into while projecting a bresenham line
+type BresenhamCallback = (actor: Actor) => void;
+
 class Geometry {
 
     // Use Pythagoras to check if a point is a certain distance away
@@ -46,11 +49,12 @@ class Geometry {
         return Math.abs(point2.x - point1.x) === 1 && Math.abs(point2.y - point1.y) === 1;
     }
 
+
     // Use Bresenham's Algorithm to check if a point can project onto another point
     //  in a straight line
     // This essentially keeps plotting along from point1 to point2 and if it encounters an
     //  occlusion, returns false
-    static PointCanSeePoint(point1: Point, point2: Point, layer: Layer) {
+    static PointCanSeePoint(point1: Point, point2: Point, layer: Layer, callback: BresenhamCallback = null) {
         // Clone these to compare against the initial input
         var initialStart = point1.clone();
         var initialEnd = point2.clone();
@@ -65,10 +69,13 @@ class Geometry {
         var sy = (point1Clone.y < point2Clone.y) ? 1 : -1;
         var err = dx - dy;
         while (true) {
-            // Only check for occulusion if we're not on the first point
+            // Only check for occulusion if we're not on the first point or last point
             if ((point1Clone.x === initialStart.x && point1Clone.y === initialStart.y) === false && (point1Clone.x === initialEnd.x && point1Clone.y === initialEnd.y) === false) {
                 var objectHit = layer.tiles[point1Clone.y][point1Clone.x];
                 if (objectHit !== null && objectHit instanceof Actor && objectHit.blocksSight) { // we hit something not empty on the layer
+                    if(callback !== null){
+                      callback(objectHit);
+                    }
                     return false;
                 }
             }

@@ -16,4 +16,8 @@ class Wall extends Actor {
         }
         super.die();
     }
+
+    attackedBy(attacker: Actor, damage: number){
+        // Override to nothing. We don't want to apply damage effects to a wall
+    }
 }

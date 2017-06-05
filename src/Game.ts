@@ -201,6 +201,7 @@ class Game {
 
             if (control === Control.P) {
                 this.player.tryUseInventory(Potion);
+                this.gameTick();
             }
 
             if (control === Control.I) {
@@ -213,6 +214,19 @@ class Game {
 
             if (control === Control.RightBrace) {
                 this.selectableActorGroup.next();
+            }
+
+            if(control === Control.Backslash){
+                var actorToAttack = this.selectableActorGroup.selectedActor;
+                if(actorToAttack !== null){
+                    this.player.addCommand(
+                        new ProjectileAttack(
+                            this.player,
+                            actorToAttack
+                        )
+                    );
+                    this.gameTick();
+                }
             }
 
             return;
