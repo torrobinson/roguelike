@@ -216,16 +216,39 @@ class Game {
                 this.selectableActorGroup.next();
             }
 
-            if(control === Control.Backslash){
+            if (control === Control.Backslash) {
+                // If we hit Backslash (shoot projectile button)
                 var actorToAttack = this.selectableActorGroup.selectedActor;
-                if(actorToAttack !== null){
-                    this.player.addCommand(
-                        new ProjectileAttack(
-                            this.player,
-                            actorToAttack
-                        )
-                    );
-                    this.gameTick();
+                // and we have an actor selected
+                if (actorToAttack !== null) {
+
+                    var weapon: Weapon = this.player.getWeapon();
+
+                    // And we have a projectile weapon equipped
+                    if (weapon !== null && weapon instanceof Projectile) {
+                        // And they have the ammo for the weapon
+                        if (this.player.getInventoryOfType(
+                            (<Projectile>weapon).ammoType
+                        ).length > 0
+                        ) {
+                            // Then set up the shot
+                            this.player.addCommand(
+                                new ProjectileAttack(
+                                    this.player,
+                                    weapon,
+                                    actorToAttack
+                                )
+                            );
+                            this.gameTick();
+                        }
+                        else {
+                            this.renderer.renderWarningAbovePlayer('No ammo');
+                        }
+                    }
+                    else {
+                        this.renderer.renderWarningAbovePlayer('No bow equipped');
+                    }
+
                 }
             }
 
@@ -348,7 +371,19 @@ class Game {
             new LeatherBoots(4, this.random),
             new SteelBoots(5, this.random),
             buffedSteelBoots,
-            dagger
+            dagger,
+            new Bow(this.random, 3),
+            new InventoryArrow(this.random),
+            new InventoryArrow(this.random),
+            new InventoryArrow(this.random),
+            new InventoryArrow(this.random),
+            new InventoryArrow(this.random),
+            new InventoryArrow(this.random),
+            new InventoryArrow(this.random),
+            new InventoryArrow(this.random),
+            new InventoryArrow(this.random),
+            new InventoryArrow(this.random),
+            new InventoryArrow(this.random)
         ]);
 
         mainLayer.placeActor(demoChest, this.world.rooms.second().getCenter());

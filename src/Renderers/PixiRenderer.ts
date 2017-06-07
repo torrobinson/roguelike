@@ -154,6 +154,24 @@ class PixiRenderer {
         );
 
     }
+
+    renderWarningAbovePlayer(warning: string) {
+        this.renderMessageAboveActor(this.game.player, warning, ColorCode.Red);
+    }
+
+    renderSuccessAbovePlayer(warning: string) {
+        this.renderMessageAboveActor(this.game.player, warning, ColorCode.Green);
+    }
+
+    renderMessageAboveActor(actor: Actor, message: string, color: ColorCode) {
+        var screenLocation = this.getActorTrimmerScreenLocation(actor);
+        this.renderNumberSmoke(
+            message,
+            screenLocation,
+            color
+        );
+    }
+
     renderDamageEffect(actor: Actor, damage: number) {
         // Find the actor's screen location by searching sliced layers
         var screenLocationCentered = this.getActorTrimmerScreenLocation(actor, true);
@@ -571,21 +589,6 @@ class PixiRenderer {
         }
 
         return container;
-    }
-
-    getInventoryText() {
-        var text = '';
-        var inv = this.game.player.inventory.map(function(inv) { return inv.getName() });
-
-        var itemCounts = [];
-
-        var counts = inv.reduce((countMap, word) => { countMap[word] = ++countMap[word] || 1; return countMap }, {});
-        for (var item in counts) {
-            if (counts.hasOwnProperty(item)) {
-                itemCounts.push(item + ' x ' + counts[item]);
-            }
-        }
-        return itemCounts.join(', ');
     }
 
     drawMenu(menu: Menu) {

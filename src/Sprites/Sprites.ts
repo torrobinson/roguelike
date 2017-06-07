@@ -1120,6 +1120,38 @@ class Sprites {
         ]
     };
 
+    static BowSprites() {
+        return [
+
+            new SpriteSet(
+                ActorStatus.Idle,
+                Direction.Down,
+                [
+                    new Sprite(
+                        'Bow'
+                    )
+                ],
+                AnimationLoopStyle.RandomStatic
+            )
+        ]
+    };
+
+    static ArrowSprites() {
+        return [
+
+            new SpriteSet(
+                ActorStatus.Idle,
+                Direction.Down,
+                [
+                    new Sprite(
+                        'Spear' // Spear looks exactly like an arrow here!
+                    )
+                ],
+                AnimationLoopStyle.RandomStatic
+            )
+        ]
+    };
+
     static LeatherBootsSprites() {
         return [
 

@@ -1,11 +1,12 @@
 class ProjectileAttack extends Command {
-    constructor(actor: Actor, remoteActor: Actor, chargeUpDuration: number = 1) {
+    constructor(actor: Actor, weaponUsed: Projectile, remoteActor: Actor, chargeUpDuration: number = 1) {
         super(actor);
 
         this.addAction(
             new AttackFirstInLine(
                 this,
                 remoteActor.location,
+                weaponUsed,
                 chargeUpDuration
             )
         );

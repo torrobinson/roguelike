@@ -28,6 +28,13 @@ class InventoryItem {
     }
 }
 
+class Ammo extends InventoryItem {
+    static friendlyName: string = 'Ammo';
+    constructor(random: Random) {
+        super(random);
+    }
+}
+
 
 class Consumable extends InventoryItem {
     usesRemaining: number = 1;

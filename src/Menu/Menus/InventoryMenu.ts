@@ -30,7 +30,8 @@ var InventoryMenu = new Menu([
                 TorsoArmor,
                 LegArmor,
                 FootArmor,
-                HandArmor
+                HandArmor,
+                Ammo
             ];
 
             for (let t = 0; t < equipmentTypesToShow.length; t++) {
@@ -39,6 +40,7 @@ var InventoryMenu = new Menu([
                 // Options
                 var equipment = <Equipment[]>InventoryMenu.game.player.getInventoryOfType(type);
 
+                // HEADER
                 if (equipment.any()) {
                     // Type Header
                     options.push(
@@ -49,31 +51,53 @@ var InventoryMenu = new Menu([
                     );
                 }
 
-                for (let i = 0; i < equipment.length; i++) {
-                    let inventoryItem: Equipment = equipment[i];
-                    options.push(
-                        {
-                            menu: InventoryMenu, // set up reference live
-                            label: function() {
-                                if (inventoryItem instanceof Armor) {
-                                    return ' └──' + inventoryItem.getName() + // Name
-                                        '(+' + inventoryItem.maxHealthBuff + ' HP)' + // Buff
-                                        (inventoryItem.isEquipped ? ' (equipped)' : ''); // Equipped status
-                                }
+                // If it's ammo, then aggregate together
+                if (type === Ammo) {
+                    var text = '';
+                    var equipmentNames = equipment.select((eq) => { return eq.getName() });
 
-                                else if (inventoryItem instanceof Weapon) {
-                                    return ' └──' + inventoryItem.getName() + // Name
-                                        '(+' + inventoryItem.attackPower + ' AP)' + // AP
-                                        (inventoryItem.isEquipped ? ' (equipped)' : ''); // Equipped status
-                                }
-
-                            },
-                            execute: function() {
-                                inventoryItem.equip();
-                                this.menu.containCursor();
-                            }
+                    var counts = equipmentNames.reduce((countMap, word) => { countMap[word] = ++countMap[word] || 1; return countMap }, {});
+                    for (var item in counts) {
+                        if (counts.hasOwnProperty(item)) {
+                            options.push({
+                                menu: InventoryMenu,
+                                label: ' └──' + item + '(x' + counts[item] + ')',
+                                execute: function() { }
+                            });
                         }
-                    );
+                    }
+                }
+                else {
+                    for (let i = 0; i < equipment.length; i++) {
+                        let inventoryItem: Equipment = equipment[i];
+                        options.push(
+                            {
+                                menu: InventoryMenu, // set up reference live
+                                label: function() {
+                                    if (inventoryItem instanceof Armor) {
+                                        return ' └──' + inventoryItem.getName() + // Name
+                                            '(+' + inventoryItem.maxHealthBuff + ' HP)' + // Buff
+                                            (inventoryItem.isEquipped ? ' (equipped)' : ''); // Equipped status
+                                    }
+
+                                    else if (inventoryItem instanceof Weapon) {
+                                        return ' └──' + inventoryItem.getName() + // Name
+                                            '(+' + inventoryItem.attackPower + ' AP)' + // AP
+                                            (inventoryItem.isEquipped ? ' (equipped)' : ''); // Equipped status
+                                    }
+
+                                    else if (inventoryItem instanceof Ammo) {
+                                        return ' └──' + inventoryItem.getName() // Name
+                                    }
+
+                                },
+                                execute: function() {
+                                    inventoryItem.equip();
+                                    this.menu.containCursor();
+                                }
+                            }
+                        );
+                    }
                 }
             }
 
