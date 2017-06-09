@@ -932,8 +932,17 @@ class PixiRenderer {
 
                                 // If it's currently selected, then highlight it
                                 if (actor === this.game.selectableActorGroup.selectedActor) {
+                                    
+                                    // Render the selection box in red by default,
+                                    var boxColor: ColorCode = ColorCode.Red;
+                                    if(this.game.player.canSeeActor(actor)){
+                                      // But highlight in green if the player can see them and
+                                      //    so has a chance of hitting them
+                                      boxColor = ColorCode.Green;
+                                    }
+                                    
                                     var highlightGraphics = new PIXI.Graphics();
-                                    highlightGraphics.lineStyle(2, ColorCode.Red, 1);
+                                    highlightGraphics.lineStyle(2, boxColor, 1);
                                     highlightGraphics.beginFill(ColorCode.White, 0);
                                     highlightGraphics.drawRect(x * this.tileSize, y * this.tileSize, this.tileSize, this.tileSize);
                                     highlightGraphics.endFill();
