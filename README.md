@@ -13,6 +13,15 @@ The game "engine" is written entirely from scratch, with the exception of a path
 - Run `gulp` to build
 - Run the built`./build/game.html`
 
+### Instructions ###
+- `Up`, `Down`, `Left`, `Right` keys move
+- `I` opens the inventory
+- `Esc` pauses the game
+- Moving into an enemy performs an attack
+- With a ranged weapon equipped, use `[` and `]` to cycle through enemies and press `|` to fire the ranged weapon
+- Missed arrow shots can be picked up again
+- Clicking the "Random Dungeon" button generate a random dungeon for debugging purposes
+
 ## Attribution ##
 
 ### Art provided by ###
