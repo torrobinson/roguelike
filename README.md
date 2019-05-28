@@ -1,5 +1,7 @@
 # roguelike #
 ![preview](http://i.imgur.com/l29YGJY.png)
+Play at http://www.torrobinson.com/roguelike/build/game.html
+
 This is an experiment to familiarize myself with game mechanics, TypeScript, and Pixi.js
 
 It is a procedurally generated rogulike-esque game with armor, a gui, monsters, and fake "lighting".
