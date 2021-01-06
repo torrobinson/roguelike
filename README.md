@@ -39,7 +39,7 @@ The game "engine" is written entirely from scratch, with the exception of a path
 - [Pathfinding](https://www.npmjs.com/package/pathfinding) by [imor](https://github.com/imor)
 
 ### Lessons Learned ###
-- Start off using TypeScript, don't try to convert later (kill me)
+- Start off using TypeScript, don't try to convert later (ugh)
 - Abstract everything
-- Separate gameclock from frameclock - game should be playble blind without a renderer attached
+- Separate gameclock from frameclock - game should be playable blind without a renderer attached
 - Finding sprite assets and mapping them to actors is hard
